@@ -1,5 +1,5 @@
 <?php require_once('layouts/header.php'); ?>
-<?php require_once('layouts/navbar'); ?>
+<?php require_once('layouts/navbar.php'); ?>
 
 <?= $content; ?>
 
