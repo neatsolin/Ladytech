@@ -1,1 +1,1 @@
-<h1>Welcome to home PHP!</h1>
+<h1>Welcome to home admin dashboard</h1>

@@ -9,7 +9,7 @@
     <nav class="pc-sidebar">
         <div class="navbar-wrapper">
             <div class="m-header">
-                <a href="../dashboard/index.html" class="b-brand text-primary">
+                <a href="/" class="b-brand text-primary">
                     <!-- ========   Change your logo from here   ============ -->
                     <img src="../../../assets/images/DailyneedLogo.jpg" class="img-fluid logo-lg" alt="logo">
                     <h3>Inventory</h3>
@@ -17,61 +17,61 @@
             </div>
             <div class="navbar-content">
                 <ul class="pc-navbar">
-                    <li class="pc-item">
-                        <a href="../dashboard/index.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+                    <li class="pc-item dashboard">
+                        <a href="/" class="pc-link">
+                            <img src="../../../assets/images/Daily.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Dashboard</span>
                         </a>
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label style="font-weight: bold; font-size: 16px; color: black;  margin-left: 20px;">Components</label>
+                        <label style="font-weight: bold; font-size: 16px; color: black;  margin-left: 30px;">Components</label>
                         <i class="ti ti-dashboard"></i>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/bc_typography.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-typography"></i></span>
-                            <span class="pc-mtext">Products</span>
+                        <a href="/products" class="pc-link">
+                            <img src="../../../assets/images/product.jpg" class="daily" alt="logo">
+                        <span class="pc-mtext">Products</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/bc_color.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+                        <a href="/stock" class="pc-link">
+                            <img src="../../../assets/images/stock.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Stock</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/icon-tabler.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+                        <a href="/salesreport" class="pc-link">
+                            <img src="../../../assets/images/report.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Sales Report</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/icon-tabler.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+                        <a href="/users" class="pc-link">
+                            <img src="../../../assets/images/users.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">User</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../elements/icon-tabler.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+                        <a href="/orders" class="pc-link">
+                            <img src="../../../assets/images/order.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Orders</span>
                         </a>
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label style="font-weight: bold; font-size: 16px; color: black;  margin-left: 20px;">Pages</label>
+                        <label style="font-weight: bold; font-size: 16px; color: black;  margin-left: 30px;">Pages</label>
                         <i class="ti ti-news"></i>
                     </li>
                     <li class="pc-item">
-                        <a href="../pages/login-v3.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-lock"></i></span>
+                        <a href="/login" class="pc-link">
+                            <img src="../../../assets/images/login.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Login</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="../pages/register-v3.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+                        <a href="/register" class="pc-link">
+                            <img src="../../../assets/images/register.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Register</span>
                         </a>
                     </li>
@@ -81,8 +81,8 @@
                         <i class="ti ti-brand-chrome"></i>
                     </li> -->
                     <li class="pc-item">
-                        <a href="../other/sample-page.html" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+                        <a href="/somepage" class="pc-link">
+                        <img src="../../../assets/images/samplepage.jpg" class="daily" alt="logo">
                             <span class="pc-mtext">Sample page</span>
                         </a>
                     </li>

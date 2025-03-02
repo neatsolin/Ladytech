@@ -34,6 +34,15 @@
         display: flex;
         align-items: center;
       }
+      .dashboard{
+        margin-top: 10% !important;
+      }
+      .daily{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
       /* nav content */
       .navbar-content{
         background-color: #D9D9D9;
