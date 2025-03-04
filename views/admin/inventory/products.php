@@ -14,21 +14,22 @@
     <!-- Product Grid -->
      <div class="row g-4">
         <!-- Product Card 1 -->
+        <?php foreach($products as $product):?>
         <div class="col-md-4 d-flex">
             <div class="product-card border rounded shadow-sm p-3 w-100">
                 <div class="product-image">
-                    <img src="../../../assets/images/Daily.jpg" alt="Rosy Lip" class="img-fluid" style="max-height: 150px;">
+                    <img src="<?=$product['imageURL'] ?>" alt="Rosy Lip" class="img-fluid" style="max-height: 150px;">
                 </div>
 
                 <div class="mt-3">
                     <div class="product-details">
-                        <span class="product-title">Rosy Lip</span>
-                        <span class="product-category">Lip Care</span>
+                        <span class="product-title"><?=$product['productname'] ?></span>
+                        <span class="product-category"><?=$product['categories'] ?></span>
                     </div>
 
                     <div class="d-flex justify-content-between mt-2">
                         <div class="price-rating">
-                            <p class="product-price mb-1">$2.25</p>
+                            <p class="product-price mb-1"><?=$product['price'] ?>$</p>
                             <div class="rating">★☆☆☆☆</div>
                         </div>
                         <div class="buttons">
@@ -41,8 +42,9 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
-        
+        <?php endforeach;?>
     </div>   <!-- Repeat other product cards -->
 </div>
