@@ -47,6 +47,74 @@
       .navbar-content{
         background-color: #D9D9D9;
       }
+
+      /*  cards products */
+      .product-card {
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 15px;
+            transition: 0.3s;
+            background: #f8f9fa; /* Light background */
+        }
+
+        .product-card:hover {
+            border-color: #007bff; /* Blue border on hover */
+        }
+
+        .product-image {
+            background: #eef5ff; /* Light blue background */
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 180px; /* Fixed height */
+        }
+
+        .product-title {
+            font-weight: bold;
+        }
+
+        .product-category {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .product-price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .rating {
+            color: gold;
+            font-size: 14px;
+        }
+
+        .btn-custom {
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .edit-btn, .delete-btn {
+            width: 100px; /* Equal button width */
+        }
+
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .buttons button {
+            margin-bottom: 5px; /* Space between buttons */
+        }
     </style>
 
   </head>
