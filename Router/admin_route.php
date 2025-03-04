@@ -38,6 +38,8 @@
     //login management
     $route->get('/login', [LoginController::class, 'login']);
     $route->get('/user-form', [UserFormController::class, 'userform']);
+    $route->get('store', [UserController::class, 'store']);
+
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
