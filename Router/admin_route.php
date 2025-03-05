@@ -22,6 +22,8 @@
     
     //products management
     $route->get('/products', [ProductController::class, 'products']);
+    $route->get('/add-product', [ProductController::class, 'addproduct']);
+    $route->post('/products/store', [ProductController::class, 'store']);
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);
