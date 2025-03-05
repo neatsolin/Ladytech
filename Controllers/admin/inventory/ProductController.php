@@ -36,7 +36,7 @@
             // Check if a file was uploaded
             if (isset($_FILES['imageURL']) && $_FILES['imageURL']['error'] === UPLOAD_ERR_OK) {
                 $fileName = time() . "_" . basename($_FILES['imageURL']['name']);
-                $targetFilePath = $fileName;
+                $targetFilePath = $uploadDir . $fileName;
         
                 // Validate file type
                 $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
