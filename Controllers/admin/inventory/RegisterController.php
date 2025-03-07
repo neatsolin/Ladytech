@@ -3,5 +3,6 @@
         public function register(){
             $this->view('admin/inventory/register');
         }
+        
     }
 ?>

@@ -37,12 +37,17 @@
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
-    $route->get('/user-form', [UserFormController::class, 'userform']);
-    $route->get('store', [UserController::class, 'store']);
+    $route->get('/user-form', [LoginController::class, 'userform']);
+    $route->post('/authenticate', [LoginController::class, 'authenticate']);
+    $route->get('/logout', [LoginController::class, 'logout']);
+    $route->post('/store', [LoginController::class, 'store']);  
+
+    
 
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
+    
 
     //somepage management
     $route->get('/somepage', [SomepageController::class, 'somepage']);
