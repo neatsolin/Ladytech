@@ -1,12 +1,4 @@
 <?php
-<<<<<<< HEAD
-    class RegisterController extends BaseadminController{
-        public function register(){
-            $this->view('admin/inventory/register');
-        }
-        
-    }
-=======
 
 require_once __DIR__ . "/../../../models/RegisterModel.php"; // Adjust the path if necessary
 
@@ -45,5 +37,4 @@ class RegisterController extends BaseadminController {
     }
 }
 
->>>>>>> feature/register_form
 ?>

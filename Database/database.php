@@ -7,26 +7,12 @@ class Database {
     public function __construct($hostname, $dbname, $username, $password) {
         $dsn = "mysql:host=$hostname;dbname=$dbname;charset=UTF8";
 
-<<<<<<< HEAD
         try {
             $this->db = new PDO($dsn, $username, $password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
-=======
-        //constructor to connect to database
-        public function __construct($hostname, $dbname, $username, $password){
-            $dsn = "mysql:host=$hostname;dbname=$dbname;charset=UTF8";
-
-            try{
-                $this->db = new PDO($dsn, $username, $password);
-                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }catch(PDOException $e){
-                echo "Connection failed: " . $e->getMessage();
-            }
-
->>>>>>> feature/register_form
         }
     }
 
