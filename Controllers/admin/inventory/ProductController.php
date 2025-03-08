@@ -66,14 +66,47 @@
             $this->view('admin/Form/product_edit', ['product'=>$product]);
         }
 
+
+        //Handle product image upload
+        private function handleImageUpload() {
+            $uploadDir = 'uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+        
+            if (isset($_FILES['imageURL']) && $_FILES['imageURL']['error'] === UPLOAD_ERR_OK) {
+                $fileName = time() . "_" . basename($_FILES['imageURL']['name']);
+                $targetFilePath = $uploadDir . $fileName;
+        
+                // Validate file type
+                $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        
+                if (in_array($fileType, $allowedTypes)) {
+                    // Move file to the uploads directory
+                    if (move_uploaded_file($_FILES['imageURL']['tmp_name'], $targetFilePath)) {
+                        return $targetFilePath;
+                    } else {
+                        die("Error uploading the image.");
+                    }
+                } else {
+                    die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+                }
+            } else {
+                // No image uploaded
+                return '';
+            }
+        }
+
+        // Update product in the database
         public function update($id) {
             // Capture and sanitize text inputs
-            $productName = $this->sanitizeInput($_POST['productname']);
-            $description = $this->sanitizeInput($_POST['descriptions']);
-            $category = $this->sanitizeInput($_POST['categories']);
-            $price = $this->sanitizeInput($_POST['price']);
-            $stockQuantity = $this->sanitizeInput($_POST['stockquantity']);
-        
+            $productName = htmlspecialchars($_POST['productname']);
+            $description = htmlspecialchars($_POST['descriptions']);
+            $category = htmlspecialchars($_POST['categories']);
+            $price = htmlspecialchars($_POST['price']);
+            $stockQuantity = htmlspecialchars($_POST['stockquantity']);
+
             // Handle image upload
             $imagePath = $this->handleImageUpload();
         
@@ -84,12 +117,8 @@
             }
         
             // Update product in the database
-            if ($this->products->updateProduct($productName, $description, $category, $price, $stockQuantity, $imagePath, $id)) {
-                header('Location: /products');
-                exit();
-            } else {
-                die("Error updating the product.");
-            }
+            $this->products->updateProduct($productName, $description, $category, $price, $stockQuantity, $imagePath, $id);
+            header('Location: /products');
         }
 
 

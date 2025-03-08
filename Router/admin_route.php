@@ -25,7 +25,7 @@
     $route->get('/add-product', [ProductController::class, 'addproduct']);
     $route->post('/products/store', [ProductController::class, 'store']);
     $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
-    $route->post('/products/update{id}', [ProductController::class, 'update']);
+    $route->post('/products/update/{id}', [ProductController::class, 'update']);
 
 
     //stock management
@@ -43,11 +43,12 @@
     //login management
     $route->get('/login', [LoginController::class, 'login']);
     $route->get('/user-form', [UserFormController::class, 'userform']);
-    $route->get('store', [UserController::class, 'store']);
 
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
+    $route->post('/store', [RegisterController::class, 'register']);
+
 
     //somepage management
     $route->get('/somepage', [SomepageController::class, 'somepage']);

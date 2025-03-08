@@ -1,20 +1,25 @@
 
-<head>
     <style>
         .product-container {
-            max-width: 400px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 4000px;
             margin: 50px auto;
             padding: 20px;
             background: #f8f9fa;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
             text-align: center;
         }
-        .product-image img {
+        .product-image{
             width: 100%;
-            max-height: 200px;
+            height: 100%;
+        }
+        .product-image img {
+            width: 400px;
+            height: 50vh;
             object-fit: contain;
-            /* background: #e9ecef; */
             padding: 10px;
             border-radius: 8px;
         }
@@ -26,14 +31,20 @@
             justify-content: center;
             gap: 10px;
         }
+        .pc {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* This will center the content horizontally */
+            justify-content: center; /* This will center the content vertically */
+        }
     </style>
-</head>
     <div class="product-container">
-        <div class="product-image">
-            <img src="/<?= htmlspecialchars($product['imageURL']) ?>" alt="Product Image">
+        <div class="pc">
+            <div class="product-image">
+                <img src="/<?= htmlspecialchars($product['imageURL']) ?>" alt="Product Image">
+            </div>
+            <h2 class="mt-3"><?= htmlspecialchars($product['categories']) ?></h2>
         </div>
-        <h4 class="mt-3">Drinking Water</h4>
-        
         <form action="/products/update/<?= $product['id'] ?>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
             
@@ -43,11 +54,23 @@
             </div>
             
             <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input type="text" name="descriptions" class="form-control" value="<?= $product['descriptions'] ?>">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <input type="text" name="categories" class="form-control" value="<?= $product['categories'] ?>">
+            </div>
+            
+            <div class="mb-3">
                 <label class="form-label">Price</label>
                 <input type="text" name="price" class="form-control" value="<?= $product['price'] ?>">
             </div>
-            <div class="mb-3 star-rating">
-                &#9733; &#9733; &#9733; &#9733; &#9733;  <!-- Static 5-star rating -->
+            
+            <div class="mb-3">
+                <label class="form-label">Stock Quantity</label>
+                <input type="text" name="stockquantity" class="form-control" value="<?= $product['stockquantity'] ?>">
             </div>
             
             <div class="file-input-container">
