@@ -33,12 +33,12 @@
                             <div class="rating">★☆☆☆☆</div>
                         </div>
                         <div class="buttons">
-                            <button class="btn btn-success btn-custom mb-2">
+                            <a href="/products/edit/<?= $product['id']?>" class="btn btn-success btn-custom mb-2">
                                 <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-custom">
+                            </a>
+                            <a href="delete_product.php?id=<?= $product['id'] ?>" class="btn btn-danger btn-custom">
                                 <i class="fas fa-trash"></i> Delete
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

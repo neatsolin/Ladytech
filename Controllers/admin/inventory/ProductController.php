@@ -60,6 +60,39 @@
             $this->products->addProduct($productName, $description, $category, $price, $stockQuantity, $imagePath);
             header('Location:/products');
         }
+
+        public function edit($id){
+            $product = $this->products->getProductById($id);
+            $this->view('admin/Form/product_edit', ['product'=>$product]);
+        }
+
+        public function update($id) {
+            // Capture and sanitize text inputs
+            $productName = $this->sanitizeInput($_POST['productname']);
+            $description = $this->sanitizeInput($_POST['descriptions']);
+            $category = $this->sanitizeInput($_POST['categories']);
+            $price = $this->sanitizeInput($_POST['price']);
+            $stockQuantity = $this->sanitizeInput($_POST['stockquantity']);
+        
+            // Handle image upload
+            $imagePath = $this->handleImageUpload();
+        
+            // If no new image is uploaded, retain the existing image
+            if (empty($imagePath)) {
+                $existingProduct = $this->products->getProductById($id);
+                $imagePath = $existingProduct['imageURL'];
+            }
+        
+            // Update product in the database
+            if ($this->products->updateProduct($productName, $description, $category, $price, $stockQuantity, $imagePath, $id)) {
+                header('Location: /products');
+                exit();
+            } else {
+                die("Error updating the product.");
+            }
+        }
+
+
     }
     
     
