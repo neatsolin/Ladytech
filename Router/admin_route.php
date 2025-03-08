@@ -22,6 +22,8 @@
     
     //products management
     $route->get('/products', [ProductController::class, 'products']);
+    $route->get('/add-product', [ProductController::class, 'addproduct']);
+    $route->post('/products/store', [ProductController::class, 'store']);
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);
@@ -37,17 +39,26 @@
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
+<<<<<<< HEAD
     $route->get('/user-form', [LoginController::class, 'userform']);
     $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
     $route->post('/store', [LoginController::class, 'store']);  
 
     
+=======
+    $route->get('/user-form', [UserFormController::class, 'userform']);
+>>>>>>> feature/register_form
 
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
+<<<<<<< HEAD
     
+=======
+    $route->post('/store', [RegisterController::class, 'register']);
+
+>>>>>>> feature/register_form
 
     //somepage management
     $route->get('/somepage', [SomepageController::class, 'somepage']);
