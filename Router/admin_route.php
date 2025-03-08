@@ -24,6 +24,9 @@
     $route->get('/products', [ProductController::class, 'products']);
     $route->get('/add-product', [ProductController::class, 'addproduct']);
     $route->post('/products/store', [ProductController::class, 'store']);
+    $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
+    $route->post('/products/update{id}', [ProductController::class, 'update']);
+
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);

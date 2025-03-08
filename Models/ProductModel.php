@@ -31,6 +31,20 @@
         ]);
         return $result;
     }
+
+    //update a product in the database
+    public function updateProduct($id, $productName, $description, $category, $price, $stockQuantity, $imagePath){
+        $result = $this->db->query("UPDATE products SET productname = :productname, descriptions = :descriptions, categories = :categories, price = :price, stockquantity = :stockquantity, imageURL = :imageURL WHERE id = :id", 
+            ['productname'=>$productName, 
+            'descriptions'=>$description, 
+            'categories'=>$category, 
+            'price'=>$price, 
+            'stockquantity'=>$stockQuantity, 
+            'imageURL'=>$imagePath,
+            'id'=>$id
+        ]);
+        return $result;
+    }
  }
 
 ?>
