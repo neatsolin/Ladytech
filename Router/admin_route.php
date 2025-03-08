@@ -25,7 +25,7 @@
     $route->get('/add-product', [ProductController::class, 'addproduct']);
     $route->post('/products/store', [ProductController::class, 'store']);
     $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
-    $route->post('/products/update{id}', [ProductController::class, 'update']);
+    $route->post('/products/update/{id}', [ProductController::class, 'update']);
 
 
     //stock management
