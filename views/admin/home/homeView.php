@@ -1,4 +1,4 @@
-<h1>Welcome to home admin dashboard</h1>
+
     <!-- [ Main Content ] start -->
     <div class="row">
         <!-- [ sample-page ] start -->
