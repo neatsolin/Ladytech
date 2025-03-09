@@ -3,19 +3,23 @@
     class ProductController extends BaseadminController {
         private $products;
     
+        // Constructor to start the session and initialize the product model
         public function __construct(){
             $this->products = new ProductModel();
         }
     
+        // get all products from the database
         public function products(){
             $products = $this->products->getProducts();
             $this->view('admin/inventory/products', ['products'=>$products]);
         }
     
+        // Display the add product form
         public function addproduct(){
             $this->view('admin/Form/addProduct');
         }
     
+        // Store the product 
         public function store() {
             // Capture text inputs
             $productName = htmlspecialchars($_POST['productname']);
@@ -61,6 +65,7 @@
             header('Location:/products');
         }
 
+        // Display the edit product form
         public function edit($id){
             $product = $this->products->getProductById($id);
             $this->view('admin/Form/product_edit', ['product'=>$product]);
@@ -121,6 +126,11 @@
             header('Location: /products');
         }
 
+        // Delete product from the database
+        public function delete($id) {
+            $this->products->deleteProduct($id);
+            header('Location: /products');
+        }
 
     }
     
