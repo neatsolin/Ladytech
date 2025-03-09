@@ -26,6 +26,7 @@
     $route->post('/products/store', [ProductController::class, 'store']);
     $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
+    $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
 
 
     //stock management

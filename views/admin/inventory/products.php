@@ -36,7 +36,7 @@
                             <a href="/products/edit/<?= $product['id']?>" class="btn btn-success btn-custom mb-2">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <a href="delete_product.php?id=<?= $product['id'] ?>" class="btn btn-danger btn-custom">
+                            <a href="/products/delete/<?= $product['id']?>" class="btn btn-danger btn-custom">
                                 <i class="fas fa-trash"></i> Delete
                             </a>
                         </div>

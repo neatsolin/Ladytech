@@ -45,6 +45,13 @@
         ]);
         return $result;
     }
+
+    //delete a product from the database
+    public function deleteProduct($id){
+        $result = $this->db->query("DELETE FROM products WHERE id = :id", ['id'=>$id]);
+        return $result;
+    }
+
  }
 
 ?>
