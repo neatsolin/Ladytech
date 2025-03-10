@@ -44,7 +44,13 @@
     $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
 
     //user management
+
     $route->get('/users', [UserController::class, 'users']);
+    $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
+    $route->post('/users/update', [UserController::class, 'updateUser']); 
+    $route->get('/users/delete/{id}', [UserController::class, 'deleteUser']);   
+
+
 
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);

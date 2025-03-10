@@ -11,19 +11,25 @@ class RegisterModel {
         }
     }
 
-    public function registerUser($username, $email, $phone, $password, $role) {
+    public function registerUser($username, $email, $phone, $password, $role, $profileImage) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Secure password storage
 
-        // Ensure that the bind_param types match the number of variables (5 variables in total)
-        $stmt = $this->db->prepare("INSERT INTO users (username, email, phone, password, role) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $username, $email, $phone, $hashedPassword, $role); // Correct binding
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
+        // Use a default image if no profile image is provided
+        if (empty($profileImage)) {
+            $profileImage = 'uploads/profiles/default.png'; // Replace with your default image path
         }
+
+        if (!empty($role)) {
+            // If a role is provided, insert it
+            $stmt = $this->db->prepare("INSERT INTO users (username, email, phone, password, role, profile) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $username, $email, $phone, $hashedPassword, $role, $profileImage);
+        } else {
+            // If no role is provided, insert without it
+            $stmt = $this->db->prepare("INSERT INTO users (username, email, phone, password, profile) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $username, $email, $phone, $hashedPassword, $profileImage);
+        }
+
+        return $stmt->execute();
     }
 }
-
 ?>
