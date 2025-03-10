@@ -3,50 +3,53 @@
 class UserModel {
     private $db;
 
+    // initial to start connect to the database
     public function __construct() {
-        // Connect to the database
-        $this->db = new mysqli("localhost", "root", "", "dailyneed_db");
-
-        if ($this->db->connect_error) {
-            die("Database connection failed: " . $this->db->connect_error);
-        }
+        $this->db = new Database("localhost", "dailyneed_db", "root", "");
     }
 
     // Fetch all users from the database
     public function getUsers() {
-        $sql = "SELECT id, username, email, phone, profile, role FROM users";
-        $result = $this->db->query($sql);
-
-        $users = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row;
-            }
-        }
-        return $users;
+        $result = $this->db->query("SELECT * FROM users");
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Fetch a single user by ID
     public function getUserById($id) {
-        $stmt = $this->db->prepare("SELECT id, username, email, phone, profile, role FROM users WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_assoc();
+        $result = $this->db->query("SELECT * FROM users WHERE id = :id", ['id' => $id]);
+        return $result->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Update a user in the database
-    public function updateUser($id, $username, $email, $phone, $role, $profile) {
-        $stmt = $this->db->prepare("UPDATE users SET username = ?, email = ?, phone = ?, role = ?, profile = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $username, $email, $phone, $role, $profile, $id);
-        return $stmt->execute();
+    //add user to the database
+    public function addUser($username, $email, $phone, $password, $profile, $role){
+        $result = $this->db->query("INSERT INTO users (username, email, phone, password, profile, role) VALUES (:username, :email, :phone, :password, :profile, :role)",[
+            'username' => $username,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'profile' => $profile,
+            'role' => $role
+        ]);
+        return $result;
+
     }
 
-    // Delete a user from the database
-    public function deleteUser($id) {
-        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        return $stmt->execute();
+    // update user in the database
+    public function updateUser($id, $username, $email, $phone, $profile, $role){
+        $result = $this->db->query("UPDATE users SET username = :username, email = :email, phone = :phone, profile = :profile, role = :role WHERE id = :id", [
+            'id' => $id,
+            'username' => $username,
+            'email' => $email,
+            'phone' => $phone,
+            'profile' => $profile,
+            'role' => $role
+        ]);
+        return $result;
+    }
+
+    // delete user from the database
+    public function deleteUser($id){
+        $result = $this->db->query("DELETE FROM users WHERE id = :id", ['id' => $id]);
+        return $result;
     }
 }

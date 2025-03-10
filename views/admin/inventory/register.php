@@ -1,5 +1,5 @@
 <h1>Welcome to Register Management</h1>
-<form action="/register" method="POST" enctype="multipart/form-data">
+<form action="/register/store" method="POST" enctype="multipart/form-data">
     <div class="input-with-icon">
         <input type="text" name="username" placeholder="Username" required>
         <span class="icon"><i class="fas fa-user"></i></span>
@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
             <label for="imageURL">Profile Image</label>
-            <input type="file" class="form-control" id="imageURL" name="imageURL">
+            <input type="file" class="form-control" id="imageURL" name="profile">
         </div>
     <button type="submit" class="btn btn-outline btn-block">Register</button>
 </form>
