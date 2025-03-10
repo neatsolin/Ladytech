@@ -24,10 +24,10 @@
         </select>
         <span class="icon"><i class="fas fa-users"></i></span>
     </div>
-    <div class="input-with-icon">
-        <input type="file" name="profile_image" accept="image/*" required>
-        <span class="icon"><i class="fas fa-image"></i></span>
-    </div>
+    <div class="form-group">
+            <label for="imageURL">Profile Image</label>
+            <input type="file" class="form-control" id="imageURL" name="imageURL">
+        </div>
     <button type="submit" class="btn btn-outline btn-block">Register</button>
 </form>
 
