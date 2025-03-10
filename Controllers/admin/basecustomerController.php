@@ -1,6 +1,6 @@
 <?php
-    //class for base controller
-    class BaseController{
+    //class for base admin controller
+    class BasecustomerController{
 
 
         //$view the view file to render
@@ -10,7 +10,7 @@
             ob_start();
             require "views/{$view}.php";
             $content = ob_get_clean();
-            require "views/layout.php";
+            require "views/layoutcust.php";
         }
 
 
