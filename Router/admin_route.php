@@ -19,6 +19,8 @@
     require_once "Controllers/admin/page/DetailproductController.php";
     require_once "Controllers/admin/page/AboutController.php";
     require_once "Controllers/admin/page/ContactControler.php";
+    require_once "Controllers/admin/page/LoginController.php";
+    require_once "Controllers/admin/page/RegisterController.php";
 
 
 
@@ -85,6 +87,13 @@
 
     //contact
     $route->get('/contact', [ContactController::class, 'index']);
+
+
+    //Login
+    $route->get('/F_login', [FrontLoginController::class, 'index']);
+
+    //Register
+    $route->get('/F_register', [FrontRegisterController::class, 'index']);
 
     
     $route->route();
