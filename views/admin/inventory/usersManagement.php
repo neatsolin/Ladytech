@@ -15,18 +15,13 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($users)): ?>
                 <?php foreach ($users as $user): ?>
                     <tr>
                         <td>
                             <input type="checkbox" name="selectedRow" id="row<?= htmlspecialchars($user['id']) ?>">
                         </td>
                         <td>
-                            <?php 
-                                // Set image path - use default image if not uploaded
-                                $imagePath = !empty($user['profile']) ? "uploads/profiles/" . htmlspecialchars($user['profile']) : "uploads/profiles/default.png";
-                            ?>
-                            <img src="<?= $imagePath ?>" 
+                            <img src="<?= $user['profile'] ?>" 
                                  alt="Profile Image" 
                                  width="50" height="50" 
                                  class="rounded-circle">
@@ -43,11 +38,6 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="8" class="text-center">No users found</td>
-                </tr>
-            <?php endif; ?>
         </tbody>
     </table>
 </div>

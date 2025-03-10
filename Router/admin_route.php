@@ -64,7 +64,7 @@
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
-    $route->post('/store', [RegisterController::class, 'register']);
+    $route->post('/register/store', [RegisterController::class, 'store']);
 
 
     //somepage management
