@@ -33,6 +33,8 @@
                     <div class="d-flex align-items-center gap-4">
                         <a class="nav-link lang text-nowrap" data-en="About" data-km="អំពី" href="/about">About</a>
                         <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/contact">Contact</a>
+                        <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/F_login">Login</a>
+                        <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/F_register">Register</a>
                         
                         <!-- Cart & Profile Icons with Offcanvas Sidebar -->
                         <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
