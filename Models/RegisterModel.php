@@ -4,26 +4,25 @@ class RegisterModel {
     private $db;
 
     public function __construct() {
-        $this->db = new mysqli("localhost", "root", "", "dailyneed_db");
-
-        if ($this->db->connect_error) {
-            die("Database connection failed: " . $this->db->connect_error);
-        }
+        $this->db = new Database("localhost", "dailyneed_db", "root", "");
+        
     }
 
-    public function registerUser($username, $email, $phone, $password, $role) {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Secure password storage
+    // Register a new user in the database
+    public function registerUser($username, $email, $phone, $password, $profile, $role) {
+        // Normalize role to 'users' if it's not 'users'
+        $role = ($role === 'users') ? 'users' : $role;
+        $result = $this->db->query("INSERT INTO users (username, email, phone, password, profile, role) VALUES (:username, :email, :phone, :password, :profile, :role)",[
+            'username' => $username,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'role' => $role,
+            'profile' => $profile
+            
+        ]);
+        return $result;
 
-        // Ensure that the bind_param types match the number of variables (5 variables in total)
-        $stmt = $this->db->prepare("INSERT INTO users (username, email, phone, password, role) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $username, $email, $phone, $hashedPassword, $role); // Correct binding
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
-
 ?>

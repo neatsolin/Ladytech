@@ -1,40 +1,73 @@
 <?php
 
-require_once __DIR__ . "/../../../models/RegisterModel.php"; // Adjust the path if necessary
+require_once "Models/RegisterModel.php";
 
 class RegisterController extends BaseadminController {
-    private $model;
+    private $registers;
 
     public function __construct() {
-        $this->model = new RegisterModel(); // Initialize the model
+        $this->registers = new RegisterModel();
     }
 
+    // Display the registration form
     public function register() {
-        $message = ""; // Initialize message variable
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $password = $_POST['password'];
-            $role = $_POST['role']; // Make sure the role is included from the form
-
-            // Validate required fields
-            if (empty($username) || empty($email) || empty($phone) || empty($password) || empty($role)) {
-                $message = "<div style='color: red;'>All fields are required!</div>";
-            } else {
-                // Register user in the database
-                if ($this->model->registerUser($username, $email, $phone, $password, $role)) {
-                    $message = "<div style='color: green;'>Registration successful!</div>";
-                } else {
-                    $message = "<div style='color: red;'>Error: Unable to register.</div>";
-                }
-            }
-        }
-
-        // Load the registration view and pass the message
-        $this->view('admin/inventory/register', ['message' => $message]);
+        $this->view('admin/inventory/register');
     }
+
+    public function store() {
+        // Sanitize input data
+        $username = htmlspecialchars($_POST['username']);
+        $email = htmlspecialchars($_POST['email']);
+        $phone = htmlspecialchars($_POST['phone']);
+        $password = $_POST['password'];
+        $role = htmlspecialchars($_POST['role']);
+
+        // fix role
+        if ($role === 'users') {
+            $role = 'users';
+        }
+    
+        // Initialize the profile variable to an empty string
+        $profile = '';
+    
+        // Check if a file was uploaded
+        if (isset($_FILES['profile']) && $_FILES['profile']['error'] === UPLOAD_ERR_OK) {
+            // Get file details
+            $fileName = time() . "_" . basename($_FILES['profile']['name']);
+            $uploadDir = 'profiles/';  // Ensure this directory exists
+    
+            // Create the upload directory if it doesn't exist
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);  // Create directory with full permissions
+            }
+    
+            // Define the target file path
+            $targetFilePath = $uploadDir . $fileName;
+    
+            // Validate file type (JPG, JPEG, PNG, GIF)
+            $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+            $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+    
+            if (in_array($fileType, $allowedTypes)) {
+                // Move the uploaded file to the uploads directory
+                if (move_uploaded_file($_FILES['profile']['tmp_name'], $targetFilePath)) {
+                    $profile = $targetFilePath;  // Store the file path for future use (e.g., in the database)
+                } else {
+                    die("Error uploading the image.");
+                }
+            } else {
+                die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+            }
+        } else {
+            echo "No profile image uploaded or there was an error.";
+        }
+    
+        //Save user to database
+        $this->registers->registerUser($username, $email, $phone, $password, $profile, $role);
+        header('Location:/users');
+    }
+    
+    
 }
 
 ?>

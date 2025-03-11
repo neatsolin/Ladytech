@@ -12,11 +12,21 @@
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
 
+    //customer
+    require_once "Controllers/admin/basecustomerController.php";
+    require_once "Controllers/admin/page/HomeController.php";
+    require_once "Controllers/admin/page/ProductController.php";
+    require_once "Controllers/admin/page/DetailproductController.php";
+    require_once "Controllers/admin/page/AboutController.php";
+    require_once "Controllers/admin/page/ContactControler.php";
+    require_once "Controllers/admin/page/LoginController.php";
+    require_once "Controllers/admin/page/RegisterController.php";
+
 
 
     $route = new Router();
     //home admin
-    $route->get('/', [HomeController::class, 'index']);
+    $route->get('/admin', [HomeController::class, 'index']);
 
     //dashboard
     
@@ -36,7 +46,13 @@
     $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
 
     //user management
+
     $route->get('/users', [UserController::class, 'users']);
+    $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
+    $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
+    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);   
+
+
 
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
@@ -48,11 +64,37 @@
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
-    $route->post('/store', [RegisterController::class, 'register']);
+    $route->post('/register/store', [RegisterController::class, 'store']);
 
 
     //somepage management
     $route->get('/somepage', [SomepageController::class, 'somepage']);
+
+
+
+    //customer
+    //home
+    $route->get('/', [CustomerController::class, 'index']);
+
+    //product
+    $route->get('/product', [products::class, 'index']);
+
+    //product detail
+    $route->get('/product_detail', [DetailController::class, 'index']);
+
+    //about
+    $route->get('/about', [AboutController::class, 'index']);
+
+    //contact
+    $route->get('/contact', [ContactController::class, 'index']);
+
+
+    //Login
+    $route->get('/F_login', [FrontLoginController::class, 'index']);
+
+    //Register
+    $route->get('/F_register', [FrontRegisterController::class, 'index']);
+
     
     $route->route();
 ?>
