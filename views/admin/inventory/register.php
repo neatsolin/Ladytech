@@ -19,7 +19,7 @@
     <div class="input-with-icon">
         <select name="role" required>
             <option value="">Select Role</option>
-            <option value="user">User</option>
+            <option value="users">User</option>
             <option value="admin">Admin</option>
         </select>
         <span class="icon"><i class="fas fa-users"></i></span>

@@ -17,8 +17,62 @@
         }
 
         // Edit user
-        public function edit($id) {
+        public function editUser($id) {
             $user = $this->users->getUserById($id);
+            $this->view('admin/Form/editUser', ['user' => $user]);
         }
+
+        // Update user
+        public function updateUser($id) {
+            $username = htmlspecialchars($_POST['username']);
+            $email = htmlspecialchars($_POST['email']);
+            $phone = htmlspecialchars($_POST['phone']);
+            $role = htmlspecialchars($_POST['role']);
+            
+            // Initialize profile variable
+            $profile = '';
+        
+            // Check if a file was uploaded
+            if (isset($_FILES['profile']) && $_FILES['profile']['error'] === UPLOAD_ERR_OK) {
+                $fileName = time() . "_" . basename($_FILES['profile']['name']);
+                $uploadDir = 'profiles/'; // Ensure this directory exists
+        
+                // Create the directory if it doesn’t exist
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+        
+                $targetFilePath = $uploadDir . $fileName;
+        
+                // Validate file type (JPG, JPEG, PNG, GIF)
+                $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        
+                if (in_array($fileType, $allowedTypes)) {
+                    if (move_uploaded_file($_FILES['profile']['tmp_name'], $targetFilePath)) {
+                        $profile = $targetFilePath; // Set the new image path
+                    } else {
+                        die("Error uploading the image.");
+                    }
+                } else {
+                    die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+                }
+            } else {
+                // If no new file was uploaded, retain the existing profile image
+                $existingUser = $this->users->getUserById($id);
+                $profile = $existingUser['profile']; // Keep the old profile image
+            }
+        
+            //update to the database
+            $this->users->updateUser($id, $username, $email, $phone,$profile, $role);
+            header('Location: /users');
+        }
+
+        // Delete user
+        public function deleteUser($id) {
+            $this->users->deleteUser($id);
+            header('Location: /users');
+        }
+        
     }
 ?>

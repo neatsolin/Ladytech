@@ -19,8 +19,13 @@ class RegisterController extends BaseadminController {
         $username = htmlspecialchars($_POST['username']);
         $email = htmlspecialchars($_POST['email']);
         $phone = htmlspecialchars($_POST['phone']);
-        $password = htmlspecialchars($_POST['password']);
+        $password = $_POST['password'];
         $role = htmlspecialchars($_POST['role']);
+
+        // fix role
+        if ($role === 'users') {
+            $role = 'users';
+        }
     
         // Initialize the profile variable to an empty string
         $profile = '';
