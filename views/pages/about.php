@@ -52,40 +52,42 @@
         </div>
     </section>
 
-    <!-- Features Section 1 -->
-    <section class="features-section1 py-5 bg-light-subtle">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-4 mb-4">
-                    <div class="feature-box1 card shadow-sm p-4">
-                        <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
-                            <img src="/views/assets/about-images/animation.png" alt="Animate" class="img-fluid">
-                        </div>
-                        <h3 class="fw-bold">Animate</h3>
-                        <p class="text-muted">Our sellers make products more attractive with clear images, videos, and engaging descriptions.</p>
+<!-- Features Section 1 -->
+<section class="features-section1 py-5 bg-light-subtle">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="feature-box1 card shadow-sm p-4 hover-card">
+                    <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
+                        <img src="/views/assets/about-images/animation.png" alt="Animate" class="img-fluid">
                     </div>
+                    <h3 class="fw-bold text-muted hover-text">Animate</h3>
+                    <p class="text-muted hover-text">Our sellers make products more attractive with clear images, videos, and engaging descriptions.</p>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-box1 card shadow-sm p-4">
-                        <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
-                            <img src="/views/assets/about-images/safty.png" alt="Safety" class="img-fluid">
-                        </div>
-                        <h3 class="fw-bold">Safety</h3>
-                        <p class="text-muted">Ensuring secure payments, quality products, and reliable delivery.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-box1 card shadow-sm p-4 hover-card">
+                    <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
+                        <img src="/views/assets/about-images/safty.png" alt="Safety" class="img-fluid">
                     </div>
+                    <h3 class="fw-bold text-muted hover-text">Safety</h3>
+                    <p class="text-muted hover-text">Ensuring secure payments, quality products, and reliable delivery.</p>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-box1 card shadow-sm p-4">
-                        <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
-                            <img src="/views/assets/about-images/trust.png" alt="Trust" class="img-fluid">
-                        </div>
-                        <h3 class="fw-bold">Trust</h3>
-                        <p class="text-muted">Building confidence through honesty, good service, and positive reviews.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-box1 card shadow-sm p-4 hover-card">
+                    <div class="icon-container1 rounded-circle bg-light p-3 mx-auto mb-3">
+                        <img src="/views/assets/about-images/trust.png" alt="Trust" class="img-fluid">
                     </div>
+                    <h3 class="fw-bold text-muted hover-text">Trust</h3>
+                    <p class="text-muted hover-text">Building confidence through honesty, good service, and positive reviews.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

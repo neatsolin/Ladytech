@@ -326,3 +326,29 @@ body {
 .card:hover .overlay {
     opacity: 1;
 }
+
+
+/* Hover effect for card scaling */
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Hover effect for text color */
+.hover-text {
+    transition: color 0.3s ease;
+}
+
+.hover-card:hover .hover-text {
+    color: #007bff; /* Change text color on hover */
+}
+
+/* Optional: Ensuring smooth transition for text color change */
+.hover-card:hover .hover-text p {
+    color: #333; /* Adjust text for better visibility */
+}
+
