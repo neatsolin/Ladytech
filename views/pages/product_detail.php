@@ -1,4 +1,4 @@
 
-<section class="hero-section">
-    <h1>Hello product Details!</h1>
-</section>
+<div class="container mt-4">
+    <h1>Hello Product detail</h1>
+</dive>
