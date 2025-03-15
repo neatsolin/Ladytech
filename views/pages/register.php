@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Daily Needs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
@@ -26,7 +27,7 @@
     }
 
     .wrapper {
-      width: 450px;
+      width: 400px;
       padding: 35px;
       text-align: center;
       border-radius: 12px;
@@ -47,6 +48,8 @@
       position: relative;
       margin: 18px 0;
       border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
     }
 
     .input-field label {
@@ -61,7 +64,7 @@
 
     .input-field input {
       width: 100%;
-      padding: 10px;
+      padding: 10px 10px 10px 10px; /* Adjust padding without the icon */
       background: transparent;
       border: none;
       outline: none;
@@ -75,9 +78,16 @@
       font-size: 13px;
     }
 
+    .input-field i {
+      position: absolute;
+      right: 10px; /* Position icon on the right */
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
     .profile-upload label {
       display: block;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(221, 214, 214, 0.2);
       padding: 10px;
       border-radius: 5px;
       cursor: pointer;
@@ -127,6 +137,9 @@
     .register a:hover {
       text-decoration: underline;
     }
+    .register a{
+      color: blue;
+    }
   </style>
 </head>
 <body>
@@ -138,21 +151,25 @@
       <div class="input-field">
         <input type="text" id="username" name="username" required>
         <label>Username</label>
+        <i class="fas fa-user"></i> <!-- Username icon at the end -->
       </div>
 
       <div class="input-field">
         <input type="email" id="email" name="email" required>
         <label>Email</label>
+        <i class="fas fa-envelope"></i> <!-- Email icon at the end -->
       </div>
 
       <div class="input-field">
         <input type="tel" id="phone" name="phone" required>
         <label>Phone Number</label>
+        <i class="fas fa-phone"></i> <!-- Phone icon at the end -->
       </div>
 
       <div class="input-field">
         <input type="password" id="password" name="password" required>
         <label>Password</label>
+        <i class="fas fa-lock"></i> <!-- Password icon at the end -->
       </div>
 
       <div class="profile-upload">
