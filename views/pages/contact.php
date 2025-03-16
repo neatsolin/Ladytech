@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <!-- Contact Information -->
 <div class="container mt-5">
     <h2 class="text-center mb-4 fw-bold">Contact Us</h2>
@@ -119,4 +117,3 @@
         </div>
     </div>
 </div>
->>>>>>> 16c2cc28330db3c99ec3198776ff718c764ef643
