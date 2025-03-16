@@ -59,6 +59,7 @@
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
+    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/user-form', [UserFormController::class, 'userform']);
 
 

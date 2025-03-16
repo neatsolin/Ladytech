@@ -1,3 +1,11 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+ if (isset($_SESSION['user_id'])) : ?>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <div class="container my-4">
     <!-- Top Buttons -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -33,11 +41,9 @@
                             <div class="rating">★☆☆☆☆</div>
                         </div>
                         <div class="buttons">
-                            <a href="/products/edit/<?= $product['id']?>" class="btn btn-success btn-custom mb-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="/products/delete/<?= $product['id']?>" class="btn btn-danger btn-custom">
-                                <i class="fas fa-trash"></i> Delete
+                            <a href="/products/edit/<?= $product['id']?>"><i class="material-icons">edit</i></a>
+                            <a href="/products/delete/<?= $product['id']?>" class="material-icons text-danger delete-user">
+                                <i class="material-icons">delete</i>
                             </a>
                         </div>
                     </div>
@@ -48,3 +54,8 @@
         <?php endforeach;?>
     </div>   <!-- Repeat other product cards -->
 </div>
+<?php 
+else: 
+    $this->redirect("/login"); 
+endif;   
+?>
