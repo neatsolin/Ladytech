@@ -1,4 +1,3 @@
-
    
     
     <section class="hero-section">
@@ -85,6 +84,7 @@
                             <span class="star" data-value="1">★</span>
                             <span class="star" data-value="2">★</span>
                             <span class="star" data-value="3">★</span>
+
                             <span class="star" data-value="4">★</span>
                             <span class="star" data-value="5">★</span>
                         </div>
@@ -159,6 +159,7 @@
                         <p class="card-text">Personal care products designed for your comfort and health.</p>
                         <button class="btn btn-custom">Shop Now</button>
                     </div>
+
                     <img src="/views/assets/images/product.png" alt="Mistine Acne Clear Facial Foam" class="img-fluid">
                 </div>
             </div>
@@ -242,6 +243,7 @@
         <!-- Testimonial Card 1 -->
         <div class="testimonial-card">
             <div class="stars">★★★★★</div>
+
             <p>Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>
             <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
             <h6>Mila Kunis</h6>
@@ -261,5 +263,6 @@
             <h6>Mila Kunis</h6>
         </div>
     </div>
+
 
 

@@ -27,7 +27,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: url("https://img.freepik.com/free-photo/3d-illustration-laptop-with-shopping-basket-paper-bags-online-shopping-e-commerce-concept_58466-14623.jpg?t=st=1741613632~exp=1741617232~hmac=d1db2c8a952fdf327c00d952a63c77ae034cfc3e71c4fd0098e28811885a492c&w=1480"), #000;
+      background: url("https://cdn.pixabay.com/photo/2021/12/27/19/28/e-commerce-6898102_1280.png"), #000;
       background-position: center;
       background-size: cover;
     }
