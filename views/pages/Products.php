@@ -16,7 +16,7 @@
             <div class="filter-catagories">
                 <h3><li><a href="#"></a></li>Filter by Categories</h3>
                 <ul>
-                    <li><a href="/page/Oral Health .html">Oral Health (10)</a></li>
+                    <li><a href="/oral">Oral Health (10)</a></li>
                     <li><a href="/page/Feminine Hygiene.html">Feminine Hygiene (10)</a></li>
                     <li><a href="/page/Household Hygiene.html">Household Hygiene (11)</a></li>
                     <li><a href="/page/Tissue Roll.html">Tissue Roll (11)</a></li>
@@ -32,13 +32,13 @@
         <div class="shop-container">
             <h1>Shop</h1>
             <div class="show">
-                <p>Show 1-10</p>
+                <p id="productCount">Show 0-10</p>
                 <p>Default Sorting</p>
             </div>
             <div class="products">
                 <div class="product">
                     <div class="productes-img">
-                        <a href="/page/Oral Health .html"><img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste"></a>
+                        <a href="/F_health"><img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste"></a>
                     </div>
                     <h3>Toothpaste</h3>
                     <div class="name-product">

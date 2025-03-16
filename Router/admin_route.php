@@ -78,6 +78,7 @@
 
     //product
     $route->get('/product', [products::class, 'index']);
+    
 
     //product detail
     $route->get('/product_detail', [DetailController::class, 'index']);
@@ -94,7 +95,7 @@
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
+   
 
-    
     $route->route();
 ?>
