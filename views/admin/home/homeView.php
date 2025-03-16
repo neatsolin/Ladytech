@@ -1,4 +1,8 @@
-
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+if (isset($_SESSION['user_id'])) : ?>
     <!-- [ Main Content ] start -->
     <div class="row">
         <!-- [ sample-page ] start -->
@@ -276,3 +280,8 @@
           </div>
         </div>
     </div>
+<?php 
+else: 
+    $this->redirect("/login"); 
+endif;   
+?>

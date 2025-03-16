@@ -49,8 +49,8 @@
 
     $route->get('/users', [UserController::class, 'users']);
     $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
-    $route->post('/users/update', [UserController::class, 'updateUser']); 
-    $route->get('/users/delete/{id}', [UserController::class, 'deleteUser']);   
+    $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
+    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);   
 
 
 
@@ -59,12 +59,13 @@
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
+    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/user-form', [UserFormController::class, 'userform']);
 
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
-    $route->post('/store', [RegisterController::class, 'register']);
+    $route->post('/register/store', [RegisterController::class, 'store']);
 
 
     //somepage management

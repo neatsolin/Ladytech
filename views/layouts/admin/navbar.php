@@ -16,7 +16,7 @@
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
-          <a href="/" class="pc-link">
+          <a href="/admin" class="pc-link">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
@@ -472,19 +472,24 @@
                             aria-haspopup="false"
                             data-bs-auto-close="outside"
                             aria-expanded="false"
-                        >
-                            <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-                            <span>Stebin Ben</span>
+                        ><?php if (isset($_SESSION['user_id'])):?>
+                            <img src="<?= $_SESSION['user_profile']?>" alt="user-image" class="user-avtar" style="width: 35px; height: 35px; border-radius: 50%; border: 3px solid #fff; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                            <span><?= $_SESSION['user_name']?></span>
+                        <?php endif;?>
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header">
                                 <div class="d-flex mb-1">
                                     <div class="flex-shrink-0">
-                                        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+                                        <?php if (isset($_SESSION['user_id'])):?>
+                                            <img src="<?= $_SESSION['user_profile']?>" alt="user-image" class="user-avtar wid-35" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff;">
+                                        <?php endif;?>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">Stebin Ben</h6>
-                                        <span>UI/UX Designer</span>
+                                        <?php if (isset($_SESSION['user_id'])):?>
+                                            <h6 class="mb-1"><?=$_SESSION['user_name']?></h6>
+                                            <span><?= $_SESSION['user_role']?></span>
+                                        <?php endif;?>
                                     </div>
                                     <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
                                 </div>
@@ -519,9 +524,9 @@
                             </ul>
                             <div class="tab-content" id="mysrpTabContent">
                                 <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
-                                    <a href="#!" class="dropdown-item">
+                                    <a href="/users/edit/<?= $_SESSION['user_id']?>" class="dropdown-item">
                                         <i class="ti ti-edit-circle"></i>
-                                        <span>Edit Profile</span>
+                                        <span data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</span>
                                     </a>
                                     <a href="#!" class="dropdown-item">
                                         <i class="ti ti-user"></i>
@@ -570,6 +575,59 @@
         </div>
     </header>
     <!-- [ Header ] end -->
+        
+    <!-- Profile Edit Modal -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content p-4">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <!-- Profile Image Upload -->
+                        <?php if(isset($_SESSION['user_id'])):?>
+                        <div class="position-relative d-inline-block">
+                            <img id="profileImage" src="<?= $_SESSION['user_profile'] ?>" alt="Profile Image" class="rounded-circle border shadow" width="100" height="100">
+                            <label for="profileUpload" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-1" style="cursor: pointer;">
+                                <i class="bi bi-camera"></i>
+                            </label>
+                            <input type="file" id="profileUpload" class="d-none" accept="image/*" onchange="previewImage(event)">
+                        </div>
+                        
+                        <!-- Edit Form -->
+                        <form action="/users/update/<?= $_SESSION['user_id']?>" method="POST" enctype="multipart/form-data" class="mt-3">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" value="<?=$_SESSION['user_name']?>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="<?=$_SESSION['user_email'] ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control" value="<?=$_SESSION['user_phone']?>">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Update</button>
+                        </form>
+                        <?php endif;?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('profileImage');
+                    output.src = reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+
     <!-- [ Main Content ] start -->
     <div class="pc-container">
         <div class="pc-content">
