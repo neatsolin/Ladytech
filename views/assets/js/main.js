@@ -1,12 +1,4 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//     const shopButton = document.querySelector(".shop-btn");
-
-//     shopButton.addEventListener("click", () => {
-//         alert("Redirecting to the shop...");
-//         window.location.href = "#"; // Replace with your actual shop URL
-//     });
-// });
-
+// <--------------// ----------------- languages ---------------- //
 let currentLang = "en"; // Default language is English
         document.getElementById("langToggle").addEventListener("click", function() {
             currentLang = currentLang === "en" ? "km" : "en";
@@ -39,33 +31,50 @@ let currentLang = "en"; // Default language is English
                 rating.setAttribute('data-rating', value);
             });
         });
-// run text
+
+// <--------------// ----------------- nav links ---------------- //
 document.addEventListener("DOMContentLoaded", function () {
-    const text = "Get 25% Off On Your First Purchase!";
-    const typingText = document.getElementById("typing-text");
-    let index = 0;
+    // Select all navbar links
+    const navLinks = document.querySelectorAll(".nav-link");
 
-    function typeEffect() {
-        if (index < text.length) {
-            typingText.textContent += text[index]; 
-            index++;
-            setTimeout(typeEffect, 100);
-        } else {
-            setTimeout(resetText, 3000); 
+    // Function to remove active class from all links
+    function removeActiveClass() {
+        navLinks.forEach(link => link.classList.remove("active"));
+    }
+
+    // Add click event to each link
+    navLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            removeActiveClass();  // Remove active class from all links
+            this.classList.add("active");  // Add active class to the clicked link
+        });
+    });
+
+    // Set active class based on current URL (for page reloads)
+    const currentPath = window.location.pathname;
+    navLinks.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            removeActiveClass();
+            link.classList.add("active");
         }
-    }
-
-    function resetText() {
-        typingText.textContent = ""; 
-        index = 0;
-        typeEffect(); 
-    }
-
-    typeEffect(); 
+    });
 });
 
+// <-------------------------------- toggle card -----------------------------------> //
+function toggleCart() {
+    var cartDropdown = document.getElementById("cartDropdown");
+    cartDropdown.style.display = (cartDropdown.style.display === "block") ? "none" : "block";
+}
 
+// Close cart dropdown when clicking outside
+document.addEventListener("click", function (event) {
+    var cartContainer = document.querySelector(".cart-container");
+    var cartDropdown = document.getElementById("cartDropdown");
 
+    if (!cartContainer.contains(event.target)) {
+        cartDropdown.style.display = "none";
+    }
+});
 
 
 
