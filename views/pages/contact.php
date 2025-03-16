@@ -26,6 +26,11 @@
     </div>
 </div>
 
+<!-- Google Map -->
+<div class="container mt-5 text-center">
+    <h2 class="text-center fw-bold">Find Us</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243.63770797753838!2d104.88402835838781!3d11.551280667959297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742110847887!5m2!1sen!2skh" width="1100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
 <!-- Contact Form & FAQ -->
 <div class="container mt-5">
     <div class="row">
@@ -48,6 +53,16 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                             Penatibus feugiat sed cursus vestibulum
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Donec penatibus hendrerit
                         </button>
                     </h2>
                     <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
@@ -78,42 +93,39 @@
     </div>
 </div>
 
-<!-- Google Map -->
-<div class="container mt-5">
-    <h2 class="text-center fw-bold">Find Us</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243.63770797753838!2d104.88402835838781!3d11.551280667959297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742110847887!5m2!1sen!2skh" width="1100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
 
 <!-- Features Section -->
+ <hr>
 <div class="container mt-5 text-center">
     <div class="row">
         <div class="col-md-3">
             <div class="p-3">
-                <i class="fas fa-truck fa-3x text-danger mb-2"></i>
+                <i class="fas fa-truck fa-2x text-danger mb-1"></i>
                 <h6 class="fw-semibold">Free Delivery</h6>
                 <p class="text-muted">Fast and secure shipping.</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
-                <i class="fas fa-credit-card fa-3x text-danger mb-2"></i>
+                <i class="fas fa-credit-card fa-2x text-danger mb-1"></i>
                 <h6 class="fw-semibold">Easy Payment</h6>
                 <p class="text-muted">Secure and flexible payments.</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
-                <i class="fas fa-shipping-fast fa-3x text-danger mb-2"></i>
+                <i class="fas fa-shipping-fast fa-2x text-danger mb-1"></i>
                 <h6 class="fw-semibold">Track Order</h6>
                 <p class="text-muted">Real-time tracking updates.</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="p-3">
-                <i class="fas fa-question-circle fa-3x text-danger mb-2"></i>
+                <i class="fas fa-question-circle fa-2x text-danger mb-1"></i>
                 <h6 class="fw-semibold">Support</h6>
                 <p class="text-muted">24/7 customer assistance.</p>
             </div>
         </div>
     </div>
 </div>
+<hr>

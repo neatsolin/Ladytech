@@ -16,7 +16,7 @@
             <div class="filter-catagories">
                 <h3><li><a href="#"></a></li>Filter by Categories</h3>
                 <ul>
-                    <li><a href="/page/Oral Health .html">Oral Health (10)</a></li>
+                    <li><a href="/product/oral">Oral Health (10)</a></li>
                     <li><a href="/page/Feminine Hygiene.html">Feminine Hygiene (10)</a></li>
                     <li><a href="/page/Household Hygiene.html">Household Hygiene (11)</a></li>
                     <li><a href="/page/Tissue Roll.html">Tissue Roll (11)</a></li>
