@@ -13,7 +13,11 @@
     </div>
     <div class="form-group">
         <label for="role">Role</label>
-        <input type="text" class="form-control" name="role" id="role" value="<?= htmlspecialchars($user['role']) ?>">
+        <label for="role">Role</label>
+        <select class="form-control" name="role" id="role">
+            <option value="users" <?= $user['role'] == 'users' ? 'selected' : '' ?>>Users</option>
+            <option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Admin</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="profile">Profile Image</label>
