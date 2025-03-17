@@ -11,6 +11,7 @@
       <a href="/admin" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
         <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%; display: inline-block;">
+        <span style="margin-left: 20px; color: gray;">Daily Needs</span>
       </a>
     </div>
     <div class="navbar-content">
