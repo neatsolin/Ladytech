@@ -79,6 +79,16 @@
 
     //product
     $route->get('/product', [products::class, 'index']);
+    $route->get('/oral', [products::class, 'oral']);
+    $route->get('/beverage', [products::class, 'beverage']);
+    $route->get('/cooking', [products::class, 'cooking']);
+    $route->get('/drinking', [products::class, 'drinking']);
+    $route->get('/feminine', [products::class, 'feminine']);
+    $route->get('/houeshold', [products::class, 'houeshold']);
+    $route->get('/saop', [products::class, 'saop']);
+    $route->get('/snacks', [products::class, 'snacks']);
+    $route->get('/tissue', [products::class, 'tissue']);
+    
 
     //product detail
     $route->get('/product_detail', [DetailController::class, 'index']);
@@ -95,7 +105,7 @@
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
+   
 
-    
     $route->route();
 ?>

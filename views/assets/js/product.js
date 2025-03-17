@@ -36,5 +36,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Filter products by price
     priceRange.addEventListener("input", filterProducts);
+    //show
+    const productes = document.querySelectorAll(".product");
+    const productCountElement = document.getElementById("productCount");
+    const totalProducts = productes.length;
+    const startCount = totalProducts > 0 ? Math.min(totalProducts, 10) : 0;
+    productCountElement.textContent = `Show ${startCount}-10`;
 });
 
