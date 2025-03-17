@@ -56,6 +56,11 @@
 
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
+    $route->get('/All_order', [OrderController::class, 'order_all']);
+    $route->get('/recent_order', [OrderController::class, 'recent_order']);
+    $route->get('/order_history', [OrderController::class, 'order_history']);
+    $route->get('/order_pending', [OrderController::class, 'order_pending']);
+    $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
