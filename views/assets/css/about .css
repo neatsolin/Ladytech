@@ -1,39 +1,92 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
-/* Navbar Styling */
-.navbar {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: -webkit-sticky; /* for Safari */
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    z-index: 1000;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+    /* General Card Styling */
+    .card {
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        height: 400px;
+        margin-bottom: 30px;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
 
-/* Optional: Change color once navbar becomes sticky */
-.navbar.sticky {
-    background: #f8f9fa;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
+    /* Card Image */
+    .card-img-top {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
 
-/* Navbar Links Styling */
-.nav-link {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333;
-    transition: color 0.3s ease;
-}
+    /* Card Icons */
+    .icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #007bff;
+    }
 
-.nav-link:hover, .nav-link.active {
-    color: #007bff !important;
-}
+    .icon-large {
+        font-size: 3rem;
+    }
+
+    /* Card Text */
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        color: #6c757d;
+        margin-top: auto;
+    }
+
+    /* Profile Section */
+    .profile-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Stats Section */
+    .stats h3 {
+        font-size: 2rem;
+    }
+
+    .hover-effect:hover {
+        transform: translateY(-5px); 
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+    }
+
+    /* Base styles for cards */
+    .small-card {
+        border: 2px solid #ccc;
+        position: relative;
+        overflow: hidden;
+        background-color: #fff; 
+        color: #333;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Hover State: Color changes and lifts */
+    .hover-effect:hover {
+        transform: translateY(-5px);  
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+        border-color:rgb(27, 155, 96); 
+        background-color: #fff; 
+        color: #3cdb6e; 
+    }
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .icon-large {
+            font-size: 2.5rem; 
+        }
+        .stats h3 {
+            font-size: 1.8rem; 
+        }
+    }
+    
 
 
 
