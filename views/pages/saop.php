@@ -16,13 +16,13 @@
             <div class="filter-catagories">
                 <h3><li><a href="/product">Filter by Categories</a></li></h3>
                 <ul>
-                    <li><a href="#">Oral Health (10)</a></li>
+                    <li><a href="/oral">Oral Health (10)</a></li>
                     <li><a href="/feminine">Feminine Hygiene (10)</a></li>
                     <li><a href="/houeshold">Household Hygiene (11)</a></li>
                     <li><a href="/tissue">Tissue Roll (11)</a></li>
                     <li><a href="/drinking">Drinking Water (5)</a></li>
                     <li><a href="/beverage">Beverages (8)</a></li>
-                    <li><a href="/saop">Saop (7)</a></li>
+                    <li><a href="#">Saop (7)</a></li>
                     <li><a href="/cooking">Cooking Ingredients (20)</a></li>
                     <li><a href="/snacks">Snacks (5)</a>
                 </ul>
@@ -37,13 +37,13 @@
             </div>
             <div class="products">
                 <div class="product">
-                    <div class="productes-img">
-                        <img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste">
+                    <div class="product-img">
+                        <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Toothpaste">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Fabric Softener</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate</p>
-                        <p class="product-price">$1.75</p>
+                        <p class="product-title">Comfort Blue</p>
+                        <p class="product-price">$3.20</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -52,12 +52,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Colgate salt.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Clothing(7)/Comfort pink.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Fabric Softener</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate Salt</p>
-                        <p class="product-price">$1.75</p>
+                        <p class="product-title">Comfort pink</p>
+                        <p class="product-price">$3.20</p>
                     </div>
                     
                     <div class="rate">
@@ -68,12 +68,12 @@
                 
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Colgate cool.png" alt="Toothpaste">
+                        <img src="/views/assets/images/Clothing(7)/Comfort Sachet.png" alt="Toothpaste">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Fabric Softener</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate cool</p>
-                        <p class="product-price">$1.50</p>
+                        <p class="product-title">Comfort Sachet</p>
+                        <p class="product-price">$3.20</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -82,55 +82,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/sensodyne fresh.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Clothing(7)/Viso Powder.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Laundry Detergent</h3>
                     <div class="name-product">
-                        <p class="product-title">sensodyne fresh</p>
-                        <p class="product-price">$3.50</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-                
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/sensodyne cool.png" alt="Toothpaste">
-                    </div>
-                    <h3>Toothpaste</h3>
-                    <div class="name-product">
-                        <p class="product-title">sensodyne cool</p>
-                        <p class="product-price">$3.75</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Sensodyne gentle.png" alt="Sanitary Pads">
-                    </div>
-                    <h3>Toothpaste</h3>
-                    <div class="name-product">
-                        <p class="product-title">Sensodyne gentle</p>
-                        <p class="product-price">$1.50</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Darlie Double.png" alt="Sanitary Pads">
-                    </div>
-                    <h3>Toothpaste</h3>
-                    <div class="name-product">
-                        <p class="product-title">Darlie Double</p>
-                        <p class="product-price">$2.25</p>
+                        <p class="product-title">Viso Powder</p>
+                        <p class="product-price">$1.75</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -139,13 +96,13 @@
                 </div>
                 
                 <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Pepsodent.png" alt="Sanitary Pads">
+                    <div class="products-img">
+                        <img src="/views/assets/images/Clothing(7)/Viso Powder small.png" alt="Toothpaste">
                     </div>
-                    <h3>Toothbrush</h3>
+                    <h3>Laundry Detergent</h3>
                     <div class="name-product">
-                        <p class="product-title">Pepsodent</p>
-                        <p class="product-price">$1.20</p>
+                        <p class="product-title">Viso Powder small</p>
+                        <p class="product-price">$1.00</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -154,12 +111,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Muyly toothbrush.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Sanitary Pads">
                     </div>
-                    <h3> Toothbrush</h3>
+                    <h3>Liquid Laundry Detergent</h3>
                     <div class="name-product">
-                        <p class="product-title">Muyly</p>
-                        <p class="product-price">$0.75</p>
+                        <p class="product-title">Fineline Liquid Detergent </p>
+                        <p class="product-price">$7.10</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -168,12 +125,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Kenko.png" alt="Toothpaste">
+                        <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Dental Floss</h3>
+                    <h3>Laundry Detergent</h3>
                     <div class="name-product">
-                        <p class="product-title">Kenko</p>
-                        <p class="product-price">$1.25</p>
+                        <p class="product-title">Pao Pink Detergent</p>
+                        <p class="product-price">$7.00</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>

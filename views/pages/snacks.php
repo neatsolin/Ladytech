@@ -16,7 +16,7 @@
             <div class="filter-catagories">
                 <h3><li><a href="/product">Filter by Categories</a></li></h3>
                 <ul>
-                    <li><a href="#">Oral Health (10)</a></li>
+                <li><a href="/oral">Oral Health (10)</a></li>
                     <li><a href="/feminine">Feminine Hygiene (10)</a></li>
                     <li><a href="/houeshold">Household Hygiene (11)</a></li>
                     <li><a href="/tissue">Tissue Roll (11)</a></li>
@@ -24,7 +24,7 @@
                     <li><a href="/beverage">Beverages (8)</a></li>
                     <li><a href="/saop">Saop (7)</a></li>
                     <li><a href="/cooking">Cooking Ingredients (20)</a></li>
-                    <li><a href="/snacks">Snacks (5)</a>
+                    <li><a href="#">Snacks (5)</a>
                 </ul>
             </div>
         </div>
@@ -37,13 +37,13 @@
             </div>
             <div class="products">
                 <div class="product">
-                    <div class="productes-img">
-                        <img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste">
+                    <div class="product-img">
+                        <img src="/views/assets/images/Snacks (7)/Mama tom yum.png" alt="">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate</p>
-                        <p class="product-price">$1.75</p>
+                        <p class="product-title">Mama tom yum</p>
+                        <p class="product-price">$0.50</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -51,13 +51,13 @@
                     </div>
                 </div>
                 <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Colgate salt.png" alt="Sanitary Pads">
+                    <div class="products-img">
+                        <img src="/views/assets/images/Snacks (7)/Mama Palo.png" alt="">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate Salt</p>
-                        <p class="product-price">$1.75</p>
+                        <p class="product-title">Mama Palo</p>
+                        <p class="product-price">$0.50</p>
                     </div>
                     
                     <div class="rate">
@@ -68,12 +68,12 @@
                 
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Colgate cool.png" alt="Toothpaste">
+                        <img src="/views/assets/images/Snacks (7)/Mama.png" alt="">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">Colgate cool</p>
-                        <p class="product-price">$1.50</p>
+                        <p class="product-title">Mama </p>
+                        <p class="product-price">$0.55</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -82,12 +82,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/sensodyne fresh.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3> Instant Ramen</h3>
                     <div class="name-product">
-                        <p class="product-title">sensodyne fresh</p>
-                        <p class="product-price">$3.50</p>
+                        <p class="product-title">Buldak hot</p>
+                        <p class="product-price">$1.50</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -96,13 +96,13 @@
                 </div>
                 
                 <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/sensodyne cool.png" alt="Toothpaste">
+                    <div class="products-img">
+                        <img src="/views/assets/images/Snacks (7)/indomie.png" alt="Toothpaste">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">sensodyne cool</p>
-                        <p class="product-price">$3.75</p>
+                        <p class="product-title">Indomie</p>
+                        <p class="product-price">$0.25</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -111,12 +111,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Sensodyne gentle.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">Sensodyne gentle</p>
-                        <p class="product-price">$1.50</p>
+                        <p class="product-title">Mama Pork pack</p>
+                        <p class="product-price">$0.25</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -125,12 +125,12 @@
                 </div>
                 <div class="product">
                     <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Darlie Double.png" alt="Sanitary Pads">
+                        <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Sanitary Pads">
                     </div>
-                    <h3>Toothpaste</h3>
+                    <h3>Instant Rice Noodles</h3>
                     <div class="name-product">
-                        <p class="product-title">Darlie Double</p>
-                        <p class="product-price">$2.25</p>
+                        <p class="product-title">Good Noodle </p>
+                        <p class="product-price">$0.50</p>
                     </div>
                     <div class="rate">
                         <p class="rating">★★★★★</p>
@@ -138,49 +138,7 @@
                     </div>
                 </div>
                 
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Pepsodent.png" alt="Sanitary Pads">
-                    </div>
-                    <h3>Toothbrush</h3>
-                    <div class="name-product">
-                        <p class="product-title">Pepsodent</p>
-                        <p class="product-price">$1.20</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Muyly toothbrush.png" alt="Sanitary Pads">
-                    </div>
-                    <h3> Toothbrush</h3>
-                    <div class="name-product">
-                        <p class="product-title">Muyly</p>
-                        <p class="product-price">$0.75</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product">
-                    <div class="product-img">
-                        <img src="/views/assets/images/Oral Health (10)/Kenko.png" alt="Toothpaste">
-                    </div>
-                    <h3>Dental Floss</h3>
-                    <div class="name-product">
-                        <p class="product-title">Kenko</p>
-                        <p class="product-price">$1.25</p>
-                    </div>
-                    <div class="rate">
-                        <p class="rating">★★★★★</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-              
+               
             </div>
         </div>
     </div>

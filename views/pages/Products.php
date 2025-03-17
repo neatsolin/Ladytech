@@ -17,14 +17,14 @@
                 <h3><li><a href="#"></a></li>Filter by Categories</h3>
                 <ul>
                     <li><a href="/oral">Oral Health (10)</a></li>
-                    <li><a href="/page/Feminine Hygiene.html">Feminine Hygiene (10)</a></li>
-                    <li><a href="/page/Household Hygiene.html">Household Hygiene (11)</a></li>
-                    <li><a href="/page/Tissue Roll.html">Tissue Roll (11)</a></li>
-                    <li><a href="/page/Drinking Water .html">Drinking Water (5)</a></li>
-                    <li><a href="/page/Beverages.html">Beverages (8)</a></li>
-                    <li><a href="/page/Clothing.html">Clothing (7)</a></li>
-                    <li><a href="/page/Cooking .html">Cooking Ingredients (20)</a></li>
-                    <li><a href="/page/Snacks.html">Snacks (5)</a>
+                    <li><a href="/feminine">Feminine Hygiene (10)</a></li>
+                    <li><a href="/houeshold">Household Hygiene (11)</a></li>
+                    <li><a href="/tissue">Tissue Roll (11)</a></li>
+                    <li><a href="/drinking">Drinking Water (5)</a></li>
+                    <li><a href="/beverage">Beverages (8)</a></li>
+                    <li><a href="/saop">Saop (7)</a></li>
+                    <li><a href="/cooking">Cooking Ingredients (20)</a></li>
+                    <li><a href="/snacks">Snacks (5)</a>
                 </ul>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="products">
                 <div class="product">
                     <div class="productes-img">
-                        <a href="/F_health"><img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste"></a>
+                        <a href="/oral"><img src="/views/assets/images/Oral Health (10)/colgate.png" alt="Toothpaste"></a>
                     </div>
                     <h3>Toothpaste</h3>
                     <div class="name-product">
