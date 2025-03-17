@@ -1,25 +1,4 @@
 
-    /* General Card Styling */
-    .card {
-        border: 1px solid #e1e1e1;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-        height: 400px;
-        margin-bottom: 30px;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Card Image */
-    .card-img-top {
-        height: 300px;
-        width: 100%;
-        object-fit: cover;
-    }
-
     /* Card Icons */
     .icon {
         font-size: 40px;
@@ -35,19 +14,6 @@
     .card-title {
         font-size: 20px;
         font-weight: bold;
-    }
-
-    .card-text {
-        color: #6c757d;
-        margin-top: auto;
-    }
-
-    /* Profile Section */
-    .profile-img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
     }
 
     /* Stats Section */
@@ -86,7 +52,71 @@
             font-size: 1.8rem; 
         }
     }
-    
+    /* Button Styles */
+    .btn-purple {
+        background-color: #07c433;
+        border-color: hsl(134, 92%, 30%);
+        transition: all 0.3s ease;
+    }
+    .btn-purple:hover {
+        background-color: #28a745;
+        border-color: #0df142;
+    }
+
+    .btn-green {
+        color: green;
+        border: 1px solid green;
+        background-color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-green:hover {
+        background-color: #07c433;
+        color: white;
+    }
+
+    /* Star Rating Styles */
+    .star {
+        font-size: 22px;
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.3s ease;
+    }
+    .star:hover {
+        transform: scale(1.2); 
+    }
+
+    /* Card Hover Effect */
+    .card {
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Image Wrapper */
+    .image-wrapper {
+        height: 190px;
+        background-color: #f8f9fa;
+        position: relative;
+        overflow: hidden;
+    }
+    .image-wrapper img {
+        transition: transform 0.3s ease;
+    }
+    .card:hover .image-wrapper img {
+        transform: scale(1.05); 
+    }
+
+    /* Heart Icon */
+    .heart-icon {
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+    .heart-icon:hover {
+        transform: scale(1.2);
+    }
+
+
+  
 
 
 

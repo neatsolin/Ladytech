@@ -112,3 +112,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+function setRating(cardId, rating) {
+    // Reset all stars for the specific card
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById(`star${cardId}_${i}`).style.color = ''; // Remove yellow color
+    }
+
+    // Apply yellow color for selected stars
+    for (let i = 1; i <= rating; i++) {
+        document.getElementById(`star${cardId}_${i}`).style.color = 'yellow';
+    }
+
+    // Update the rating display for the specific card
+    document.getElementById(`rating${cardId}`).textContent = `(${rating})`;
+}
+
+function toggleFavorite(cardNumber) {
+    const heartIcon = document.getElementById(`heart${cardNumber}`);
+    if (heartIcon.classList.contains('bi-heart')) {
+        heartIcon.classList.remove('bi-heart');
+        heartIcon.classList.add('bi-heart-fill');
+        heartIcon.style.color = "purple"; // Change color to purple when filled
+    } else {
+        heartIcon.classList.remove('bi-heart-fill');
+        heartIcon.classList.add('bi-heart');
+        heartIcon.style.color = "black"; // Reset color to black when empty
+    }
+}
+
+// Redirect to cart page with product ID
+function addToCart(cardId) {
+    window.location.href = `cart.html?productId=${cardId}`;
+}
+
+// Redirect to checkout page with product ID
+function buyNow(cardId) {
+    window.location.href = `checkout.html?productId=${cardId}`;
+}
+
+
+
+
+
+

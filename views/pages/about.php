@@ -67,203 +67,251 @@ rated products that capture customer interest through engaging
     </div>
 </section>
 
-<!-- Shop By Categories Section -->
-<section class="shop-categories py-5 bg-light">
-    <div class="container">
-    <h2 class="text-center mb-5 fw-bold display-5" style="color: #00C853;">Shop By Categories</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+<div class="container mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Card 1 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='beverages.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="/views/assets/about-images/Pocari Sweat.png" alt="Beverages" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Beverages</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/ACNES.png" alt="Serum 1" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 1</h6>
+                        <i class="bi bi-heart heart-icon" id="heart1" onclick="toggleFavorite(1)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star1_1" onclick="setRating(1, 1)">★</span>
+                        <span class="star" id="star1_2" onclick="setRating(1, 2)">★</span>
+                        <span class="star" id="star1_3" onclick="setRating(1, 3)">★</span>
+                        <span class="star" id="star1_4" onclick="setRating(1, 4)">★</span>
+                        <span class="star" id="star1_5" onclick="setRating(1, 5)">★</span> 
+                        <span id="rating1">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(1)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 2 -->
+            <!-- Card 2 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='clothes.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="views/assets/about-images/Eau Kulen small.png" alt="Clothes" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Drinking Water</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Knorr.png" alt="Serum 2" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 2</h6>
+                        <i class="bi bi-heart heart-icon" id="heart2" onclick="toggleFavorite(2)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star2_1" onclick="setRating(2, 1)">★</span>
+                        <span class="star" id="star2_2" onclick="setRating(2, 2)">★</span>
+                        <span class="star" id="star2_3" onclick="setRating(2, 3)">★</span>
+                        <span class="star" id="star2_4" onclick="setRating(2, 4)">★</span>
+                        <span class="star" id="star2_5" onclick="setRating(2, 5)">★</span> 
+                        <span id="rating2">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(2)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(2)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 3 -->
+            <!-- Card 3 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='electronics.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="views/assets/about-images/Sofy Cooling fresh.png" alt="Electronics" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Feminine Hygiene</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Sofy Cooling fresh.png" alt="Serum 3" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 3</h6>
+                        <i class="bi bi-heart heart-icon" id="heart3" onclick="toggleFavorite(3)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star3_1" onclick="setRating(3, 1)">★</span>
+                        <span class="star" id="star3_2" onclick="setRating(3, 2)">★</span>
+                        <span class="star" id="star3_3" onclick="setRating(3, 3)">★</span>
+                        <span class="star" id="star3_4" onclick="setRating(3, 4)">★</span>
+                        <span class="star" id="star3_5" onclick="setRating(3, 5)">★</span> 
+                        <span id="rating3">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(3)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(3)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 4 -->
+            <!-- Card 4 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='cleaning.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="/views/assets/about-images/Pao Pink Detergent.png" alt="Cleaning" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Soap</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Ring Floor.png" alt="Serum 4" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 4</h6>
+                        <i class="bi bi-heart heart-icon" id="heart4" onclick="toggleFavorite(4)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star4_1" onclick="setRating(4, 1)">★</span>
+                        <span class="star" id="star4_2" onclick="setRating(4, 2)">★</span>
+                        <span class="star" id="star4_3" onclick="setRating(4, 3)">★</span>
+                        <span class="star" id="star4_4" onclick="setRating(4, 4)">★</span>
+                        <span class="star" id="star4_5" onclick="setRating(4, 5)">★</span> 
+                        <span id="rating4">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(4)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(4)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 5 -->
+            <!-- Card 5 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='furniture.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="/views/assets/about-images/Ring Floor.png" alt="Furniture" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Household Hygiene</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Pocari Sweat.png" alt="Serum 5" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 5</h6>
+                        <i class="bi bi-heart heart-icon" id="heart5" onclick="toggleFavorite(5)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star5_1" onclick="setRating(5, 1)">★</span>
+                        <span class="star" id="star5_2" onclick="setRating(5, 2)">★</span>
+                        <span class="star" id="star5_3" onclick="setRating(5, 3)">★</span>
+                        <span class="star" id="star5_4" onclick="setRating(5, 4)">★</span>
+                        <span class="star" id="star5_5" onclick="setRating(5, 5)">★</span> 
+                        <span id="rating5">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(5)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(5)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 6 -->
+            <!-- Card 6 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='toys.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="/views/assets/about-images/Knorr.png" alt="Toys" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Cooking Ingredients</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Muyly toothbrush.png" alt="Serum 6" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 6</h6>
+                        <i class="bi bi-heart heart-icon" id="heart6" onclick="toggleFavorite(6)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star6_1" onclick="setRating(6, 1)">★</span>
+                        <span class="star" id="star6_2" onclick="setRating(6, 2)">★</span>
+                        <span class="star" id="star6_3" onclick="setRating(6, 3)">★</span>
+                        <span class="star" id="star6_4" onclick="setRating(6, 4)">★</span>
+                        <span class="star" id="star6_5" onclick="setRating(6, 5)">★</span> 
+                        <span id="rating6">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(6)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(6)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 7 -->
+            <!-- Card 7 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='instant-noodles.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="views/assets/about-images/Mama tom yum.png" alt="Instant Noodles" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Snacks</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Pao Pink Detergent.png" alt="Serum 7" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 7</h6>
+                        <i class="bi bi-heart heart-icon" id="heart7" onclick="toggleFavorite(7)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star7_1" onclick="setRating(7, 1)">★</span>
+                        <span class="star" id="star7_2" onclick="setRating(7, 2)">★</span>
+                        <span class="star" id="star7_3" onclick="setRating(7, 3)">★</span>
+                        <span class="star" id="star7_4" onclick="setRating(7, 4)">★</span>
+                        <span class="star" id="star7_5" onclick="setRating(7, 5)">★</span> 
+                        <span id="rating7">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(7)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(7)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Product Card 8 -->
+            <!-- Card 8 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='skincare.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="/views/assets/about-images/ACNES.png" alt="Skincare" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Oral Health</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Mama tom yum.png" alt="Serum 8" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 8</h6>
+                        <i class="bi bi-heart heart-icon" id="heart8" onclick="toggleFavorite(8)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star8_1" onclick="setRating(8, 1)">★</span>
+                        <span class="star" id="star8_2" onclick="setRating(8, 2)">★</span>
+                        <span class="star" id="star8_3" onclick="setRating(8, 3)">★</span>
+                        <span class="star" id="star8_4" onclick="setRating(8, 4)">★</span>
+                        <span class="star" id="star8_5" onclick="setRating(8, 5)">★</span> 
+                        <span id="rating8">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(8)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(8)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
-
-            <!-- Product Card 9 -->
+            <!-- Card 9 -->
             <div class="col">
-                <a href="#" class="text-decoration-none" onclick="window.location.href='skincare.html'">
-                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
-                            <img src="views/assets/about-images/Muyly toothbrush.png" alt="Skincare" class="img-fluid" style="max-height: 100%; object-fit: cover;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="fw-bold text-dark">Oral Health</h5>
-                            <div class="d-flex justify-content-center">
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </div>
-                        </div>
+                <div class="card text-start shadow-sm p-3 rounded-3">
+                    <div class="image-wrapper d-flex justify-content-center align-items-center">
+                        <img src="views/assets/about-images/Eau Kulen small.png" alt="Serum 9" class="img-fluid" style="max-height: 160px;">
                     </div>
-                </a>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <h6 class="fw-bold">Serum 9</h6>
+                        <i class="bi bi-heart heart-icon" id="heart9" onclick="toggleFavorite(9)" style="cursor: pointer; color: black;"></i>
+                    </div>
+                    <div class="text-dark small">
+                        <span class="star" id="star9_1" onclick="setRating(9, 1)">★</span>
+                        <span class="star" id="star9_2" onclick="setRating(9, 2)">★</span>
+                        <span class="star" id="star9_3" onclick="setRating(9, 3)">★</span>
+                        <span class="star" id="star9_4" onclick="setRating(9, 4)">★</span>
+                        <span class="star" id="star9_5" onclick="setRating(9, 5)">★</span> 
+                        <span id="rating9">(0)</span>
+                    </div>
+                    <p class="text-muted small">Replenish your skin with this amazing serum.</p>
+                    <div class="fw-bold">Price: $60.99</div>
+                    <div class="d-flex justify-content-between gap-2">
+                        <button class="btn btn-purple text-white mt-2 w-30" onclick="addToCart(9)"><i class="bi bi-cart"></i> Add to Cart</button>
+                        <button class="btn btn-light btn-green mt-2 w-30" onclick="buyNow(9)"><i class="bi bi-check-circle"></i> Buy Now</button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
-</section>
-
 <!-- User Card Section -->
 <div class="container mt-4">
     <div class="row text-center justify-content-center">
