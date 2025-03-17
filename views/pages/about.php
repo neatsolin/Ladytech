@@ -21,9 +21,9 @@
         object-fit: cover;
     }
 
-    .card:hover .card-img-top {
+    /* .card:hover .card-img-top {
         transform: scale(1.05);
-    }
+    } */
 
     /* Card Icons */
     .icon {
@@ -60,16 +60,6 @@
         font-size: 2rem;
     }
 
-    /* Overlay Effect */
-    .card:hover .overlay {
-        opacity: 1;
-    }
-    /* hover */
-    /* Hover Effect for Cards */
-    .hover-effect {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
     .hover-effect:hover {
         transform: translateY(-5px);  /* Moves the card up slightly */
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Adds a shadow for depth */
@@ -86,10 +76,7 @@
     }
 
     /* Hover Effect for Cards */
-    .hover-effect {
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-
+   
     /* Hover State: Color changes and lifts */
     .hover-effect:hover {
         transform: translateY(-5px);  
