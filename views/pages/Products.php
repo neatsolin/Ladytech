@@ -145,6 +145,24 @@
         .bi-heart-fill {
             color: #6f42c1;
         }
+        .view-details-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card:hover .view-details-btn {
+        opacity: 1;
+    }
+        
         @media (max-width: 767px) {
             .filter, .filter-categories {
                 margin: 0 15px 20px;
@@ -162,8 +180,8 @@
                 <!-- Filter by Price -->
                 <div class="filter">
                     <h3>Filter by Price</h3>
-                    <input type="range" id="priceRange" min="0.25" max="13" step="0.25" value="13" class="form-range">
-                    <span id="priceValue">$0.25 - $13</span>
+                    <input type="range" id="priceRange" min="1" max="100" step="1" value="100" class="form-range">
+                    <span id="priceValue">$1 - $100</span>
                     <form id="searchForm">
                         <input type="text" id="search" name="q" placeholder="Search by product name" class="form-control mt-3">
                         <button type="submit" class="btn btn-primary mt-2 w-100">Search</button>
@@ -234,15 +252,12 @@
                 <div class="row px-3 py-4" id="productList">
                     <!-- Product Card 1 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
-                        <div class="card text-start shadow-sm" style="border-radius: 12px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" 
-                                style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                                <img src="/views/assets/images/Snacks (7)/Buldak hot.png" 
-                                    alt="Floral Serum" 
-                                    class="img-fluid" 
-                                    style="max-height: 100%; object-fit: contain;">
+                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                                <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Floral Serum" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                                <button class="view-details-btn" onclick="viewDetails(1)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Buldak hot</h6>
                                     <i class="bi bi-heart" data-heart-id="1" onclick="toggleFavorite(1)"></i>
@@ -256,25 +271,22 @@
                                     <span class="rating-value" data-rating-id="1">(0)</span>
                                 </div>
                                 <p class="card-text">Hydrate your skin with this lightweight floral serum.</p>
-                                <div class="price">Price: $50.99</div>
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white" style="border-radius: 8px;">
-                                        <i class="bi bi-cart"></i> Add to Cart
-                                    </button>
-                                    <button class="btn btn-green text-white" style="border-radius: 8px;">
-                                        <i class="bi bi-check-circle"></i> Buy Now
-                                    </button>
+                                <div class="price mt-auto">Price: $50.99</div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <button class="btn btn-purple text-white" style="border-radius: 8px;"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-green text-white" style="border-radius: 8px;"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Product Card 2 -->
+                    <!-- card 2 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="2">
-                        <div class="card text-start shadow-sm" style="border-radius: 15px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 15px; border-top-right-radius: 15px; overflow: hidden;">
-                                <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid" style="max-height: 100%; max-width: 100%; object-fit: cover;">
+                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                                <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                                <button class="view-details-btn" onclick="viewDetails(2)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Good Noodle</h6>
                                     <i class="bi bi-heart" data-heart-id="2" onclick="toggleFavorite(2)"></i>
@@ -288,22 +300,22 @@
                                     <span class="rating-value" data-rating-id="2">(0)</span>
                                 </div>
                                 <p class="card-text">Revitalize your skin with this amazing serum.</p>
-                                <div class="price">Price: $40.99</div>
-                                <div class="d-flex justify-content-between">
+                                <div class="price mt-auto">Price: $40.99</div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Product Card 3 -->
+                    <!-- card 3 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="3">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
-                                <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                                <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                                <button class="view-details-btn" onclick="viewDetails(3)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Mama Pork pack</h6>
                                     <i class="bi bi-heart" data-heart-id="3" onclick="toggleFavorite(3)"></i>
@@ -317,8 +329,8 @@
                                     <span class="rating-value" data-rating-id="3">(0)</span>
                                 </div>
                                 <p class="card-text">Nourish your skin with this amazing product.</p>
-                                <div class="price">Price: $45.99</div>
-                                <div class="d-flex justify-content-between">
+                                <div class="price mt-auto">Price: $45.99</div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
@@ -327,11 +339,12 @@
                     </div>
                     <!-- Product Card 4 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="4">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
-                                <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                                <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid">
+                                <button class="view-details-btn" onclick="viewDetails(4)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Comfort Blue</h6>
                                     <i class="bi bi-heart" data-heart-id="4" onclick="toggleFavorite(4)"></i>
@@ -345,22 +358,22 @@
                                     <span class="rating-value" data-rating-id="4">(0)</span>
                                 </div>
                                 <p class="card-text">Replenish your skin with this amazing serum.</p>
-                                <div class="price">Price: $60.99</div>
-                                <div class="d-flex justify-content-between">
+                                <div class="price mt-auto">Price: $60.99</div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Product Card 5 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="5">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
-                                <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                                <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid">
+                                <button class="view-details-btn" onclick="viewDetails(5)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Fineline Liquid Detergent</h6>
                                     <i class="bi bi-heart" data-heart-id="5" onclick="toggleFavorite(5)"></i>
@@ -374,22 +387,22 @@
                                     <span class="rating-value" data-rating-id="5">(0)</span>
                                 </div>
                                 <p class="card-text">Moisturize your skin with this floral serum.</p>
-                                <div class="price">Price: $55.99</div>
-                                <div class="d-flex justify-content-between">
+                                <div class="price mt-auto">Price: $55.99</div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Product Card 6 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="6">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
-                                <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Serum 6" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                                <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Serum 6" class="img-fluid">
+                                <button class="view-details-btn" onclick="viewDetails(6)">View Details</button>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h6 class="card-title">Pao Pink Detergent</h6>
                                     <i class="bi bi-heart" data-heart-id="6" onclick="toggleFavorite(6)"></i>
@@ -403,20 +416,20 @@
                                     <span class="rating-value" data-rating-id="6">(0)</span>
                                 </div>
                                 <p class="card-text">A refreshing serum for daily use.</p>
-                                <div class="price">Price: $42.99</div>
-                                <div class="d-flex justify-content-between">
+                                <div class="price mt-auto">Price: $42.99</div>
+                                <div class="d-flex justify-content-between mt-2">
                                     <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Product Card 7 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="7">
                         <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                                 <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                                <button class="view-details-btn" onclick="viewDetails(7)">View Details</button>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -440,12 +453,12 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Product Card 8 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="8">
                         <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                                 <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Serum 8" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                                <button class="view-details-btn" onclick="viewDetails(8)">View Details</button>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -469,12 +482,12 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Product Card 9 -->
                     <div class="col-md-4 col-sm-6 mb-4" data-product-id="9">
                         <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px;">
+                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                                 <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Serum 9" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                                <button class="view-details-btn" onclick="viewDetails(9)">View Details</button>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -498,19 +511,39 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>       
-   
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+
+
+ 
+
+
+
     <script>
-        // Price Range Filter
-        const priceRange = document.getElementById('priceRange');
-        const priceValue = document.getElementById('priceValue');
-        priceRange.addEventListener('input', () => {
-            priceValue.textContent = `$0.25 - $${priceRange.value}`;
-            filterProducts();
+        function viewDetails(productId) {
+        console.log(`/product_detail?productId=${productId}`);
+        window.location.href = `/product_detail?productId=${productId}`;
+        }
+
+        // rate filter 
+       document.getElementById("priceRange").addEventListener("input", function () {
+        let selectedPrice = parseInt(this.value);
+        document.getElementById("priceValue").innerText = `$1 - $${selectedPrice}`;
+
+        document.querySelectorAll(".col-md-4").forEach(product => {
+            let priceText = product.querySelector(".price").innerText;
+            let productPrice = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+            
+            if (productPrice <= selectedPrice) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
         });
+    });
+    
 
         // Search Functionality (by Product Name Only)
         const searchForm = document.getElementById('searchForm');
