@@ -28,7 +28,6 @@
 
 <!-- Google Map -->
 <div class="container mt-5 text-center">
-    <h2 class="text-center fw-bold">Find Us</h2>
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243.63770797753838!2d104.88402835838781!3d11.551280667959297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742110847887!5m2!1sen!2skh" width="1100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 <!-- Contact Form & FAQ -->
@@ -61,11 +60,11 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
                         Donec penatibus hendrerit
                         </button>
                     </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</div>
                     </div>
                 </div>
@@ -74,7 +73,7 @@
         <!-- Contact Form -->
         <div class="col-md-6">
             <h2 class="fw-bold">Send Us a Message</h2>
-            <form class="bg-light p-4 rounded shadow-sm">
+            <!-- <form class="bg-light p-4 rounded shadow-sm"> -->
                 <div class="mb-3">
                     <label for="name" class="form-label fw-semibold">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" placeholder="Your name" required>
