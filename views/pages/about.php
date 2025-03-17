@@ -1,29 +1,118 @@
+
 <style>
+    /* General Card Styling */
     .card {
-            border: 1px solid #e1e1e1; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-            transition: transform 0.2s; 
-            height: 300px; 
-            margin-bottom: 30px;
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        height: 400px;
+        margin-bottom: 30px;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Card Image */
+    .card-img-top {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    /* Card Icons */
+    .icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #007bff;
+    }
+
+    .icon-large {
+        font-size: 3rem;
+    }
+
+    /* Card Text */
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        color: #6c757d;
+        margin-top: auto;
+    }
+
+    /* Profile Section */
+    .profile-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Stats Section */
+    .stats h3 {
+        font-size: 2rem;
+    }
+
+    /* Overlay Effect */
+    .card:hover .overlay {
+        opacity: 1;
+    }
+    /* hover */
+    /* Hover Effect for Cards */
+    .hover-effect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-effect:hover {
+        transform: translateY(-5px);  /* Moves the card up slightly */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Adds a shadow for depth */
+    }
+
+    /* Base styles for cards */
+    .small-card {
+        border: 2px solid #ccc;
+        position: relative;
+        overflow: hidden;
+        background-color: #fff; 
+        color: #333;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Hover Effect for Cards */
+    .hover-effect {
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Hover State: Color changes and lifts */
+    .hover-effect:hover {
+        transform: translateY(-5px);  
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  
+        border-color:rgb(27, 155, 96); 
+        background-color: #fff; 
+        color: #007bff; 
+    }
+
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .icon-large {
+            font-size: 2.5rem; /* Adjust icon size for mobile */
         }
-        .card:hover {
-            transform: translateY(-5px); 
+
+        .stats h3 {
+            font-size: 1.8rem; /* Adjust number sizes for mobile */
         }
-        .icon {
-            font-size: 40px; 
-            margin-bottom: 15px; 
-            color: #007bff; 
-        }
-        .card-title {
-            font-size: 20px; 
-            font-weight: bold; 
-        }
-        .card-text {
-            color: #6c757d; 
-            margin-top: auto; 
-        }
-        
+    }
+</style>
+
         
 </style>
 <!-- Profile Section -->
@@ -33,77 +122,93 @@
             <!-- 🖼️ Image Section -->
             <div class="col-md-5 text-center mb-4 mb-md-0">
                 <div class="profile-img-wrapper">
-                    <img id="profileImg" src="views/assets/about-images/card.png" alt="Profile Picture" class="profile-img img-fluid shadow-lg" style="max-width: 100%; height: auto;">
+                    <img id="profileImg" src="views/assets/about-images/card.png" alt="Profile Picture" class="profile-img img-fluid" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
                 </div>
             </div>
             <!-- 📝 Text Section -->
             <div class="col-md-7">
                 <h2 class="mb-3 fw-bold text-success">We Are Your Favorite Store</h2>
-                <p class="text-muted lead mb-3">At <strong>We Are Your Favorite Store</strong>, we provide high-quality products, great prices, and a seamless shopping experience.</p>
-                <p class="text-muted mb-4">We prioritize trust, quality, and innovation, ensuring every product is reliable. Our sellers offer unique, affordable, and highly rated products with engaging visuals, competitive pricing, and excellent service.</p>
+                <p class="text-muted lead mb-3">At We Are Your Favorite Store, we are committed to 
+providing high-quality products, great prices, and 
+a seamless shopping experience. Our goal is to
+connect customers with passionate sellers who offer
+carefully curated products that bring value and satisfaction.</p>
+                <p class="text-muted mb-4">We prioritize customer trust, quality, innovation, and community
+ ensuring that every product is reliable and worth your investme
+nt. Our sellers focus on delivering unique, affordable, and highly 
+rated products that capture customer interest through engaging
+ visuals, competitive pricing, and excellent service.</p>
                 <a href="#shop-now" class="btn btn-success btn-lg mt-3 px-4 py-2 rounded-pill shadow-sm">Shop Now</a>
             </div>
         </div>
     </div>
 </section>
 
+
+
 <!-- Stats Section -->
-<section class="stats py-3 bg-dark text-white">
+<section class="stats py-5 bg-dark text-white">
     <div class="container">
         <div class="row text-center text-md-start align-items-center">
+            <!-- Title Section -->
             <div class="col-md-3 mb-3 mb-md-0">
-                <h4 class="fw-bold mb-2 fs-6">Numbers Speak <br>for Themselves!</h4>
+                <h4 class="fw-bold mb-4 fs-4">Numbers Speak <br>for Themselves!</h4>
                 <p class="text-muted small">Impressive stats about our products and categories!</p>
             </div>
-            <div class="col-md-3 stat position-relative mb-3 mb-md-0">
-                <div class="icon-overlay mb-1">
-                    <i class="bi bi-boxes fs-5 text-success"></i>
+
+            <!-- Stats Item 1 -->
+            <div class="col-md-3 stat text-center mb-3 mb-md-0">
+                <div class="icon-overlay mb-3">
+                    <i class="bi bi-boxes text-success icon-large"></i>
                 </div>
-                <h3 class="fw-bold fs-6" id="owned-products">0+</h3>
-                <h6 class="text-light small">Owned Products</h6>
+                <h3 class="fw-bold fs-3" id="owned-products">0+</h3>
+                <h6 class="text-light">Owned Products</h6>
             </div>
-            <div class="col-md-3 stat position-relative mb-3 mb-md-0">
-                <div class="icon-overlay mb-1">
-                    <i class="bi bi-tags fs-5 text-success"></i>
+
+            <!-- Stats Item 2 -->
+            <div class="col-md-3 stat text-center mb-3 mb-md-0">
+                <div class="icon-overlay mb-3">
+                    <i class="bi bi-tags text-success icon-large"></i>
                 </div>
-                <h3 class="fw-bold fs-6" id="curated-products">0+</h3>
-                <h6 class="text-light small">Curated Products</h6>
+                <h3 class="fw-bold fs-3" id="curated-products">0+</h3>
+                <h6 class="text-light">Curated Products</h6>
             </div>
-            <div class="col-md-3 stat position-relative mb-3 mb-md-0">
-                <div class="icon-overlay mb-1">
-                    <i class="bi bi-grid fs-5 text-success"></i>
+
+            <!-- Stats Item 3 -->
+            <div class="col-md-3 stat text-center mb-3 mb-md-0">
+                <div class="icon-overlay mb-3">
+                    <i class="bi bi-grid text-success icon-large"></i>
                 </div>
-                <h3 class="fw-bold fs-6" id="product-categories">0+</h3>
-                <h6 class="text-light small">Product Categories</h6>
+                <h3 class="fw-bold fs-3" id="product-categories">0+</h3>
+                <h6 class="text-light">Product Categories</h6>
             </div>
         </div>
     </div>
 </section>
 
-<!-- card -->
+<!-- Shop By Categories Section -->
 <section class="shop-categories py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-5 fw-bold display-5 text-primary">Shop By Categories</h2>
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4">
+    <h2 class="text-center mb-5 fw-bold display-5" style="color: #00C853;">Shop By Categories</h2>
+
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+            
             <!-- Product Card 1 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Pocari Sweat.png" alt="Beverages" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='beverages.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="/views/assets/about-images/Pocari Sweat.png" alt="Beverages" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Beverages</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Beverages</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(3.5)</span>
+                                <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
                     </div>
@@ -112,23 +217,19 @@
 
             <!-- Product Card 2 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Clothes.png" alt="Clothes" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='clothes.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="views/assets/about-images/Eau Kulen small.png" alt="Clothes" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Clothes</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Drinking Water</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.0)</span>
                             </div>
                         </div>
                     </div>
@@ -137,23 +238,19 @@
 
             <!-- Product Card 3 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Electronics.png" alt="Electronics" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='electronics.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="views/assets/about-images/Sofy Cooling fresh.png" alt="Electronics" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Electronics</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Feminine Hygiene</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.3)</span>
                             </div>
                         </div>
                     </div>
@@ -162,23 +259,19 @@
 
             <!-- Product Card 4 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Furniture.png" alt="Furniture" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='cleaning.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="/views/assets/about-images/Pao Pink Detergent.png" alt="Cleaning" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Furniture</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Soap</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.7)</span>
                             </div>
                         </div>
                     </div>
@@ -187,23 +280,19 @@
 
             <!-- Product Card 5 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Accessories.png" alt="Accessories" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='furniture.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="/views/assets/about-images/Ring Floor.png" alt="Furniture" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Accessories</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Household Hygiene</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.8)</span>
+                                <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
                     </div>
@@ -212,23 +301,19 @@
 
             <!-- Product Card 6 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Toys.png" alt="Toys" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='toys.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="/views/assets/about-images/Knorr.png" alt="Toys" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Toys</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Cooking Ingredients</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(3.9)</span>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
                     </div>
@@ -237,23 +322,19 @@
 
             <!-- Product Card 7 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Books.png" alt="Books" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='instant-noodles.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="views/assets/about-images/Mama tom yum.png" alt="Instant Noodles" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Books</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Snacks</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.5)</span>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
                     </div>
@@ -262,23 +343,19 @@
 
             <!-- Product Card 8 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Beauty.png" alt="Beauty" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='skincare.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="/views/assets/about-images/ACNES.png" alt="Skincare" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Beauty</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Oral Health</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.6)</span>
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="bi bi-star-fill text-warning"></i>
                             </div>
                         </div>
                     </div>
@@ -287,54 +364,66 @@
 
             <!-- Product Card 9 -->
             <div class="col">
-                <a href="#" class="text-decoration-none shop-card-link">
-                    <div class="card h-100 border-0 rounded-4 overflow-hidden shadow-lg shop-card">
-                        <div class="card-img-wrapper position-relative">
-                            <img src="/views/assets/about-images/Shoes.png" alt="Shoes" class="card-img-top">
-                            <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
+                <a href="#" class="text-decoration-none" onclick="window.location.href='skincare.html'">
+                    <div class="card h-100 border-0 shadow-lg rounded-4 text-center d-flex flex-column">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center p-3" style="flex-grow: 1; cursor: pointer;">
+                            <img src="views/assets/about-images/Muyly toothbrush.png" alt="Skincare" class="img-fluid" style="max-height: 100%; object-fit: cover;">
                         </div>
-                        <div class="card-body text-center py-3">
-                            <h5 class="card-title fw-bold mb-2 text-dark">Shoes</h5>
-                        </div>
-                        <div class="card-footer bg-white border-0 text-center py-2">
-                            <div class="star-rating">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-dark">Oral Health</h5>
+                            <div class="d-flex justify-content-center">
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
                                 <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-half text-warning"></i>
                                 <i class="bi bi-star text-warning"></i>
-                                <span class="ms-2 text-muted small">(4.2)</span>
+                                <i class="bi bi-star text-warning"></i>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
+
         </div>
     </div>
 </section>
-<!-- uder card -->
-<div class="container mt-5">
-    <div class="row text-center">
-        <div class="col-md-4">
-            <div class="card p-4 d-flex flex-column"> <!-- Increased padding -->
-                <div class="icon mb-3"><i class="fas fa-check-circle"></i></div> <!-- Icon padding -->
-                <div class="card-title mb-3">Legitimate Businesses</div> <!-- Title padding -->
-                <div class="card-text mb-3">Legally registered, sells genuine products, and provides reliable service.</div> <!-- Text padding -->
+
+
+<!-- User Card Section -->
+<!-- User Card Section -->
+<div class="container mt-4">
+    <div class="row text-center justify-content-center">
+        <!-- Card 1 -->
+        <div class="col-12 col-sm-6 col-md-4 mb-3">
+            <div class="small-card shadow-sm p-3 rounded hover-effect" style="height: 250px;">
+                <div class="icon">
+                    <i class="fas fa-check-circle text-primary"></i> 
+                </div>
+                <h6 class="fw-bold mt-2">Legitimate Businesses</h6>
+                <p class="text-muted">Legally registered, sells genuine products, and provides reliable service.</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card p-4 d-flex flex-column"> <!-- Increased padding -->
-                <div class="icon mb-3"><i class="fas fa-chart-line"></i></div> <!-- Icon padding -->
-                <div class="card-title mb-3">Real Data</div> <!-- Title padding -->
-                <div class="card-text mb-3">Offers accurate product details and honest descriptions.</div> <!-- Text padding -->
+
+        <!-- Card 2 -->
+        <div class="col-12 col-sm-6 col-md-4 mb-3">
+            <div class="small-card shadow-sm p-3 rounded hover-effect" style="height: 250px;">
+                <div class="icon">
+                    <i class="fas fa-chart-line text-success"></i> 
+                </div>
+                <h6 class="fw-bold mt-2">Real Data</h6>
+                <p class="text-muted">Offers accurate product details and honest descriptions.</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card p-4 d-flex flex-column"> <!-- Increased padding -->
-                <div class="icon mb-3"><i class="fas fa-exchange-alt"></i></div> <!-- Icon padding -->
-                <div class="card-title mb-3">Done For You Migrations</div> <!-- Title padding -->
-                <div class="card-text mb-3">Ensures smooth transfers or setups for customers.</div> <!-- Text padding -->
+
+        <!-- Card 3 -->
+        <div class="col-12 col-sm-6 col-md-4 mb-3">
+            <div class="small-card shadow-sm p-3 rounded hover-effect" style="height: 250px;">
+                <div class="icon">
+                    <i class="fas fa-exchange-alt text-warning"></i> 
+                </div>
+                <h6 class="fw-bold mt-2">Done For You Migrations</h6>
+                <p class="text-muted">Ensures smooth transfers or setups for customers.</p>
             </div>
         </div>
     </div>
 </div>
+
