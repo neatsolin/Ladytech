@@ -8,9 +8,10 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="../dashboard/index.html" class="b-brand text-primary">
+      <a href="/admin" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
+        <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%; display: inline-block;">
+        <span style="margin-left: 20px; color: gray;">Daily Needs</span>
       </a>
     </div>
     <div class="navbar-content">

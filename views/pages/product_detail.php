@@ -2,12 +2,12 @@
     <div class="row">
         <!-- Left Column: Product Image -->
         <div class="col-md-6">
-            <img id="mainImage" src="https://www.bassheadspeakers.com/wp-content/uploads/2020/01/Best-Noise-Cancelling-Earbuds.jpg" alt="Product Image" class="product-image">
+            <img id="mainImage" src="https://exoticsnacks.com/cdn/shop/files/Buldak-Spicy-Tom-Yum-Hot-Chicken-Flavor-Ramen-Pack_-135g-SamYang-71635967_700x700.png?v=1706831190" alt="Product Image" class="product-image">
             <div class="mt-3 d-flex">
                 <!-- Thumbnails -->
-                <img src="https://www.bassheadspeakers.com/wp-content/uploads/2020/01/Best-Noise-Cancelling-Earbuds.jpg" class="thumbnail active" onclick="changeImage(this)">
-                <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR_Pzu_wfQvoKuw2cskQ2DcaZwGdB-844PLpVw8DhgivI9pl6XR" class="thumbnail" onclick="changeImage(this)">
-                <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQOnm3_e-DjV5JimALIO4TNJYXo6RssBwF3N0IK953VkjC5Ht1h" class="thumbnail" onclick="changeImage(this)">
+                <img src="https://img06.weeecdn.com/product/image/619/255/32A00BE918E9A1E2.png" class="thumbnail active" onclick="changeImage(this)">
+                <img src="https://media.starrymart.co.uk/media/catalog/product/cache/342235ea97ac9c8ccfddce16761154bf/8/8/8801073115514-a.jpg" class="thumbnail" onclick="changeImage(this)">
+                <img src="https://1212928256.rsc.cdn77.org/content/images/thumbs/000/0009492_samyang-carbo-buldak-bag_480.png" class="thumbnail" onclick="changeImage(this)">
             </div>
         </div>
 
