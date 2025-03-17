@@ -3,26 +3,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search");
     const priceRange = document.getElementById("priceRange");
     const priceValue = document.getElementById("priceValue");
-    const products = document.querySelectorAll(".product");
-
+    const products = document.querySelectorAll(".Product");
+    const productCountElement = document.getElementById("productCount");
+    
     function filterProducts() {
         const searchText = searchInput.value.toLowerCase();
         const selectedPrice = parseFloat(priceRange.value);
-        priceValue.textContent = selectedPrice; // Show selected price
+        priceValue.textContent = `$0.25 - $${selectedPrice}`; // Show selected price range
+
+        let visibleCount = 0;
 
         products.forEach((product) => {
-            const productName = product.querySelector(".product-title").textContent.toLowerCase();
+            const productName = product.querySelector(".text-muted").textContent.toLowerCase();
             const productPrice = parseFloat(
-                product.querySelector(".product-price").textContent.replace("$", "")
+                product.querySelector(".text-success").textContent.replace("$", "")
             );
 
-            // Show product only if it matches both filters
             if ((productName.includes(searchText) || searchText === "") && productPrice <= selectedPrice) {
                 product.style.display = "block";
+                visibleCount++;
             } else {
                 product.style.display = "none";
             }
         });
+
+        productCountElement.textContent = `Showing 1-${visibleCount}`;
     }
 
     // Search function on form submit
@@ -36,11 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Filter products by price
     priceRange.addEventListener("input", filterProducts);
-    //show
-    const productes = document.querySelectorAll(".product");
-    const productCountElement = document.getElementById("productCount");
-    const totalProducts = productes.length;
-    const startCount = totalProducts > 0 ? Math.min(totalProducts, 10) : 0;
-    productCountElement.textContent = `Show ${startCount}-10`;
-});
 
+    // Initialize product count display
+    filterProducts();
+});
