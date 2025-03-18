@@ -273,7 +273,7 @@
                                 <p class="card-text">Hydrate your skin with this lightweight floral serum.</p>
                                 <div class="price mt-auto">Price: $50.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white" style="border-radius: 8px;"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white" style="border-radius: 8px;"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                                 <p class="card-text">Revitalize your skin with this amazing serum.</p>
                                 <div class="price mt-auto">Price: $40.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@
                                 <p class="card-text">Nourish your skin with this amazing product.</p>
                                 <div class="price mt-auto">Price: $45.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@
                                 <p class="card-text">Replenish your skin with this amazing serum.</p>
                                 <div class="price mt-auto">Price: $60.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@
                                 <p class="card-text">Moisturize your skin with this floral serum.</p>
                                 <div class="price mt-auto">Price: $55.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -418,7 +418,7 @@
                                 <p class="card-text">A refreshing serum for daily use.</p>
                                 <div class="price mt-auto">Price: $42.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -447,7 +447,7 @@
                                 <p class="card-text">Hydrate and nourish with this serum.</p>
                                 <div class="price">Price: $48.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -476,7 +476,7 @@
                                 <p class="card-text">A lightweight serum for all skin types.</p>
                                 <div class="price">Price: $52.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -505,20 +505,16 @@
                                 <p class="card-text">Glow up with this floral serum.</p>
                                 <div class="price">Price: $49.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-
-
- 
-
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -600,5 +596,71 @@
                 heartIcon.classList.remove('bi-heart-fill');
                 heartIcon.classList.add('bi-heart');
             }
+        }
+
+        // add cart
+        let cart = [];
+
+        function addToCart(productId) {
+            // Find the product by ID (you might need to fetch this from a database or an array)
+            const product = getProductById(productId);
+
+            // Check if the product is already in the cart
+            const existingProduct = cart.find(item => item.id === productId);
+
+            if (existingProduct) {
+                // If the product is already in the cart, increase the quantity
+                existingProduct.quantity += 1;
+            } else {
+                // If the product is not in the cart, add it with a quantity of 1
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            // Update the cart count in the navbar
+            updateCartCount();
+
+            // Update the cart dropdown
+            updateCartDropdown();
+        }
+
+        function getProductById(productId) {
+            // This function should return the product details based on the productId
+            // For now, we'll just return a dummy product
+            const products = [
+                { id: 1, name: 'Buldak hot', price: 50.99 },
+                { id: 2, name: 'Good Noodle', price: 40.99 },
+                // Add other products here
+            ];
+
+            return products.find(product => product.id === productId);
+        }
+
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        function updateCartDropdown() {
+            const cartDropdown = document.getElementById('cartDropdown');
+            const cartItems = cartDropdown.querySelector('.cart-items');
+
+            // Clear the current cart items
+            cartItems.innerHTML = '';
+
+            // Add each item in the cart to the dropdown
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <span>${item.name}</span>
+                    <span>${item.quantity} x $${item.price.toFixed(2)}</span>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+        }
+
+        function toggleCart() {
+            const cartDropdown = document.getElementById('cartDropdown');
+            cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
         }
     </script>

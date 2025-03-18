@@ -34,21 +34,20 @@
                 <a class="nav-link lang text-nowrap" data-en="Login" data-km="ចូល" href="/F_login">Login</a>
                 <!-- Cart Icon (Click to Toggle Dropdown) -->
                 <div class="cart-container">
-                    <div class="icon-cart" onclick="toggleCart()">
-                        <!-- Bootstrap Cart Icon -->
-                        <i class="bi bi-cart"></i>
-                        <span id="cart-count">2</span> <!-- Cart count badge -->
-                    </div>
+    <div class="icon-cart" onclick="toggleCart()">
+        <i class="bi bi-cart"></i>
+        <span id="cart-count">0</span> <!-- Cart count badge -->
+    </div>
 
-                    <!-- Cart Dropdown -->
-                    <div class="cart-dropdown" id="cartDropdown">
-                        <h4>Cart</h4>
-                        <div class="cart-items">
-                            <!-- Sample Cart Item -->
-                        </div>
-                        <button class="checkout-btn">Checkout</button>
-                    </div>
-                </div>
+    <!-- Cart Dropdown -->
+    <div class="cart-dropdown" id="cartDropdown">
+        <h4>Cart</h4>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <button class="checkout-btn">Checkout</button>
+    </div>
+</div>
 
 
 
