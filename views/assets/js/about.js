@@ -112,3 +112,91 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+function viewDetails(productId) {
+    console.log(`/product_detail?productId=${productId}`);
+    window.location.href = `/product_detail?productId=${productId}`;
+}
+
+// rate filter 
+document.getElementById("priceRange").addEventListener("input", function() {
+    let selectedPrice = parseInt(this.value);
+    document.getElementById("priceValue").innerText = `$1 - $${selectedPrice}`;
+
+    document.querySelectorAll(".col-md-4").forEach(product => {
+        let priceText = product.querySelector(".price").innerText;
+        let productPrice = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+
+        if (productPrice <= selectedPrice) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+});
+
+
+// Search Functionality (by Product Name Only)
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('search');
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    filterProducts();
+});
+
+searchInput.addEventListener('input', filterProducts);
+
+function filterProducts() {
+    const searchQuery = searchInput.value.toLowerCase();
+    const products = document.querySelectorAll('#productList > div');
+
+    products.forEach(product => {
+        const title = product.querySelector('.card-title').textContent.toLowerCase();
+
+        // Check if the title includes the search query
+        const matchesSearch = title.includes(searchQuery);
+
+        if (matchesSearch) {
+            product.style.display = 'block'; // Show the product
+        } else {
+            product.style.display = 'none'; // Hide the product
+        }
+    });
+}
+
+
+
+// Rating Functionality
+function setRating(productId, rating) {
+    const stars = document.querySelectorAll(`[data-product-id="${productId}"] .star`);
+    stars.forEach(star => {
+        const starValue = parseInt(star.getAttribute('data-star'));
+        if (starValue <= rating) {
+            star.classList.add('filled');
+        } else {
+            star.classList.remove('filled');
+        }
+    });
+    const ratingValueElement = document.querySelector(`[data-rating-id="${productId}"]`);
+    ratingValueElement.textContent = `(${rating})`;
+}
+
+// Favorite Toggle
+function toggleFavorite(productId) {
+    const heartIcon = document.querySelector(`[data-heart-id="${productId}"]`);
+    if (heartIcon.classList.contains('bi-heart')) {
+        heartIcon.classList.remove('bi-heart');
+        heartIcon.classList.add('bi-heart-fill');
+    } else {
+        heartIcon.classList.remove('bi-heart-fill');
+        heartIcon.classList.add('bi-heart');
+    }
+}
+
+
+
+
+
+
