@@ -114,43 +114,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function setRating(cardId, rating) {
-    // Reset all stars for the specific card
-    for (let i = 1; i <= 5; i++) {
-        document.getElementById(`star${cardId}_${i}`).style.color = ''; // Remove yellow color
-    }
 
-    // Apply yellow color for selected stars
-    for (let i = 1; i <= rating; i++) {
-        document.getElementById(`star${cardId}_${i}`).style.color = 'yellow';
-    }
 
-    // Update the rating display for the specific card
-    document.getElementById(`rating${cardId}`).textContent = `(${rating})`;
+function filterProducts() {
+    const searchText = searchInput.value.toLowerCase();
+    const selectedPrice = parseFloat(priceRange.value);
+    priceValue.textContent = selectedPrice; // Show selected price
+
+    products.forEach((product) => {
+        const productName = product.querySelector(".product-title").textContent.toLowerCase();
+        const productPrice = parseFloat(
+            product.querySelector(".product-price").textContent.replace("$", "")
+        );
+
+        // Show product only if it matches both filters
+        if ((productName.includes(searchText) || searchText === "") && productPrice <= selectedPrice) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
 }
 
-function toggleFavorite(cardNumber) {
-    const heartIcon = document.getElementById(`heart${cardNumber}`);
-    if (heartIcon.classList.contains('bi-heart')) {
-        heartIcon.classList.remove('bi-heart');
-        heartIcon.classList.add('bi-heart-fill');
-        heartIcon.style.color = "purple"; // Change color to purple when filled
-    } else {
-        heartIcon.classList.remove('bi-heart-fill');
-        heartIcon.classList.add('bi-heart');
-        heartIcon.style.color = "black"; // Reset color to black when empty
-    }
-}
+// Search function on form submit
+searchForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent page reload
+    filterProducts();
+});
 
-// Redirect to cart page with product ID
-function addToCart(cardId) {
-    window.location.href = `cart.html?productId=${cardId}`;
-}
+// Live search as the user types
+searchInput.addEventListener("input", filterProducts);
 
-// Redirect to checkout page with product ID
-function buyNow(cardId) {
-    window.location.href = `checkout.html?productId=${cardId}`;
-}
+// Filter products by price
+priceRange.addEventListener("input", filterProducts);
+//show
+const productes = document.querySelectorAll(".product");
+const productCountElement = document.getElementById("productCount");
+const totalProducts = productes.length;
+const startCount = totalProducts > 0 ? Math.min(totalProducts, 10) : 0;
+productCountElement.textContent = `Show ${startCount}-10`;
 
 
 
