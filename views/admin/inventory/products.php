@@ -39,6 +39,7 @@ if (session_status() == PHP_SESSION_NONE) {
                         <div class="price-rating">
                             <p class="product-price mb-1"><?=$product['price'] ?>$</p>
                             <div class="rating">★☆☆☆☆</div>
+                            <a href="/checkout?product_id=<?= $product['id'] ?>" class="btn btn-success btn-sm mt-2">Buy Now</a>
                         </div>
                         <div class="buttons">
                             <a href="/products/edit/<?= $product['id']?>"><i class="material-icons">edit</i></a>
