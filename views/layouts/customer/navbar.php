@@ -139,5 +139,24 @@
         </div>                        
     </div>
 </nav>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let currentLang = "en"; // Default language is English
 
+    document.getElementById("langToggle").addEventListener("click", function () {
+        currentLang = currentLang === "en" ? "km" : "en"; // Toggle language
 
+        // Update all text elements based on selected language
+        document.querySelectorAll(".lang").forEach(el => {
+            let newText = el.getAttribute(`data-${currentLang}`);
+            if (newText) {
+                el.textContent = newText;
+            }
+        });
+
+        // Update language button text
+        this.textContent = currentLang === "en" ? "ភាសាខ្មែរ" : "English";
+    });
+});
+
+</script>

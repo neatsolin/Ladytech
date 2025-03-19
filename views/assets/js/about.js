@@ -1,174 +1,4 @@
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Add hover effects for stats
-    const stats = document.querySelectorAll('.stat');
-    stats.forEach(stat => {
-        stat.addEventListener('mouseenter', () => {
-            stat.classList.add('hovered');
-            stat.querySelector('h3').classList.add('text-warning');
-            stat.querySelector('h6').classList.add('text-success');
-            const img = stat.querySelector('.icon-overlay img');
-            if (img) {
-                img.style.transform = 'scale(1.2) rotate(10deg)';
-            }
-        });
-        stat.addEventListener('mouseleave', () => {
-            stat.classList.remove('hovered');
-            stat.querySelector('h3').classList.remove('text-warning');
-            stat.querySelector('h6').classList.remove('text-success');
-            const img = stat.querySelector('.icon-overlay img');
-            if (img) {
-                img.style.transform = 'scale(1) rotate(0deg)';
-            }
-        });
-    });
-  
-    // Count Up Animation
-    function animateCountUp(element, start, end, duration) {
-        let startTime = null;
-        function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            let progress = timestamp - startTime;
-            let current = Math.min(start + (progress / duration) * (end - start), end);
-            element.innerText = `${Math.floor(current)}+`; 
-            if (current < end) {
-                requestAnimationFrame(step);
-            }
-        }
-        requestAnimationFrame(step);
-    }
-
-    function startAnimation() {
-        const stats = [
-            { element: document.querySelector("#owned-products"), value: 5000 },
-            { element: document.querySelector("#curated-products"), value: 800 },
-            { element: document.querySelector("#product-categories"), value: 20 }
-        ];
-
-        stats.forEach(stat => {
-            animateCountUp(stat.element, 0, stat.value, 2000);
-        });
-    }
-
-    // Run animation based on screen size
-    function checkScreenSize() {
-        const screenWidth = window.innerWidth;
-        if (screenWidth <= 768) {
-            startAnimation();
-        } else {
-            const statsSection = document.querySelector(".stats");
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    startAnimation();
-                    observer.disconnect();
-                }
-            }, { threshold: 0.5 });
-            observer.observe(statsSection);
-        }
-    }
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize); // Check on resize
-});
-
-// Image Swap for profileImg
-document.addEventListener("DOMContentLoaded", function () {
-    const images = [
-        "views/assets/about-images/shoppingcard1.png",
-        "views/assets/about-images/shoping.png",
-        "views/assets/about-images/shoppingcard2.png"
-    ];
-    let index = 0;
-    const profileImg = document.getElementById("profileImg");
-
-    function swapImage() {
-        index = (index + 1) % images.length;
-        profileImg.src = images[index];
-    }
-
-    setInterval(swapImage, 2000); // Change image every 2 seconds
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const cardLinks = document.querySelectorAll('.shop-card-link');
-    const viewMoreBtn = document.querySelector('.view-more-btn');
-
-    // Navigation for each card
-    cardLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = link.querySelector('.card-title').textContent.toLowerCase().replace(/\s+/g, '-');
-            window.location.href = `${category}.html`; // Example: "beverages.html"
-            console.log(`Navigating to ${category}.html`);
-        });
-    });
-
-    // Navigation for "View More" button
-    if (viewMoreBtn) {
-        viewMoreBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'all-categories.html'; // Replace with your all-categories page
-            console.log('Navigating to all-categories.html');
-        });
-    }
-});
-
-
-
-function viewDetails(productId) {
-    console.log(`/product_detail?productId=${productId}`);
-    window.location.href = `/product_detail?productId=${productId}`;
-}
-
-// rate filter 
-document.getElementById("priceRange").addEventListener("input", function() {
-    let selectedPrice = parseInt(this.value);
-    document.getElementById("priceValue").innerText = `$1 - $${selectedPrice}`;
-
-    document.querySelectorAll(".col-md-4").forEach(product => {
-        let priceText = product.querySelector(".price").innerText;
-        let productPrice = parseFloat(priceText.replace(/[^0-9.]/g, ""));
-
-        if (productPrice <= selectedPrice) {
-            product.style.display = "block";
-        } else {
-            product.style.display = "none";
-        }
-    });
-});
-
-
-// Search Functionality (by Product Name Only)
-const searchForm = document.getElementById('searchForm');
-const searchInput = document.getElementById('search');
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    filterProducts();
-});
-
-searchInput.addEventListener('input', filterProducts);
-
-function filterProducts() {
-    const searchQuery = searchInput.value.toLowerCase();
-    const products = document.querySelectorAll('#productList > div');
-
-    products.forEach(product => {
-        const title = product.querySelector('.card-title').textContent.toLowerCase();
-
-        // Check if the title includes the search query
-        const matchesSearch = title.includes(searchQuery);
-
-        if (matchesSearch) {
-            product.style.display = 'block'; // Show the product
-        } else {
-            product.style.display = 'none'; // Hide the product
-        }
-    });
-}
-
-
-
-// Rating Functionality
+// -------------------- Rating Functionality -------------------->
 function setRating(productId, rating) {
     const stars = document.querySelectorAll(`[data-product-id="${productId}"] .star`);
     stars.forEach(star => {
@@ -195,8 +25,204 @@ function toggleFavorite(productId) {
     }
 }
 
+// ------------------------------- about-page count number ----------------------------->
+
+   
+        // Data for images and content
+        const data = [
+            {
+                image: "/views/assets/images/Snacks (7)/Buldak hot.png",
+                title: "We Are Your Favorite Store",
+                description: "Discover high-quality products at great prices, curated for your satisfaction.",
+                additionalInfo: "We prioritize trust, innovation, and community to deliver exceptional value."
+            },
+            {
+                image: "/views/assets/images/Feminine Hygiene (10)/Tessa.png",
+                title: "Our Mission",
+                description: "To provide exceptional products and a seamless shopping experience.",
+                additionalInfo: "We believe in quality, trust, and customer satisfaction."
+            },
+            {
+                image: "/views/assets/images/Snacks (7)/Good Noodle.png",
+                title: "Our Vision",
+                description: "To become the most trusted and beloved store worldwide.",
+                additionalInfo: "We strive to inspire and innovate for a better future."
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // Function to update the image and content
+        function updateContent() {
+            const profileImg = document.getElementById('profileImg');
+            const sectionTitle = document.getElementById('sectionTitle');
+            const sectionDescription = document.getElementById('sectionDescription');
+            const sectionAdditionalInfo = document.getElementById('sectionAdditionalInfo');
+
+            // Update image and content
+            profileImg.src = data[currentIndex].image;
+            sectionTitle.innerText = data[currentIndex].title;
+            sectionDescription.innerText = data[currentIndex].description;
+            sectionAdditionalInfo.innerText = data[currentIndex].additionalInfo;
+
+            // Increment index for next update
+            currentIndex = (currentIndex + 1) % data.length;
+        }
+
+        // Automatically update content every 5 seconds
+        setInterval(updateContent, 5000);
+
+        // Initialize with the first set of content
+        updateContent();
+        // 
+        function animateCountUp(element, start, end, duration) {
+    let startTime = null;
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = timestamp - startTime;
+        let increment = (progress / duration) * (end - start);
+        let current = Math.min(start + increment, end);
+        
+        element.innerText = `${Math.floor(current)}+`;
+
+        if (current < end) {
+            requestAnimationFrame(step);
+        } else {
+            element.innerText = `${end}+`; // Ensure final value is correct
+        }
+    }
+
+    requestAnimationFrame(step);
+}
+
+function startAnimation() {
+    const stats = [
+        { element: document.querySelector("#owned-products"), value: 5000 },
+        { element: document.querySelector("#curated-products"), value: 800 },
+        { element: document.querySelector("#product-categories"), value: 20 }
+    ];
+    
+    stats.forEach(stat => {
+        if (stat.element) {
+            animateCountUp(stat.element, 0, stat.value, 2000);
+        } else {
+            console.error("Element not found:", stat);
+        }
+    });
+}
+
+// Start animation when the page loads
+document.addEventListener("DOMContentLoaded", startAnimation);
+//------------------------- add to cart ---------------------------------------------------->
+let cart = [];
+
+function addToCart(productId) {
+    // Find the product card by productId
+    const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+    if (!productCard) return;
+
+    // Extract product details
+    const productName = productCard.querySelector('.card-title').textContent;
+    const productPrice = parseFloat(productCard.querySelector('.price').textContent.replace('Price: $', ''));
+    const productImage = productCard.querySelector('img').src; // Get the image URL
+
+    // Check if the product is already in the cart
+    const existingProduct = cart.find(item => item.id === productId);
+
+    if (existingProduct) {
+        // If the product is already in the cart, increase the quantity
+        existingProduct.quantity += 1;
+    } else {
+        // If the product is not in the cart, add it with a quantity of 1
+        cart.push({
+            id: productId,
+            name: productName,
+            price: productPrice,
+            image: productImage, // Include the image URL
+            quantity: 1,
+        });
+    }
+
+    // Update the cart count and dropdown
+    updateCartCount();
+    updateCartDropdown();
+}
+
+function removeFromCart(productId) {
+    // Remove the product from the cart
+    cart = cart.filter(item => item.id !== productId);
+
+    // Update the cart count and dropdown
+    updateCartCount();
+    updateCartDropdown();
+}
+
+function updateCartCount() {
+    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    document.getElementById('cart-count').textContent = cartCount;
+}
+
+function updateCartDropdown() {
+    const cartDropdown = document.getElementById('cartDropdown');
+    const cartItems = cartDropdown.querySelector('.cart-items');
+
+    // Clear the current cart items
+    cartItems.innerHTML = '';
+
+    // Add each item in the cart to the dropdown
+    cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+                <span class="cart-item-name">${item.name}</span>
+                <span class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</span>
+                <span class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</span>
+            </div>
+            <span class="delete-icon" onclick="removeFromCart(${item.id})">
+                <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+            </span>
+        `;
+        cartItems.appendChild(cartItem);
+    });
+
+    // If the cart is empty, display a message
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Your cart is empty.</p>';
+    }
+}
+
+function toggleCart() {
+    const cartDropdown = document.getElementById('cartDropdown');
+    cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+}
+// <--------------------- rate filter -------------------->
+// rate filter 
+document.getElementById("priceRange").addEventListener("input", function () {
+let selectedPrice = parseInt(this.value);
+document.getElementById("priceValue").innerText = `$1 - $${selectedPrice}`;
+
+document.querySelectorAll(".col-md-4").forEach(product => {
+    let priceText = product.querySelector(".price").innerText;
+    let productPrice = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+    
+    if (productPrice <= selectedPrice) {
+        product.style.display = "block";
+    } else {
+        product.style.display = "none";
+    }
+});
+});
 
 
 
 
 
+
+
+
+    
+
+    

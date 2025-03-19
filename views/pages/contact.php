@@ -1,131 +1,189 @@
-<!-- Contact Information -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4 fw-bold">Contact Us</h2>
-    <div class="row text-center">
-        <div class="col-md-4">
-            <div class="contact-box p-4 border rounded shadow-sm bg-light">
-                <i class="fas fa-phone fa-2x text-success mb-2"></i>
-                <h5 class="fw-semibold">Phone</h5>
-                <p class="text-muted">+855 96 523 5224<br>+855 97 132 3424</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="contact-box p-4 border rounded shadow-sm bg-light">
-                <i class="fas fa-envelope fa-2x text-success mb-2"></i>
-                <h5 class="fw-semibold">Email</h5>
-                <p class="text-muted">info@example.com<br>support@example.com</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="contact-box p-4 border rounded shadow-sm bg-light">
-                <i class="fas fa-map-marker-alt fa-2x text-success mb-2"></i>
-                <h5 class="fw-semibold">Address</h5>
-                <p class="text-muted">BP 511, Phum Tropeang Chhuk (Borey Sola) Sangkat 371</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Google Map -->
-<div class="container mt-5 text-center">
-    <h2 class="text-center fw-bold">Find Us</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243.63770797753838!2d104.88402835838781!3d11.551280667959297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742110847887!5m2!1sen!2skh" width="1100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
-<!-- Contact Form & FAQ -->
-<div class="container mt-5">
-    <div class="row">
-        <!-- FAQ Section -->
-        <div class="col-md-6">
-            <h2 class="fw-bold">Have Any Questions?</h2>
-            <p class="text-muted">Find answers to commonly asked questions below.</p>
-            <div class="accordion" id="faqAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                            Consequat sed pharetra nec
-                        </button>
-                    </h2>
-                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            Penatibus feugiat sed cursus vestibulum
-                        </button>
-                    </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        Donec penatibus hendrerit
-                        </button>
-                    </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Contact Form -->
-        <div class="col-md-6">
-            <h2 class="fw-bold">Send Us a Message</h2>
-            <form class="bg-light p-4 rounded shadow-sm">
-                <div class="mb-3">
-                    <label for="name" class="form-label fw-semibold">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" placeholder="Your name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="Your email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="message" rows="3" placeholder="Your message" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-success w-100 fw-bold">Submit</button>
-            </form>
-        </div>
-    </div>
-</div>
+<style>
+    /* General Styles */
+body {
+    background-color: #f5f7fa;
+    font-family: 'Poppins', sans-serif;
+}
 
 
-<!-- Features Section -->
- <hr>
-<div class="container mt-5 text-center">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="p-3">
-                <i class="fas fa-truck fa-2x text-danger mb-1"></i>
-                <h6 class="fw-semibold">Free Delivery</h6>
-                <p class="text-muted">Fast and secure shipping.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3">
-                <i class="fas fa-credit-card fa-2x text-danger mb-1"></i>
-                <h6 class="fw-semibold">Easy Payment</h6>
-                <p class="text-muted">Secure and flexible payments.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3">
-                <i class="fas fa-shipping-fast fa-2x text-danger mb-1"></i>
-                <h6 class="fw-semibold">Track Order</h6>
-                <p class="text-muted">Real-time tracking updates.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="p-3">
-                <i class="fas fa-question-circle fa-2x text-danger mb-1"></i>
-                <h6 class="fw-semibold">Support</h6>
-                <p class="text-muted">24/7 customer assistance.</p>
-            </div>
-        </div>
+
+/* Contact Hero */
+.contact-hero {
+    background-color: #e6f0fa;
+    position: relative;
+    overflow: hidden;
+    height: 50vh;
+}
+
+.contact-hero::before,
+.contact-hero::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    width: 100px;
+    height: 40px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10 10 20 20 10 30" /><polyline points="30 10 40 20 30 30" /><polyline points="50 10 60 20 50 30" /><polyline points="70 10 80 20 70 30" /><polyline points="90 10 100 20 90 30" /></svg>') no-repeat center;
+    background-size: 100px 40px;
+    color: #2a5d67;
+    opacity: 0.3;
+}
+
+.contact-hero::before {
+    left: 20px;
+    transform: rotate(180deg);
+}
+
+.contact-hero::after {
+    right: 20px;
+}
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Contact Form and Newsletter */
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #d3e3f5;
+    padding: 12px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #2a5d67;
+    box-shadow: 0 0 5px rgba(42, 93, 103, 0.2);
+}
+
+.bg-primary {
+    background-color: #2a5d67 !important;
+}
+
+.btn-primary {
+    background-color: #2a5d67;
+    border-color: #2a5d67;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1e4a52;
+    border-color: #1e4a52;
+}
+
+.btn-light {
+    color: #2a5d67;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #e6f0fa;
+    color: #1e4a52;
+}
+
+/* Contact Info */
+.card i {
+    color: #2a5d67;
+}
+
+.card h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.card p {
+    font-size: 1rem;
+}
+
+
+</style>
+<!-- Contact Section -->
+<section class="contact-hero text-center py-5">
+    <div class="container position-relative">
+        <h1 class="contact-title">Contact Us</h1>
+        <p class="text-muted mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus.</p>
     </div>
-</div>
-<hr>
+</section>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <div class="row g-4">
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="card shadow p-4">
+                    <form>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" placeholder="Message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit Button</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-lg-4">
+                <div class="card shadow p-4 bg-primary text-white">
+                    <h3>Our Newsletters</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus.</p>
+                    <form>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <button type="submit" class="btn btn-light w-100">Submit Button</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="row g-4 mt-4">
+            <div class="col-md-4">
+                <div class="card shadow p-4 text-center">
+                    <i class="fas fa-phone-alt fa-2x mb-3 text-primary"></i>
+                    <h4>Phone</h4>
+                    <p class="text-muted">(+876) 765 8655</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow p-4 text-center">
+                    <i class="fas fa-envelope fa-2x mb-3 text-primary"></i>
+                    <h4>Email</h4>
+                    <p class="text-muted">mail@influenca.id</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow p-4 text-center">
+                    <i class="fas fa-map-marker-alt fa-2x mb-3 text-primary"></i>
+                    <h4>Location</h4>
+                    <p class="text-muted">London Eye, London</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="mt-4">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d177.90098256678544!2d104.8839998305882!3d11.551413456930975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742386469702!5m2!1sen!2skh" width="1100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </main>
+
+    
