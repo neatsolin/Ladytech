@@ -20,29 +20,32 @@ endif;
         font-family: 'Arial', sans-serif;
     }
 
-   .category-list {
-    background-color: rgb(241, 241, 246);
-    border-radius: 15px;
-    padding: 20px;
-}
+    .category-list {
+        background-color: rgb(241, 241, 246);
+        border-radius: 15px;
+        padding: 20px;
+    }
 
-.category-card {
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    min-width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-}
+    .category-card {
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        box-sizing: border-box;
+        border-radius: 8px;
+    }
+    
+    .category-card img {
+        height: 100px;
+    }
 
-.category-card:hover {
-    background-color: #d0d0e8;
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
+    .category-card:hover {
+        background-color: #d0d0e8;
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-.category-card.active {
-    background-color: #fff;
-    transform: translateY(-2px);
-}
+    .category-card.active {
+        background-color: #fff;
+        transform: translateY(-2px);
+    }
 
     /* NFT Card Styling */
     .nft-card {
@@ -50,12 +53,11 @@ endif;
         border-radius: 15px;
         overflow: hidden;
         background: linear-gradient(135deg, rgb(227, 233, 244), rgb(196, 212, 240));
-        transition: all 0.3s ease;
+        transition: all 0.3s ease; /* Handles hover and click transitions */
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        height: auto;
-        max-width: 300px;
+        height: 350px;
         margin: 0 auto;
-
+        position: relative; /* Ensure it stays in its original position */
     }
 
     .nft-card:hover {
@@ -63,12 +65,21 @@ endif;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     }
 
+    /* New class for click animation */
+    .nft-card-jump {
+        transform: scale(1.1); /* Slightly larger than hover scale */
+        transition: transform 0.2s ease; /* Quick animation for the jump */
+    }
+
     .carousel-inner img {
-        margin-left: 40px;
-        height: 200px;
+        height: 240px;
+        width: auto;
         object-fit: cover;
         border-radius: 15px 15px 0 0;
         transition: opacity 0.5s;
+        margin-left: 0;
+        margin: 0 auto;
+        display: block;
     }
 
     .carousel-item {
@@ -81,7 +92,6 @@ endif;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        /* background:linear-gradient(rgb(233, 235, 239),rgb(238, 254, 254)) ; */
         background-color: rgba(149, 141, 141, 0.3);
         color: #fff;
         padding: 5px 10px;
@@ -102,17 +112,13 @@ endif;
     .card-body {
         padding: 15px;
         color: #000;
-        /* Changed from #fff to #000 for readability on white background */
         background: white;
-        /* Changed from rgba(0, 0, 0, 0.2) to white */
         backdrop-filter: none;
-        /* Removed blur effect since it's not needed on a solid background */
         position: relative;
     }
 
     .row.mb-5 {
-        margin-bottom: 5rem !important;
-        /* បង្កើនគម្លាតខាងក្រោម */
+        margin-bottom: 3rem !important; /* Fixed typo from "rem" to "3rem" */
     }
 
     .card-body h5 {
@@ -120,13 +126,11 @@ endif;
         font-weight: 700;
         margin-bottom: 5px;
         color: green;
-        /* Kept as green */
     }
 
     .card-body p {
         font-size: 0.8rem;
         color: #b0b0b0;
-        /* Kept as is */
         margin-bottom: 10px;
     }
 
@@ -136,7 +140,6 @@ endif;
         right: 10px;
         padding: 0;
         color: #000;
-        /* Changed from #fff to #000 */
         font-size: 1.2rem;
     }
 
@@ -145,11 +148,9 @@ endif;
             margin-bottom: 20px;
             max-width: 100%;
         }
-
         .carousel-inner img {
-            height: 180px;
+            height: 120px;
         }
-
         .carousel-item .card-title-overlay {
             font-size: 0.8rem;
             padding: 4px 8px;
@@ -158,8 +159,7 @@ endif;
 
     /* Rest of the original styles */
     .banner {
-        height: 300px;
-        background: url('views/assets/about-images/shoping.png') no-repeat center/cover;
+        background: url('views/assets/about-images/background.png') no-repeat center/cover;
     }
 
     .banner-overlay {
@@ -210,7 +210,7 @@ endif;
     </div>
 
     <!-- Main Content -->
-    <div class="container mt-4" style="margin-bottom: 7rem !important" ;>
+    <div class="container mt-4" style="margin-bottom: 10rem !important" ;>
         <!-- Banner (unchanged) -->
         <div class="banner position-relative rounded-3 overflow-hidden text-center">
             <div class="position-absolute top-0 start-0 w-100 h-100 banner-overlay rounded-3"></div>
@@ -230,66 +230,68 @@ endif;
                     <div class="category-list" style="padding: 20px; border-radius: 15px;">
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(1)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Bestsellers</span>
+                                <span>Drinking Water</span>
                                 <i class="bi bi-fire"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark active" onclick="setActiveCategory(2)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>New Arrivals</span>
+                                <span>
+                                Beverages </span>
                                 <i class="bi bi-star"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(3)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Tops</span>
-                                <i class="bi bi-shirt"></i>
+                                <span>Tissue</span>
+                                <i class="bi bi-star"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(4)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Pants & Tights</span>
-                                <i class="bi bi-slash"></i>
+                                <span>Snacks</span>
+                                <i class="bi bi-star"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(5)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>ไวน์ (Wine)</span>
-                                <i class="bi bi-wine-glass"></i>
+                                <span>Cooking ingredients</span>
+                                <i class="bi bi-star"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(6)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Accessories</span>
+                                <span>
+                                House Hold Hygiene</span>
                                 <i class="bi bi-bag"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(7)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Shoes</span>
-                                <i class="bi bi-shoe"></i>
+                                <span>Oral Health</span>
+                                <i class="bi bi-cart3"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(8)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Jackets</span>
-                                <i class="bi bi-jacket"></i>
+                                <span>Feminine Hygiene</span>
+                                <i class="bi bi-cup-straw"></i>
                             </div>
                         </a>
                         <a href="#" class="card category-card mb-2 p-3 text-decoration-none text-dark" onclick="setActiveCategory(9)">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span>Special Offers</span>
+                                <span>Saop</span>
                                 <i class="bi bi-gift"></i>
                             </div>
                         </a>
                     </div>
-                    <a href="#" class="text-muted text-decoration-none d-block mt-2">View More</a>
+                    <!-- <a href="#" class="text-muted text-decoration-none d-block mt-2">View More</a> -->
                 </div>
             </div>
 
             <!-- Product Grid -->
             <div class="col-md-9" style="padding: 20px;">
-                <h4 class="mb-3" id="category-title">New Arrivals</h4>
+                <h4 class="mb-3" id="category-title"></h4>
                 <!-- Filter Section (unchanged) -->
                 <div class="filter d-flex align-items-center justify-content-between mb-4 p-3 rounded-3 bg-white shadow-sm flex-wrap" style="border-radius: 10px;">
                     <select class="border-0 bg-transparent text-muted me-2">
@@ -771,7 +773,6 @@ endif;
                 new bootstrap.Modal(document.getElementById('cardModal')).show();
             }
 
-            // Save/Add the card
             function saveCard() {
                 const title = document.getElementById('cardTitle').value;
                 const image1 = document.getElementById('cardImage1').value;
@@ -792,44 +793,44 @@ endif;
                 } else {
                     const newId = Date.now();
                     const newCard = `
-                    <div class="col-md-3 mb-4">
-                        <div class="card nft-card" data-id="${newId}-${categoryId}">
-                            <div id="carousel${newId}-${categoryId}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="${image1}" class="d-block" alt="New Product">
-                                        <div class="card-title-overlay">${title} - Image 1</div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="${image2}" class="d-block" alt="New Product">
-                                        <div class="card-title-overlay">${title} - Image 2</div>
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel${newId}-${categoryId}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel${newId}-${categoryId}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
+            <div class="col-md-4 mb-4"> <!-- Changed from col-md-3 to col-md-4 -->
+                <div class="card nft-card" data-id="${newId}-${categoryId}">
+                    <div id="carousel${newId}-${categoryId}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="${image1}" class="d-block" alt="New Product">
+                                <div class="card-title-overlay">${title} - Image 1</div>
                             </div>
-                            <div class="card-body text-center">
-                                <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" onclick="editCard('${newId}-${categoryId}')">Edit</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="deleteCard('${newId}-${categoryId}')">Delete</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="addCard(${categoryId})">Add</a></li>
-                                </ul>
-                                <h5 class="fw-bold">${title}</h5>
-                                <p class="text-muted">${creator}</p>
-                                <span class="badge bg-primary">${price} ETH</span>
+                            <div class="carousel-item">
+                                <img src="${image2}" class="d-block" alt="New Product">
+                                <div class="card-title-overlay">${title} - Image 2</div>
                             </div>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel${newId}-${categoryId}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel${newId}-${categoryId}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                `;
+                    <div class="card-body text-center">
+                        <button class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="editCard('${newId}-${categoryId}')">Edit</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="deleteCard('${newId}-${categoryId}')">Delete</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="addCard(${categoryId})">Add</a></li>
+                        </ul>
+                        <h5 class="fw-bold">${title}</h5>
+                        <p class="text-muted">${creator}</p>
+                        <span class="badge bg-primary">${price} ETH</span>
+                    </div>
+                </div>
+            </div>
+        `;
                     document.getElementById('product-grid').insertAdjacentHTML('beforeend', newCard);
                     productsByCategory[categoryId].push({
                         id: newId,
