@@ -10,7 +10,7 @@
 
         // show login form
         public function login(){
-            $this->view('admin/inventory/login');
+            require_once __DIR__ . '/../../../views/admin/inventory/login.php';
         }
 
         // user authebicate
@@ -28,9 +28,17 @@
                 $_SESSION['user_profile'] = $user['profile'];
                 $this->redirect("/users");
             }else {
-                $this->view("admin/inventory/login", ['error' => 'Invalid email or password']);
+                $error = 'Invalid email or password';
+                require_once __DIR__ . '/../../../views/admin/inventory/login.php';
             }
         }
+
+        public function logout() {
+            session_start();
+            session_destroy(); // Destroy the session
+            $this->redirect("/login"); // Redirect to login page
+        }
+        
     }
 ?>
 
