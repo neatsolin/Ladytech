@@ -6,48 +6,55 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <h1>Welcome to User Management</h1>
+    <h1 class="text-center mb-4">Welcome to User Management</h1>
 
     <div class="container mt-5">
-        <table class="table table-bordered table-striped">
-            <thead>
+        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
+            <thead class="table-dark">
                 <tr>
-                    <th scope="col">Select</th>
+                    <th scope="col" style="border-top-left-radius: 10px;">Select</th>
                     <th scope="col">Profile</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Role</th>
-                    <th style="text-align:center" scope="col">Actions</th> <!-- Added column for actions -->
+                    <th style="text-align:center; border-top-right-radius: 10px;" scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                    <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="selectedRow" id="row<?= htmlspecialchars($user['id']) ?>">
-                            </td>
-                            <td>
-                                <img src="<?= $user['profile'] ?>" 
-                                    alt="Profile Image" 
-                                    width="50" height="50" 
-                                    class="rounded-circle">
-                            </td>
-                            <td><?= htmlspecialchars($user['username']) ?></td>
-                            <td><?= htmlspecialchars($user['email']) ?></td>
-                            <td><?= htmlspecialchars($user['phone']) ?></td>
-                            <td><?= htmlspecialchars($user['role']) ?></td>
-                            <td style="text-align: center; vertical-align: middle;" >
-                                <!-- Edit and Delete buttons for each user -->
-                                <a href="/users/edit/<?= $user['id'] ?>"><i class="material-icons">edit</i></a>
-                                <a href="#" class="material-icons text-danger delete-user"
-                                    data-id="<?= $user['id'] ?>">
-                                    
-                                    <i class="material-icons">delete</i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td class="text-center">
+                            <input type="checkbox" name="selectedRow" id="row<?= htmlspecialchars($user['id']) ?>" >
+                        </td>
+                        <td class="text-center">
+                            <img src="<?= $user['profile'] ?>" alt="Profile Image" width="50" height="50" class="rounded-circle">
+                        </td>
+                        <td><?= htmlspecialchars($user['username']) ?></td>
+                        <td><?= htmlspecialchars($user['email']) ?></td>
+                        <td><?= htmlspecialchars($user['phone']) ?></td>
+                        <td>
+                            <span class="badge text-white px-3 py-1" style="border-radius: 20px; font-size: 12px; background-color: 
+                                <?php echo ($user['role'] == 'Admin') ? '#dc3545' : 
+                                (($user['role'] == 'User') ? '#ffc107' : '#28a745'); ?>;">
+                                <?= htmlspecialchars($user['role']) ?>
+                            </span>
+                        </td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <div class="dropdown">
+                                <button class="btn btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: none;">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/users/edit/<?= $user['id'] ?>">
+                                        <i class="material-icons">edit</i> Edit</a></li>
+                                    <li><a class="dropdown-item text-danger delete-user" href="#" data-id="<?= $user['id'] ?>">
+                                        <i class="material-icons">delete</i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

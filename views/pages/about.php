@@ -168,7 +168,15 @@
             color: #dddd;
             transition: color 0.2s ease;
         }
-
+                .transition-card {
+                    transition: transform 0.3s ease, background 0.3s ease;
+                }
+            
+                .transition-card:hover {
+                    transform: translateY(-10px);
+                    background: #f8f9fa;
+                }
+            
         .rating .star.filled {
             color: rgb(255, 217, 0);
         }
@@ -287,14 +295,6 @@
                 margin: 0 auto;
             }
         }
-        .transition-card {
-        transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .transition-card:hover {
-        transform: translateY(-10px);
-        background: #f8f9fa;
-    }
     </style>
 
     <!-- Profile Section -->
