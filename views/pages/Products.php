@@ -273,7 +273,7 @@
                                 <p class="card-text">Hydrate your skin with this lightweight floral serum.</p>
                                 <div class="price mt-auto">Price: $50.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white" style="border-radius: 8px;"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(1)"><i class="bi bi-cart"></i> Add to Cart</button> 
                                     <button class="btn btn-green text-white" style="border-radius: 8px;"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                                 <p class="card-text">Revitalize your skin with this amazing serum.</p>
                                 <div class="price mt-auto">Price: $40.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(2)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@
                                 <p class="card-text">Nourish your skin with this amazing product.</p>
                                 <div class="price mt-auto">Price: $45.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(3)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@
                                 <p class="card-text">Replenish your skin with this amazing serum.</p>
                                 <div class="price mt-auto">Price: $60.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(4)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@
                                 <p class="card-text">Moisturize your skin with this floral serum.</p>
                                 <div class="price mt-auto">Price: $55.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(5)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -418,7 +418,7 @@
                                 <p class="card-text">A refreshing serum for daily use.</p>
                                 <div class="price mt-auto">Price: $42.99</div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(6)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -447,7 +447,7 @@
                                 <p class="card-text">Hydrate and nourish with this serum.</p>
                                 <div class="price">Price: $48.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(7)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -476,7 +476,7 @@
                                 <p class="card-text">A lightweight serum for all skin types.</p>
                                 <div class="price">Price: $52.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(8)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
@@ -505,100 +505,13 @@
                                 <p class="card-text">Glow up with this floral serum.</p>
                                 <div class="price">Price: $49.99</div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-purple text-white"><i class="bi bi-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-purple text-white" onclick="addToCart(9)"><i class="bi bi-cart"></i> Add to Cart</button>
                                     <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-
-
- 
-
-
-
-    <script>
-        function viewDetails(productId) {
-        console.log(`/product_detail?productId=${productId}`);
-        window.location.href = `/product_detail?productId=${productId}`;
-        }
-
-        // rate filter 
-       document.getElementById("priceRange").addEventListener("input", function () {
-        let selectedPrice = parseInt(this.value);
-        document.getElementById("priceValue").innerText = `$1 - $${selectedPrice}`;
-
-        document.querySelectorAll(".col-md-4").forEach(product => {
-            let priceText = product.querySelector(".price").innerText;
-            let productPrice = parseFloat(priceText.replace(/[^0-9.]/g, ""));
-            
-            if (productPrice <= selectedPrice) {
-                product.style.display = "block";
-            } else {
-                product.style.display = "none";
-            }
-        });
-    });
-    
-
-        // Search Functionality (by Product Name Only)
-        const searchForm = document.getElementById('searchForm');
-        const searchInput = document.getElementById('search');
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            filterProducts();
-        });
-
-        searchInput.addEventListener('input', filterProducts);
-
-        function filterProducts() {
-            const searchQuery = searchInput.value.toLowerCase();
-            const products = document.querySelectorAll('#productList > div');
-
-            products.forEach(product => {
-                const title = product.querySelector('.card-title').textContent.toLowerCase();
-
-                // Check if the title includes the search query
-                const matchesSearch = title.includes(searchQuery);
-
-                if (matchesSearch) {
-                    product.style.display = 'block';  // Show the product
-                } else {
-                    product.style.display = 'none';  // Hide the product
-                }
-            });
-        }
-
-
-
-        // Rating Functionality
-        function setRating(productId, rating) {
-            const stars = document.querySelectorAll(`[data-product-id="${productId}"] .star`);
-            stars.forEach(star => {
-                const starValue = parseInt(star.getAttribute('data-star'));
-                if (starValue <= rating) {
-                    star.classList.add('filled');
-                } else {
-                    star.classList.remove('filled');
-                }
-            });
-            const ratingValueElement = document.querySelector(`[data-rating-id="${productId}"]`);
-            ratingValueElement.textContent = `(${rating})`;
-        }
-
-        // Favorite Toggle
-        function toggleFavorite(productId) {
-            const heartIcon = document.querySelector(`[data-heart-id="${productId}"]`);
-            if (heartIcon.classList.contains('bi-heart')) {
-                heartIcon.classList.remove('bi-heart');
-                heartIcon.classList.add('bi-heart-fill');
-            } else {
-                heartIcon.classList.remove('bi-heart-fill');
-                heartIcon.classList.add('bi-heart');
-            }
-        }
-    </script>
+                </div>
+            </div>
+        </div>
+    </div>

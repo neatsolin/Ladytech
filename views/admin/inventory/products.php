@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
- if (isset($_SESSION['user_id'])) : ?>
+if (isset($_SESSION['user_id'])) : ?>
 <!-- Material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -19,43 +19,55 @@ if (session_status() == PHP_SESSION_NONE) {
         <button class="btn btn-outline-secondary">Filter</button>
     </div>
 
-    <!-- Product Grid -->
-     <div class="row g-4">
-        <!-- Product Card 1 -->
-        <?php foreach($products as $product):?>
-        <div class="col-md-4 d-flex">
-            <div class="product-card border rounded shadow-sm p-3 w-100">
-                <div class="product-image">
-                    <img src="<?=$product['imageURL'] ?>" alt="Rosy Lip" class="img-fluid" style="max-height: 150px;">
-                </div>
-
-                <div class="mt-3">
-                    <div class="product-details">
-                        <span class="product-title"><?=$product['productname'] ?></span>
-                        <span class="product-category"><?=$product['categories'] ?></span>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-2">
-                        <div class="price-rating">
-                            <p class="product-price mb-1"><?=$product['price'] ?>$</p>
-                            <div class="rating">★☆☆☆☆</div>
+    <!-- Product Table -->
+    <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock Quantity</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($products as $product): ?>
+                <tr>
+                    <td class="text-center">
+                        <img src="<?= htmlspecialchars($product['imageURL']) ?>" alt="<?= htmlspecialchars($product['productname']) ?>" width="50" height="50" class="rounded-circle">
+                    </td>
+                    <td><?= htmlspecialchars($product['productname']) ?></td>
+                    <td><?= htmlspecialchars($product['categories']) ?></td>
+                    <td><?= htmlspecialchars($product['price']) ?>$</td>
+                    <td><?= htmlspecialchars($product['stockquantity']) ?></td>
+                    <td><?= htmlspecialchars($product['descriptions']) ?></td>
+                    <td class="text-center">
+                        <!-- Dropdown for actions -->
+                        <div class="dropdown">
+                            <button class="btn border-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="material-icons">more_vert</i> <!-- Three dots -->
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
+                                    <i class="material-icons">edit</i> Edit</a></li>
+                                <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
+                                    <i class="material-icons">delete</i> Delete</a></li>
+                                <li><a class="dropdown-item" href="/checkout?product_id=<?= urlencode($product['id']) ?>">
+                                    <i class="material-icons">shopping_cart</i> Buy Now</a></li>
+                            </ul>
                         </div>
-                        <div class="buttons">
-                            <a href="/products/edit/<?= $product['id']?>"><i class="material-icons">edit</i></a>
-                            <a href="/products/delete/<?= $product['id']?>" class="material-icons text-danger delete-user">
-                                <i class="material-icons">delete</i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        <?php endforeach;?>
-    </div>   <!-- Repeat other product cards -->
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
+
 <?php 
 else: 
-    $this->redirect("/login"); 
-endif;   
+    header("Location: /login"); 
+    exit();
+endif; 
 ?>
