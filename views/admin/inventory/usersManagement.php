@@ -8,50 +8,53 @@ if (session_status() == PHP_SESSION_NONE) {
 
     <h1>Welcome to User Management</h1>
 
-    <div class="container mt-5">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Select</th>
-                    <th scope="col">Profile</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Role</th>
-                    <th style="text-align:center" scope="col">Actions</th> <!-- Added column for actions -->
-                </tr>
-            </thead>
-            <tbody>
-                    <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="selectedRow" id="row<?= htmlspecialchars($user['id']) ?>">
-                            </td>
-                            <td>
-                                <img src="<?= $user['profile'] ?>" 
-                                    alt="Profile Image" 
-                                    width="50" height="50" 
-                                    class="rounded-circle">
-                            </td>
-                            <td><?= htmlspecialchars($user['username']) ?></td>
-                            <td><?= htmlspecialchars($user['email']) ?></td>
-                            <td><?= htmlspecialchars($user['phone']) ?></td>
-                            <td><?= htmlspecialchars($user['role']) ?></td>
-                            <td style="text-align: center; vertical-align: middle;" >
-                                <!-- Edit and Delete buttons for each user -->
-                                <a href="/users/edit/<?= $user['id'] ?>"><i class="material-icons">edit</i></a>
-                                <a href="#" class="material-icons text-danger delete-user"
-                                    data-id="<?= $user['id'] ?>">
-                                    
-                                    <i class="material-icons">delete</i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
+<div class="container mt-5">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Select</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Role</th>
+                <th style="text-align:center" scope="col">Actions</th> <!-- Added column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selectedRow" id="row<?= htmlspecialchars($user['id']) ?>">
+                        </td>
+                        <td>
+                            <img src="<?= $user['profile'] ?>" 
+                                alt="Profile Image" 
+                                width="50" height="50" 
+                                class="rounded-circle">
+                        </td>
+                        <td><?= htmlspecialchars($user['username']) ?></td>
+                        <td><?= htmlspecialchars($user['email']) ?></td>
+                        <td><?= htmlspecialchars($user['phone']) ?></td>
+                        <td><?= htmlspecialchars($user['role']) ?></td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            <div class="dropdown">
+                                <button class="btn btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: none;">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/users/edit/<?= $user['id'] ?>">
+                                        <i class="material-icons">edit</i> Edit</a></li>
+                                    <li><a class="dropdown-item text-danger delete-user" href="#" data-id="<?= $user['id'] ?>">
+                                        <i class="material-icons">delete</i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
     <!-- Include SweetAlert Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
