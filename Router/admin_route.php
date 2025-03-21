@@ -122,6 +122,7 @@
 
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
+    $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
