@@ -11,7 +11,7 @@ class RegisterController extends BaseadminController {
 
     // Display the registration form
     public function register() {
-        $this->view('admin/inventory/register');
+        require_once __DIR__ . '/../../../views/admin/inventory/register.php';
     }
 
     public function store() {
