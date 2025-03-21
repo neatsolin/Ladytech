@@ -113,6 +113,22 @@
     </div>
 </div>
 
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Show error message if exists -->
+<?php if (isset($_SESSION['error'])): ?>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: "<?php echo $_SESSION['error']; ?>",
+            confirmButtonColor: "#6a9c5a"
+        });
+    </script>
+    <?php unset($_SESSION['error']); // Clear error after showing ?>
+<?php endif; ?> 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
