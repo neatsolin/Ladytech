@@ -20,7 +20,7 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 
     <!-- Product Table -->
-    <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
+    <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">
             <tr>
                 <th scope="col">Product Image</th>
@@ -44,18 +44,19 @@ if (isset($_SESSION['user_id'])) : ?>
                     <td><?= htmlspecialchars($product['stockquantity']) ?></td>
                     <td><?= htmlspecialchars($product['descriptions']) ?></td>
                     <td class="text-center">
-                        <!-- Dropdown for actions -->
+                            <!-- Dropdown for actions -->
                         <div class="dropdown">
-                            <button class="btn border-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="material-icons">more_vert</i> <!-- Three dots -->
+                            <button class="btn border-0" type="button" id="dropdownMenuButton<?= $product['id'] ?>" data-bs-toggle="dropdown" data-bs-popper="static" aria-expanded="false">
+                                <i class="material-icons">more_vert</i> <!-- Three-dot icon -->
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $product['id'] ?>">
                                 <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
                                     <i class="material-icons">edit</i> Edit</a></li>
                                 <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
                                     <i class="material-icons">delete</i> Delete</a></li>
                                 <li><a class="dropdown-item" href="/checkout?product_id=<?= urlencode($product['id']) ?>">
-                                    <i class="material-icons">shopping_cart</i> Buy Now</a></li>
+                                    <i class="material-icons">shopping_cart</i> Buy Now</a>
+                                </li>
                             </ul>
                         </div>
                     </td>

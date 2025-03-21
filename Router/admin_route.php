@@ -38,6 +38,7 @@
     $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
     $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
+    $route->get("/add-stock", [ProductController::class, 'addstock']);
 
 
     //stock management
