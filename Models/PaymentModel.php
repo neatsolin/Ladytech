@@ -27,7 +27,7 @@ class PaymentModel {
                     'location_id' => $locationId,
                     'totalprice' => $totalPrice,
                     'orderstatus' => $orderStatus,
-                    'payments' => $payments
+                    'payments' => $payments // Ensure this is passed correctly
                 ]
             );
             return $this->db->lastInsertId(); // Return the new order ID
@@ -80,20 +80,21 @@ class PaymentModel {
         }
     }
 
-    // Update order status
-    public function updateOrderStatus($orderId, $status) {
+    // Create a new transaction
+    public function createTransaction($orderId, $paymentMethod, $amount) {
         try {
             $this->db->query(
-                "UPDATE orders SET orderstatus = :status WHERE id = :order_id",
+                "INSERT INTO transactions (order_id, payment_method, amount) 
+                 VALUES (:order_id, :payment_method, :amount)",
                 [
-                    'status' => $status,
-                    'order_id' => $orderId
+                    'order_id' => $orderId,
+                    'payment_method' => $paymentMethod,
+                    'amount' => $amount
                 ]
             );
         } catch (PDOException $e) {
-            die("Error updating order status: " . $e->getMessage());
+            die("Error creating transaction: " . $e->getMessage());
         }
     }
-
 }
 ?>
