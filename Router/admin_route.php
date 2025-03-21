@@ -11,6 +11,7 @@
     require_once "Controllers/admin/inventory/LoginController.php";
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
+    require_once "Controllers/admin/inventory/PaymentController.php";
 
     //customer
     require_once "Controllers/admin/basecustomerController.php";
@@ -56,11 +57,18 @@
 
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
+    $route->get('/All_order', [OrderController::class, 'order_all']);
+    $route->get('/recent_order', [OrderController::class, 'recent_order']);
+    $route->get('/order_history', [OrderController::class, 'order_history']);
+    $route->get('/order_pending', [OrderController::class, 'order_pending']);
+    $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
     $route->get('/login', [LoginController::class, 'login']);
     $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/user-form', [UserFormController::class, 'userform']);
+    $route->get('/logout', [LoginController::class, 'logout']);
+
 
 
     //register management
@@ -105,6 +113,17 @@
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
+
+    // today
+    // Checkout
+    $route->get('/checkout', [PaymentController::class, 'checkout']);
+    $route->post('/checkout/process', [PaymentController::class, 'processCheckout']);
+
+    // Payment Confirmation
+    $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
+
+    // Order Success
+    $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
    
 
     $route->route();

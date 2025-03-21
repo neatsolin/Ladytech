@@ -51,11 +51,19 @@
             <span class="pc-mtext">User</span>
           </a>
         </li>
-        <li class="pc-item">
-          <a href="/orders" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
-            <span class="pc-mtext">Order</span>
-          </a>
+        <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+                <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
+                <span class="pc-mtext">Order</span>
+                <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu" id="order-submenu" style="display: none;">
+                <li class="pc-item"><a class="pc-link" href="/All_order">All Orders</a></li>
+                <li class="pc-item"><a class="pc-link" href="/recent_order">Recent Orders</a></li>
+                <li class="pc-item"><a class="pc-link" href="/order_history">Order History</a></li>
+                <li class="pc-item"><a class="pc-link" href="/order_pending">Pending Orders</a></li>
+                <li class="pc-item"><a class="pc-link" href="/old_order">Older Orders</a></li>
+            </ul>
         </li>
 
         <li class="pc-item pc-caption">
@@ -541,7 +549,7 @@
                                         <i class="ti ti-wallet"></i>
                                         <span>Billing</span>
                                     </a>
-                                    <a href="#!" class="dropdown-item">
+                                    <a href="/logout" class="dropdown-item">
                                         <i class="ti ti-power"></i>
                                         <span>Logout</span>
                                     </a>
