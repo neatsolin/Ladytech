@@ -28,6 +28,7 @@
     $route = new Router();
     //home admin
     $route->get('/admin', [HomeController::class, 'index']);
+    $route->get('/somepage', [HomeController::class, 'somepage']);
 
     //dashboard
     
