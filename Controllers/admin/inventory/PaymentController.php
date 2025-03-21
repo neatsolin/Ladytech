@@ -48,32 +48,37 @@ class PaymentController extends BaseadminController {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-
+    
             // Check if user is logged in
             if (!isset($_SESSION['user_id'])) {
                 die("User not logged in. Please log in to proceed.");
             }
-
+    
             $userId = $_SESSION['user_id'];
             $productId = $_POST['product_id'];
             $locationId = $_POST['location_id'];
             $totalPrice = $_POST['total_price'];
+            $currency = $_POST['currency']; // Get the selected currency
+            $quantity = $_POST['quantity'];
             $orderStatus = 'Pending';
-            $payments = 'USD';
-
+            $payments = $currency; // Set the payment currency
+    
+            // Save the selected currency in the session
+            $_SESSION['currency'] = $currency; // Add this line
+    
             // Save the order
             $orderId = $this->paymentModel->createOrder(
                 $userId,
                 $locationId,
                 $totalPrice,
                 $orderStatus,
-                $payments
+                $payments // Pass the selected currency
             );
-
+    
             if ($orderId) {
                 // Link the product to the order in orderitems
-                $this->paymentModel->addOrderItem($orderId, $productId, 1); // Quantity is 1 for now
-
+                $this->paymentModel->addOrderItem($orderId, $productId, $quantity);
+    
                 // Redirect to payment confirmation
                 $this->redirect("/payment-confirmation?order_id=$orderId");
             } else {
@@ -84,28 +89,75 @@ class PaymentController extends BaseadminController {
 
     // Display the payment confirmation page
     public function paymentConfirmation() {
-        $orderId = $_GET['order_id'] ?? null;
-        if ($orderId) {
-            $order = $this->paymentModel->getOrderById($orderId);
-            $this->view('admin/inventory/Payment/payment_confirmation', ['order' => $order]);
-        } 
-        else {
-            $this->redirect("/products");
+        // Ensure session is started
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
-    }
-
-    // Display the order success page
     
-    public function orderSuccess() {
+        // Retrieve the selected currency from the session
+        $currency = $_SESSION['currency'] ?? 'USD'; // Default to USD if not set
+    
         $orderId = $_GET['order_id'] ?? null;
         if ($orderId) {
             $order = $this->paymentModel->getOrderById($orderId);
-            $this->view('admin/inventory/Payment/order_success', ['order' => $order]);
+    
+            // Pass the currency to the view
+            $this->view('admin/inventory/Payment/payment_confirmation', [
+                'order' => $order,
+                'currency' => $currency // Add this line
+            ]);
         } else {
             $this->redirect("/products");
         }
     }
 
+    // Handle Confirm Payment action
+    public function confirmPayment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Ensure session is started
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            // Check if user is logged in
+            if (!isset($_SESSION['user_id'])) {
+                die("User not logged in. Please log in to proceed.");
+            }
+
+            $orderId = $_POST['order_id'];
+            $paymentMethod = $_POST['payment_method'];
+            $amount = $_POST['amount'];
+
+            // Insert transaction into the database
+            $this->paymentModel->createTransaction($orderId, $paymentMethod, $amount);
+
+            // Redirect to order success page
+            $this->redirect("/order-success?order_id=$orderId");
+        }
+    }
+
+    // Display the order success page
+    public function orderSuccess() {
+        // Ensure session is started
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
     
+        // Retrieve the selected currency from the session
+        $currency = $_SESSION['currency'] ?? 'USD'; // Default to USD if not set
+    
+        $orderId = $_GET['order_id'] ?? null;
+        if ($orderId) {
+            $order = $this->paymentModel->getOrderById($orderId);
+    
+            // Pass the currency to the view
+            $this->view('admin/inventory/Payment/order_success', [
+                'order' => $order,
+                'currency' => $currency // Add this line
+            ]);
+        } else {
+            $this->redirect("/products");
+        }
+    }
 }
 ?>
