@@ -30,13 +30,13 @@
         <li class="pc-item">
           <a href="/products" class="pc-link">
             <span class="pc-micon"><i class="ti ti-package"></i></span>
-            <span class="pc-mtext">Products</span>
+            <span class="pc-mtext">Product Management</span>
           </a>
         </li>
         <li class="pc-item">
           <a href="/stock" class="pc-link">
             <span class="pc-micon"><i class="ti ti-stack"></i></span>
-            <span class="pc-mtext">Stock</span>
+            <span class="pc-mtext">Stock Management</span>
           </a>
         </li>
         <li class="pc-item">
@@ -49,13 +49,13 @@
         <li class="pc-item">
           <a href="/users" class="pc-link">
             <span class="pc-micon"><i class="ti ti-user"></i></span>
-            <span class="pc-mtext">User</span>
+            <span class="pc-mtext">User Management</span>
           </a>
         </li>
         <li class="pc-item pc-hasmenu">
             <a href="#!" class="pc-link">
                 <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
-                <span class="pc-mtext">Order</span>
+                <span class="pc-mtext">Order Management</span>
                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
             </a>
             <ul class="pc-submenu" id="order-submenu" style="display: none;">
@@ -124,21 +124,12 @@
           </ul>
         </li>
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
+          <a href="/somepage" class="pc-link">
             <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
             <span class="pc-mtext">Sample page</span>
           </a>
         </li>
       </ul>
-      <div class="card text-center">
-        <div class="card-body">
-          <img src="../assets/images/img-navbar-card.png" alt="images" class="img-fluid mb-2">
-          <h5>Upgrade To Pro</h5>
-          <p>To get more features and components</p>
-          <a href="https://codedthemes.com/item/berry-bootstrap-5-admin-template/" target="_blank"
-          class="btn btn-success">Buy Now</a>
-        </div>
-      </div>
     </div>
   </div>
 </nav>
