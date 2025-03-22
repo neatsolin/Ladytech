@@ -461,31 +461,6 @@ if (isset($_SESSION['user_id'])) :
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="container">
-        <div class="card header-card">
-            <nav class="navbar navbar-expand-lg p-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">ANSWEAR</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <div class="d-flex align-items-center w-100">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-                            <input type="text" class="form-control search-bar" placeholder="Search for trendy, stylish, inspiration...">
-                            <div class="d-flex align-items-center icons ms-3">
-                                <a href="#" class="text-dark me-3"><i class="bi bi-heart"></i></a>
-                                <a href="#" class="text-dark position-relative">
-                                    <i class="bi bi-cart"></i>
-                                    <span class="badge bg-dark text-white rounded-circle p-1">2</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
 
         <!-- Main Content -->
         <!-- Banner -->
@@ -500,7 +475,7 @@ if (isset($_SESSION['user_id'])) :
 
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3">
+            <div class="col-md-3 ">
                 <div class="category-list">
                     <?php
                     $categories = [
@@ -525,7 +500,7 @@ if (isset($_SESSION['user_id'])) :
                         8 => 'bi-heart',
                         9 => 'bi-droplet-fill'
                     ];
-                    $selected_category = isset($_GET['category']) ? (int)$_GET['category'] : 2; // Default to Beverages
+                    $selected_category = isset($_GET['category']) ? (int)$_GET['category'] : 1; // Default to Beverages
 
                     foreach ($categories as $id => $name) : ?>
                         <form method="GET" action="" class="category-card d-block text-decoration-none text-dark <?php echo $selected_category === $id ? 'active' : ''; ?>">
@@ -636,12 +611,12 @@ if (isset($_SESSION['user_id'])) :
                                         </form>
                                         <form method="POST" action="/delete/<?php echo $product['id']; ?>">
                                             <button type="submit" class="delete-btn">
-                                                <i class="bi bi-trash"></i> Delete
+                                                <a href=""></a><i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
                                         <form method="GET" action="/add-stock-form/<?php echo $product['id']; ?>">
                                             <button type="submit" class="add-btn">
-                                                <i class="bi bi-plus-circle"></i> Add
+                                                <a href="/add-product"><i class="bi bi-plus-circle"></i> Add</a>
                                             </button>
                                         </form>
                                     </div>

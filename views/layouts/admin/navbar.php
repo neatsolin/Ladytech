@@ -33,11 +33,30 @@
             <span class="pc-mtext">Product Management</span>
           </a>
         </li>
-        <li class="pc-item">
-          <a href="/stock" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-stack"></i></span>
-            <span class="pc-mtext">Stock Management</span>
+        <li class="pc-item pc-hasmenu">
+          <a href="#!" class="pc-link">
+                <span class="pc-micon"><i class="ti ti-stack"></i></span>
+                <span class="pc-mtext">Stock Management</span>
+                <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
+          <ul class="pc-submenu" id="order-submenu" style="display: none;">
+                <li class="pc-item">
+                    <a class="pc-link" href="/stock">
+                        <i class="bi bi-box-seam"></i> All Stocks
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/stock/in">
+                        <i class="bi bi-box-arrow-in-down"></i> Stock In
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/stock/out">
+                        <i class="bi bi-box-arrow-up"></i> Stock Out
+                    </a>
+                </li>
+            </ul>
+
         </li>
         <li class="pc-item">
           <a href="/salesreport" class="pc-link">
@@ -45,7 +64,6 @@
             <span class="pc-mtext">Sale report</span>
           </a>
         </li>
-        
         <li class="pc-item">
           <a href="/users" class="pc-link">
             <span class="pc-micon"><i class="ti ti-user"></i></span>

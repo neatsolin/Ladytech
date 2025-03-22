@@ -73,6 +73,16 @@
             $this->users->deleteUser($id);
             header('Location: /users');
         }
+
+        //User trash
+        public function trashUser(){
+            $this->view('admin/inventory/users/trashUser');
+        }
+
+        //Active user
+        public function active(){
+            $this->view('admin/inventory/users/activeUser');
+        }
         
     }
 ?>
