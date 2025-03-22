@@ -130,8 +130,7 @@
         public function delete($id) {
             $this->products->deleteProduct($id);
             header('Location: /products');
-        }
-
+        }    
     }
     
     

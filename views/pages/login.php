@@ -140,15 +140,13 @@
       color: blue;
     }
   </style>
-</head>
 
-<body>
   <section class="hero-section">   
     <h1>Hello Login!</h1>
   </section>
 
   <div class="wrapper">
-    <form action="">
+    <form action="/login/authenticate">
       <h2>Login</h2>
       <div class="input-field">
         <input type="text" required>
@@ -173,5 +171,4 @@
       </div>
     </form>
   </div>
-</body>
-</html>
+
