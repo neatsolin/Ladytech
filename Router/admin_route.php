@@ -43,6 +43,8 @@
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);
+    $route->get('/stock/in', [StockController::class, 'stockIn']);
+    $route->get('/stock/out', [StockController::class, 'stockOut']);
 
     //sales report
     $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
@@ -52,7 +54,9 @@
     $route->get('/users', [UserController::class, 'users']);
     $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
     $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
-    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);   
+    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);
+    $route->get('/users/trash', [UserController::class, 'trashUser']);   
+    $route->get('/users/active', [UserController::class, 'active']);   
 
 
 

@@ -148,7 +148,7 @@
   </section>
 
   <div class="wrapper">
-    <form action="#">
+    <form action="">
       <h2>Login</h2>
       <div class="input-field">
         <input type="text" required>
