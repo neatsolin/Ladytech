@@ -64,11 +64,29 @@
             <span class="pc-mtext">Sale report</span>
           </a>
         </li>
-        <li class="pc-item">
-          <a href="/users" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-user"></i></span>
-            <span class="pc-mtext">User Management</span>
+        <li class="pc-item pc-hasmenu">
+          <a href="#!" class="pc-link">
+                <span class="pc-micon"><i class="ti ti-user"></i></span>
+                <span class="pc-mtext">User Management</span>
+                <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
+          <ul class="pc-submenu" id="order-submenu" style="display: none;">
+                <li class="pc-item">
+                    <a class="pc-link" href="/users">
+                        <i class="bi bi-people"></i> All Users
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/users/active">
+                        <i class="bi bi-person-check"  style="color: green;"></i> Active User
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/users/trash">
+                        <i class="bi bi-trash"></i> Trash
+                    </a>
+                </li>
+          </ul>
         </li>
         <li class="pc-item pc-hasmenu">
             <a href="#!" class="pc-link">
