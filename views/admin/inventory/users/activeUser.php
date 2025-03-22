@@ -1,0 +1,1 @@
+<h1>Active user!</h1>
