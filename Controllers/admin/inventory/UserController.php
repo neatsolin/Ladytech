@@ -83,6 +83,10 @@
         public function active(){
             $this->view('admin/inventory/users/activeUser');
         }
+        public function order_all() {
+            $orders = $this->orders->getAllOrders();
+            $this->view('admin/inventory/orders/All_order', ['orders' => $orders]);
+        }
         
     }
 ?>
