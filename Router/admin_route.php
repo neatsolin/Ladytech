@@ -57,7 +57,9 @@
     $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
     $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);
     $route->get('/users/trash', [UserController::class, 'trashUser']);   
-    $route->get('/users/active', [UserController::class, 'active']);   
+    $route->get('/users/active', [UserController::class, 'active']);
+    $route->get('/users/restore/{id}', [UserController::class, 'restoreUser']);  
+    $route->delete('/users/permanent-delete/{id}', [UserController::class, 'permanentlyDeleteUser']); 
 
 
 

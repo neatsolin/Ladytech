@@ -76,11 +76,24 @@
 
         //User trash
         public function trashUser(){
-            $this->view('admin/inventory/users/trashUser');
+            $trashUsers  = $this->users->getTrashUsers();
+            $this->view('admin/inventory/users/trashUser', ['trashUsers' => $trashUsers]);
         }
 
-        //Active user
-        public function active(){
+       //Delete user permanently
+       public function permanentlyDeleteUser($id) {
+            $this->users->permanentlyDeleteUser($id); 
+            header('Location: /users/trash');
+        }
+
+        //Restore user from trash
+        public function restoreUser($id) {
+            $this->users->restoreUser($id); // Restores user from trash_user to users
+            header('Location: /users/trash');
+        }
+
+         //Active user
+         public function active(){
             $this->view('admin/inventory/users/activeUser');
         }
         public function order_all() {
