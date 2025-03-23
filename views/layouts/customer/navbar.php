@@ -131,32 +131,268 @@
                         <button class="checkout-btn">Checkout</button>
                     </div>
                 </div>
-                <i class="bi bi-person-fill ms-2" style="color:#007bff; font-size: 24px;"></i>
+                <!-- profile -->
+                <div class="ms-auto">
+                    <ul class="list-unstyled">
+                        <li class="dropdown pc-h-item header-user-profile">
+                            <a
+                                class="pc-head-link dropdown-toggle arrow-none me-0"
+                                data-bs-toggle="dropdown"
+                                href="#"
+                                role="button"
+                                aria-haspopup="false"
+                                data-bs-auto-close="outside"
+                                aria-expanded="false"
+                            >
+                                <?php if (isset($_SESSION['user_id'])): ?>
+                                    <img src="<?= $_SESSION['user_profile'] ?>" alt="user-image" class="user-avtar" style="width: 35px; height: 35px; border-radius: 50%; border: 3px solid #fff; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                                <?php else: ?>
+                                    <!-- Show default profile icon if not logged in -->
+                                    <img src="../../../assets/images/user/avatar-2.jpg" alt="default-profile-image" class="user-avtar" style="width: 35px; height: 35px; border-radius: 50%; border: 3px solid #fff; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                                <?php endif; ?>
+                            </a>
+                            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+                                <?php if (isset($_SESSION['user_id'])): ?>
+                                    <!-- Show profile and settings if logged in -->
+                                    <div class="dropdown-header">
+                                        <div class="d-flex mb-1">
+                                            <div class="flex-shrink-0">
+                                                <img src="<?= $_SESSION['user_profile'] ?>" alt="user-image" class="user-avtar wid-35" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff;">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="mb-1"><?= $_SESSION['user_name'] ?></h6>
+                                                <span><?= $_SESSION['user_role'] ?></span>
+                                            </div>
+                                            <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger" style="font-size: 20px;"></i></a>
+                                        </div>
+                                    </div>
 
+                                    <!-- Tab Buttons -->
+                                    <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button
+                                                class="nav-link active"
+                                                id="drp-t1"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#drp-tab-1"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="drp-tab-1"
+                                                aria-selected="true"
+                                            >
+                                                <i class="ti ti-user"></i> Profile
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button
+                                                class="nav-link"
+                                                id="drp-t2"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#drp-tab-2"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="drp-tab-2"
+                                                aria-selected="false"
+                                            >
+                                                <i class="ti ti-settings"></i> Setting
+                                            </button>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab Content -->
+                                    <div class="tab-content-layout">
+                                        <!-- Profile Tab Content (Left Side) -->
+                                        <div class="tab-pane fade active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
+                                            <a href="/users/edit/<?= $_SESSION['user_id'] ?>" class="dropdown-item">
+                                                <i class="ti ti-edit-circle"></i>
+                                                <span data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-user"></i>
+                                                <span>View Profile</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-clipboard-list"></i>
+                                                <span>Social Profile</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-wallet"></i>
+                                                <span>Billing</span>
+                                            </a>
+                                            <a href="/logout" class="dropdown-item">
+                                                <i class="ti ti-power"></i>
+                                                <span>Logout</span>
+                                            </a>
+                                        </div>
+
+                                        <!-- Setting Tab Content (Right Side) -->
+                                        <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-help"></i>
+                                                <span>Support</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-user"></i>
+                                                <span>Account Settings</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-lock"></i>
+                                                <span>Privacy Center</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-messages"></i>
+                                                <span>Feedback</span>
+                                            </a>
+                                            <a href="#!" class="dropdown-item">
+                                                <i class="ti ti-list"></i>
+                                                <span>History</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <!-- Show login/register prompt if not logged in -->
+                                    <div class="dropdown-header">
+                                        <div class="d-flex flex-column align-items-center p-3">
+                                            <img src="../../../assets/images/user/avatar-2.jpg" alt="default-profile-image" class="user-avtar mb-2" style="width: 60px; height: 60px; border-radius: 50%; border: 3px solid #fff; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
+                                            <h6 class="mb-2">Guest User</h6>
+                                            <p class="text-muted text-center">Please log in or register to access your profile and settings.</p>
+                                            <div class="d-flex gap-2">
+                                                <a href="/login" class="btn btn-primary btn-sm">Login</a>
+                                                <a href="/register" class="btn btn-outline-primary btn-sm">Register</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <!-- Language Toggle Button -->
                 <button class="btn btn-outline-primary btn-sm text-nowrap" id="langToggle">ភាសាខ្មែរ</button>
             </div>
         </div>                        
     </div>
 </nav>
+
+<style>
+    /* Custom styles for the dropdown tabs */
+    .nav.drp-tabs.nav-fill .nav-item {
+        margin: 0 10px; /* Adds space between the tabs */
+    }
+
+    .nav.drp-tabs.nav-fill .nav-link {
+        color: #6c757d; /* Default gray color */
+        border: none;
+        background-color: transparent;
+        padding: 0.5rem 1rem;
+        transition: color 0.3s ease, border-bottom 0.3s ease; /* Smooth transition for hover and active states */
+    }
+
+    .nav.drp-tabs.nav-fill .nav-link.active {
+        color: #0d6efd; /* Blue color for active tab */
+        border-bottom: 2px solid #0d6efd; /* Underline effect for active tab */
+    }
+
+    .nav.drp-tabs.nav-fill .nav-link:hover {
+        color: #0d6efd; /* Blue color on hover */
+    }
+
+    /* Ensure the dropdown menu has enough width to accommodate the tabs */
+    .dropdown-user-profile {
+        min-width: 300px; /* Adjust based on your content */
+    }
+
+    /* Container for the tab content layout */
+    .tab-content-layout {
+        display: flex;
+        gap: 20px; /* Space between the two columns */
+        padding: 10px;
+    }
+
+    /* Smooth transition for tab content */
+    .tab-content-layout .tab-pane {
+        flex: 1; /* Each pane takes equal width */
+        display: none; /* Hide all panes by default */
+        opacity: 0;
+        transform: translateX(20px); /* Start slightly to the right */
+        transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; /* Smooth fade and slide effect */
+    }
+
+    .tab-content-layout .tab-pane.active {
+        display: block; /* Show active pane */
+        opacity: 1;
+        transform: translateX(0); /* Move to original position */
+    }
+
+    /* Left column for Profile */
+    #drp-tab-1 {
+        order: 1; /* Ensure Profile is on the left */
+    }
+
+    /* Right column for Setting */
+    #drp-tab-2 {
+        order: 2; /* Ensure Setting is on the right */
+    }
+
+    /* Additional styling for dropdown items */
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between icon and text */
+        padding: 0.5rem 1rem;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa; /* Light background on hover */
+    }
+
+    .dropdown-item i {
+        font-size: 1.2rem; /* Icon size */
+    }
+</style>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    let currentLang = "en"; // Default language is English
+        let currentLang = "en"; // Default language is English
 
-    document.getElementById("langToggle").addEventListener("click", function () {
-        currentLang = currentLang === "en" ? "km" : "en"; // Toggle language
+        document.getElementById("langToggle").addEventListener("click", function () {
+            currentLang = currentLang === "en" ? "km" : "en"; // Toggle language
 
-        // Update all text elements based on selected language
-        document.querySelectorAll(".lang").forEach(el => {
-            let newText = el.getAttribute(`data-${currentLang}`);
-            if (newText) {
-                el.textContent = newText;
-            }
+            // Update all text elements based on selected language
+            document.querySelectorAll(".lang").forEach(el => {
+                let newText = el.getAttribute(`data-${currentLang}`);
+                if (newText) {
+                    el.textContent = newText;
+                }
+            });
+
+            // Update language button text
+            this.textContent = currentLang === "en" ? "ភាសាខ្មែរ" : "English";
         });
-
-        // Update language button text
-        this.textContent = currentLang === "en" ? "ភាសាខ្មែរ" : "English";
     });
-});
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('.nav.drp-tabs .nav-link');
+        const tabPanes = document.querySelectorAll('.tab-content-layout .tab-pane');
+
+        tabButtons.forEach((button) => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Remove active class from all buttons and panes
+                tabButtons.forEach((btn) => btn.classList.remove('active'));
+                tabPanes.forEach((pane) => pane.classList.remove('active'));
+
+                // Add active class to the clicked button and corresponding pane
+                const targetPaneId = button.getAttribute('data-bs-target');
+                const targetPane = document.querySelector(targetPaneId);
+
+                button.classList.add('active');
+                targetPane.classList.add('active');
+            });
+        });
+    });
 </script>
