@@ -81,3 +81,26 @@
         </form>
     </div>
 
+<!-- script code -->
+<script>
+    // Get the file input and image elements
+    const fileInput = document.querySelector('input[name="imageURL"]');
+    const productImage = document.querySelector('.product-image img');
+
+    // Add an event listener to the file input
+    fileInput.addEventListener('change', function (event) {
+        // Check if a file is selected
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader(); // Create a FileReader object
+
+            // Set up the FileReader onload event
+            reader.onload = function (e) {
+                // Update the image source with the new file data
+                productImage.src = e.target.result;
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    });
+</script>
