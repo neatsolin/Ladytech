@@ -1,11 +1,14 @@
 <?php
 require_once "Models/LoginModel.php";
+require_once "Models/UserModel.php";
 class LoginController extends BaseadminController {
     private $users;
+    private $userModel;
 
     // Constructor to start the session and initialize the user model
     public function __construct(){
         $this->users = new LoginModel();
+        $this->userModel = new UserModel();
     }
 
     // Show login form
@@ -30,6 +33,9 @@ class LoginController extends BaseadminController {
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_phone'] = $user['phone'];
             $_SESSION['user_profile'] = $user['profile'];
+
+            // Update last_login timestamp
+            $this->userModel->updateLastLogin($user['id']);
 
             $this->redirect("/users");
         } else {
