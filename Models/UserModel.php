@@ -115,5 +115,34 @@ class UserModel {
         return $result;
 
     }
+    
+    //Update last_login timestamp when a user logs in
+    public function updateLastLogin($id) {
+        $result = $this->db->query("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = :id", [
+            'id' => $id
+        ]);
+        return $result;
+    }
+    
+    // Fetch all users with their active/inactive status
+    public function getUsersWithStatus() {
+        $result = $this->db->query("
+            SELECT 
+                id, 
+                username, 
+                email, 
+                phone,
+                profile, 
+                role, 
+                last_login, 
+                CASE 
+                    WHEN last_login IS NULL THEN 'Inactive' -- Handle NULL last_login
+                    WHEN last_login >= NOW() - INTERVAL 5 MINUTE THEN 'Active' 
+                    ELSE 'Inactive' 
+                END AS status 
+            FROM users
+        ");
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
