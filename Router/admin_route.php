@@ -40,6 +40,8 @@
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
     $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
     $route->get("/add-stock", [ProductController::class, 'addstock']);
+    $route->get('/products/discount', [ProductController::class, 'discount']);
+    $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
 
 
     //stock management

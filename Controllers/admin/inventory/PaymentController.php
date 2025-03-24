@@ -60,11 +60,34 @@ class PaymentController extends BaseadminController {
             $totalPrice = $_POST['total_price'];
             $currency = $_POST['currency']; // Get the selected currency
             $quantity = $_POST['quantity'];
-            $orderStatus = 'Pending';
-            $payments = $currency; // Set the payment currency
+            $orderStatus = $_POST['order_status'];
+            $payments = $currency; 
     
             // Save the selected currency in the session
             $_SESSION['currency'] = $currency; // Add this line
+
+            //collect payment information
+            $cardNumber = $_POST['card_number'];
+            $cardHolderName = $_POST['card_holder_name'];
+            $expiryDate = $_POST['expiry_date'];
+            $cvv = $_POST['cvv'];
+
+            // Save the selected currency in the session
+            $_SESSION['currency'] = $currency;
+
+            // Save the payment method
+            $paymentMethodId = $this->paymentModel->addPaymentMethod(
+                $userId,
+                $cardNumber,
+                $cardHolderName,
+                $expiryDate,
+                $cvv,
+                $currency
+            );
+
+            // if (!$paymentMethodId) {
+            //     die("Error saving payment method.");
+            // }
     
             // Save the order
             $orderId = $this->paymentModel->createOrder(
