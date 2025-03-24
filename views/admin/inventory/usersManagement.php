@@ -61,31 +61,32 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
     <!-- Include SweetAlert Library -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // SweetAlert Delete Confirmation
-        document.querySelectorAll('.delete-user').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default anchor action
-                const userId = this.getAttribute('data-id');
+    <!-- Include SweetAlert Library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // SweetAlert Move to Trash Confirmation
+    document.querySelectorAll('.delete-user').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor action
+            const userId = this.getAttribute('data-id');
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to undo this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Redirect to delete action
-                        window.location.href = `/users/delete/${userId}`;
-                    }
-                });
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This user will be moved to the trash!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, move to trash!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to move-to-trash action
+                    window.location.href = `/users/delete/${userId}`;
+                }
             });
         });
-    </script>
+    });
+</script>
 <?php 
 else: 
     $this->redirect("/login"); 
