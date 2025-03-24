@@ -9,7 +9,7 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Fetch all orders with the corresponding product name and user profile
+    // Fetch all orders with the corresponding product name, user profile, and purchase time
     $stmt = $conn->prepare("
         SELECT o.*, 
                (SELECT p.productname 
@@ -105,13 +105,15 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($orders)): ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($orders as $order): ?>
@@ -133,7 +135,21 @@ try {
                                     </td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -153,7 +169,9 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
@@ -164,7 +182,7 @@ try {
                         if (empty($draftOrders)):
                         ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No draft orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No draft orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($draftOrders as $order): ?>
@@ -182,7 +200,21 @@ try {
                                     <td><span class="text-muted">● <?php echo htmlspecialchars($order['orderstatus']); ?></span></td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -202,7 +234,9 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
@@ -213,7 +247,7 @@ try {
                         if (empty($orderedOrders)):
                         ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No ordered orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No ordered orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($orderedOrders as $order): ?>
@@ -231,7 +265,21 @@ try {
                                     <td><span class="text-warning">● <?php echo htmlspecialchars($order['orderstatus']); ?></span></td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -251,7 +299,9 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
@@ -262,7 +312,7 @@ try {
                         if (empty($partialOrders)):
                         ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No partial orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No partial orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($partialOrders as $order): ?>
@@ -280,7 +330,21 @@ try {
                                     <td><span class="text-info">● <?php echo htmlspecialchars($order['orderstatus']); ?></span></td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -300,7 +364,9 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
@@ -311,7 +377,7 @@ try {
                         if (empty($receivedOrders)):
                         ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No received orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No received orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($receivedOrders as $order): ?>
@@ -329,7 +395,21 @@ try {
                                     <td><span class="text-success">● <?php echo htmlspecialchars($order['orderstatus']); ?></span></td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -349,7 +429,9 @@ try {
                             <th>Status</th>
                             <th>Received</th>
                             <th>Total</th>
+                            <th>Purchase Time</th>
                             <th>Expected arrival</th>
+                            <th>Action</th> <!-- New Action Column -->
                         </tr>
                     </thead>
                     <tbody>
@@ -360,7 +442,7 @@ try {
                         if (empty($closedOrders)):
                         ?>
                             <tr>
-                                <td colspan="9" class="text-center text-muted">No closed orders available.</td>
+                                <td colspan="11" class="text-center text-muted">No closed orders available.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($closedOrders as $order): ?>
@@ -378,7 +460,21 @@ try {
                                     <td><span class="text-danger">● <?php echo htmlspecialchars($order['orderstatus']); ?></span></td>
                                     <td>N/A</td>
                                     <td><?php echo htmlspecialchars($order['payments'] . ' ' . number_format($order['totalprice'], 2)); ?></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton<?php echo $order['id']; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton<?php echo $order['id']; ?>">
+                                                <li><a class="dropdown-item" href="view_order.php?id=<?php echo $order['id']; ?>">View</a></li>
+                                                <li><a class="dropdown-item" href="edit_order.php?id=<?php echo $order['id']; ?>">Edit</a></li>
+                                                <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
+                                                <li><a class="dropdown-item text-danger" href="delete_order.php?id=<?php echo $order['id']; ?>" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>

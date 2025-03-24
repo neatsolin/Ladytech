@@ -90,9 +90,6 @@ class UserModel {
         $result = $this->db->query("DELETE FROM trash_user WHERE id = :id", ['id' => $id]);
         return $result;
     }
-<<<<<<< HEAD
-    
-=======
 
     //Restore user from trash_user to users table
     public function restoreUser($id) {
@@ -119,5 +116,4 @@ class UserModel {
 
     }
 
->>>>>>> main
 }
