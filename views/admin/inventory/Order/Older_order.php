@@ -46,13 +46,6 @@ try {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Older Orders</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
     <div class="p-6 bg-white rounded-lg shadow-md">
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
@@ -168,7 +161,6 @@ try {
             });
         });
     </script>
-</body>
-</html>
+
 
 <?php $conn = null; ?>
