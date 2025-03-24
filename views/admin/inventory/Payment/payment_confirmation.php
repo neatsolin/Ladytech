@@ -22,13 +22,13 @@ if (isset($_SESSION['user_id'])) :
                             <div>
                                 <h6><?= $order['productname'] ?></h6>
                                 <p class="text-muted mb-0">
-                                    <?= $currency === 'KHR' ? number_format($order['price'] * 4000) . ' KHR' : '$' . $order['price'] ?>
+                                    <?= $currency === 'KH Riel' ? number_format($order['price'] * 4000) . ' KH Riel' : '$' . $order['price'] ?>
                                 </p>
                             </div>
                         </div>
                         <hr>
                         <p class="fw-bold">Total: 
-                            <?= $currency === 'KHR' ? number_format($order['totalprice'] * 4000) . ' KHR' : '$' . $order['totalprice'] ?>
+                            <?= $currency === 'KH Riel' ? number_format($order['totalprice'] * 4000) . ' KH Riel' : '$' . $order['totalprice'] ?>
                         </p>
                     <?php else : ?>
                         <div class="alert alert-warning" role="alert">

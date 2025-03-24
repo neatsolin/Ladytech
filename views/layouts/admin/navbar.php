@@ -27,11 +27,30 @@
           <label>UI Components</label>
           <i class="ti ti-dashboard"></i>
         </li>
-        <li class="pc-item">
-          <a href="/products" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-package"></i></span>
-            <span class="pc-mtext">Product Management</span>
-          </a>
+        <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+                    <span class="pc-micon"><i class="ti ti-stack"></i></span>
+                    <span class="pc-mtext">Product Management</span>
+                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu" id="order-submenu" style="display: none;">
+                <li class="pc-item">
+                    <a class="pc-link" href="/products">
+                        <i class="ti ti-package"></i> All Product
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/products/discount">
+                        <i class="ti ti-discount"></i> Discount
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a class="pc-link" href="/products/pro-discount">
+                        <i class="ti ti-tag"></i> Product discount
+                    </a>
+                </li>
+            </ul>
+
         </li>
         <li class="pc-item pc-hasmenu">
           <a href="#!" class="pc-link">
