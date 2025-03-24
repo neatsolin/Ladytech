@@ -94,7 +94,8 @@
 
          //Active user
          public function active(){
-            $this->view('admin/inventory/users/activeUser');
+            $users = $this->users->getUsersWithStatus();
+            $this->view('admin/inventory/users/activeUser', ['users' => $users]);
         }
         
     }
