@@ -8,54 +8,14 @@ if (isset($_SESSION['user_id'])) : ?>
 
   <!-- [ Main Content ] start -->
   <div class="row">
-    <!-- Total Page Views Card -->
-    <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    try {
-      $db = new PDO("mysql:host=localhost;dbname=dailyneed_db", "root", "");
-      $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-      // Fetch total users (each user counts as a page view/interaction)
-      $stmtUsers = $db->query("SELECT COUNT(*) as user_count FROM users");
-      $usersData = $stmtUsers->fetch(PDO::FETCH_ASSOC);
-      $totalUsers = $usersData['user_count'] ?? 0;
-
-      // Fetch total orders (each order counts as a page view/interaction)
-      $stmtOrders = $db->query("SELECT COUNT(*) as order_count FROM orders");
-      $ordersData = $stmtOrders->fetch(PDO::FETCH_ASSOC);
-      $totalOrders = $ordersData['order_count'] ?? 0;
-
-      // Total page views = users + orders (capturing all interactions)
-      $totalPageViews = $totalUsers + $totalOrders;
-
-      // Calculate percentage (no subtraction, scaling based on totalPageViews)
-      $baselineViews = 10000; // Adjusted to get a reasonable percentage (e.g., closer to 59.3% for large numbers)
-      $percentage = $totalPageViews > 0 ? ($totalPageViews / $baselineViews) : 0; // Simple scaling
-
-      // Extra views (matches total, per your previous logic)
-      $extraViews = $totalPageViews;
-    } catch (PDOException $e) {
-      echo "Connection failed: " . $e->getMessage();
-      $totalPageViews = 0;
-      $percentage = 0;
-      $extraViews = 0;
-    }
-    ?>
+    <!-- [ sample-page ] start -->
     <div class="col-md-6 col-xl-3">
       <div class="card">
         <div class="card-body">
           <h6 class="mb-2 f-w-400 text-muted">Total Page Views</h6>
-          <h4 class="mb-3">
-            <?php echo number_format($totalPageViews); ?>
-            <span class="badge bg-light-primary border border-primary">
-              <i class="ti ti-trending-up"></i>
-              <?php echo number_format($percentage, 1); ?>%
-            </span>
-          </h4>
-          <p class="mb-0 text-muted text-sm">You made an extra <span class="text-primary"><?php echo number_format($extraViews); ?></span> this year</p>
+          <h4 class="mb-3">4,42,236 <span class="badge bg-light-primary border border-primary"><i
+                class="ti ti-trending-up"></i> 59.3%</span></h4>
+          <p class="mb-0 text-muted text-sm">You made an extra <span class="text-primary">35,000</span> this year</p>
         </div>
       </div>
     </div>
