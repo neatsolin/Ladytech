@@ -39,10 +39,15 @@
     $route->get('/products/edit/{id}', [ProductController::class, 'edit']);
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
     $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
+    $route->get("/add-stock", [ProductController::class, 'addstock']);
+    $route->get('/products/discount', [ProductController::class, 'discount']);
+    $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
 
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);
+    $route->get('/stock/in', [StockController::class, 'stockIn']);
+    $route->get('/stock/out', [StockController::class, 'stockOut']);
 
     //sales report
     $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
@@ -52,7 +57,11 @@
     $route->get('/users', [UserController::class, 'users']);
     $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
     $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
-    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);   
+    $route->delete('/users/delete/{id}', [UserController::class, 'deleteUser']);
+    $route->get('/users/trash', [UserController::class, 'trashUser']);   
+    $route->get('/users/active', [UserController::class, 'active']);
+    $route->get('/users/restore/{id}', [UserController::class, 'restoreUser']);  
+    $route->delete('/users/permanent-delete/{id}', [UserController::class, 'permanentlyDeleteUser']); 
 
 
 
@@ -122,6 +131,7 @@
 
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
+    $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
