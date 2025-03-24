@@ -97,6 +97,10 @@
             $users = $this->users->getUsersWithStatus();
             $this->view('admin/inventory/users/activeUser', ['users' => $users]);
         }
+        public function order_all() {
+            $orders = $this->orders->getAllOrders();
+            $this->view('admin/inventory/orders/All_order', ['orders' => $orders]);
+        }
         
     }
 ?>
