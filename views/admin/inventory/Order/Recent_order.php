@@ -1,11 +1,62 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dailyneed_db";
 
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Pagination settings
+    $itemsPerPage = 10;
+    $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+    $offset = ($currentPage - 1) * $itemsPerPage;
+
+    // Define "today" range (last 24 hours)
+    $todayStart = date('Y-m-d H:i:s', strtotime('-24 hours'));
+
+    // Get total number of recent orders (within 24 hours)
+    $totalStmt = $conn->prepare("SELECT COUNT(*) FROM orders WHERE orderdate >= :todayStart");
+    $totalStmt->bindValue(':todayStart', $todayStart);
+    $totalStmt->execute();
+    $totalOrders = $totalStmt->fetchColumn();
+    $totalPages = ceil($totalOrders / $itemsPerPage);
+
+    // Fetch recent orders for the current page
+    $stmt = $conn->prepare("
+        SELECT o.*, u.username, u.profile AS user_profile, u.phone
+        FROM orders o
+        LEFT JOIN users u ON o.user_id = u.id
+        WHERE o.orderdate >= :todayStart
+        ORDER BY o.orderdate DESC
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':todayStart', $todayStart);
+    $stmt->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    $orders = [];
+    $totalPages = 1;
+    $currentPage = 1;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <title>Recent Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+</head>
+<body>
     <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-semibold text-gray-800">Recent Orders</h2>
+            <h2 class="text-2xl font-semibold text-gray-800">Recent Orders (Today)</h2>
             <input type="text" id="search" placeholder="Search orders..." class="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
@@ -24,213 +75,76 @@
                     </tr>
                 </thead>
                 <tbody id="order-list">
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">012 400 200</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full"> Brooklyn Zoe
-                        </td>
-                        <td class="py-2 px-4">Cash</td>
-                        <td class="py-2 px-4">15 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-green-100 text-green-600 px-2 py-1 text-xs font-semibold rounded-full">Delivered</span>
-                        </td>
-                        <td class="py-2 px-4">$20.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-
-                    <!-- other -->
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
-                    <tr class="border-t hover:bg-gray-100 transition">
-                        <td class="py-2 px-4">015 055 700</td>
-                        <td class="py-2 px-4 flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/40?img=2" class="w-8 h-8 rounded-full"> Alice Knejlová
-                        </td>
-                        <td class="py-2 px-4">Paid</td>
-                        <td class="py-2 px-4">49 min ago</td>
-                        <td class="py-2 px-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 text-xs font-semibold rounded-full">Pending</span>
-                        </td>
-                        <td class="py-2 px-4">$14.00</td>
-                        <td class="py-2 px-4">
-                            <button class="text-blue-500 hover:underline">View</button>
-                        </td>
-                    </tr>
+                    <?php if (empty($orders)): ?>
+                        <tr class="border-t">
+                            <td colspan="7" class="py-2 px-4 text-center text-gray-500">No orders from today.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($orders as $order): ?>
+                            <tr class="border-t hover:bg-gray-100 transition">
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
+                                <td class="py-2 px-4 flex items-center gap-2">
+                                    <?php if (!empty($order['user_profile'])): ?>
+                                        <img src="<?php echo htmlspecialchars($order['user_profile']); ?>" class="w-8 h-8 rounded-full" alt="Profile">
+                                    <?php else: ?>
+                                        <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full" alt="Default Profile">
+                                    <?php endif; ?>
+                                    <?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?>
+                                </td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
+                                <td class="py-2 px-4"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
+                                <td class="py-2 px-4">
+                                    <span class="<?php 
+                                        echo $order['orderstatus'] === 'Delivered' ? 'bg-green-100 text-green-600' : 
+                                             ($order['orderstatus'] === 'Pending' ? 'bg-yellow-100 text-yellow-600' : 
+                                             'bg-gray-100 text-gray-600'); 
+                                    ?> px-2 py-1 text-xs font-semibold rounded-full">
+                                        <?php echo htmlspecialchars($order['orderstatus']); ?>
+                                    </span>
+                                </td>
+                                <td class="py-2 px-4">$<?php echo number_format($order['totalprice'], 2); ?></td>
+                                <td class="py-2 px-4 relative">
+                                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v.01M12 12v.01M12 18v.01"></path>
+                                        </svg>
+                                    </button>
+                                    <div id="dropdown-<?php echo $order['id']; ?>" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
+                                        <a href="view_order.php?id=<?php echo $order['id']; ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View</a>
+                                        <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                        <a href="message_order.php?id=<?php echo $order['id']; ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Message</a>
+                                        <a href="delete_order.php?id=<?php echo $order['id']; ?>" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" onclick="return confirm('Are you sure you want to delete this order?');">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
 
         <!-- Pagination -->
         <div class="flex justify-between items-center mt-4">
-            <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Previous</button>
-            <!-- <span>Page 1 of 5</span> -->
-            <button class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+            <a href="?page=<?php echo $currentPage > 1 ? $currentPage - 1 : 1; ?>" 
+               class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 <?php echo $currentPage <= 1 ? 'pointer-events-none opacity-50' : ''; ?>">
+                Previous
+            </a>
+            <span class="text-gray-600">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
+            <a href="?page=<?php echo $currentPage < $totalPages ? $currentPage + 1 : $totalPages; ?>" 
+               class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 <?php echo $currentPage >= $totalPages ? 'pointer-events-none opacity-50' : ''; ?>">
+                Next
+            </a>
         </div>
     </div>
 
-    <!-- Add this CSS to hide the scrollbar -->
+    <!-- CSS -->
     <style>
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari */
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none; /* Hide scrollbar for IE, Edge */
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
-        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
+    <!-- JavaScript -->
     <script>
-        // Basic Search Filter
         document.getElementById("search").addEventListener("input", function () {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll("#order-list tr");
@@ -239,5 +153,22 @@
                 row.style.display = text.includes(filter) ? "" : "none";
             });
         });
-    </script>
 
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle("hidden");
+        }
+
+        document.addEventListener("click", function (event) {
+            const dropdowns = document.querySelectorAll("[id^='dropdown-']");
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target) && !event.target.closest("button")) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+<?php $conn = null; ?>
