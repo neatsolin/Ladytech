@@ -12,6 +12,7 @@
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
     require_once "Controllers/admin/inventory/PaymentController.php";
+    require_once "Controllers/admin/inventory/DiscountController.php";
 
     //customer
     require_once "Controllers/admin/basecustomerController.php";
@@ -42,6 +43,9 @@
     $route->get("/add-stock", [ProductController::class, 'addstock']);
     $route->get('/products/discount', [ProductController::class, 'discount']);
     $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
+    $route->get('/products/view/{id}', [ProductController::class, 'show']);
+
+
 
 
     //stock management
