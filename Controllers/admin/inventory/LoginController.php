@@ -28,12 +28,12 @@ class LoginController extends BaseadminController {
 
         if (!$user) {
             $_SESSION['error'] = "Email not found";
-            $this->redirect("/login");
+            $this->redirect("/F_login");
             return;
         }
         if (!password_verify($password, $user['password'])) {
-            $_SESSION['error'] = "Incorrect password";
-            $this->redirect("/login");
+            $_SESSION['error'] = "Incorrect password or email address";
+            $this->redirect("/F_login");    
             return;
         }
 
@@ -56,7 +56,7 @@ class LoginController extends BaseadminController {
             $this->redirect("/");
         } else {
             $_SESSION['error'] = "Invalid role: " . $user['role'];
-            $this->redirect("/login");
+            $this->redirect("/F_login");
         }
     }
 

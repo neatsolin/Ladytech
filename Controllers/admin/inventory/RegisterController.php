@@ -73,7 +73,7 @@ class RegisterController extends BaseadminController {
         
         if ($result) {
             $_SESSION['success'] = "Registration successful!";
-            header('Location:/register'); // Redirect to register page to show success alert
+            header('Location:/F_login'); // Redirect to register page to show success alert
             exit();
         } else {
             $_SESSION['error'] = "Registration failed! Please try again.";
