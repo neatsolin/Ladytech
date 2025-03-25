@@ -68,7 +68,7 @@
         $result = $this->db->query("DELETE FROM products WHERE id = :id", ['id'=>$id]);
         return $result;
     }
-
+    
  }
 
 ?>
