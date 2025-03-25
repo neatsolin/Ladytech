@@ -4,62 +4,125 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
     <style>
-   .bell-icon {
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-}
+        .bell-icon {
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+        }
 
-/* Remove the ::after pseudo-element since we're using .notification-count */
-.bell-icon.alert::after {
-    display: none;
-}
+        .bell-icon.alert::after {
+            display: none;
+        }
 
-.bell-icon.ring {
-    animation: ring 0.5s infinite;
-}
+        .bell-icon.ring {
+            animation: ring 0.5s infinite;
+        }
 
-.icon-ring {
-    animation: ring 0.5s infinite;
-}
+        .icon-ring {
+            animation: ring 0.5s infinite;
+        }
 
-@keyframes ring {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(15deg); }
-    50% { transform: rotate(0deg); }
-    75% { transform: rotate(-15deg); }
-    100% { transform: rotate(0deg); }
-}
+        @keyframes ring {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-15deg); }
+            100% { transform: rotate(0deg); }
+        }
 
-.search-small {
-    max-width: 300px;
-}
+        .search-small {
+            max-width: 300px;
+        }
 
-.notification-count {
-    position: absolute;
-    top: -2px; /* Position close to the bell */
-    right: -2px;
-    width: 18px; /* Slightly larger to match the image */
-    height: 18px;
-    background-color: red; /* Green when there is a number */
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px; /* Slightly larger font for the number */
-    color: white;
-    font-weight: bold;
-}
+        .notification-count {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            background-color: red;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
 
-/* Style for when the notification count is empty (plain red dot) */
-.notification-count:empty {
-    background-color: red; /* Red when there is no number */
-    width: 16px; /* Slightly smaller for the plain red dot */
-    height: 16px;
-}
+        .notification-count:empty {
+            background-color: red;
+            width: 16px;
+            height: 16px;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            background-color: #f0f8ff;
+            padding: 3px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image-fallback {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .modal-product-image {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background-color: #f0f8ff;
+            padding: 3px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .table td, .table th {
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        /* Style for the category filter dropdown in the table header */
+        .category-filter-header {
+            background-color: #212529; /* Dark background to match the table header */
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .category-filter-header:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .category-filter-header option {
+            background-color: white;
+            color: black;
+        }
     </style>
-
-
 
 <div class="container my-4">
     <!-- Top Bar with Buttons and Bell -->
@@ -84,7 +147,31 @@ if (isset($_SESSION['user_id'])) : ?>
             <tr>
                 <th scope="col">Product Image</th>
                 <th scope="col">Product Name</th>
-                <th scope="col">Category</th>
+                <th scope="col">
+                    <?php
+                    // Calculate category counts dynamically
+                    $categoryCounts = [];
+                    foreach ($products as $product) {
+                        $category = $product['categories'];
+                        if (!isset($categoryCounts[$category])) {
+                            $categoryCounts[$category] = 0;
+                        }
+                        $categoryCounts[$category]++;
+                    }
+
+                    // Define the list of categories to display (removing duplicates)
+                    $categories = array_unique(array_column($products, 'categories'));
+                    sort($categories); // Sort categories alphabetically
+                    ?>
+                    <select id="category-filter" class="category-filter-header">
+                        <option value="">All Categories</option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= htmlspecialchars($category) ?>">
+                                <?= htmlspecialchars($category) ?> (<?= $categoryCounts[$category] ?? 0 ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </th>
                 <th scope="col">Price</th>
                 <th scope="col">Stock Quantity</th>
                 <th scope="col">Description</th>
@@ -100,13 +187,16 @@ if (isset($_SESSION['user_id'])) : ?>
             foreach ($products as $product): 
                 $stock = $product['stockquantity'];
                 $isLowStock = $stock <= $lowStockThreshold;
-                // Removed $isHighStock and $isMediumStock since we only care about low stock
             ?>
                 <tr class="<?= $isLowStock ? 'table-danger' : '' ?>" 
                     data-product-name="<?= htmlspecialchars($product['productname']) ?>" 
                     data-category="<?= htmlspecialchars($product['categories']) ?>">
                     <td class="text-center">
-                        <img src="<?= htmlspecialchars($product['imageURL']) ?>" alt="<?= htmlspecialchars($product['productname']) ?>" width="50" height="50" class="rounded-circle">
+                        <?php if (!empty($product['imageURL']) && file_exists($product['imageURL'])): ?>
+                            <img src="<?= htmlspecialchars($product['imageURL']) ?>" alt="<?= htmlspecialchars($product['productname']) ?>" class="product-image">
+                        <?php else: ?>
+                            <div class="product-image-fallback">No Image</div>
+                        <?php endif; ?>
                     </td>
                     <td><?= htmlspecialchars($product['productname']) ?></td>
                     <td><?= htmlspecialchars($product['categories']) ?></td>
@@ -119,20 +209,22 @@ if (isset($_SESSION['user_id'])) : ?>
                     </td>
                     <td><?= htmlspecialchars($product['descriptions']) ?></td>
                     <td class="text-center">
-                        <div class="dropdown">
-                            <button class="btn border-0" type="button" id="dropdownMenuButton<?= $product['id'] ?>" data-bs-toggle="dropdown" data-bs-popper="static" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $product['id'] ?>">
-                                <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
-                                    <i class="bi bi-pencil"></i> Edit</a></li>
-                                <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
-                                    <i class="bi bi-trash"></i> Delete</a></li>
-                                <li><a class="dropdown-item" href="/checkout?product_id=<?= urlencode($product['id']) ?>">
-                                    <i class="bi bi-cart"></i> Buy Now</a></li>
-                            </ul>
-                        </div>
-                    </td>
+                    <div class="dropdown">
+                        <button class="btn border-0" type="button" id="dropdownMenuButton<?= $product['id'] ?>" data-bs-toggle="dropdown" data-bs-popper="static" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $product['id'] ?>">
+                            <li><a class="dropdown-item" href="/products/view/<?= urlencode($product['id']) ?>">
+                                <i class="bi bi-eye"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
+                                <i class="bi bi-pencil"></i> Edit</a></li>
+                            <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
+                                <i class="bi bi-trash"></i> Delete</a></li>
+                            <li><a class="dropdown-item" href="/checkout?product_id=<?= urlencode($product['id']) ?>">
+                                <i class="bi bi-cart"></i> Buy Now</a></li>
+                        </ul>
+                    </div>
+                </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -157,23 +249,41 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 </div>
 
-<!-- CSS (Moved from styles.css) -->
-
-<!-- JavaScript (Moved from scripts.js) -->
+<!-- JavaScript -->
 <script>
 // Real-time Search Functionality
 document.getElementById('search-input').addEventListener('input', function() {
     const searchValue = this.value.toLowerCase().trim();
+    const searchWords = searchValue.split(/\s+/).filter(word => word.length > 0);
+    const categoryFilter = document.getElementById('category-filter').value.toLowerCase();
+    const rows = document.querySelectorAll('#product-table tbody tr');
+
+    rows.forEach(row => {
+        const productName = row.getAttribute('data-product-name').toLowerCase();
+        const category = row.getAttribute('data-category').toLowerCase();
+        const matchesSearch = searchWords.every(word => 
+            productName.includes(word) || category.includes(word)
+        );
+        const matchesCategory = categoryFilter === '' || category === categoryFilter;
+        row.style.display = (matchesSearch && matchesCategory) ? '' : 'none';
+    });
+});
+
+// Category Filter Functionality
+document.getElementById('category-filter').addEventListener('change', function() {
+    const categoryFilter = this.value.toLowerCase();
+    const searchValue = document.getElementById('search-input').value.toLowerCase().trim();
     const searchWords = searchValue.split(/\s+/).filter(word => word.length > 0);
     const rows = document.querySelectorAll('#product-table tbody tr');
 
     rows.forEach(row => {
         const productName = row.getAttribute('data-product-name').toLowerCase();
         const category = row.getAttribute('data-category').toLowerCase();
-        const matchesAllWords = searchWords.every(word => 
+        const matchesSearch = searchWords.every(word => 
             productName.includes(word) || category.includes(word)
         );
-        row.style.display = matchesAllWords ? '' : 'none';
+        const matchesCategory = categoryFilter === '' || category === categoryFilter;
+        row.style.display = (matchesSearch && matchesCategory) ? '' : 'none';
     });
 });
 
@@ -185,23 +295,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationCount = document.getElementById('notification-count');
     const modal = document.getElementById('lowStockModal');
 
-    // Store seen low stock items in localStorage
     let seenLowStockItems = JSON.parse(localStorage.getItem('seenLowStockItems')) || [];
-
-    // Get current low stock items
     let currentLowStockItems = [];
     lowStockRows.forEach(row => {
         const productName = row.querySelector('td:nth-child(2)').textContent.trim();
         currentLowStockItems.push(productName);
     });
 
-    // Check for new low stock items (not in seen list)
     const newLowStockItems = currentLowStockItems.filter(item => !seenLowStockItems.includes(item));
     const hasNewLowStock = newLowStockItems.length > 0;
 
-    // If there are low stock items, show notification
     if (lowStockRows.length > 0) {
-        // Only ring if there are new low stock items
         if (hasNewLowStock) {
             bell.classList.add('ring');
         }
@@ -212,11 +316,11 @@ document.addEventListener('DOMContentLoaded', function() {
         lowStockRows.forEach(row => {
             const productName = row.querySelector('td:nth-child(2)').textContent.trim();
             const stockQty = row.querySelector('td:nth-child(5) .stock-quantity').textContent.trim();
-            const imageSrc = row.querySelector('td:nth-child(1) img').getAttribute('src');
+            const imageSrc = row.querySelector('td:nth-child(1) img') ? row.querySelector('td:nth-child(1) img').getAttribute('src') : '';
             
             modalContent += `
                 <div class="d-flex align-items-center mb-3">
-                    <img src="${imageSrc}" alt="${productName}" width="50" height="50" class="rounded-circle me-3">
+                    ${imageSrc ? `<img src="${imageSrc}" alt="${productName}" class="modal-product-image me-3">` : `<div class="modal-product-image me-3">No Image</div>`}
                     <div>
                         <strong>${productName}</strong><br>
                         Stock Quantity: ${stockQty} units
@@ -231,11 +335,9 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationCount.textContent = '';
     }
 
-    // When modal is opened, stop ringing and clear notification
     modal.addEventListener('shown.bs.modal', function () {
         bell.classList.remove('ring', 'alert');
         notificationCount.textContent = '';
-        // Update seen low stock items
         seenLowStockItems = currentLowStockItems;
         localStorage.setItem('seenLowStockItems', JSON.stringify(seenLowStockItems));
     });
@@ -252,10 +354,13 @@ document.getElementById('export-excel').addEventListener('click', function() {
         let rowData = [];
         
         cols.forEach((col, index) => {
-            if (index !== 0 && index !== 6) {
+            if (index !== 0 && index !== 6) { // Skip image and actions columns
                 let text = '';
                 if (index === 4) {
                     text = col.querySelector('.stock-quantity') ? col.querySelector('.stock-quantity').textContent.trim() : col.textContent.trim();
+                } else if (index === 2) {
+                    // For the category column, get the text content (not the dropdown)
+                    text = col.textContent.trim();
                 } else {
                     text = col.textContent.trim();
                 }
@@ -280,7 +385,6 @@ document.getElementById('export-excel').addEventListener('click', function() {
     document.body.removeChild(link);
 });
 </script>
-
 
 <?php 
 else: 
