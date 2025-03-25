@@ -9,7 +9,11 @@
         public function stockOut(){
             $this->view('admin/inventory/stocks/stockOut');
         }
+       
     }
+   
+    
+    
 
 
 ?>

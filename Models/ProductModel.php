@@ -31,7 +31,24 @@
         ]);
         return $result;
     }
+    // Add stock entry to inventory
+    public function addStock($productId, $stockIn, $stockOut, $updateDate) {
+        $result = $this->db->query("INSERT INTO inventory (product_id, stockIn, stockOut, updatedate) 
+            VALUES (:product_id, :stockIn, :stockOut, :updatedate)", 
+            [
+                'product_id' => $productId, 
+                'stockIn' => $stockIn, 
+                'stockOut' => $stockOut, 
+                'updatedate' => $updateDate
+            ]
+        );
+        return $result;
+    }
 
+
+
+    
+    
     //update a product in the database
     public function updateProduct($productName, $description, $category, $price, $stockQuantity, $imagePath, $id){
         $result = $this->db->query("UPDATE products SET productname = :productname, descriptions = :descriptions, categories = :categories, price = :price, stockquantity = :stockquantity, imageURL = :imageURL WHERE id = :id", 
