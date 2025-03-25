@@ -5,52 +5,68 @@ class LoginController extends BaseadminController {
     private $users;
     private $userModel;
 
-    // Constructor to start the session and initialize the user model
     public function __construct(){
         $this->users = new LoginModel();
         $this->userModel = new UserModel();
     }
 
-    // Show login form
-    public function login(){
-        require_once __DIR__ . '/../../../views/admin/inventory/login.php';
+    public function login_admin(){ // Fixed typo
+        require_once __DIR__. '/../../../views/admin/inventory/login.php';
     }
 
-    // User authenticate
+    public function login(){
+        require_once __DIR__ . '/../../../views/pages/login.php';
+    }
+
     public function authenticate(){
         if (session_status() === PHP_SESSION_NONE) {
-            session_start(); // Start session only if not already started
+            session_start();
         }
-
-        $email = htmlspecialchars($_POST['email']);
-        $password = htmlspecialchars($_POST['password']);
+        $email = htmlspecialchars($_POST['email'] ?? '');
+        $password = htmlspecialchars($_POST['password'] ?? '');
         $user = $this->users->getUserByEmail($email);
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_name'] = $user['username'];
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $user['role'];
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_phone'] = $user['phone'];
-            $_SESSION['user_profile'] = $user['profile'];
+        if (!$user) {
+            $_SESSION['error'] = "Email not found";
+            $this->redirect("/login");
+            return;
+        }
+        if (!password_verify($password, $user['password'])) {
+            $_SESSION['error'] = "Incorrect password";
+            $this->redirect("/login");
+            return;
+        }
 
-            // Update last_login timestamp
-            $this->userModel->updateLastLogin($user['id']);
+        // Set session variables for all users
+        $_SESSION['user_name'] = $user['username'];
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_phone'] = $user['phone'];
+        $_SESSION['user_profile'] = $user['profile'];
 
-            $this->redirect("/users");
+        $this->userModel->updateLastLogin($user['id']);
+
+        // Redirect based on role
+        if ($user['role'] === 'admin') {
+            $_SESSION['success'] = "Welcome, Admin " . $user['username'] . "!";
+            $this->redirect("/");
+        } elseif ($user['role'] === 'users') {
+            $_SESSION['success'] = "Welcome, " . $user['username'] . "!";
+            $this->redirect("/");
         } else {
-            $_SESSION['error'] = "incorrect email or password"; // Store error message in session
-            $this->redirect("/login"); // Redirect to login page
+            $_SESSION['error'] = "Invalid role: " . $user['role'];
+            $this->redirect("/login");
         }
     }
 
-    // Logout function
     public function logout() {
         if (session_status() === PHP_SESSION_NONE) {
-            session_start(); // Start session only if not already started
+            session_start();
         }
-        session_destroy(); // Destroy the session
-        $this->redirect("/login"); // Redirect to login page
+        $redirectTo = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin' ? '/admin-login' : '/login';
+        session_destroy();
+        $this->redirect("/F_login");
     }
 }
 ?>

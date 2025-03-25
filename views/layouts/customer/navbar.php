@@ -98,23 +98,28 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item me-3">
-                    <a class="nav-link active lang" data-en="Shops" data-km="ហាង" href="/">Shops</a>
+                    <a class="nav-link active lang" data-en="Shops" data-km="ហាង" href="/">SHOP</a>
                 </li>
                 <li class="nav-item me-3">
-                    <a class="nav-link lang" data-en="Product" data-km="ប្រភេទ" href="/product">Product</a>
+                    <a class="nav-link lang" data-en="Product" data-km="ប្រភេទ" href="/product">PRODUCTS</a>
                 </li>
                 <li class="nav-item me-3">
-                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail">Product Detail</a>
+                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail">PRODUCT DETAIL</a>
                 </li>
-                <li class="nav-item me-3">
-                    <a class="nav-link lang" data-en="Dashboard" data-km="ផ្ទាំងគ្រប់គ្រង" href="/admin">Dashboard</a>
-                </li>
+                <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role']==='admin'): ?>
+                    <li class="nav-item me-3">
+                        <a class="nav-link lang" data-en="Dashboard" data-km="ផ្ទាំងគ្រប់គ្រង" href="/admin">DASHBOARD</a>
+                    </li>
+                <?php endif; ?>
             </ul>
 
             <div class="d-flex align-items-center gap-4">
-                <a class="nav-link lang text-nowrap" data-en="About" data-km="អំពី" href="/about">About</a>
-                <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/contact">Contact</a>
-                <a class="nav-link lang text-nowrap" data-en="Login" data-km="ចូល" href="/F_login">Login</a>
+                <a class="nav-link lang text-nowrap" data-en="About" data-km="អំពី" href="/about">ABOUT</a>
+                <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/contact">CONTACT</a>
+                <!-- Updated Login Link for Front-End Users -->
+                 <?php if (!isset($_SESSION['user_id'])): ?>
+                    <a class="nav-link lang text-nowrap" data-en="Login" data-km="ចូល" href="/F_login">LOGIN</a>
+                <?php endif; ?>
                 <!-- Cart Icon (Click to Toggle Dropdown) -->
                 <div class="cart-container">
                     <div class="icon-cart" onclick="toggleCart()">
@@ -128,7 +133,7 @@
                         <div class="cart-items">
                             <!-- Cart items will be dynamically added here -->
                         </div>
-                        <button class="checkout-btn">Checkout</button>
+                        <button class="checkout-btn">CHECKOUT</button>
                     </div>
                 </div>
                 <!-- profile -->
@@ -203,6 +208,12 @@
                                     <div class="tab-content-layout">
                                         <!-- Profile Tab Content (Left Side) -->
                                         <div class="tab-pane fade active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
+                                            <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                                                <a href="/admin" class="dropdown-item">
+                                                    <i class="ti ti-dashboard"></i>
+                                                    <span>Admin Dashboard</span>
+                                                </a>
+                                            <?php endif; ?>
                                             <a href="/users/edit/<?= $_SESSION['user_id'] ?>" class="dropdown-item">
                                                 <i class="ti ti-edit-circle"></i>
                                                 <span data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</span>
@@ -257,8 +268,8 @@
                                             <h6 class="mb-2">Guest User</h6>
                                             <p class="text-muted text-center">Please log in or register to access your profile and settings.</p>
                                             <div class="d-flex gap-2">
-                                                <a href="/login" class="btn btn-primary btn-sm">Login</a>
-                                                <a href="/register" class="btn btn-outline-primary btn-sm">Register</a>
+                                                <a href="/F_login" class="btn btn-primary btn-sm">Login</a>
+                                                <a href="/F_register" class="btn btn-outline-primary btn-sm">Register</a>
                                             </div>
                                         </div>
                                     </div>

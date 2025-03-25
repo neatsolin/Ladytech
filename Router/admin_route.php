@@ -74,9 +74,9 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
-    $route->get('/login', [LoginController::class, 'login']);
-    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
-    $route->get('/user-form', [UserFormController::class, 'userform']);
+    // Unified login management (for both users and admins)
+    $route->get('/admin-login', [LoginController::class, 'login_admin']);
+    $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
 
 
@@ -119,7 +119,7 @@
 
 
     //Login
-    $route->get('/F_login', [FrontLoginController::class, 'index']);
+    $route->get('/F_login', [LoginController::class, 'login']);
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);

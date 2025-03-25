@@ -142,19 +142,18 @@
   </style>
 
   <section class="hero-section">   
-    <h1>Hello Login!</h1>
+    <h1>Welcome, User!</h1>
   </section>
-
   <div class="wrapper">
-    <form action="/login/authenticate">
-      <h2>Login</h2>
+    <form action="/authenticate" method="POST">
+      <h2>User Login</h2>
       <div class="input-field">
-        <input type="text" required>
+        <input type="email" name="email" required>
         <label>Enter your email</label>
         <i class="fas fa-envelope"></i> <!-- Email icon at the right of input -->
       </div>
       <div class="input-field">
-        <input type="password" required>
+        <input type="password" name="password" required>
         <label>Enter your password</label>
         <i class="fas fa-lock"></i> <!-- Password icon at the right of input -->
       </div>
@@ -171,4 +170,18 @@
       </div>
     </form>
   </div>
+  
+  <!-- Include SweetAlert2 for error messages -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<<?php if (isset($_SESSION['error'])): ?>
+    <script>
+      Swal.fire({
+        icon: "error",
+        title: "User Login Failed",
+        text: "<?php echo $_SESSION['error']; ?>",
+        confirmButtonColor: "#007bff" <!-- Adjust color to match your theme -->
+      });
+    </script>
+    <?php unset($_SESSION['error']); // Clear error after showing ?>
+  <?php endif; ?>

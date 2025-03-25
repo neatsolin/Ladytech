@@ -408,6 +408,6 @@ if (isset($_SESSION['user_id'])) : ?>
   </div>
 <?php
 else:
-  $this->redirect("/login");
+  $this->redirect("/F_login");
 endif;
 ?>
