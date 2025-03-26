@@ -136,6 +136,10 @@
                             </div>
                         </div>
                         <div class="cart-total">
+                            <div class="cart-subtotal" style="display:none;">
+                                <span class="subtotal-label">Subtotal:</span>
+                                <span class="subtotal-amount">$0.00</span>
+                            </div>
                             <button id="view-cart" class="checkout-btn" style="display: none;">VIEW CART</button>
                             <button id="checkoutBtn" class="checkout-btn" style="display: none;">CHECKOUT</button>
                             <button id="continueShoppingBtn" class="checkout-btn" style="background:green; display: none;" onclick="window.location.href='/product'">CONTINUE SHOPPING</button>
@@ -370,23 +374,55 @@
         font-size: 1.2rem; /* Icon size */
     }
     .navbar .cart-container .cart-dropdown {
-    display: none !important;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    top: 40px;
-    right: -20px;
-    width: 380px;
-    height: 500px;
-    background: rgb(209, 206, 206);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    z-index: 999;
+        display: none !important;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        top: 54px;
+        right: -200px;
+        width: 380px;
+        height: 80vh; /* Full height of the viewport */
+        background: rgb(209, 206, 206);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        z-index: 999;
     }
 
     .navbar .cart-container .cart-dropdown.show {
         display: flex !important;
+        animation: slideInFromRight 0.5s ease-out forwards; /* Animation applied when .show is added */
+    }
+
+    /* Define the animation */
+    @keyframes slideInFromRight {
+        0% {
+            right: -400px; /* Start off-screen to the right (beyond the width of the cart) */
+        }
+        100% {
+            right: -180px; /* End at the final position */
+        }
+    }
+
+    .cart-subtotal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .subtotal-label {
+        text-transform: uppercase;
+    }
+
+    .subtotal-amount {
+        color: #000;
     }
 
 </style>
@@ -546,6 +582,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartItemsContainer = cartDropdown.querySelector('.cart-items');
         if (!cartItemsContainer) return;
 
+        // Get subtotal elements
+        const subtotalSection = cartDropdown.querySelector('.cart-subtotal');
+        const subtotalAmount = cartDropdown.querySelector('.subtotal-amount');
+
         // Situation between checkout and continue shopping
         const checkoutBtn = document.getElementById('checkoutBtn');
         const continueShoppingBtn = document.getElementById('continueShoppingBtn');
@@ -555,10 +595,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!Array.isArray(cartItems) || cartItems.length === 0) {
             cartItemsContainer.innerHTML = '<p>No products in the cart.</p>';
+            if (subtotalSection) subtotalSection.style.display = 'none';
             if (viewCartBtn) viewCartBtn.style.display = 'none';
             if (checkoutBtn) checkoutBtn.style.display = 'none';
             if (continueShoppingBtn) continueShoppingBtn.style.display = 'block';
             return;
+        }
+
+        // Calculate subtotal
+        const subtotal = cartItems.reduce((total, item) => {
+            const price = parseFloat(item.price) || 0;
+            const quantity = parseInt(item.quantity) || 1;
+            return total + price * quantity;
+        }, 0);
+
+        // Update subtotal display
+        if (subtotalSection && subtotalAmount) {
+            subtotalSection.style.display = 'flex';
+            subtotalAmount.textContent = `$${subtotal.toFixed(2)}`;
         }
 
         cartItems.forEach(item => {
