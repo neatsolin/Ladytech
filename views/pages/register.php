@@ -1,3 +1,24 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php if (isset($_SESSION['error'])):?>
+  <div class="alert alert-danger"><?= $_SESSION['error']; ?></div>
+  <?php unset($_SESSION['error']);?>
+<?php endif;?>
+
+<?php if (isset($_SESSION['success'])): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Registration Successful!',
+            text: 'You have successfully registered.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = '/F_login'; // Redirect to login after clicking OK
+        });
+    </script>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +56,6 @@
       backdrop-filter: blur(8px);
       color: #fff;
       border: 2px solid rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     }
 
@@ -62,9 +82,10 @@
       transition: 0.3s;
     }
 
-    .input-field input {
+    .input-field input,
+    .input-field select {
       width: 100%;
-      padding: 10px 10px 10px 10px; /* Adjust padding without the icon */
+      padding: 10px 40px 10px 10px; /* Adjust padding for icon */
       background: transparent;
       border: none;
       outline: none;
@@ -72,15 +93,31 @@
       color: #fff;
     }
 
+    /* Style for select element */
+    .input-field select {
+      -webkit-appearance: none; /* Remove default arrow in Chrome/Safari */
+      -moz-appearance: none; /* Remove default arrow in Firefox */
+      appearance: none; /* Remove default arrow */
+      cursor: pointer;
+    }
+
+    .input-field select:focus~label,
+    .input-field select:valid~label,
     .input-field input:focus~label,
     .input-field input:valid~label {
       top: 5px;
       font-size: 13px;
     }
 
+    /* Style for select options */
+    .input-field select option {
+      background: #333; /* Dark background for dropdown options */
+      color: #fff;
+    }
+
     .input-field i {
       position: absolute;
-      right: 10px; /* Position icon on the right */
+      right: 10px;
       font-size: 18px;
       color: rgba(255, 255, 255, 0.8);
     }
@@ -137,7 +174,8 @@
     .register a:hover {
       text-decoration: underline;
     }
-    .register a{
+
+    .register a {
       color: blue;
     }
   </style>
@@ -146,30 +184,41 @@
 
   <div class="wrapper">
     <h2>Register</h2>
-    <form action="#" method="POST" enctype="multipart/form-data">
+    <form action="/register/store" method="POST" enctype="multipart/form-data">
       
       <div class="input-field">
         <input type="text" id="username" name="username" required>
         <label>Username</label>
-        <i class="fas fa-user"></i> <!-- Username icon at the end -->
+        <i class="fas fa-user"></i>
       </div>
 
       <div class="input-field">
         <input type="email" id="email" name="email" required>
         <label>Email</label>
-        <i class="fas fa-envelope"></i> <!-- Email icon at the end -->
+        <i class="fas fa-envelope"></i>
       </div>
 
       <div class="input-field">
         <input type="tel" id="phone" name="phone" required>
         <label>Phone Number</label>
-        <i class="fas fa-phone"></i> <!-- Phone icon at the end -->
+        <i class="fas fa-phone"></i>
       </div>
 
       <div class="input-field">
         <input type="password" id="password" name="password" required>
         <label>Password</label>
-        <i class="fas fa-lock"></i> <!-- Password icon at the end -->
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <!-- Redesigned Role Selection -->
+      <div class="input-field">
+        <select id="role" name="role" required>
+          <option value="" disabled selected hidden></option>
+          <option value="users" selected>User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <label>Role</label>
+        <i class="fas fa-users"></i>
       </div>
 
       <div class="profile-upload">
@@ -181,7 +230,7 @@
         <img id="preview" src="#" alt="Profile Preview">
       </div>
 
-      <button type="submit">Register</button>
+      <button type="submit">REGISTER</button>
 
       <div class="register">
         <p>Already have an account? <a href="/F_login">Log In</a></p>

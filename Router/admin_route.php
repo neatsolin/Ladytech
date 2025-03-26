@@ -12,6 +12,7 @@
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
     require_once "Controllers/admin/inventory/PaymentController.php";
+    require_once "Controllers/admin/inventory/DiscountController.php";
 
     //customer
     require_once "Controllers/admin/basecustomerController.php";
@@ -42,6 +43,9 @@
     $route->get("/add-stock", [ProductController::class, 'addstock']);
     $route->get('/products/discount', [ProductController::class, 'discount']);
     $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
+    $route->get('/products/view/{id}', [ProductController::class, 'show']);
+
+
 
 
     //stock management
@@ -74,9 +78,9 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
-    $route->get('/login', [LoginController::class, 'login']);
-    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
-    $route->get('/user-form', [UserFormController::class, 'userform']);
+    // Unified login management (for both users and admins)
+    $route->get('/admin-login', [LoginController::class, 'login_admin']);
+    $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
 
 
@@ -119,7 +123,7 @@
 
 
     //Login
-    $route->get('/F_login', [FrontLoginController::class, 'index']);
+    $route->get('/F_login', [LoginController::class, 'login']);
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
