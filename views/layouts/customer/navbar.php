@@ -366,44 +366,207 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let currentLang = "en"; // Default language is English
-
-        document.getElementById("langToggle").addEventListener("click", function () {
-            currentLang = currentLang === "en" ? "km" : "en"; // Toggle language
-
-            // Update all text elements based on selected language
+document.addEventListener('DOMContentLoaded', function () {
+    // Language toggle functionality
+    let currentLang = "en";
+    const langToggle = document.getElementById("langToggle");
+    if (langToggle) {
+        langToggle.addEventListener("click", function () {
+            currentLang = currentLang === "en" ? "km" : "en";
             document.querySelectorAll(".lang").forEach(el => {
-                let newText = el.getAttribute(`data-${currentLang}`);
+                const newText = el.getAttribute(`data-${currentLang}`);
                 if (newText) {
                     el.textContent = newText;
                 }
             });
-
-            // Update language button text
             this.textContent = currentLang === "en" ? "ភាសាខ្មែរ" : "English";
         });
-    });
+    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const tabButtons = document.querySelectorAll('.nav.drp-tabs .nav-link');
-        const tabPanes = document.querySelectorAll('.tab-content-layout .tab-pane');
-
-        tabButtons.forEach((button) => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                // Remove active class from all buttons and panes
-                tabButtons.forEach((btn) => btn.classList.remove('active'));
-                tabPanes.forEach((pane) => pane.classList.remove('active'));
-
-                // Add active class to the clicked button and corresponding pane
-                const targetPaneId = button.getAttribute('data-bs-target');
-                const targetPane = document.querySelector(targetPaneId);
-
-                button.classList.add('active');
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.nav.drp-tabs .nav-link');
+    const tabPanes = document.querySelectorAll('.tab-content-layout .tab-pane');
+    tabButtons.forEach((button) => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            const targetPaneId = this.getAttribute('data-bs-target');
+            const targetPane = document.querySelector(targetPaneId);
+            if (targetPane) {
+                this.classList.add('active');
                 targetPane.classList.add('active');
-            });
+            }
         });
     });
+
+    // Cart functionality
+    window.addToCart = async function(productId) {
+        if (!productId) {
+            alert('Invalid product ID');
+            return;
+        }
+
+        try {
+            console.log('Adding product ID:', productId);
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${encodeURIComponent(productId)}&quantity=1`
+            });
+
+            if (!response.ok) {
+                console.error('Network response not ok:', response.status, response.statusText);
+                throw new Error('Network response was not ok');
+            }
+            
+            const result = await response.json();
+            console.log('Add to cart response:', result);
+            
+            if (result.success) {
+                await fetchCartItems();
+            } else {
+                if (result.message === 'User not logged in') {
+                    alert('Please log in to add items to your cart.');
+                    window.location.href = '/F_login';
+                } else {
+                    alert(result.message || 'Failed to add item to cart');
+                }
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('An error occurred while adding to cart. Please try again.');
+        }
+    };
+
+    window.removeFromCart = async function(productId) {
+        if (!productId) {
+            alert('Invalid product ID');
+            return;
+        }
+
+        try {
+            const response = await fetch('/cart/remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${encodeURIComponent(productId)}`
+            });
+
+            if (!response.ok) {
+                console.error('Network response not ok:', response.status, response.statusText);
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('Remove from cart response:', result);
+            
+            if (result.success) {
+                await fetchCartItems();
+            } else {
+                alert(result.message || 'Failed to remove item from cart');
+            }
+        } catch (error) {
+            console.error('Error removing from cart:', error);
+            alert('An error occurred while removing from cart. Please try again.');
+        }
+    };
+
+    async function fetchCartItems() {
+        try {
+            const response = await fetch('/cart/items');
+            if (!response.ok) {
+                console.error('Network response not ok:', response.status, response.statusText);
+                throw new Error('Network response was not ok');
+            }
+            
+            const result = await response.json();
+            console.log('Fetch cart items response:', result);
+            
+            if (result.success) {
+                updateCartDropdown(result.data || []);
+                updateCartCount(result.data || []);
+            } else {
+                console.warn('Failed to fetch cart items:', result.message);
+                updateCartDropdown([]);
+                updateCartCount([]);
+            }
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+            updateCartDropdown([]);
+            updateCartCount([]);
+        }
+    }
+
+    function updateCartCount(cartItems) {
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            const count = Array.isArray(cartItems) 
+                ? cartItems.reduce((total, item) => total + (parseInt(item.quantity) || 0), 0)
+                : 0;
+            cartCountElement.textContent = count;
+        }
+    }
+
+    function updateCartDropdown(cartItems) {
+        const cartDropdown = document.getElementById('cartDropdown');
+        if (!cartDropdown) return;
+
+        const cartItemsContainer = cartDropdown.querySelector('.cart-items');
+        if (!cartItemsContainer) return;
+
+        cartItemsContainer.innerHTML = '';
+
+        if (!Array.isArray(cartItems) || cartItems.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            return;
+        }
+
+        cartItems.forEach(item => {
+            if (!item || !item.product_id) return;
+
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <img src="${item.imageURL || '/default-image.jpg'}" alt="${item.productname || 'Product'}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <span class="cart-item-name">${item.productname || 'Unknown Product'}</span>
+                    <span class="cart-item-price">$${parseFloat(item.price || 0).toFixed(2)} x ${parseInt(item.quantity) || 1}</span>
+                    <span class="cart-item-total">$${(parseFloat(item.price || 0) * parseInt(item.quantity || 1)).toFixed(2)}</span>
+                </div>
+                <span class="delete-icon" onclick="removeFromCart(${item.product_id})">
+                    <i class="bi bi-trash"></i>
+                </span>
+            `;
+            cartItemsContainer.appendChild(cartItem);
+        });
+    }
+
+    window.toggleCart = function() {
+        const cartDropdown = document.getElementById('cartDropdown');
+        if (!cartDropdown) return;
+
+        const isDisplayed = cartDropdown.style.display === 'block';
+        
+        if (!isDisplayed) {
+            fetchCartItems();
+        }
+        
+        cartDropdown.style.display = isDisplayed ? 'none' : 'block';
+    };
+
+    // Initial setup
+    const cartDropdown = document.getElementById('cartDropdown');
+    if (cartDropdown) {
+        cartDropdown.style.display = 'none';
+    }
+
+    // Fetch initial cart items if user is logged in
+    <?php if (isset($_SESSION['user_id'])): ?>
+        fetchCartItems();
+    <?php endif; ?>
+});
 </script>

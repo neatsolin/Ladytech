@@ -139,38 +139,52 @@
     .register a{
       color: blue;
     }
+    .loginn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1000px; /* Adjust as needed */
+      margin: 0 auto;
+    }
   </style>
 
   <section class="hero-section">   
     <h1>Welcome, User!</h1>
   </section>
-  <div class="wrapper">
-    <form action="/authenticate" method="POST">
-      <h2>User Login</h2>
-      <div class="input-field">
-        <input type="email" name="email" required>
-        <label>Enter your email</label>
-        <i class="fas fa-envelope"></i> <!-- Email icon at the right of input -->
-      </div>
-      <div class="input-field">
-        <input type="password" name="password" required>
-        <label>Enter your password</label>
-        <i class="fas fa-lock"></i> <!-- Password icon at the right of input -->
-      </div>
-      <div class="forget">
-        <label for="remember">
-          <input type="checkbox" id="remember">
-          <p>Remember me</p>
-        </label>
-        <a href="#">Forgot password?</a>
-      </div>
-      <button type="submit">Log In</button>
-      <div class="register">
-        <p>Don't have an account? <a href="/F_register">Register</a></p>
-      </div>
-    </form>
-  </div>
+  <section class="loginn">
+
+    <div class="imagesid">
+      <img src="/assets/images/Daily.jpg" alt="image for daily"> <!-- Image for user login -->
+    </div>
   
+    <div class="wrapper">
+      <form action="/authenticate" method="POST">
+        <h2>User Login</h2>
+        <div class="input-field">
+          <input type="email" name="email" required>
+          <label>Enter your email</label>
+          <i class="fas fa-envelope"></i> <!-- Email icon at the right of input -->
+        </div>
+        <div class="input-field">
+          <input type="password" name="password" required>
+          <label>Enter your password</label>
+          <i class="fas fa-lock"></i> <!-- Password icon at the right of input -->
+        </div>
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember">
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Log In</button>
+        <div class="register">
+          <p>Don't have an account? <a href="/F_register">Register</a></p>
+        </div>
+      </form>
+    </div>
+  </section>
   <!-- Include SweetAlert2 for error messages -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

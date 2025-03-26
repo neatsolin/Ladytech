@@ -130,90 +130,90 @@ stats.forEach(stat => {
         }
     }
 
-//------------------------- add to cart ---------------------------------------------------->
-    let cart = [];
+// //------------------------- add to cart ---------------------------------------------------->
+//     let cart = [];
 
-    function addToCart(productId) {
-        // Find the product card by productId
-        const productCard = document.querySelector(`[data-product-id="${productId}"]`);
-        if (!productCard) return;
+//     function addToCart(productId) {
+//         // Find the product card by productId
+//         const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+//         if (!productCard) return;
 
-        // Extract product details
-        const productName = productCard.querySelector('.card-title').textContent;
-        const productPrice = parseFloat(productCard.querySelector('.price').textContent.replace('Price: $', ''));
-        const productImage = productCard.querySelector('img').src; // Get the image URL
+//         // Extract product details
+//         const productName = productCard.querySelector('.card-title').textContent;
+//         const productPrice = parseFloat(productCard.querySelector('.price').textContent.replace('Price: $', ''));
+//         const productImage = productCard.querySelector('img').src; // Get the image URL
 
-        // Check if the product is already in the cart
-        const existingProduct = cart.find(item => item.id === productId);
+//         // Check if the product is already in the cart
+//         const existingProduct = cart.find(item => item.id === productId);
 
-        if (existingProduct) {
-            // If the product is already in the cart, increase the quantity
-            existingProduct.quantity += 1;
-        } else {
-            // If the product is not in the cart, add it with a quantity of 1
-            cart.push({
-                id: productId,
-                name: productName,
-                price: productPrice,
-                image: productImage, // Include the image URL
-                quantity: 1,
-            });
-        }
+//         if (existingProduct) {
+//             // If the product is already in the cart, increase the quantity
+//             existingProduct.quantity += 1;
+//         } else {
+//             // If the product is not in the cart, add it with a quantity of 1
+//             cart.push({
+//                 id: productId,
+//                 name: productName,
+//                 price: productPrice,
+//                 image: productImage, // Include the image URL
+//                 quantity: 1,
+//             });
+//         }
 
-        // Update the cart count and dropdown
-        updateCartCount();
-        updateCartDropdown();
-    }
+//         // Update the cart count and dropdown
+//         updateCartCount();
+//         updateCartDropdown();
+//     }
 
-    function removeFromCart(productId) {
-        // Remove the product from the cart
-        cart = cart.filter(item => item.id !== productId);
+//     function removeFromCart(productId) {
+//         // Remove the product from the cart
+//         cart = cart.filter(item => item.id !== productId);
 
-        // Update the cart count and dropdown
-        updateCartCount();
-        updateCartDropdown();
-    }
+//         // Update the cart count and dropdown
+//         updateCartCount();
+//         updateCartDropdown();
+//     }
 
-    function updateCartCount() {
-        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-        document.getElementById('cart-count').textContent = cartCount;
-    }
+//     function updateCartCount() {
+//         const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+//         document.getElementById('cart-count').textContent = cartCount;
+//     }
 
-    function updateCartDropdown() {
-        const cartDropdown = document.getElementById('cartDropdown');
-        const cartItems = cartDropdown.querySelector('.cart-items');
+//     function updateCartDropdown() {
+//         const cartDropdown = document.getElementById('cartDropdown');
+//         const cartItems = cartDropdown.querySelector('.cart-items');
 
-        // Clear the current cart items
-        cartItems.innerHTML = '';
+//         // Clear the current cart items
+//         cartItems.innerHTML = '';
 
-        // Add each item in the cart to the dropdown
-        cart.forEach(item => {
-            const cartItem = document.createElement('div');
-            cartItem.className = 'cart-item';
-            cartItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                <div class="cart-item-details">
-                    <span class="cart-item-name">${item.name}</span>
-                    <span class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</span>
-                    <span class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-                <span class="delete-icon" onclick="removeFromCart(${item.id})">
-                    <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
-                </span>
-            `;
-            cartItems.appendChild(cartItem);
-        });
+//         // Add each item in the cart to the dropdown
+//         cart.forEach(item => {
+//             const cartItem = document.createElement('div');
+//             cartItem.className = 'cart-item';
+//             cartItem.innerHTML = `
+//                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+//                 <div class="cart-item-details">
+//                     <span class="cart-item-name">${item.name}</span>
+//                     <span class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</span>
+//                     <span class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</span>
+//                 </div>
+//                 <span class="delete-icon" onclick="removeFromCart(${item.id})">
+//                     <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+//                 </span>
+//             `;
+//             cartItems.appendChild(cartItem);
+//         });
 
-        // If the cart is empty, display a message
-        if (cart.length === 0) {
-            cartItems.innerHTML = '<p>Your cart is empty.</p>';
-        }
-    }
+//         // If the cart is empty, display a message
+//         if (cart.length === 0) {
+//             cartItems.innerHTML = '<p>Your cart is empty.</p>';
+//         }
+//     }
 
-    function toggleCart() {
-        const cartDropdown = document.getElementById('cartDropdown');
-        cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
-    }
+//     function toggleCart() {
+//         const cartDropdown = document.getElementById('cartDropdown');
+//         cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+//     }
 // <--------------------- rate filter -------------------->
 // rate filter 
 document.getElementById("priceRange").addEventListener("input", function () {

@@ -23,6 +23,7 @@
     require_once "Controllers/admin/page/ContactControler.php";
     require_once "Controllers/admin/page/LoginController.php";
     require_once "Controllers/admin/page/RegisterController.php";
+    require_once "Controllers/admin/inventory/CartController.php";
 
 
 
@@ -136,6 +137,12 @@
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
     $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
+
+    // Cart
+    // Add these to your existing routes
+    $route->get('/cart/items', [CartController::class, 'getItems']);
+    $route->post('/cart/add', [CartController::class, 'add']);
+    $route->post('/cart/remove', [CartController::class, 'remove']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
