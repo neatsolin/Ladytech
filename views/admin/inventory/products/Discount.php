@@ -1,1 +1,0 @@
-<h1>Discount!</h1>
