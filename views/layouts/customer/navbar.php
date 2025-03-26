@@ -129,11 +129,17 @@
 
                     <!-- Cart Dropdown -->
                     <div class="cart-dropdown" id="cartDropdown">
-                        <h4>Cart</h4>
-                        <div class="cart-items">
-                            <!-- Cart items will be dynamically added here -->
+                        <div>
+                            <h4>CART</h4>
+                            <div class="cart-items">
+                                <!-- Cart items will be dynamically added here -->
+                            </div>
                         </div>
-                        <button class="checkout-btn">CHECKOUT</button>
+                        <div class="cart-total">
+                            <button id="view-cart" class="checkout-btn" style="display: none;">VIEW CART</button>
+                            <button id="checkoutBtn" class="checkout-btn" style="display: none;">CHECKOUT</button>
+                            <button id="continueShoppingBtn" class="checkout-btn" style="background:green; display: none;" onclick="window.location.href='/product'">CONTINUE SHOPPING</button>
+                        </div>    
                     </div>
                 </div>
                 <!-- profile -->
@@ -363,6 +369,26 @@
     .dropdown-item i {
         font-size: 1.2rem; /* Icon size */
     }
+    .navbar .cart-container .cart-dropdown {
+    display: none !important;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 40px;
+    right: -20px;
+    width: 380px;
+    height: 500px;
+    background: rgb(209, 206, 206);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 999;
+    }
+
+    .navbar .cart-container .cart-dropdown.show {
+        display: flex !important;
+    }
+
 </style>
 
 <script>
@@ -475,6 +501,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // Fetch cart items and update UI
     async function fetchCartItems() {
         try {
             const response = await fetch('/cart/items');
@@ -500,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateCartCount([]);
         }
     }
-
+    // Update the cart count badge
     function updateCartCount(cartItems) {
         const cartCountElement = document.getElementById('cart-count');
         if (cartCountElement) {
@@ -511,6 +538,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Update the cart dropdown (this is the function that needs to be updated)
     function updateCartDropdown(cartItems) {
         const cartDropdown = document.getElementById('cartDropdown');
         if (!cartDropdown) return;
@@ -518,10 +546,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartItemsContainer = cartDropdown.querySelector('.cart-items');
         if (!cartItemsContainer) return;
 
+        // Situation between checkout and continue shopping
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+        const viewCartBtn = document.getElementById('view-cart');
+
         cartItemsContainer.innerHTML = '';
 
         if (!Array.isArray(cartItems) || cartItems.length === 0) {
-            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            cartItemsContainer.innerHTML = '<p>No products in the cart.</p>';
+            if (viewCartBtn) viewCartBtn.style.display = 'none';
+            if (checkoutBtn) checkoutBtn.style.display = 'none';
+            if (continueShoppingBtn) continueShoppingBtn.style.display = 'block';
             return;
         }
 
@@ -543,25 +579,39 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             cartItemsContainer.appendChild(cartItem);
         });
+        if (viewCartBtn) viewCartBtn.style.display = 'block';
+        if (checkoutBtn) checkoutBtn.style.display = 'block';
+        if (continueShoppingBtn) continueShoppingBtn.style.display = 'none';
     }
 
-    window.toggleCart = function() {
+   // Toggle cart dropdown visibility (updated to use show class)
+   window.toggleCart = function() {
         const cartDropdown = document.getElementById('cartDropdown');
-        if (!cartDropdown) return;
-
-        const isDisplayed = cartDropdown.style.display === 'block';
-        
-        if (!isDisplayed) {
-            fetchCartItems();
+        if (!cartDropdown) {
+            console.error('Cart dropdown element not found');
+            return;
         }
-        
-        cartDropdown.style.display = isDisplayed ? 'none' : 'block';
+
+        const isDisplayed = cartDropdown.classList.contains('show');
+        console.log('Cart dropdown isDisplayed:', isDisplayed);
+
+        if (!isDisplayed) {
+            // Show the dropdown and fetch cart items
+            cartDropdown.classList.add('show');
+            fetchCartItems();
+            console.log('Showing cart dropdown');
+        } else {
+            // Hide the dropdown
+            cartDropdown.classList.remove('show');
+            console.log('Hiding cart dropdown');
+        }
     };
 
-    // Initial setup
+    // Initial setup: Ensure the cart dropdown is hidden on page load
     const cartDropdown = document.getElementById('cartDropdown');
     if (cartDropdown) {
-        cartDropdown.style.display = 'none';
+        cartDropdown.classList.remove('show');
+        console.log('Cart dropdown initially hidden');
     }
 
     // Fetch initial cart items if user is logged in
