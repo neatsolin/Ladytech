@@ -132,6 +132,7 @@
     // Checkout
     $route->get('/checkout', [PaymentController::class, 'checkout']);
     $route->post('/checkout/process', [PaymentController::class, 'processCheckout']);
+    $route->get('/checkout/payment', [PaymentController::class, 'payment']);
 
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
