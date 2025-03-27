@@ -140,8 +140,12 @@
                                 <span class="subtotal-label">Subtotal:</span>
                                 <span class="subtotal-amount">$0.00</span>
                             </div>
+                            <a href="/viewcart">
                             <button id="view-cart" class="checkout-btn" style="display: none;">VIEW CART</button>
+                            </a>
+                            <a href="/checkouts">
                             <button id="checkoutBtn" class="checkout-btn" style="display: none;">CHECKOUT</button>
+                            </a>
                             <button id="continueShoppingBtn" class="checkout-btn" style="background:green; display: none;" onclick="window.location.href='/product'">CONTINUE SHOPPING</button>
                         </div>    
                     </div>
