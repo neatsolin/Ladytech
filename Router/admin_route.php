@@ -146,6 +146,7 @@
     $route->post('/cart/remove', [CartController::class, 'remove']);
     $route->get('/viewcart', [CartController::class, 'viewcart']);
     $route->get('/checkouts', [CartController::class, 'checkout']);
+    $route->post('/cart/update', [CartController::class, 'update']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
