@@ -2,7 +2,7 @@
 require_once "Models/ProductModel.php";
 require_once "Models/cartModel.php";
 
-class CartController extends BaseadminController {
+class CartController extends BasecustomerController {
     private $cartModel;
     private $productModel;
 
