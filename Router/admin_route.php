@@ -23,6 +23,7 @@
     require_once "Controllers/admin/page/ContactControler.php";
     require_once "Controllers/admin/page/LoginController.php";
     require_once "Controllers/admin/page/RegisterController.php";
+    require_once "Controllers/admin/inventory/CartController.php";
 
 
 
@@ -78,9 +79,9 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
-    $route->get('/login', [LoginController::class, 'login']);
-    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
-    $route->get('/user-form', [UserFormController::class, 'userform']);
+    // Unified login management (for both users and admins)
+    $route->get('/admin-login', [LoginController::class, 'login_admin']);
+    $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
 
 
@@ -123,7 +124,7 @@
 
 
     //Login
-    $route->get('/F_login', [FrontLoginController::class, 'index']);
+    $route->get('/F_login', [LoginController::class, 'login']);
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
@@ -136,6 +137,12 @@
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
     $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
+
+    // Cart
+    // Add these to your existing routes
+    $route->get('/cart/items', [CartController::class, 'getItems']);
+    $route->post('/cart/add', [CartController::class, 'add']);
+    $route->post('/cart/remove', [CartController::class, 'remove']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);

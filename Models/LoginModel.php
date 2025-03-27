@@ -12,5 +12,6 @@ class LoginModel {
         $result = $this->db->query("SELECT * FROM users WHERE email = :email", ['email' => $email]);
         return $result->fetch(PDO::FETCH_ASSOC);
     }
+
 }
 ?>
