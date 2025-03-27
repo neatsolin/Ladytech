@@ -129,11 +129,21 @@
 
                     <!-- Cart Dropdown -->
                     <div class="cart-dropdown" id="cartDropdown">
-                        <h4>Cart</h4>
-                        <div class="cart-items">
-                            <!-- Cart items will be dynamically added here -->
+                        <div>
+                            <h4>CART</h4>
+                            <div class="cart-items">
+                                <!-- Cart items will be dynamically added here -->
+                            </div>
                         </div>
-                        <button class="checkout-btn">CHECKOUT</button>
+                        <div class="cart-total">
+                            <div class="cart-subtotal" style="display:none;">
+                                <span class="subtotal-label">Subtotal:</span>
+                                <span class="subtotal-amount">$0.00</span>
+                            </div>
+                            <button id="view-cart" class="checkout-btn" style="display: none;">VIEW CART</button>
+                            <button id="checkoutBtn" class="checkout-btn" style="display: none;">CHECKOUT</button>
+                            <button id="continueShoppingBtn" class="checkout-btn" style="background:green; display: none;" onclick="window.location.href='/product'">CONTINUE SHOPPING</button>
+                        </div>    
                     </div>
                 </div>
                 <!-- profile -->
@@ -363,6 +373,58 @@
     .dropdown-item i {
         font-size: 1.2rem; /* Icon size */
     }
+    .navbar .cart-container .cart-dropdown {
+        display: none !important;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        top: 54px;
+        right: -200px;
+        width: 380px;
+        height: 80vh; /* Full height of the viewport */
+        background: rgb(209, 206, 206);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        z-index: 999;
+    }
+
+    .navbar .cart-container .cart-dropdown.show {
+        display: flex !important;
+        animation: slideInFromRight 0.5s ease-out forwards; /* Animation applied when .show is added */
+    }
+
+    /* Define the animation */
+    @keyframes slideInFromRight {
+        0% {
+            right: -400px; /* Start off-screen to the right (beyond the width of the cart) */
+        }
+        100% {
+            right: -180px; /* End at the final position */
+        }
+    }
+
+    .cart-subtotal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .subtotal-label {
+        text-transform: uppercase;
+    }
+
+    .subtotal-amount {
+        color: #000;
+    }
+
 </style>
 
 <script>
@@ -475,6 +537,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // Fetch cart items and update UI
     async function fetchCartItems() {
         try {
             const response = await fetch('/cart/items');
@@ -500,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateCartCount([]);
         }
     }
-
+    // Update the cart count badge
     function updateCartCount(cartItems) {
         const cartCountElement = document.getElementById('cart-count');
         if (cartCountElement) {
@@ -511,6 +574,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Update the cart dropdown (this is the function that needs to be updated)
     function updateCartDropdown(cartItems) {
         const cartDropdown = document.getElementById('cartDropdown');
         if (!cartDropdown) return;
@@ -518,11 +582,37 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartItemsContainer = cartDropdown.querySelector('.cart-items');
         if (!cartItemsContainer) return;
 
+        // Get subtotal elements
+        const subtotalSection = cartDropdown.querySelector('.cart-subtotal');
+        const subtotalAmount = cartDropdown.querySelector('.subtotal-amount');
+
+        // Situation between checkout and continue shopping
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+        const viewCartBtn = document.getElementById('view-cart');
+
         cartItemsContainer.innerHTML = '';
 
         if (!Array.isArray(cartItems) || cartItems.length === 0) {
-            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            cartItemsContainer.innerHTML = '<p>No products in the cart.</p>';
+            if (subtotalSection) subtotalSection.style.display = 'none';
+            if (viewCartBtn) viewCartBtn.style.display = 'none';
+            if (checkoutBtn) checkoutBtn.style.display = 'none';
+            if (continueShoppingBtn) continueShoppingBtn.style.display = 'block';
             return;
+        }
+
+        // Calculate subtotal
+        const subtotal = cartItems.reduce((total, item) => {
+            const price = parseFloat(item.price) || 0;
+            const quantity = parseInt(item.quantity) || 1;
+            return total + price * quantity;
+        }, 0);
+
+        // Update subtotal display
+        if (subtotalSection && subtotalAmount) {
+            subtotalSection.style.display = 'flex';
+            subtotalAmount.textContent = `$${subtotal.toFixed(2)}`;
         }
 
         cartItems.forEach(item => {
@@ -543,25 +633,39 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             cartItemsContainer.appendChild(cartItem);
         });
+        if (viewCartBtn) viewCartBtn.style.display = 'block';
+        if (checkoutBtn) checkoutBtn.style.display = 'block';
+        if (continueShoppingBtn) continueShoppingBtn.style.display = 'none';
     }
 
-    window.toggleCart = function() {
+   // Toggle cart dropdown visibility (updated to use show class)
+   window.toggleCart = function() {
         const cartDropdown = document.getElementById('cartDropdown');
-        if (!cartDropdown) return;
-
-        const isDisplayed = cartDropdown.style.display === 'block';
-        
-        if (!isDisplayed) {
-            fetchCartItems();
+        if (!cartDropdown) {
+            console.error('Cart dropdown element not found');
+            return;
         }
-        
-        cartDropdown.style.display = isDisplayed ? 'none' : 'block';
+
+        const isDisplayed = cartDropdown.classList.contains('show');
+        console.log('Cart dropdown isDisplayed:', isDisplayed);
+
+        if (!isDisplayed) {
+            // Show the dropdown and fetch cart items
+            cartDropdown.classList.add('show');
+            fetchCartItems();
+            console.log('Showing cart dropdown');
+        } else {
+            // Hide the dropdown
+            cartDropdown.classList.remove('show');
+            console.log('Hiding cart dropdown');
+        }
     };
 
-    // Initial setup
+    // Initial setup: Ensure the cart dropdown is hidden on page load
     const cartDropdown = document.getElementById('cartDropdown');
     if (cartDropdown) {
-        cartDropdown.style.display = 'none';
+        cartDropdown.classList.remove('show');
+        console.log('Cart dropdown initially hidden');
     }
 
     // Fetch initial cart items if user is logged in

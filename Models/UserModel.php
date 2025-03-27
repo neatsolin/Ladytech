@@ -66,7 +66,7 @@ class UserModel {
     $this->db->query("DELETE FROM notifications WHERE user_id = :id", ['id' => $id]);
     $this->db->query("DELETE FROM payment_methods WHERE user_id = :id", ['id' => $id]);
     $this->db->query("DELETE FROM reviews WHERE user_id = :id", ['id' => $id]);
-    $this->db->query("DELETE FROM shoppingcards WHERE user_id = :id", ['id' => $id]);
+    $this->db->query("DELETE FROM shoppingcarts WHERE user_id = :id", ['id' => $id]);
 
     // step 4: delete
     $this->db->query("DELETE FROM transactions WHERE order_id IN (SELECT id FROM orders WHERE user_id = :id)", ['id' => $id]);
