@@ -133,16 +133,19 @@
     // Checkout
     $route->get('/checkout', [PaymentController::class, 'checkout']);
     $route->post('/checkout/process', [PaymentController::class, 'processCheckout']);
-
+    $route->get('/checkout/payment', [PaymentController::class, 'payment']);
+    
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
     $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
-
+    
     // Cart
     // Add these to your existing routes
     $route->get('/cart/items', [CartController::class, 'getItems']);
     $route->post('/cart/add', [CartController::class, 'add']);
     $route->post('/cart/remove', [CartController::class, 'remove']);
+    $route->get('/viewcart', [CartController::class, 'viewcart']);
+    $route->get('/checkouts', [CartController::class, 'checkout']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);

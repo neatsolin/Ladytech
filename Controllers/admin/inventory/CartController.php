@@ -2,7 +2,7 @@
 require_once "Models/ProductModel.php";
 require_once "Models/cartModel.php";
 
-class CartController extends BasecustomerController {
+class CartController extends  BasecustomerController {
     private $cartModel;
     private $productModel;
 
@@ -111,5 +111,11 @@ class CartController extends BasecustomerController {
             'data' => $data
         ]);
         exit;
+    }
+    public function viewcart(){
+        $this->view('pages/payment/viewcart');
+    }
+    public function checkout(){
+        $this->view('pages/payment/checkout');
     }
 }
