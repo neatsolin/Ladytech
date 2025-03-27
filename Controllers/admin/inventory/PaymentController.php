@@ -182,5 +182,8 @@ class PaymentController extends BaseadminController {
             $this->redirect("/products");
         }
     }
+    public function payment(){
+        require_once __DIR__. '/../../../views/admin/inventory/Payment/payment.php';
+    }
 }
 ?>
