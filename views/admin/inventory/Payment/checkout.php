@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency'])) {
                             </select>
                         </div>
 
+
                         <!-- Currency Selection -->
                         <div class="mb-3">
                             <label for="currency" class="form-label">Currency</label>
@@ -151,6 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency'])) {
         const formattedProductPrice = currency === 'KH Riel' ? 
             `${productPriceUSD * exchangeRate} KH Riel` : 
             `$${productPriceUSD}`;
+
 
         // Update the displayed product price
         document.getElementById('product_price').textContent = formattedProductPrice;

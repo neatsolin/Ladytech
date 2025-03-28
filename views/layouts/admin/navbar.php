@@ -127,7 +127,7 @@
           <i class="ti ti-news"></i>
         </li>
         <li class="pc-item">
-          <a href="/login" class="pc-link">
+          <a href="/admin-login" class="pc-link">
             <span class="pc-micon"><i class="ti ti-lock"></i></span>
             <span class="pc-mtext">Login</span>
           </a>
