@@ -22,12 +22,26 @@ endif;
             color: green !important;
             /* Change color to blue on hover */
         }
+        body{
+            background-color:rgb(106, 162, 221);
+
+        }
 
         .nav-link {
             font-weight: normal;
             /* Default weight */
             transition: color 0.3s ease, font-weight 0.3s ease;
             /* Smooth transition */
+        }
+
+        .text-white {
+            height: 70vh;
+        }
+
+        .img_some {
+            width: 400px;
+            height: 400px;
+
         }
     </style>
 </head>
@@ -54,234 +68,227 @@ endif;
             </div>
         </div>
     </nav>
-    <div class="text-white text-center" style="background-image: url('https://static.wixstatic.com/media/5a993c_ca61f30c29594f11ba97b009cf6c426d~mv2.png/v1/crop/x_50,y_3,w_10064,h_1077/fill/w_1622,h_632,fp_0.50_0.50,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/ranger%20scout%20low%20smoke%20coil%20(3).png'); background-size: cover; background-position: center; height: 70vh; margin-bottom: 0;">
+    <div class="text-white text-center">
         <div class="jumbotron-overlay" style="background-color: rgba(0, 0, 0, 0.5); height: 100%; display: flex; align-items: center; justify-content: center;">
-            <!-- <div>
-                <p class="mb-4" style="font-size: 1.5rem;">10% OFF YOUR FIRST ORDER</p>
-                <a href="/shop" class="btn btn-light btn-lg">Shop Now</a>
-            </div> -->
+            <img class="img_some" src="/views/assets/images/product.png" alt="">
         </div>
     </div>
 
-     <!-- Product Cards Section -->
-     <div class="col-md-9">
-        <h2 class="mb-4">Our Category</h2>
-                <div class="row px-3 py-4" id="productList">
-                    <!-- Product Card 1 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
-                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
-                                <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Floral Serum" class="img-fluid" style="max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff007f; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Buldak hot</h6>
-                                    <i class="bi bi-heart" data-heart-id="1" onclick="toggleFavorite(1)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(1, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(1, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(1, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(1, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(1, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="1">(0)</span>
-                                </div>
-                                <p class="card-text">Hydrate your skin with this lightweight floral serum.</p>
-                                <div class="price mt-auto">Price: $50.99</div>
-                            </div>
-                        </div>
+    <!-- Product Cards Section -->
+    <h2 class="mb-4 text-center ">Our Category</h2>
+    <div class="row px-3 py-4" id="productList">
+        <!-- Product Card 1 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
+            <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                    <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Floral Serum" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff007f; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Buldak hot</h6>
+                        <i class="bi bi-heart" data-heart-id="1" onclick="toggleFavorite(1)"></i>
                     </div>
-                    <!-- card 2 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="2">
-                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
-                                <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid" style="max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff990f; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Good Noodle</h6>
-                                    <i class="bi bi-heart" data-heart-id="2" onclick="toggleFavorite(2)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(2, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(2, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(2, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(2, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(2, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="2">(0)</span>
-                                </div>
-                                <p class="card-text">Revitalize your skin with this amazing serum.</p>
-                                <div class="price mt-auto">Price: $40.99</div>
-                            </div>
-                        </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(1, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(1, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(1, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(1, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(1, 5)">★</span>
+                        <span class="rating-value" data-rating-id="1">(0)</span>
                     </div>
-                    <!-- card 3 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="3">
-                        <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
-                                <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid" style="max-height: 100%; object-fit: contain;">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff00ff; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Mama Pork pack</h6>
-                                    <i class="bi bi-heart" data-heart-id="3" onclick="toggleFavorite(3)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(3, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(3, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(3, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(3, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(3, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="3">(0)</span>
-                                </div>
-                                <p class="card-text">Nourish your skin with this amazing product.</p>
-                                <div class="price mt-auto">Price: $45.99</div>
-                            </div>
-                        </div>
+                    <p class="card-text">Hydrate your skin with this lightweight floral serum.</p>
+                    <div class="price mt-auto">Price: $50.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- card 2 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="2">
+            <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                    <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff990f; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Good Noodle</h6>
+                        <i class="bi bi-heart" data-heart-id="2" onclick="toggleFavorite(2)"></i>
                     </div>
-                    <!-- Product Card 4 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="4">
-                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff990f; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Comfort Blue</h6>
-                                    <i class="bi bi-heart" data-heart-id="4" onclick="toggleFavorite(4)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(4, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(4, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(4, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(4, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(4, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="4">(0)</span>
-                                </div>
-                                <p class="card-text">Replenish your skin with this amazing serum.</p>
-                                <div class="price mt-auto">Price: $60.99</div>
-                            </div>
-                        </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(2, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(2, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(2, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(2, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(2, 5)">★</span>
+                        <span class="rating-value" data-rating-id="2">(0)</span>
                     </div>
-                    <!-- Product Card 5 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="5">
-                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff00f9; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Fineline Liquid Detergent</h6>
-                                    <i class="bi bi-heart" data-heart-id="5" onclick="toggleFavorite(5)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(5, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(5, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(5, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(5, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(5, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="5">(0)</span>
-                                </div>
-                                <p class="card-text">Moisturize your skin with this floral serum.</p>
-                                <div class="price mt-auto">Price: $55.99</div>
-                            </div>
-                        </div>
+                    <p class="card-text">Revitalize your skin with this amazing serum.</p>
+                    <div class="price mt-auto">Price: $40.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- card 3 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="3">
+            <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
+                    <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff00ff; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Mama Pork pack</h6>
+                        <i class="bi bi-heart" data-heart-id="3" onclick="toggleFavorite(3)"></i>
                     </div>
-                    <!-- Product Card 6 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="6">
-                        <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Serum 6" class="img-fluid">
-                            </div>
-                            <div class="card-body d-flex flex-column"style="background-color: #ff007f; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Pao Pink Detergent</h6>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(6, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(6, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(6, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(6, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(6, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="6">(0)</span>
-                                </div>
-                                <p class="card-text">A refreshing serum for daily use.</p>
-                                <div class="price mt-auto">Price: $42.99</div>
-                            </div>
-                        </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(3, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(3, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(3, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(3, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(3, 5)">★</span>
+                        <span class="rating-value" data-rating-id="3">(0)</span>
                     </div>
-                    <!-- Product Card 7 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="7">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid" style="border-radius: 10px 10px 0 0;">
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">keepo purple</h6>
-                                    <i class="bi bi-heart" data-heart-id="7" onclick="toggleFavorite(7)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(7, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(7, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(7, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(7, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(7, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="7">(0)</span>
-                                </div>
-                                <p class="card-text">Hydrate and nourish with this serum.</p>
-                                <div class="price">Price: $48.99</div>
-                            </div>
-                        </div>
+                    <p class="card-text">Nourish your skin with this amazing product.</p>
+                    <div class="price mt-auto">Price: $45.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 4 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="4">
+            <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff990f; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Comfort Blue</h6>
+                        <i class="bi bi-heart" data-heart-id="4" onclick="toggleFavorite(4)"></i>
                     </div>
-                    <!-- Product Card 8 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="8">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Serum 8" class="img-fluid" style="border-radius: 10px 10px 0 0;">
-                            </div>
-                            <div class="card-body"style="background-color: #ff00ff; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">Keepo Green</h6>
-                                    <i class="bi bi-heart" data-heart-id="8" onclick="toggleFavorite(8)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(8, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(8, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(8, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(8, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(8, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="8">(0)</span>
-                                </div>
-                                <p class="card-text">A lightweight serum for all skin types.</p>
-                                <div class="price">Price: $52.99</div>
-                            </div>
-                        </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(4, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(4, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(4, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(4, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(4, 5)">★</span>
+                        <span class="rating-value" data-rating-id="4">(0)</span>
                     </div>
-                    <!-- Product Card 9 -->
-                    <div class="col-md-4 col-sm-6 mb-4" data-product-id="9">
-                        <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                            <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                                <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Serum 9" class="img-fluid" style="border-radius: 10px 10px 0 0;">
-                            </div>
-                            <div class="card-body"style="background-color: #ff990f; color: white;">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="card-title">ACNES</h6>
-                                    <i class="bi bi-heart" data-heart-id="9" onclick="toggleFavorite(9)"></i>
-                                </div>
-                                <div class="rating mb-2">
-                                    <span class="star" data-star="1" onclick="setRating(9, 1)">★</span>
-                                    <span class="star" data-star="2" onclick="setRating(9, 2)">★</span>
-                                    <span class="star" data-star="3" onclick="setRating(9, 3)">★</span>
-                                    <span class="star" data-star="4" onclick="setRating(9, 4)">★</span>
-                                    <span class="star" data-star="5" onclick="setRating(9, 5)">★</span>
-                                    <span class="rating-value" data-rating-id="9">(0)</span>
-                                </div>
-                                <p class="card-text">Glow up with this floral serum.</p>
-                                <div class="price">Price: $49.99</div>
-                            </div>
-                        </div>
+                    <p class="card-text">Replenish your skin with this amazing serum.</p>
+                    <div class="price mt-auto">Price: $60.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 5 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="5">
+            <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff00f9; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Fineline Liquid Detergent</h6>
+                        <i class="bi bi-heart" data-heart-id="5" onclick="toggleFavorite(5)"></i>
                     </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(5, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(5, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(5, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(5, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(5, 5)">★</span>
+                        <span class="rating-value" data-rating-id="5">(0)</span>
+                    </div>
+                    <p class="card-text">Moisturize your skin with this floral serum.</p>
+                    <div class="price mt-auto">Price: $55.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 6 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="6">
+            <div class="card text-start d-flex flex-column" style="border-radius: 10px; overflow: hidden; height: 100%;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Serum 6" class="img-fluid">
+                </div>
+                <div class="card-body d-flex flex-column" style="background-color: #ff007f; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Pao Pink Detergent</h6>
+                    </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(6, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(6, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(6, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(6, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(6, 5)">★</span>
+                        <span class="rating-value" data-rating-id="6">(0)</span>
+                    </div>
+                    <p class="card-text">A refreshing serum for daily use.</p>
+                    <div class="price mt-auto">Price: $42.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 7 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="7">
+            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                </div>
+                <div class="card-body"style="background-color: #ff00ff; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">keepo purple</h6>
+                        <i class="bi bi-heart" data-heart-id="7" onclick="toggleFavorite(7)"></i>
+                    </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(7, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(7, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(7, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(7, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(7, 5)">★</span>
+                        <span class="rating-value" data-rating-id="7">(0)</span>
+                    </div>
+                    <p class="card-text">Hydrate and nourish with this serum.</p>
+                    <div class="price">Price: $48.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 8 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="8">
+            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Serum 8" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                </div>
+                <div class="card-body" >
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">Keepo Green</h6>
+                        <i class="bi bi-heart" data-heart-id="8" onclick="toggleFavorite(8)"></i>
+                    </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(8, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(8, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(8, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(8, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(8, 5)">★</span>
+                        <span class="rating-value" data-rating-id="8">(0)</span>
+                    </div>
+                    <p class="card-text">A lightweight serum for all skin types.</p>
+                    <div class="price">Price: $52.99</div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Card 9 -->
+        <div class="col-md-4 col-sm-6 mb-4" data-product-id="9">
+            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
+                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
+                    <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Serum 9" class="img-fluid" style="border-radius: 10px 10px 0 0;">
+                </div>
+                <div class="card-body" style="background-color: #ff990f; color: white;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title">ACNES</h6>
+                        <i class="bi bi-heart" data-heart-id="9" onclick="toggleFavorite(9)"></i>
+                    </div>
+                    <div class="rating mb-2">
+                        <span class="star" data-star="1" onclick="setRating(9, 1)">★</span>
+                        <span class="star" data-star="2" onclick="setRating(9, 2)">★</span>
+                        <span class="star" data-star="3" onclick="setRating(9, 3)">★</span>
+                        <span class="star" data-star="4" onclick="setRating(9, 4)">★</span>
+                        <span class="star" data-star="5" onclick="setRating(9, 5)">★</span>
+                        <span class="rating-value" data-rating-id="9">(0)</span>
+                    </div>
+                    <p class="card-text">Glow up with this floral serum.</p>
+                    <div class="price">Price: $49.99</div>
                 </div>
             </div>
         </div>
