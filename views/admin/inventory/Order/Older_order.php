@@ -78,7 +78,7 @@ try {
                                 <td class="py-2 px-4"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
                                 <td class="py-2 px-4 flex items-center gap-2">
                                     <?php if (!empty($order['user_profile'])): ?>
-                                        <img src="<?php echo htmlspecialchars($order['user_profile']); ?>" class="w-8 h-8 rounded-full" alt="Profile">
+                                        <img src="<?php echo htmlspecialchars($order['user_profile']); ?>" class="w-8 h-8 rounded-full" alt="Profile" style="with: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
                                     <?php else: ?>
                                         <img src="https://i.pravatar.cc/40" class="w-8 h-8 rounded-full" alt="Default Profile">
                                     <?php endif; ?>

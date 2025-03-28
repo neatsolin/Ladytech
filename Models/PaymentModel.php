@@ -96,5 +96,25 @@ class PaymentModel {
             die("Error creating transaction: " . $e->getMessage());
         }
     }
+
+    //inserr a payment method information
+    public function addPaymentMethod($userId, $cardNumber, $cardHolderName, $expiryDate, $cvv, $currency){
+        try{
+            $this->db->query(
+                "INSERT INTO payment_methods (user_id, card_number, card_holder_name, expiry_date, cvv, currency) VALUES (:user_id, :card_number, :card_holder_name, :expiry_date, :cvv, :currency)",
+            [
+                'user_id' => $userId,
+                'card_number' => $cardNumber,
+                'card_holder_name' => $cardHolderName,
+                'expiry_date' => $expiryDate,
+                'cvv' => $cvv,
+                'currency' => $currency
+            ]
+            );
+
+        }catch (PDOException $e){
+            die("Error adding payment method: " . $e->getMessage());
+        }
+    }
 }
 ?>

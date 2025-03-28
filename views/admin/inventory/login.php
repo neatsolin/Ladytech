@@ -87,11 +87,11 @@
     <!-- Right Side (Form) -->
     <div class="login-form">
         <h2>Welcome to Daily Needs</h2>
-        <form action="/login/authenticate" method="POST">
+        <form action="/authenticate" method="POST">
             <!-- Email Input -->
             <div class="form-group mb-3">
                 <i class="fas fa-envelope"></i>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Admin Email" required>
             </div>
 
             <!-- Password Input -->
@@ -109,6 +109,9 @@
             <p class="text-center mt-3">
                 Don't have an account? <a href="/register">Register here</a>
             </p>
+            <p class="text-center mt-3">
+                Not an admin? <a href="/user-login">User Login</a>
+            </p>
         </form>
     </div>
 </div>
@@ -121,7 +124,7 @@
     <script>
         Swal.fire({
             icon: "error",
-            title: "Login Failed",
+            title: "Admin Login Failed",
             text: "<?php echo $_SESSION['error']; ?>",
             confirmButtonColor: "#6a9c5a"
         });

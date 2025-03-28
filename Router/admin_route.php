@@ -12,6 +12,7 @@
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
     require_once "Controllers/admin/inventory/PaymentController.php";
+    require_once "Controllers/admin/inventory/DiscountController.php";
 
     //customer
     require_once "Controllers/admin/basecustomerController.php";
@@ -22,6 +23,7 @@
     require_once "Controllers/admin/page/ContactControler.php";
     require_once "Controllers/admin/page/LoginController.php";
     require_once "Controllers/admin/page/RegisterController.php";
+    require_once "Controllers/admin/inventory/CartController.php";
 
 
 
@@ -40,6 +42,11 @@
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
     $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
     $route->get("/add-stock", [ProductController::class, 'addstock']);
+    $route->get('/products/discount', [ProductController::class, 'discount']);
+    $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
+    $route->get('/products/view/{id}', [ProductController::class, 'show']);
+
+
 
 
     //stock management
@@ -72,9 +79,9 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
-    $route->get('/login', [LoginController::class, 'login']);
-    $route->post('/login/authenticate', [LoginController::class, 'authenticate']);
-    $route->get('/user-form', [UserFormController::class, 'userform']);
+    // Unified login management (for both users and admins)
+    $route->get('/admin-login', [LoginController::class, 'login_admin']);
+    $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
 
 
@@ -117,7 +124,7 @@
 
 
     //Login
-    $route->get('/F_login', [FrontLoginController::class, 'index']);
+    $route->get('/F_login', [LoginController::class, 'login']);
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
@@ -126,10 +133,20 @@
     // Checkout
     $route->get('/checkout', [PaymentController::class, 'checkout']);
     $route->post('/checkout/process', [PaymentController::class, 'processCheckout']);
-
+    $route->get('/checkout/payment', [PaymentController::class, 'payment']);
+    
     // Payment Confirmation
     $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
     $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
+    
+    // Cart
+    // Add these to your existing routes
+    $route->get('/cart/items', [CartController::class, 'getItems']);
+    $route->post('/cart/add', [CartController::class, 'add']);
+    $route->post('/cart/remove', [CartController::class, 'remove']);
+    $route->get('/viewcart', [CartController::class, 'viewcart']);
+    $route->get('/checkouts', [CartController::class, 'checkout']);
+    $route->post('/cart/update', [CartController::class, 'update']);
 
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);

@@ -130,8 +130,34 @@
         public function delete($id) {
             $this->products->deleteProduct($id);
             header('Location: /products');
-        }    
+        } 
+        
+        //  discount page
+        public function discount(){
+            $this->view('admin/inventory/products/Discount');
+        }
+
+        // Product discount page
+        public function pro_discount(){
+            $this->view('admin/inventory/products/ProductDiscount');
+        }
+
+    
+        // View a single product by ID
+        public function show($id){
+            $product = $this->products->getProductById($id);
+
+            if (!$product) {
+                die("Product not found.");
+            }
+
+            $this->view('admin/inventory/products/view', ['product' => $product]);
+        }
+
+        
+        
     }
+    
     
     
 ?>
