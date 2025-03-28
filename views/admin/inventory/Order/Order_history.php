@@ -158,8 +158,7 @@ try {
             border-color: #233a57;
         }
     </style>
-</head>
-<body>
+
     <div class="container my-4">
         <div class="bg-white rounded p-4 shadow">
             <h4 class="mb-3">Order History</h4>
@@ -341,6 +340,6 @@ try {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
 
 <?php $conn = null; ?>
