@@ -1,5 +1,5 @@
 <?php
-// Database connection
+// All PHP processing code remains exactly the same
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -9,28 +9,23 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Pagination settings
     $itemsPerPage = 10;
     $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
     $offset = ($currentPage - 1) * $itemsPerPage;
 
-    // Date filter
     $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d', strtotime('-1 month'));
     $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
     $dateFilter = "WHERE o.orderdate BETWEEN :start_date AND :end_date";
 
-    // Tab-specific queries
     $tabs = [
         'all' => "",
         'completed' => "AND o.orderstatus IN ('Delivered', 'Collected')",
         'cancelled' => "AND o.orderstatus = 'Cancelled'"
     ];
 
-    // Current tab
     $currentTab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
     $tabFilter = $tabs[$currentTab] ?? "";
 
-    // Total orders for pagination
     $totalStmt = $conn->prepare("SELECT COUNT(*) FROM orders o LEFT JOIN users u ON o.user_id = u.id $dateFilter $tabFilter");
     $totalStmt->bindValue(':start_date', $startDate);
     $totalStmt->bindValue(':end_date', $endDate . ' 23:59:59');
@@ -38,7 +33,6 @@ try {
     $totalOrders = $totalStmt->fetchColumn();
     $totalPages = ceil($totalOrders / $itemsPerPage);
 
-    // Fetch orders for the current tab and page
     $stmt = $conn->prepare("
         SELECT o.*, u.username, u.profile AS user_profile
         FROM orders o
@@ -54,7 +48,6 @@ try {
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Summary statistics
     $summaryStmt = $conn->prepare("
         SELECT 
             COUNT(*) as total_orders,
@@ -82,11 +75,96 @@ try {
 ?>
 
 
+    <style>
+        .table-custom {
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table-custom thead th {
+            background-color: #2C4A6B; /* Already set to #2C4A6B */
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            padding: 12px;
+            border-bottom: none;
+        }
+        .table-custom tbody tr {
+            transition: background-color 0.2s;
+        }
+        .table-custom tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .table-custom td {
+            padding: 12px;
+            vertical-align: middle;
+            border-top: 1px solid #e9ecef;
+        }
+        .status-badge {
+            padding: 0.4em 0.8em;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .status-pending {
+            background-color: #FFF9C4; /* Light yellow for Pending */
+            color: #8D6E63; /* Brown text for Pending */
+        }
+        .status-delivered {
+            background-color: #C8E6C9; /* Light green for Delivered */
+            color: #388E3C; /* Dark green text for Delivered */
+        }
+        .status-cancelled {
+            background-color: #FFCDD2; /* Light pink for Cancelled */
+            color: #D32F2F; /* Red text for Cancelled */
+        }
+        .status-collected {
+            background-color: #C8E6C9; /* Same as Delivered for Collected */
+            color: #388E3C;
+        }
+        .status-default {
+            background-color: #E0E0E0; /* Default gray for other statuses */
+            color: #424242;
+        }
+        .payment-text {
+            color: #28a745; /* Green color for Payment */
+        }
+        .avatar {
+            object-fit: cover;
+            border: 2px solid #e9ecef;
+            border-radius: 50%;
+        }
+        .action-icon-btn {
+            border: none;
+            background: none;
+            padding: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .action-icon-btn:hover {
+            opacity: 0.8;
+        }
+        /* Custom Filter Button Style */
+        .btn-custom-filter {
+            background-color: #2C4A6B; /* Match table header color */
+            border-color: #2C4A6B;
+            color: white;
+        }
+        .btn-custom-filter:hover {
+            background-color: #233a57; /* Slightly darker shade for hover */
+            border-color: #233a57;
+        }
+    </style>
+</head>
+<body>
     <div class="container my-4">
         <div class="bg-white rounded p-4 shadow">
             <h4 class="mb-3">Order History</h4>
 
-            <!-- Tabs -->
+            <!-- Tabs remain unchanged -->
             <ul class="nav nav-tabs mb-3" id="orderTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link <?php echo $currentTab === 'all' ? 'active' : ''; ?>" href="?tab=all&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>" role="tab">All Orders</a>
@@ -102,73 +180,99 @@ try {
                 </li>
             </ul>
 
-            <!-- Date Filter -->
+            <!-- Date Filter with updated button color -->
             <form class="d-flex justify-content-end mb-3" method="GET">
                 <input type="hidden" name="tab" value="<?php echo $currentTab; ?>">
                 <input type="date" name="start_date" class="form-control w-auto me-2" value="<?php echo $startDate; ?>">
                 <input type="date" name="end_date" class="form-control w-auto me-2" value="<?php echo $endDate; ?>">
-                <button type="submit" class="btn btn-primary">Filter</button>
+                <button type="submit" class="btn btn-custom-filter">Filter</button>
             </form>
 
-            <!-- Tab Content -->
             <div class="tab-content" id="orderTabsContent">
-                <!-- All Orders Tab -->
                 <div class="tab-pane fade <?php echo $currentTab === 'all' ? 'show active' : ''; ?>" id="all" role="tabpanel">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Payment</th>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="all-orders">
-                            <?php if (empty($orders)): ?>
-                                <tr><td colspan="8" class="text-center">No orders found.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($orders as $order): ?>
+                    <div class="table-responsive">
+                        <table class="table table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Payment</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (empty($orders)): ?>
                                     <tr>
-                                        <td>#<?php echo htmlspecialchars($order['id']); ?></td>
-                                        <td>
-                                            <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>" class="rounded-circle me-2" alt="avatar" width="40" height="40">
-                                            <?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?>
-                                        </td>
-                                        <td><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
-                                        <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
-                                        <td><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
-                                        <td>
-                                            <span class="<?php 
-                                                echo $order['orderstatus'] === 'Delivered' ? 'text-warning' : 
-                                                     ($order['orderstatus'] === 'Collected' ? 'text-success' : 
-                                                     ($order['orderstatus'] === 'Cancelled' ? 'text-danger' : 'text-muted')); 
-                                            ?>">● <?php echo htmlspecialchars($order['orderstatus']); ?></span>
-                                        </td>
-                                        <td>€<?php echo number_format($order['totalprice'], 2); ?></td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="refund_order.php?id=<?php echo $order['id']; ?>">Refund</a></li>
-                                                    <li><a class="dropdown-item" href="message_order.php?id=<?php echo $order['id']; ?>">Message</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
+                                        <td colspan="8" class="text-center py-4 text-muted">No orders found.</td>
                                     </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                    <!-- Pagination -->
+                                <?php else: ?>
+                                    <?php foreach ($orders as $order): ?>
+                                        <tr>
+                                            <td class="fw-medium text-primary">#<?php echo htmlspecialchars($order['id']); ?></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>" 
+                                                         class="avatar me-2" 
+                                                         alt="avatar" 
+                                                         width="40" 
+                                                         height="40">
+                                                    <span class="fw-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="payment-text"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></span>
+                                            </td>
+                                            <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
+                                            <td><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
+                                            <td>
+                                                <span class="status-badge <?php 
+                                                    if ($order['orderstatus'] === 'Pending') {
+                                                        echo 'status-pending';
+                                                    } elseif ($order['orderstatus'] === 'Delivered') {
+                                                        echo 'status-delivered';
+                                                    } elseif ($order['orderstatus'] === 'Cancelled') {
+                                                        echo 'status-cancelled';
+                                                    } elseif ($order['orderstatus'] === 'Collected') {
+                                                        echo 'status-collected';
+                                                    } else {
+                                                        echo 'status-default';
+                                                    }
+                                                ?>">
+
+                                                
+                                                    <?php echo htmlspecialchars($order['orderstatus']); ?>
+                                                </span>
+                                            </td>
+                                            <td class="fw-medium text-purple-300">$<?php echo number_format($order['totalprice'], 2); ?></td>
+
+                                            <td>
+                                                <div class="d-flex gap-2">
+                                                    <a href="refund_order.php?id=<?php echo $order['id']; ?>" 
+                                                       class="action-icon-btn text-warning" 
+                                                       title="Refund">
+                                                        <i class="bi bi-arrow-return-left"></i>
+                                                    </a>
+                                                    <a href="message_order.php?id=<?php echo $order['id']; ?>" 
+                                                       class="action-icon-btn text-primary" 
+                                                       title="Message">
+                                                        <i class="bi bi-chat-left-text"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination remains unchanged -->
                     <?php if ($currentTab !== 'summary'): ?>
                         <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
+                            <ul class="pagination justify-content-center mt-3">
                                 <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
                                     <a class="page-link" href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage - 1; ?>&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>">Previous</a>
                                 </li>
@@ -180,8 +284,7 @@ try {
                         </nav>
                     <?php endif; ?>
                 </div>
-
-                <!-- Summary Tab -->
+                <!-- Summary Tab remains unchanged -->
                 <div class="tab-pane fade <?php echo $currentTab === 'summary' ? 'show active' : ''; ?>" id="summary" role="tabpanel">
                     <div class="p-3">
                         <h5 class="mb-3">Order Summary (<?php echo date('m-d-Y', strtotime($startDate)); ?> to <?php echo date('m-d-Y', strtotime($endDate)); ?>)</h5>
@@ -195,15 +298,15 @@ try {
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Delivered
-                                        <span class="badge bg-warning text-dark rounded-pill"><?php echo $summary['delivered']; ?></span>
+                                        <span class="badge status-delivered rounded-pill"><?php echo $summary['delivered']; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Collected
-                                        <span class="badge bg-success rounded-pill"><?php echo $summary['collected']; ?></span>
+                                        <span class="badge status-collected rounded-pill"><?php echo $summary['collected']; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Cancelled
-                                        <span class="badge bg-danger rounded-pill"><?php echo $summary['cancelled']; ?></span>
+                                        <span class="badge status-cancelled rounded-pill"><?php echo $summary['cancelled']; ?></span>
                                     </li>
                                 </ul>
                             </div>
@@ -212,11 +315,11 @@ try {
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Total Revenue (Completed Orders)
-                                        <span class="fw-bold">€<?php echo number_format($summary['total_revenue'], 2); ?></span>
+                                        <span class="fw-bold">$<?php echo number_format($summary['total_revenue'], 2); ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         Average Order Value (Completed)
-                                        <span class="fw-bold">€<?php echo $summary['completed_count'] > 0 ? number_format($summary['total_revenue'] / $summary['completed_count'], 2) : '0.00'; ?></span>
+                                        <span class="fw-bold">$<?php echo $summary['completed_count'] > 0 ? number_format($summary['total_revenue'] / $summary['completed_count'], 2) : '0.00'; ?></span>
                                     </li>
                                 </ul>
                                 <h6 class="text-muted mt-3">Payment Methods</h6>
@@ -234,12 +337,10 @@ try {
                         </div>
                     </div>
                 </div>
-
-                <!-- Completed and Cancelled Tabs use the same data as 'all' with different filters -->
             </div>
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php $conn = null; ?>
