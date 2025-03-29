@@ -220,8 +220,6 @@ if (isset($_SESSION['user_id'])) : ?>
                                 <i class="bi bi-pencil"></i> Edit</a></li>
                             <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
                                 <i class="bi bi-trash"></i> Delete</a></li>
-                            <li><a class="dropdown-item" href="/checkout?product_id=<?= urlencode($product['id']) ?>">
-                                <i class="bi bi-cart"></i> Buy Now</a></li>
                         </ul>
                     </div>
                 </td>

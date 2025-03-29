@@ -24,13 +24,13 @@ try {
     $totalOrders = $totalStmt->fetchColumn();
     $totalPages = ceil($totalOrders / $itemsPerPage);
 
-    // Fetch recent orders for the current page
+    // Fetch recent orders for the current page (sorted by oldest first)
     $stmt = $conn->prepare("
         SELECT o.*, u.username, u.profile AS user_profile, u.phone
         FROM orders o
         LEFT JOIN users u ON o.user_id = u.id
         WHERE o.orderdate >= :todayStart
-        ORDER BY o.orderdate DESC
+        ORDER BY o.orderdate ASC
         LIMIT :limit OFFSET :offset
     ");
     $stmt->bindValue(':todayStart', $todayStart);
@@ -76,7 +76,7 @@ try {
                 <table class="w-full">
                     <thead class="bg-[#2C4A6B] text-white">
                         <tr>
-                            <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">ID</th>
+                            <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">No</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Phone</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Customer</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Payment</th>
@@ -92,8 +92,7 @@ try {
                                 <td colspan="8" class="py-6 px-6 text-center text-gray-600 text-lg">No orders from today.</td>
                             </tr>
                         <?php else: ?>
-                            <?php $rowNumber = $offset + 1; // Start numbering based on the offset for the current page 
-                            ?>
+                            <?php $rowNumber = ($currentPage - 1) * $itemsPerPage + 1; ?>
                             <?php foreach ($orders as $index => $order): ?>
                                 <tr class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition">
                                     <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber; ?></td>
@@ -142,8 +141,7 @@ try {
                                         </div>
                                     </td>
                                 </tr>
-                                <?php $rowNumber++; 
-                                ?>
+                                <?php $rowNumber++; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tbody>
@@ -177,7 +175,7 @@ try {
         });
 
         function toggleDropdown(id) {
-            // បិទ dropdown ទាំងអស់សិន
+            // Close all dropdowns first
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
                 if (dropdown.id !== id) {
@@ -185,7 +183,7 @@ try {
                 }
             });
 
-            // បើក/បិទ dropdown ដែលចុច
+            // Toggle the clicked dropdown
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
         }

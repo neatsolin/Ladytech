@@ -24,13 +24,13 @@ try {
     $totalOrders = $totalStmt->fetchColumn();
     $totalPages = ceil($totalOrders / $itemsPerPage);
 
-    // Fetch older orders for the current page
+    // Fetch older orders for the current page (sorted by oldest first)
     $stmt = $conn->prepare("
         SELECT o.*, u.username, u.profile AS user_profile, u.phone
         FROM orders o
         LEFT JOIN users u ON o.user_id = u.id
         WHERE o.orderdate < :todayStart
-        ORDER BY o.orderdate DESC
+        ORDER BY o.orderdate ASC
         LIMIT :limit OFFSET :offset
     ");
     $stmt->bindValue(':todayStart', $todayStart);
@@ -46,12 +46,36 @@ try {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
     <title>Older Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        .sticky-header thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #2C4A6B;
+        }
+        
+        .table-container {
+        max-height: 70vh;
+        overflow-y: auto;
+        scrollbar-width: none; /* Hides scrollbar in Firefox */
+        -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
+    }
+
+    /* Hides scrollbar in WebKit browsers (Chrome, Safari) */
+    .table-container::-webkit-scrollbar {
+        display: none;
+    }
+
+        
+        /* Ensure dropdowns appear above sticky header */
+        .relative {
+            z-index: 20;
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
@@ -69,12 +93,12 @@ try {
                 </div>
             </div>
 
-            <!-- Orders Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-[#2C4A6B] text-white">
+            <!-- Orders Table with sticky header -->
+            <div class="overflow-x-auto table-container">
+                <table class="w-full sticky-header">
+                    <thead class="text-white">
                         <tr>
-                            <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">ID</th>
+                            <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">No</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Phone</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Customer</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Payment</th>
@@ -90,7 +114,7 @@ try {
                                 <td colspan="8" class="py-6 px-6 text-center text-gray-600 text-lg">No older orders available.</td>
                             </tr>
                         <?php else: ?>
-                            <?php $rowNumber = 1; // ចាប់ផ្តើមពី 1 សម្រាប់គ្រប់ទំព័រ ?>
+                            <?php $rowNumber = ($currentPage - 1) * $itemsPerPage + 1; ?>
                             <?php foreach ($orders as $index => $order): ?>
                                 <tr class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition">
                                     <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber; ?></td>
@@ -140,7 +164,7 @@ try {
                                         </div>
                                     </td>
                                 </tr>
-                                <?php $rowNumber++; // បន្ថែមលេខរៀងសម្រាប់ជួរបន្ទាប់ ?>
+                                <?php $rowNumber++; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tbody>
@@ -174,7 +198,7 @@ try {
         });
 
         function toggleDropdown(id) {
-            // បិទ dropdown ទាំងអស់សិន
+            // Close all dropdowns first
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
                 if (dropdown.id !== id) {
@@ -182,7 +206,7 @@ try {
                 }
             });
 
-            // បើក/បិទ dropdown ដែលចុច
+            // Toggle the clicked dropdown
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
         }
@@ -196,7 +220,5 @@ try {
             });
         });
     </script>
-</body>
-</html>
 
 <?php $conn = null; ?>
