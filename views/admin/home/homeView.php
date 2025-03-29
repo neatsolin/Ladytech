@@ -12,7 +12,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="col-md-6 col-xl-3">
       <div class="card">
         <div class="card-body">
-          <h6 class="mb-2 f-w-400 text-muted">Total Page Views</h6>
+        <h6 class="mb-2 f-w-400 text-muted">
+          <i class="fas fa-eye text-primary fa-2x"></i> <!-- Blue Eye Icon -->
+      </h6>
+
           <h4 class="mb-3">4,42,236 <span class="badge bg-light-primary border border-primary"><i
                 class="ti ti-trending-up"></i> 59.3%</span></h4>
           <p class="mb-0 text-muted text-sm">You made an extra <span class="text-primary">35,000</span> this year</p>
@@ -49,7 +52,11 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="col-md-6 col-xl-3">
       <div class="card">
         <div class="card-body">
-          <h6 class="mb-2 f-w-400 text-muted">Total Users</h6>
+        <h6 class="mb-2 f-w-400 text-muted">
+          <i class="fas fa-users text-success fa-2x"></i> <!-- Green Users Icon -->
+      </h6>
+
+
           <h4 class="mb-3" id="totalUsers">
             <?php echo number_format($totalUsers); ?>
             <span class="badge bg-light-success border border-success">
@@ -105,7 +112,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="col-md-6 col-xl-3">
       <div class="card">
         <div class="card-body">
-          <h6 class="mb-2 f-w-400 text-muted">Total Orders</h6>
+        <h6 class="mb-2 f-w-400 text-muted">
+          <i class="fas fa-shopping-cart text-warning fa-2x"></i> <!-- Yellow Cart Icon -->
+      </h6>
+
           <h4 class="mb-3">
             <?php echo number_format($totalOrders); ?>
             <span class="badge bg-light-warning border border-warning">
@@ -160,7 +170,13 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="col-md-6 col-xl-3">
       <div class="card">
         <div class="card-body">
-          <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
+    
+        <h6 class="mb-2 f-w-400 text-muted">
+          <i class="bi bi-cash text-danger fs-3"></i>
+      </h6>
+
+
+
           <h4 class="mb-3">
             $<?php echo number_format($totalSales, 2); ?>
             <span class="badge bg-light-danger border border-danger">
