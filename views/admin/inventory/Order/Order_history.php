@@ -1,5 +1,5 @@
 <?php
-// All PHP processing code remains exactly the same
+// Database connection and processing remains exactly the same
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -75,6 +75,7 @@ try {
 ?>
 
 
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .table-custom {
             border-collapse: separate;
@@ -84,7 +85,7 @@ try {
             overflow: hidden;
         }
         .table-custom thead th {
-            background-color: #2C4A6B; /* Already set to #2C4A6B */
+            background-color: #2C4A6B;
             color: white;
             font-weight: 600;
             text-transform: uppercase;
@@ -110,60 +111,108 @@ try {
             font-weight: 500;
         }
         .status-pending {
-            background-color: #FFF9C4; /* Light yellow for Pending */
-            color: #8D6E63; /* Brown text for Pending */
+            background-color: #FFF9C4;
+            color: #8D6E63;
         }
         .status-delivered {
-            background-color: #C8E6C9; /* Light green for Delivered */
-            color: #388E3C; /* Dark green text for Delivered */
+            background-color: #C8E6C9;
+            color: #388E3C;
         }
         .status-cancelled {
-            background-color: #FFCDD2; /* Light pink for Cancelled */
-            color: #D32F2F; /* Red text for Cancelled */
+            background-color: #FFCDD2;
+            color: #D32F2F;
         }
         .status-collected {
-            background-color: #C8E6C9; /* Same as Delivered for Collected */
+            background-color: #C8E6C9;
             color: #388E3C;
         }
         .status-default {
-            background-color: #E0E0E0; /* Default gray for other statuses */
+            background-color: #E0E0E0;
             color: #424242;
         }
         .payment-text {
-            color: #28a745; /* Green color for Payment */
+            color: #28a745;
         }
         .avatar {
             object-fit: cover;
             border: 2px solid #e9ecef;
             border-radius: 50%;
         }
-        .action-icon-btn {
-            border: none;
-            background: none;
-            padding: 5px;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .action-icon-btn:hover {
-            opacity: 0.8;
-        }
-        /* Custom Filter Button Style */
         .btn-custom-filter {
-            background-color: #2C4A6B; /* Match table header color */
+            background-color: #2C4A6B;
             border-color: #2C4A6B;
             color: white;
         }
         .btn-custom-filter:hover {
-            background-color: #233a57; /* Slightly darker shade for hover */
+            background-color: #233a57;
             border-color: #233a57;
         }
+        /* Action dropdown styles */
+        .action-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .action-btn:hover {
+            color: #495057;
+        }
+        .dropdown-menu-custom {
+            position: absolute;
+            right: 0;
+            z-index: 1000;
+            display: none;
+            min-width: 180px;
+            padding: 0.5rem 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0,0,0,.15);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175);
+        }
+        .dropdown-menu-custom.show {
+            display: block;
+        }
+        .dropdown-item-custom {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            clear: both;
+            font-weight: 400;
+            color: #212529;
+            text-align: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+            transition: background-color 0.2s;
+        }
+        .dropdown-item-custom:hover {
+            background-color: #f8f9fa;
+        }
+        .dropdown-item-custom i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
     </style>
-
+</head>
+<body class="bg-light">
     <div class="container my-4">
         <div class="bg-white rounded p-4 shadow">
             <h4 class="mb-3">Order History</h4>
 
-            <!-- Tabs remain unchanged -->
             <ul class="nav nav-tabs mb-3" id="orderTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link <?php echo $currentTab === 'all' ? 'active' : ''; ?>" href="?tab=all&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>" role="tab">All Orders</a>
@@ -179,7 +228,6 @@ try {
                 </li>
             </ul>
 
-            <!-- Date Filter with updated button color -->
             <form class="d-flex justify-content-end mb-3" method="GET">
                 <input type="hidden" name="tab" value="<?php echo $currentTab; ?>">
                 <input type="date" name="start_date" class="form-control w-auto me-2" value="<?php echo $startDate; ?>">
@@ -211,7 +259,7 @@ try {
                                 <?php else: ?>
                                     <?php foreach ($orders as $order): ?>
                                         <tr>
-                                            <td class="fw-medium text-primary">#<?php echo htmlspecialchars($order['id']); ?></td>
+                                            <td class="fw-medium text-primary"><?php echo htmlspecialchars($order['id']); ?></td>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>" 
@@ -241,25 +289,31 @@ try {
                                                         echo 'status-default';
                                                     }
                                                 ?>">
-
-                                                
                                                     <?php echo htmlspecialchars($order['orderstatus']); ?>
                                                 </span>
                                             </td>
-                                            <td class="fw-medium text-purple-300">$<?php echo number_format($order['totalprice'], 2); ?></td>
-
+                                            <td class="fw-medium text-purple-600">$<?php echo number_format($order['totalprice'], 2); ?></td>
                                             <td>
-                                                <div class="d-flex gap-2">
-                                                    <a href="refund_order.php?id=<?php echo $order['id']; ?>" 
-                                                       class="action-icon-btn text-warning" 
-                                                       title="Refund">
-                                                        <i class="bi bi-arrow-return-left"></i>
-                                                    </a>
-                                                    <a href="message_order.php?id=<?php echo $order['id']; ?>" 
-                                                       class="action-icon-btn text-primary" 
-                                                       title="Message">
-                                                        <i class="bi bi-chat-left-text"></i>
-                                                    </a>
+                                                <div class="action-dropdown">
+                                                    <button class="action-btn" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <div id="dropdown-<?php echo $order['id']; ?>" class="dropdown-menu-custom">
+                                                        <a href="view_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
+                                                            <i class="fas fa-eye text-blue-600"></i> View
+                                                        </a>
+                                                        <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
+                                                            <i class="fas fa-edit text-green-600"></i> Edit
+                                                        </a>
+                                                        <a href="message_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
+                                                            <i class="fas fa-envelope text-purple-600"></i> Message
+                                                        </a>
+                                                        <a href="delete_order.php?id=<?php echo $order['id']; ?>" 
+                                                           class="dropdown-item-custom" 
+                                                           onclick="return confirm('Are you sure you want to delete this order?');">
+                                                            <i class="fas fa-trash text-red-600"></i> Delete
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -268,7 +322,7 @@ try {
                             </tbody>
                         </table>
                     </div>
-                    <!-- Pagination remains unchanged -->
+                    
                     <?php if ($currentTab !== 'summary'): ?>
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center mt-3">
@@ -283,7 +337,7 @@ try {
                         </nav>
                     <?php endif; ?>
                 </div>
-                <!-- Summary Tab remains unchanged -->
+                
                 <div class="tab-pane fade <?php echo $currentTab === 'summary' ? 'show active' : ''; ?>" id="summary" role="tabpanel">
                     <div class="p-3">
                         <h5 class="mb-3">Order Summary (<?php echo date('m-d-Y', strtotime($startDate)); ?> to <?php echo date('m-d-Y', strtotime($endDate)); ?>)</h5>
@@ -340,6 +394,44 @@ try {
         </div>
     </div>
 
-  
+    <script>
+        // Dropdown toggle function
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            const allDropdowns = document.querySelectorAll('.dropdown-menu-custom');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d.id !== id) {
+                    d.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.matches('.action-btn') && !event.target.closest('.action-btn')) {
+                const dropdowns = document.querySelectorAll('.dropdown-menu-custom');
+                dropdowns.forEach(dropdown => {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }
+        });
+
+        // Tab switching (if using Bootstrap JS)
+        var tabElms = document.querySelectorAll('a[data-bs-toggle="tab"]');
+        tabElms.forEach(function(tabEl) {
+            tabEl.addEventListener('shown.bs.tab', function (event) {
+                event.target // newly activated tab
+                event.relatedTarget // previous active tab
+            })
+        });
+    </script>
+
 
 <?php $conn = null; ?>

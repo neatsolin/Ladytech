@@ -52,9 +52,10 @@ class CartModel {
         return $stmt->rowCount() > 0;
     }
 
+    //get cart items for specific user
     public function getCartItems($user_id) {
         $result = $this->db->query(
-            "SELECT sc.*, p.productname, p.price, p.imageURL, p.stockquantity 
+            "SELECT sc.*, p.productname, p.price, p.imageURL, p.stockquantity, p.descriptions 
             FROM shoppingcarts sc
             JOIN products p ON sc.product_id = p.id
             WHERE sc.user_id = :user_id",
