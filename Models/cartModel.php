@@ -48,11 +48,9 @@ class CartModel {
                 'quantity' => $quantity
             ]
         );
-        // Return true if at least one row was affected, false otherwise
         return $stmt->rowCount() > 0;
     }
 
-    //get cart items for specific user
     public function getCartItems($user_id) {
         $result = $this->db->query(
             "SELECT sc.*, p.productname, p.price, p.imageURL, p.stockquantity, p.descriptions 
@@ -77,5 +75,17 @@ class CartModel {
 
     public function updateItem($user_id, $product_id, $quantity) {
         return $this->updateQuantity($user_id, $product_id, $quantity);
+    }
+
+    public function clearCart($user_id) {
+        try {
+            $this->db->query(
+                "DELETE FROM shoppingcarts WHERE user_id = :user_id",
+                ['user_id' => $user_id]
+            );
+        } catch (Exception $e) {
+            error_log("Error clearing cart: " . $e->getMessage());
+            throw $e;
+        }
     }
 }

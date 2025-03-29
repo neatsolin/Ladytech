@@ -1,10 +1,18 @@
 <?php
 require_once "Models/ProductModel.php";
-require_once "Models/cartModel.php";
+require_once "Models/CartModel.php";
+require_once "Models/UserModel.php"; // Add UserModel
+require_once "Models/LocationModel.php"; // Add LocationModel
+require_once "Models/PaymentModelF.php"; // Use PaymentModelF instead of PaymentModel
+require_once "Models/OrderModel.php"; // Add OrderModel
 
-class CartController extends  BasecustomerController {
+class CartController extends BasecustomerController {
     private $cartModel;
     private $productModel;
+    private $userModel;
+    private $locationModel;
+    private $paymentModelF; // Rename to paymentModelF
+    private $orderModel;
 
     public function __construct() {
         // Ensure session is started
@@ -13,6 +21,10 @@ class CartController extends  BasecustomerController {
         }
         $this->cartModel = new CartModel();
         $this->productModel = new ProductModel();
+        $this->userModel = new UserModel(); // Initialize UserModel
+        $this->locationModel = new LocationModel(); // Initialize LocationModel
+        $this->paymentModelF = new PaymentModelF(); // Initialize PaymentModelF
+        $this->orderModel = new OrderModel(); // Initialize OrderModel
     }
 
     // Add item to cart
@@ -112,6 +124,7 @@ class CartController extends  BasecustomerController {
         ]);
         exit;
     }
+
     public function viewcart() {
         $this->verifyUserLoggedIn();
         
@@ -140,17 +153,17 @@ class CartController extends  BasecustomerController {
                 return;
             }
     
-            // Assuming you have a UserModel to fetch user details
-            $userModel = new UserModel(); // Add this if not already present
-            $user = $userModel->getUserById($user_id);
+            // Fetch user details
+            $user = $this->userModel->getUserById($user_id);
     
-            // Assuming a LocationModel for shipping locations
-            // $locationModel = new LocationModel(); // Add this if needed
-            // $locations = $locationModel->getAllLocations();
+            // Fetch shipping locations
+            $locations = $this->locationModel->getAllLocations();
+            error_log("CartController::checkout - Fetched locations: " . print_r($locations, true));
     
             $this->view('pages/payment/checkout', [
                 'cartItems' => $cartItems,
-                'user' => $user
+                'user' => $user,
+                'locations' => $locations
             ]);
         } catch (Exception $e) {
             error_log("Exception in checkout: " . $e->getMessage());
@@ -158,6 +171,58 @@ class CartController extends  BasecustomerController {
                 'cartItems' => [],
                 'error' => 'Error loading checkout: ' . $e->getMessage()
             ]);
+        }
+    }
+
+    // Process checkout form submission
+    public function process() {
+        $this->verifyUserLoggedIn();
+        $user_id = $_SESSION['user_id'];
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->jsonResponse(false, 'Invalid request method');
+        }
+
+        $cart_items = $_POST['cart_items'] ?? [];
+        $total_price = floatval($_POST['total_price'] ?? 0);
+        $currency = $_POST['currency'] ?? 'USD';
+        $location_id = intval($_POST['location_id'] ?? 0);
+        $order_status = $_POST['order_status'] ?? 'Pending';
+        $card_holder_name = $_POST['card_holder_name'] ?? '';
+        $card_number = $_POST['card_number'] ?? '';
+        $expiry_date = $_POST['expiry_date'] ?? '';
+        $cvv = $_POST['cvv'] ?? '';
+
+        // Log the raw inputs for debugging
+        error_log("CartController::process - Raw inputs: card_number=$card_number, card_holder_name=$card_holder_name, expiry_date=$expiry_date, cvv=$cvv, currency=$currency");
+
+        // Validate inputs
+        if (empty($cart_items) || $total_price <= 0 || empty($location_id) || empty($card_holder_name) || empty($card_number) || empty($expiry_date) || empty($cvv)) {
+            $this->jsonResponse(false, 'Missing required fields');
+        }
+
+        try {
+            // Save payment method using PaymentModelF
+            $payment_method_id = $this->paymentModelF->savePaymentMethod($user_id, $card_number, $card_holder_name, $expiry_date, $cvv, $currency);
+
+            // Create order
+            $order_id = $this->orderModel->createOrder($user_id, $payment_method_id, $location_id, $total_price, $order_status, $currency);
+
+            // Save order items
+            foreach ($cart_items as $item) {
+                $product_id = $item['product_id'];
+                $quantity = $item['quantity'];
+                $this->orderModel->addOrderItem($order_id, $product_id, $quantity);
+            }
+
+            // Clear the cart
+            $this->cartModel->clearCart($user_id);
+
+            // Redirect to confirm payment page with order ID
+            $this->jsonResponse(true, 'Order created successfully', ['order_id' => $order_id]);
+        } catch (Exception $e) {
+            error_log("Error processing checkout: " . $e->getMessage());
+            $this->jsonResponse(false, 'Error processing order: ' . $e->getMessage());
         }
     }
 
@@ -201,5 +266,4 @@ class CartController extends  BasecustomerController {
             $this->jsonResponse(false, 'Error: ' . $e->getMessage());
         }
     }
-    
 }
