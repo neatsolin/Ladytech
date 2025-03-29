@@ -221,55 +221,55 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <li class="list-group-item">
                         <a href="/oral" class="d-flex align-items-center">
                             <i class="fas fa-tooth me-3" style="color:rgb(12, 230, 242);"></i>
-                            <span>Oral Health (10)</span>
+                            <span>Oral Health </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/feminine" class="d-flex align-items-center">
                             <i class="fas fa-female me-3" style="color:rgb(155, 24, 215);"></i>
-                            <span>Feminine Hygiene (10)</span>
+                            <span>Feminine Hygiene </span>
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="/household" class="d-flex align-items-center">
+                        <a href="/houeshold" class="d-flex align-items-center">
                             <i class="fas fa-home me-3" style="color:rgb(41, 8, 161);"></i>
-                            <span>Household Hygiene (11)</span>
+                            <span>Household Hygiene </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/tissue" class="d-flex align-items-center">
                             <i class="fas fa-toilet-paper me-3" style="color:rgb(16, 198, 168);"></i>
-                            <span>Tissue Roll (11)</span>
+                            <span>Tissue Roll </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/drinking" class="d-flex align-items-center">
                             <i class="fas fa-tint me-3" style="color:rgb(109, 200, 239);"></i>
-                            <span>Drinking Water (5)</span>
+                            <span>Drinking Water </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/beverage" class="d-flex align-items-center">
                             <i class="fas fa-coffee me-3" style="color:rgb(209, 179, 10);"></i>
-                            <span>Beverages (8)</span>
+                            <span>Beverages </span>
                         </a>
                     </li>
                     <li class="list-group-item">
-                        <a href="/soap" class="d-flex align-items-center">
+                        <a href="/saop" class="d-flex align-items-center">
                             <i class="fas fa-soap me-3" style="color:rgb(210, 17, 129);"></i>
-                            <span>Soap (7)</span>
+                            <span>Soap </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/cooking" class="d-flex align-items-center">
                             <i class="fas fa-utensils me-3" style="color:rgb(12, 211, 188);"></i>
-                            <span>Cooking Ingredients (20)</span>
+                            <span>Cooking Ingredients </span>
                         </a>
                     </li>
                     <li class="list-group-item">
                         <a href="/snacks" class="d-flex align-items-center">
                             <i class="fas fa-cookie me-3" style="color:rgb(121, 201, 22);"></i>
-                            <span>Snacks (5)</span>
+                            <span>Snacks </span>
                         </a>
                     </li>
                 </ul>

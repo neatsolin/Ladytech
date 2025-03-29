@@ -216,6 +216,7 @@ foreach ($cartItems as $item) {
                         <p class="mb-2 total">$echo number_format($subtotal + 20, 2); ?></p>
                       </div> -->
 
+
                       <div>
                         <button type="submit" class="btn btn-info w-100" id="place-order-btn">Place Order</button>
                       </div>
