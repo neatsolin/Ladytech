@@ -55,7 +55,7 @@ if (!isset($_SESSION['user_id'])) {
                         <td style="text-align: center; vertical-align: middle;">
                             <div class="dropdown">
                                 <button class="btn btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: none;">
-                                    <i class="material-icons"></i>
+                                    <i class="material-icons "></i>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="/users/edit/<?= $user['id'] ?>">
