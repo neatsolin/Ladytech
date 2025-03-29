@@ -127,8 +127,38 @@ class CartController extends  BasecustomerController {
             $this->view('pages/payment/viewcart', ['cartItems' => [], 'error' => 'Error fetching cart items']);
         }
     }
-    public function checkout(){
-        $this->view('pages/payment/checkout');
+
+    // Checkout 
+    public function checkout() {
+        $this->verifyUserLoggedIn();
+        $user_id = $_SESSION['user_id'];
+    
+        try {
+            $cartItems = $this->cartModel->getCartItems($user_id);
+            if (empty($cartItems)) {
+                $this->view('pages/payment/checkout', ['cartItems' => [], 'error' => 'Cart is empty']);
+                return;
+            }
+    
+            // Assuming you have a UserModel to fetch user details
+            $userModel = new UserModel(); // Add this if not already present
+            $user = $userModel->getUserById($user_id);
+    
+            // Assuming a LocationModel for shipping locations
+            // $locationModel = new LocationModel(); // Add this if needed
+            // $locations = $locationModel->getAllLocations();
+    
+            $this->view('pages/payment/checkout', [
+                'cartItems' => $cartItems,
+                'user' => $user
+            ]);
+        } catch (Exception $e) {
+            error_log("Exception in checkout: " . $e->getMessage());
+            $this->view('pages/payment/checkout', [
+                'cartItems' => [],
+                'error' => 'Error loading checkout: ' . $e->getMessage()
+            ]);
+        }
     }
 
     // Update quantity of an item in the cart
