@@ -24,6 +24,7 @@
     require_once "Controllers/admin/page/LoginController.php";
     require_once "Controllers/admin/page/RegisterController.php";
     require_once "Controllers/admin/inventory/CartController.php";
+    require_once "Controllers/admin/inventory/PaymentFrontController.php";
 
 
 
@@ -147,7 +148,11 @@
     $route->get('/viewcart', [CartController::class, 'viewcart']);
     $route->get('/checkouts', [CartController::class, 'checkout']);
     $route->post('/cart/update', [CartController::class, 'update']);
-
+    //payment
+    $route->get('/confirmpayment', [payController::class, 'index']);
+    $route->post('/confirm-payment', [payController::class, 'confirmPayment']);
+    $route->get('/orderSuccess', [payController::class, 'OrderSuccess']);
+    $route->post('/checkout/process', [CartController::class, 'process']);
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
    

@@ -1,27 +1,22 @@
 <?php
-// Start the session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Redirect to login if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: /F_login");
     exit();
 }
 
-// Save the selected currency to the session
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency'])) {
     $_SESSION['currency'] = $_POST['currency'];
 }
 
-// Ensure cartItems, user, and locations are set
 $cartItems = isset($data['cartItems']) ? $data['cartItems'] : [];
 $user = isset($data['user']) ? $data['user'] : null;
 $locations = isset($data['locations']) ? $data['locations'] : [];
 $error = isset($data['error']) ? $data['error'] : null;
 
-// Calculate initial subtotal
 $subtotal = 0;
 foreach ($cartItems as $item) {
     $price = floatval($item['price'] ?? 0);
@@ -104,7 +99,6 @@ foreach ($cartItems as $item) {
                       <?php endif; ?>
                     </div>
 
-                    <!-- User Information -->
                     <?php if ($error): ?>
                       <div class="alert alert-danger" role="alert">
                         <?php echo htmlspecialchars($error); ?>
@@ -124,9 +118,7 @@ foreach ($cartItems as $item) {
                       </div>
                     <?php endif; ?>
 
-                    <!-- Form for Payment and Checkout -->
                     <form action="/checkout/process" method="POST" id="checkout-form">
-                      <!-- Hidden inputs for cart items -->
                       <div id="cart-items-inputs">
                         <?php foreach ($cartItems as $item): ?>
                           <div class="cart-item-inputs" data-product-id="<?php echo htmlspecialchars($item['product_id']); ?>">
@@ -138,7 +130,6 @@ foreach ($cartItems as $item) {
                       <input type="hidden" id="total_price_input" name="total_price" value="<?php echo $subtotal; ?>">
                       <input type="hidden" id="currency_input" name="currency" value="USD">
 
-                      <!-- Card Type -->
                       <p class="small mb-2">Card type</p>
                       <a href="#!" class="text-white"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
                       <a href="#!" class="text-white"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
@@ -146,35 +137,31 @@ foreach ($cartItems as $item) {
                       <a href="#!" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
 
                       <div class="mt-4">
-                        <!-- Cardholder's Name -->
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                           <input type="text" id="typeName" name="card_holder_name" class="form-control form-control-lg" size="17" placeholder="Cardholder's Name" required />
                           <label class="form-label" for="typeName">Cardholder's Name</label>
                         </div>
 
-                        <!-- Card Number -->
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                           <input type="text" id="typeText" name="card_number" class="form-control form-control-lg" size="17" placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" required />
                           <label class="form-label" for="typeText">Card Number</label>
                         </div>
 
-                        <!-- Expiration and CVV -->
                         <div class="row mb-4">
                           <div class="col-md-6">
                             <div data-mdb-input-init class="form-outline form-white">
-                              <input type="text" id="typeExp" name="card_holder_name" name="expiry_date" class="form-control form-control-lg" placeholder="MM/YYYY" size="7" minlength="7" maxlength="7" required />
+                              <input type="text" id="typeExp" name="expiry_date" class="form-control form-control-lg" placeholder="MM/YYYY" size="7" minlength="7" maxlength="7" required />
                               <label class="form-label" for="typeExp">Expiration</label>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div data-mdb-input-init class="form-outline form-white">
-                              <input type="password" id="typeText" name="cvv" class="form-control form-control-lg" placeholder="●●●" size="1" minlength="3" maxlength="3" required />
-                              <label class="form-label" for="typeText">Cvv</label>
+                              <input type="password" id="typeCvv" name="cvv" class="form-control form-control-lg" placeholder="●●●" size="1" minlength="3" maxlength="3" required />
+                              <label class="form-label" for="typeCvv">Cvv</label>
                             </div>
                           </div>
                         </div>
 
-                        <!-- Order Status Selection -->
                         <div class="mb-3">
                           <label for="order_status" class="form-label">Order Status</label>
                           <select class="form-control" id="order_status" name="order_status" required>
@@ -184,7 +171,6 @@ foreach ($cartItems as $item) {
                           </select>
                         </div>
 
-                        <!-- Currency Selection -->
                         <div class="mb-3">
                           <label for="currency" class="form-label">Currency</label>
                           <select class="form-control" id="currency" name="currency" onchange="updateTotalPrice()" required>
@@ -193,20 +179,28 @@ foreach ($cartItems as $item) {
                           </select>
                         </div>
 
-                        <!-- Shipping Location Dropdown -->
                         <div class="mb-3">
                           <label for="location_id" class="form-label">Shipping Location</label>
                           <select class="form-control" id="location_id" name="location_id" required>
-                            <?php foreach ($locations as $location): ?>
-                              <option value="<?php echo htmlspecialchars($location['id']); ?>"><?php echo htmlspecialchars($location['location_name']); ?></option>
-                            <?php endforeach; ?>
+                            <?php if (empty($locations)): ?>
+                              <option value="">No locations available</option>
+                              <?php 
+                              echo "<!-- Debug: Locations array is empty or not set. Check CartController and LocationModel. -->";
+                              echo "<!-- Locations: " . print_r($locations, true) . " -->";
+                              ?>
+                            <?php else: ?>
+                              <?php foreach ($locations as $location): ?>
+                                <option value="<?php echo htmlspecialchars($location['id']); ?>">
+                                  <?php echo htmlspecialchars($location['location_name']); ?>
+                                </option>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
                           </select>
                         </div>
                       </div>
 
                       <hr class="my-4">
 
-                      <!-- Subtotal, Shipping, and Total -->
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">Subtotal</p>
                         <p class="mb-2 subtotal">$<?php echo number_format($subtotal, 2); ?></p>
@@ -222,9 +216,8 @@ foreach ($cartItems as $item) {
                         <p class="mb-2 total">$<?php echo number_format($subtotal + 20, 2); ?></p>
                       </div>
 
-                      <!-- Submit Button -->
                       <div>
-                        <button type="submit" class="btn btn-info w-100">Place Order</button>
+                        <button type="submit" class="btn btn-info w-100" id="place-order-btn">Place Order</button>
                       </div>
                     </form>
                   </div>
@@ -239,34 +232,26 @@ foreach ($cartItems as $item) {
 </section>
 
 <script>
-const exchangeRate = 4000; // 1 USD = 4000 KHR
+const exchangeRate = 4000;
 
-// Function to update the total price based on currency (no quantity changes)
 function updateTotalPrice() {
   const currency = document.getElementById('currency').value;
   let totalPriceUSD = 0;
 
-  // Get all cart items
   const cartItems = document.querySelectorAll('.card.mb-3[data-product-id]');
   cartItems.forEach(item => {
     const itemSubtotalUSD = parseFloat(item.querySelector('.product-price').dataset.priceUsd) || 0;
-
-    // Update the product price display based on currency
     const productPriceElement = item.querySelector('.product-price');
     const formattedItemSubtotal = currency === 'KH Riel' ? 
       `${(itemSubtotalUSD * exchangeRate).toLocaleString()} KH Riel` : 
       `$${itemSubtotalUSD.toFixed(2)}`;
     productPriceElement.textContent = formattedItemSubtotal;
-
-    // Add to total price in USD
     totalPriceUSD += itemSubtotalUSD;
   });
 
-  // Calculate shipping and total (shipping remains in USD for simplicity, adjust if needed)
   const shippingUSD = 20;
   const totalPriceWithShippingUSD = totalPriceUSD + shippingUSD;
 
-  // Convert total price to selected currency for display
   const totalPrice = currency === 'KH Riel' ? totalPriceUSD * exchangeRate : totalPriceUSD;
   const totalPriceWithShipping = currency === 'KH Riel' ? totalPriceWithShippingUSD * exchangeRate : totalPriceWithShippingUSD;
   const shippingDisplay = currency === 'KH Riel' ? `${(shippingUSD * exchangeRate).toLocaleString()} KH Riel` : `$${shippingUSD.toFixed(2)}`;
@@ -278,22 +263,19 @@ function updateTotalPrice() {
     `${totalPriceWithShipping.toLocaleString()} KH Riel` : 
     `$${totalPriceWithShippingUSD.toFixed(2)}`;
 
-  // Update the displayed subtotal, shipping, and total
   document.querySelector('.subtotal').textContent = formattedTotalPrice;
   document.querySelector('.shipping').textContent = shippingDisplay;
   document.querySelector('.total').textContent = formattedTotalPriceWithShipping;
 
-  // Update the hidden input for the total price (always in USD)
   document.getElementById('total_price_input').value = totalPriceWithShippingUSD.toFixed(2);
-
-  // Update the hidden input for the currency
   document.getElementById('currency_input').value = currency;
 
-  // Update cart item count
   document.querySelector('.mb-0').textContent = `You have ${cartItems.length} items in your cart`;
+
+  const placeOrderBtn = document.getElementById('place-order-btn');
+  placeOrderBtn.disabled = cartItems.length === 0;
 }
 
-// Function to remove an item from the cart
 function removeFromCart(productId) {
   fetch('/cart/remove', {
     method: 'POST',
@@ -305,22 +287,18 @@ function removeFromCart(productId) {
   .then(response => response.json())
   .then(data => {
     if (data.success) {
-      // Remove the item from the DOM
       const itemElement = document.querySelector(`.card.mb-3[data-product-id="${productId}"]`);
       if (itemElement) {
         itemElement.remove();
       }
 
-      // Remove the corresponding hidden inputs from the form
       const inputElement = document.querySelector(`.cart-item-inputs[data-product-id="${productId}"]`);
       if (inputElement) {
         inputElement.remove();
       }
 
-      // Update the total price and cart count
       updateTotalPrice();
 
-      // If no items remain, show the empty cart message
       const remainingItems = document.querySelectorAll('.card.mb-3[data-product-id]');
       if (remainingItems.length === 0) {
         const cartSection = document.querySelector('.col-lg-7');
@@ -331,8 +309,6 @@ function removeFromCart(productId) {
             No items in your cart. <a href="/product" class="alert-link">Go back to products</a>.
           </div>
         `;
-        // Disable the Place Order button when cart is empty
-        document.querySelector('.btn.btn-info').disabled = true;
       }
     } else {
       alert('Failed to remove item: ' + (data.message || 'Unknown error'));
@@ -344,7 +320,6 @@ function removeFromCart(productId) {
   });
 }
 
-// Add event listeners to all remove buttons
 document.querySelectorAll('.remove-item').forEach(button => {
   button.addEventListener('click', function(e) {
     e.preventDefault();
@@ -353,6 +328,47 @@ document.querySelectorAll('.remove-item').forEach(button => {
   });
 });
 
-// Initialize the total price on page load
+// Handle form submission
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const cardNumber = document.getElementById('typeText').value;
+  const expiryDate = document.getElementById('typeExp').value;
+  const cvv = document.getElementById('typeCvv').value;
+
+  if (!/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber)) {
+    alert('Please enter a valid card number (e.g., 1234 5678 9012 3457)');
+    return;
+  }
+
+  if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(expiryDate)) {
+    alert('Please enter a valid expiry date (e.g., MM/YYYY)');
+    return;
+  }
+
+  if (!/^\d{3}$/.test(cvv)) {
+    alert('Please enter a valid CVV (3 digits)');
+    return;
+  }
+
+  const formData = new FormData(this);
+  fetch('/checkout/process', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      window.location.href = '/confirmpayment?order_id=' + data.data.order_id;
+    } else {
+      alert('Error: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error submitting order:', error);
+    alert('An error occurred while placing the order.');
+  });
+});
+
 updateTotalPrice();
 </script>
