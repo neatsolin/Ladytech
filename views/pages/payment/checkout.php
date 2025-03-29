@@ -206,6 +206,18 @@ foreach ($cartItems as $item) {
                         <p class="mb-2 subtotal">$<?php echo number_format($subtotal, 2); ?></p>
                       </div>
 
+
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Shipping</p>
+                        <p class="mb-2 shipping">$20.00</p>
+                      </div>
+
+                      <div class="d-flex justify-content-between mb-4">
+                        <p class="mb-2">Total(Incl. taxes)</p>
+                        <p class="mb-2 total">$<?php echo number_format($subtotal + 20, 2); ?></p>
+                      </div>
+
+
                       <div>
                         <button type="submit" class="btn btn-info w-100" id="place-order-btn">Place Order</button>
                       </div>
