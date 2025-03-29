@@ -19,11 +19,11 @@ endif;
     <style>
         .nav-link:hover {
             font-weight: bold;
-            color: green !important;
+            color: blue !important;
             /* Change color to blue on hover */
         }
         body{
-            background-color:rgb(106, 162, 221);
+            background-color:rgb(179, 205, 231);
 
         }
 
@@ -41,7 +41,6 @@ endif;
         .img_some {
             width: 400px;
             height: 400px;
-
         }
     </style>
 </head>
@@ -53,7 +52,7 @@ endif;
             <div class="collapse navbar-collapse justify-content-center">
                 <ul class="navbar-nav">
                     <li class="nav-item mx-4">
-                        <a class="nav-link" href=".//home" style="font-size: 1.2rem;">Shops</a>
+                        <a class="nav-link " href=".//home" style="font-size: 1.2rem;">Shops</a>
                     </li>
                     <li class="nav-item mx-4">
                         <a class="nav-link" href="/product" style="font-size: 1.2rem;">Product</a>
@@ -69,13 +68,13 @@ endif;
         </div>
     </nav>
     <div class="text-white text-center">
-        <div class="jumbotron-overlay" style="background-color: rgba(0, 0, 0, 0.5); height: 100%; display: flex; align-items: center; justify-content: center;">
+        <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;">
             <img class="img_some" src="/views/assets/images/product.png" alt="">
         </div>
     </div>
 
     <!-- Product Cards Section -->
-    <h2 class="mb-4 text-center ">Our Category</h2>
+    <h2 class="mb-4 mt-5 text-center" style="color: rgb(181, 21, 230);">Our Category</h2>
     <div class="row px-3 py-4" id="productList">
         <!-- Product Card 1 -->
         <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
