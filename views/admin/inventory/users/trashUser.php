@@ -303,5 +303,135 @@ if (!isset($_SESSION['user_id'])) {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const restoreBtn = document.getElementById('restoreBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const emptyBtn = document.getElementById('emptyBtn');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const recycleCheckboxes = document.querySelectorAll('.recycleCheckbox');
+    const recycleBinTableBody = document.getElementById('recycleBinTableBody');
 
+    function updateButtonStates() {
+        const checkedCount = document.querySelectorAll('.recycleCheckbox:checked').length;
+        restoreBtn.disabled = checkedCount === 0;
+        deleteBtn.disabled = checkedCount === 0;
+    }
+
+    function getSelectedUserIds() {
+        const selectedIds = [];
+        recycleCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedIds.push(checkbox.dataset.id);
+            }
+        });
+        return selectedIds;
+    }
+
+    function handleCheckboxChange() {
+        updateButtonStates();
+    }
+
+    recycleCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
+
+    selectAllCheckbox.addEventListener('change', function() {
+        recycleCheckboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+        updateButtonStates();
+    });
+
+    recycleBinTableBody.addEventListener('change', function() {
+        const checkedCount = document.querySelectorAll('.recycleCheckbox:checked').length;
+        const totalCheckboxes = recycleCheckboxes.length;
+        selectAllCheckbox.checked = checkedCount === totalCheckboxes;
+        updateButtonStates();
+    });
+
+    restoreBtn.addEventListener('click', function() {
+        const selectedIds = getSelectedUserIds();
+        if (selectedIds.length > 0) {
+            restoreSelected(selectedIds);
+        }
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        const selectedIds = getSelectedUserIds();
+        if (selectedIds.length > 0) {
+            deleteSelected(selectedIds);
+        }
+    });
+
+    emptyBtn.addEventListener('click', function() {
+        emptyRecycleBin();
+    });
+
+    function restoreSelected(ids) {
+        if (confirm('Are you sure you want to restore the selected users?')) {
+            ids.forEach(id => {
+                fetch(`/users/restore/${id}`, {
+                    method: 'GET',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector(`tr[data-id="${id}"]`).remove();
+                    } else {
+                        alert('Failed to restore user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+            });
+            updateButtonStates();
+            selectAllCheckbox.checked = false;
+        }
+    }
+
+    function deleteSelected(ids) {
+        if (confirm('Are you sure you want to permanently delete the selected users?')) {
+            ids.forEach(id => {
+                fetch(`/users/permanent-delete/${id}`, {
+                    method: 'GET',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector(`tr[data-id="${id}"]`).remove();
+                    } else {
+                        alert('Failed to delete user.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+            });
+            updateButtonStates();
+            selectAllCheckbox.checked = false;
+        }
+    }
+
+    function emptyRecycleBin() {
+        if (confirm('Are you sure you want to empty the recycle bin?')) {
+            fetch('/users/empty-recycle-bin', {
+                method: 'GET',
+            })
+            .then(response => {
+                if (response.ok) {
+                    recycleBinTableBody.innerHTML = '<tr><td colspan="8" class="text-center">No deleted users found.</td></tr>';
+                } else {
+                    alert('Failed to empty recycle bin.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
+        }
+    }
+
+    updateButtonStates();
+});
 </script>

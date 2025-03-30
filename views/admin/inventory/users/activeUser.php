@@ -14,16 +14,16 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 </div>
 <div class="container mt-5">
-    <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
-        <thead class="table-dark">
+        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: y;">
+            <thead class="table-dark">
             <tr>
-                <th scope="col" style="border-top-left-radius: 10px;">Profile</th>
+                <th scope="col" style="border-top-left-radius: 2px;">Profile</th>
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Role</th>
                 <th scope="col">Status</th>
-                <th class="text-center" style="border-top-right-radius: 10px;" scope="col">Actions</th>
+                <th class="text-center" style="border-top-right-radius: 2px;" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody id="userTableBody">
@@ -54,19 +54,20 @@ if (!isset($_SESSION['user_id'])) {
                             <?= $statusLabel; ?>
                         </span>
                     </td>
-                    <td class="text-center">
-                        <div class="dropdown">
-                            <button class="btn btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: none;">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/users/edit/<?= $user['id'] ?>">
-                                    <i class="material-icons">edit</i> Edit</a></li>
-                                <li><a class="dropdown-item text-danger delete-user" href="#" data-id="<?= $user['id'] ?>">
-                                    <i class="material-icons">delete</i> Delete</a></li>
-                            </ul>
-                        </div>
+                    <td style="text-align: center; vertical-align: middle;">
+                            <div class="dropdown">
+                                <button class="btn btn-light border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: none;">
+                                    <i class="material-icons">more_vert</i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/users/edit/<?= $user['id'] ?>">
+                                        <i class="material-icons">edit</i> Edit</a></li>
+                                    <li><a class="dropdown-item text-danger delete-user" href="#" data-id="<?= $user['id'] ?>">
+                                        <i class="material-icons">delete</i> Delete</a></li>
+                                </ul>
+                            </div>
                     </td>
+
                 </tr>
             <?php endforeach; ?>
         </tbody>

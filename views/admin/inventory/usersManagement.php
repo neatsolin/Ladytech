@@ -14,16 +14,16 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 
     <div class="container mt-5">
-        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
+        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: y;">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" style="border-top-left-radius: 10px;">Select</th>
+                    <th scope="col" style="border-top-left-radius: 1px;">Select</th>
                     <th scope="col">Profile</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Role</th>
-                    <th style="text-align:center; border-top-right-radius: 10px;" scope="col">Actions</th>
+                    <th style="text-align:center; border-top-right-radius: 1px;" scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
