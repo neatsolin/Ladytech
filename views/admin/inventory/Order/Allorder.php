@@ -1,5 +1,5 @@
 <?php
-// Database connection
+// Database connection and processing remains the same
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -53,14 +53,66 @@ try {
 }
 ?>
 
+
+    <title>Purchase Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-
+    <style>
+        /* Sticky table header styles */
+        .table-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .table-scroll {
+            overflow-y: auto;
+            max-height: 600px; /* Adjust this value as needed */
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        .table-scroll::-webkit-scrollbar {
+           
+            background: transparent;
+        }
+        
+        .table-custom {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table-custom thead th {
+            position: sticky;
+            top: 0;
+            background-color: #2C4A6B;
+            color: white;
+            z-index: 10;
+        }
+        
+        /* Keep your existing styles */
+        .table-custom tbody tr {
+            transition: background-color 0.2s;
+        }
+        .table-custom tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .table-custom td {
+            padding: 12px;
+            vertical-align: middle;
+            border-top: 1px solid #e9ecef;
+        }
+        .status-badge {
+            padding: 0.4em 0.8em;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
 
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
-            <!-- Header -->
+            <!-- Header and Tabs remain the same -->
             <div class="p-6 bg-[#2C4A6B] text-white border-b border-gray-200 shadow-sm">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-4">
@@ -135,32 +187,56 @@ try {
             <div class="p-4">
                 <!-- All Tab -->
                 <div id="all" class="tab-content">
-                    <?php echo renderOrderTable($allOrders, 'all'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($allOrders, 'all'); ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Draft Tab -->
                 <div id="draft" class="tab-content hidden">
-                    <?php echo renderOrderTable($draftOrders, 'draft'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($draftOrders, 'draft'); ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Ordered Tab -->
                 <div id="ordered" class="tab-content hidden">
-                    <?php echo renderOrderTable($orderedOrders, 'ordered'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($orderedOrders, 'ordered'); ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Partial Tab -->
                 <div id="partial" class="tab-content hidden">
-                    <?php echo renderOrderTable($partialOrders, 'partial'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($partialOrders, 'partial'); ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Received Tab -->
                 <div id="received" class="tab-content hidden">
-                    <?php echo renderOrderTable($receivedOrders, 'received'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($receivedOrders, 'received'); ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Closed Tab -->
                 <div id="closed" class="tab-content hidden">
-                    <?php echo renderOrderTable($closedOrders, 'closed'); ?>
+                    <div class="table-wrapper">
+                        <div class="table-scroll">
+                            <?php echo renderOrderTable($closedOrders, 'closed'); ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -234,8 +310,8 @@ function renderOrderTable($orders, $tabPrefix) {
     
     ob_start();
     ?>
-    <table class="min-w-full">
-        <thead class="bg-[#2C4A6B] text-white">
+    <table class="table-custom">
+        <thead>
             <tr>
                 <th class="py-3 px-2 w-8 text-left text-xs font-semibold uppercase tracking-wider"><input type="checkbox" class="h-4 w-4 text-teal-600"></th>
                 <th class="py-3 px-2 w-20 text-left text-xs font-semibold uppercase tracking-wider">Order No.</th>
