@@ -46,13 +46,40 @@ try {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <title>Recent Orders</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    /* Custom scrollbar styling */
+    .table-container::-webkit-scrollbar {
+        width: 40px;
+        height: 8px;
+    }
+
+    /* Sticky header */
+    .sticky-header thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #2C4A6B;
+
+    }
+
+    /* Table container */
+    .table-container {
+        max-height: 60vh;
+        overflow-y: auto;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Ensure dropdowns appear above header */
+    .relative {
+        z-index: 20;
+    }
+
+</style>
 </head>
 
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
@@ -71,10 +98,10 @@ try {
                 </div>
             </div>
 
-            <!-- Orders Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-[#2C4A6B] text-white">
+            <!-- Orders Table with sticky header -->
+            <div class="table-container">
+                <table class="w-full sticky-header">
+                    <thead class="text-white">
                         <tr>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">No</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Phone</th>
@@ -109,7 +136,7 @@ try {
                                     <td class="py-4 px-6">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
                                                                                                                             echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' :
-                                                                                                                                    'bg-red-200 text-red-800');
+                                                                                                                                'bg-red-200 text-red-800');
                                                                                                                             ?>">
                                             <?php echo htmlspecialchars($order['orderstatus']); ?>
                                         </span>
@@ -197,8 +224,5 @@ try {
             });
         });
     </script>
-</body>
-
-</html>
 
 <?php $conn = null; ?>
