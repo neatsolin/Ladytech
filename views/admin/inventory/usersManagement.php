@@ -6,22 +6,27 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <h1 class="text-center mb-4">Welcome to User Management</h1>
+    <div class="header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h1 class="text-center mb-4">Welcome to User Management</h1>
+        <div class="col-md-4 col-lg-3 search-bar">
+            <input type="text" class="form-control rounded-pill" placeholder="Search users" id="recycleSearchInput">
+        </div>
+    </div>
 
     <div class="container mt-5">
-        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: hidden;">
+        <table class="table table-bordered table-striped table-hover" style="border-radius: 15px; overflow: y;">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col" style="border-top-left-radius: 10px;">Select</th>
+                    <th scope="col" style="border-top-left-radius: 1px;">Select</th>
                     <th scope="col">Profile</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Role</th>
-                    <th style="text-align:center; border-top-right-radius: 10px;" scope="col">Actions</th>
+                    <th style="text-align:center; border-top-right-radius: 1px;" scope="col">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="userTableBody">
                 <?php foreach ($users as $user): ?>
                     <tr>
                         <td class="text-center">
@@ -86,6 +91,25 @@ if (session_status() == PHP_SESSION_NONE) {
             });
         });
     });
+    document.getElementById("recycleSearchInput").addEventListener("input", function() {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#userTableBody tr");
+    
+    rows.forEach(row => {
+        const username = row.querySelector("td:nth-child(3)")?.textContent.toLowerCase();
+        const email = row.querySelector("td:nth-child(4)")?.textContent.toLowerCase();
+        const phone = row.querySelector("td:nth-child(5)")?.textContent.toLowerCase();
+        const role = row.querySelector("td:nth-child(6)")?.textContent.toLowerCase();
+
+        if (username.includes(searchTerm) || email.includes(searchTerm) ||
+            phone.includes(searchTerm) || role.includes(searchTerm)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+
 </script>
 <?php 
 else: 
