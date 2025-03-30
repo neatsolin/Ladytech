@@ -280,5 +280,28 @@ if (!isset($_SESSION['user_id'])) {
             }
         });
     });
+    document.addEventListener("DOMContentLoaded", function () {
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const checkboxes = document.querySelectorAll(".recycleCheckbox");
+
+    selectAllCheckbox.addEventListener("change", function () {
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            // If any checkbox is unchecked, uncheck "selectAll"
+            if (!this.checked) {
+                selectAllCheckbox.checked = false;
+            } else {
+                // If all checkboxes are checked, check "selectAll"
+                selectAllCheckbox.checked = [...checkboxes].every(chk => chk.checked);
+            }
+        });
+    });
+});
+
 
 </script>
