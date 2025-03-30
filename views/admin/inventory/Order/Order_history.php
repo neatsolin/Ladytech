@@ -65,7 +65,7 @@ try {
     $summaryStmt->bindValue(':end_date', $endDate . ' 23:59:59');
     $summaryStmt->execute();
     $summary = $summaryStmt->fetch(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
     $orders = [];
     $totalPages = 1;
@@ -74,316 +74,264 @@ try {
 }
 ?>
 
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .table-custom {
-            border-collapse: separate;
-            border-spacing: 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .table-custom thead th {
-            background-color: #2C4A6B;
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            padding: 12px;
-            border-bottom: none;
-        }
-        .table-custom tbody tr {
-            transition: background-color 0.2s;
-        }
-        .table-custom tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .table-custom td {
-            padding: 12px;
-            vertical-align: middle;
-            border-top: 1px solid #e9ecef;
-        }
-        .status-badge {
-            padding: 0.4em 0.8em;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .status-pending {
-            background-color: #FFF9C4;
-            color: #8D6E63;
-        }
-        .status-delivered {
-            background-color: #C8E6C9;
-            color: #388E3C;
-        }
-        .status-cancelled {
-            background-color: #FFCDD2;
-            color: #D32F2F;
-        }
-        .status-collected {
-            background-color: #C8E6C9;
-            color: #388E3C;
-        }
-        .status-default {
-            background-color: #E0E0E0;
-            color: #424242;
-        }
-        .payment-text {
-            color: #28a745;
-        }
-        .avatar {
-            object-fit: cover;
-            border: 2px solid #e9ecef;
-            border-radius: 50%;
-        }
-        .btn-custom-filter {
-            background-color: #2C4A6B;
-            border-color: #2C4A6B;
-            color: white;
-        }
-        .btn-custom-filter:hover {
-            background-color: #233a57;
-            border-color: #233a57;
-        }
-        /* Action dropdown styles */
-        .action-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .action-btn {
-            background: none;
-            border: none;
-            color: #6c757d;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 5px;
-        }
-        .action-btn:hover {
-            color: #495057;
-        }
-        .dropdown-menu-custom {
-            position: absolute;
-            right: 0;
-            z-index: 1000;
-            display: none;
-            min-width: 180px;
-            padding: 0.5rem 0;
-            margin: 0;
-            font-size: 0.9rem;
-            color: #212529;
-            text-align: left;
-            list-style: none;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid rgba(0,0,0,.15);
-            border-radius: 0.25rem;
-            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175);
-        }
-        .dropdown-menu-custom.show {
-            display: block;
-        }
-        .dropdown-item-custom {
-            display: block;
-            width: 100%;
-            padding: 0.5rem 1rem;
-            clear: both;
-            font-weight: 400;
-            color: #212529;
-            text-align: inherit;
-            text-decoration: none;
-            white-space: nowrap;
-            background-color: transparent;
-            border: 0;
-            transition: background-color 0.2s;
-        }
-        .dropdown-item-custom:hover {
-            background-color: #f8f9fa;
-        }
-        .dropdown-item-custom i {
-            margin-right: 8px;
-            width: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body class="bg-light">
-    <div class="container my-4">
-        <div class="bg-white rounded p-4 shadow">
-            <h4 class="mb-3">Order History</h4>
+<style>
+    .table-container {
+        max-height: 55vh;
+        /* Adjusted to medium size */
+        overflow-y: auto;
 
-            <ul class="nav nav-tabs mb-3" id="orderTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link <?php echo $currentTab === 'all' ? 'active' : ''; ?>" href="?tab=all&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>" role="tab">All Orders</a>
+    }
+
+
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #2C4A6B;
+    }
+
+
+    .table-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .table-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Medium-sized table elements */
+    .table-md-text th,
+    .table-md-text td {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+    }
+
+    .status-badge {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8125rem;/
+    }
+
+    .dropdown-item {
+        font-size: 0.875rem;
+    }
+
+    .user-avatar {
+        width: 36px;
+        /* Medium avatar */
+        height: 36px;
+    }
+
+    /* Improved spacing */
+    .tab-content {
+        margin-top: 1rem;
+    }
+
+    /* Better contrast for readability */
+    .table-row:hover {
+        background-color: #f8fafc;
+    }
+</style>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto my-6 px-4">
+        <div class="bg-white rounded-lg p-6 shadow border border-[#2C4A6B]">
+            <h4 class="mb-4 font-semibold text-[#2C4A6B] text-xl">Order History</h4>
+
+            <ul class="flex flex-wrap -mb-px" id="orderTabs" role="tablist">
+                <li class="mr-1" role="presentation">
+                    <a class="inline-flex items-center justify-center p-3 px-4 text-sm font-medium rounded-t-lg transition-all duration-300 ease-in-out
+            <?php echo $currentTab === 'all' ?
+                'bg-[#2C4A6B] text-white shadow-md' :
+                'text-gray-500 hover:text-[#2C4A6B] hover:bg-gray-100 border-b-2 border-transparent hover:border-[#2C4A6B]'; ?>"
+                        href="?tab=all&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>"
+                        role="tab">
+                        <i class="fas fa-list-alt mr-2"></i> All Orders
+                    </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link <?php echo $currentTab === 'summary' ? 'active' : ''; ?>" id="summary-tab" data-bs-toggle="tab" data-bs-target="#summary" role="tab">Summary</a>
+                <li class="mr-1" role="presentation">
+                    <a class="inline-flex items-center justify-center p-3 px-4 text-sm font-medium rounded-t-lg transition-all duration-300 ease-in-out
+            <?php echo $currentTab === 'summary' ?
+                'bg-[#2C4A6B] text-white shadow-md' :
+                'text-gray-500 hover:text-[#2C4A6B] hover:bg-gray-100 border-b-2 border-transparent hover:border-[#2C4A6B]'; ?>"
+                        href="?tab=summary&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>"
+                        role="tab">
+                        <i class="fas fa-chart-pie mr-2"></i> Summary
+                    </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link <?php echo $currentTab === 'completed' ? 'active' : ''; ?>" href="?tab=completed&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>" role="tab">Completed</a>
+                <li class="mr-1" role="presentation">
+                    <a class="inline-flex items-center justify-center p-3 px-4 text-sm font-medium rounded-t-lg transition-all duration-300 ease-in-out
+            <?php echo $currentTab === 'completed' ?
+                'bg-[#2C4A6B] text-white shadow-md' :
+                'text-gray-500 hover:text-[#2C4A6B] hover:bg-gray-100 border-b-2 border-transparent hover:border-[#2C4A6B]'; ?>"
+                        href="?tab=completed&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>"
+                        role="tab">
+                        <i class="fas fa-check-circle mr-2"></i> Completed
+                    </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link <?php echo $currentTab === 'cancelled' ? 'active' : ''; ?>" href="?tab=cancelled&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>" role="tab">Cancelled</a>
+                <li class="mr-1" role="presentation">
+                    <a class="inline-flex items-center justify-center p-3 px-4 text-sm font-medium rounded-t-lg transition-all duration-300 ease-in-out
+            <?php echo $currentTab === 'cancelled' ?
+                'bg-[#2C4A6B] text-white shadow-md' :
+                'text-gray-500 hover:text-[#2C4A6B] hover:bg-gray-100 border-b-2 border-transparent hover:border-[#2C4A6B]'; ?>"
+                        href="?tab=cancelled&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>"
+                        role="tab">
+                        <i class="fas fa-times-circle mr-2"></i> Cancelled
+                    </a>
                 </li>
             </ul>
 
-            <form class="d-flex justify-content-end mb-3" method="GET">
+            <form class="flex justify-end mb-4 mt-4" method="GET">
                 <input type="hidden" name="tab" value="<?php echo $currentTab; ?>">
-                <input type="date" name="start_date" class="form-control w-auto me-2" value="<?php echo $startDate; ?>">
-                <input type="date" name="end_date" class="form-control w-auto me-2" value="<?php echo $endDate; ?>">
-                <button type="submit" class="btn btn-custom-filter">Filter</button>
+                <input type="date" name="start_date" class="border border-[#2C4A6B] rounded px-3 py-1.5 mr-2 w-auto text-base" value="<?php echo $startDate; ?>">
+                <input type="date" name="end_date" class="border border-[#2C4A6B] rounded px-3 py-1.5 mr-2 w-auto text-base" value="<?php echo $endDate; ?>">
+                <button type="submit" class="bg-[#2C4A6B] text-white px-4 py-1.5 rounded hover:bg-[#1E3550] transition-colors border border-[#2C4A6B] text-base">Filter</button>
             </form>
 
             <div class="tab-content" id="orderTabsContent">
-                <div class="tab-pane fade <?php echo $currentTab === 'all' ? 'show active' : ''; ?>" id="all" role="tabpanel">
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Payment</th>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (empty($orders)): ?>
-                                    <tr>
-                                        <td colspan="8" class="text-center py-4 text-muted">No orders found.</td>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php foreach ($orders as $order): ?>
-                                        <tr>
-                                            <td class="fw-medium text-primary"><?php echo htmlspecialchars($order['id']); ?></td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>" 
-                                                         class="avatar me-2" 
-                                                         alt="avatar" 
-                                                         width="40" 
-                                                         height="40">
-                                                    <span class="fw-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?></span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="payment-text"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></span>
-                                            </td>
-                                            <td><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
-                                            <td><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
-                                            <td>
-                                                <span class="status-badge <?php 
-                                                    if ($order['orderstatus'] === 'Pending') {
-                                                        echo 'status-pending';
-                                                    } elseif ($order['orderstatus'] === 'Delivered') {
-                                                        echo 'status-delivered';
-                                                    } elseif ($order['orderstatus'] === 'Cancelled') {
-                                                        echo 'status-cancelled';
-                                                    } elseif ($order['orderstatus'] === 'Collected') {
-                                                        echo 'status-collected';
-                                                    } else {
-                                                        echo 'status-default';
-                                                    }
-                                                ?>">
-                                                    <?php echo htmlspecialchars($order['orderstatus']); ?>
-                                                </span>
-                                            </td>
-                                            <td class="fw-medium text-purple-600">$<?php echo number_format($order['totalprice'], 2); ?></td>
-                                            <td>
-                                                <div class="action-dropdown">
-                                                    <button class="action-btn" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
-                                                        <i class="fas fa-ellipsis-v"></i>
-                                                    </button>
-                                                    <div id="dropdown-<?php echo $order['id']; ?>" class="dropdown-menu-custom">
-                                                        <a href="view_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
-                                                            <i class="fas fa-eye text-blue-600"></i> View
-                                                        </a>
-                                                        <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
-                                                            <i class="fas fa-edit text-green-600"></i> Edit
-                                                        </a>
-                                                        <a href="message_order.php?id=<?php echo $order['id']; ?>" class="dropdown-item-custom">
-                                                            <i class="fas fa-envelope text-purple-600"></i> Message
-                                                        </a>
-                                                        <a href="delete_order.php?id=<?php echo $order['id']; ?>" 
-                                                           class="dropdown-item-custom" 
-                                                           onclick="return confirm('Are you sure you want to delete this order?');">
-                                                            <i class="fas fa-trash text-red-600"></i> Delete
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                <div class="<?php echo $currentTab === 'all' ? 'block' : 'hidden'; ?>" id="all" role="tabpanel">
+                    <div class="table-container">
+                    <table class="w-full border-collapse">
+    <thead>
+        <tr class="bg-[#2C4A6B] text-white sticky-header">
+            <th class="p-3 text-left">NO</th>
+            <th class="p-3 text-left">Name</th>
+            <th class="p-3 text-left">Payment</th>
+            <th class="p-3 text-left">Date & Time</th>
+            <th class="p-3 text-left">Type</th>
+            <th class="p-3 text-left">Status</th>
+            <th class="p-3 text-left">Total</th>
+            <th class="p-3 text-left">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $counter = ($currentPage - 1) * $itemsPerPage + 1;
+        foreach ($orders as $order): ?>
+            <tr class="hover:bg-gray-50 transition-colors border-b border-gray-200">
+                <td class="p-3 font-medium text-blue-500"><?php echo $counter++; ?></td>
+                <td class="p-3">
+                    <div class="flex items-center">
+                        <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>"
+                            class="rounded-full mr-3 user-avatar"
+                            alt="avatar">
+                        <span class="font-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?></span>
                     </div>
-                    
-                    <?php if ($currentTab !== 'summary'): ?>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center mt-3">
-                                <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage - 1; ?>&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>">Previous</a>
+                </td>
+                <td class="p-3 text-green-600 font-medium"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
+                <td class="p-3"><?php echo htmlspecialchars(date('M j, Y H:i', strtotime($order['orderdate']))); ?></td>
+                <td class="p-3"><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
+                <td class="p-3">
+                    <span class="status-badge rounded-full font-medium <?php
+                        if ($order['orderstatus'] === 'Pending') {
+                            echo 'bg-yellow-200 text-yellow-600';
+                        } elseif ($order['orderstatus'] === 'Delivered') {
+                            echo 'bg-green-200 text-green-600';
+                        } elseif ($order['orderstatus'] === 'Cancelled') {
+                            echo 'bg-pink-200 text-pink-600';
+                        } elseif ($order['orderstatus'] === 'Collected') {
+                            echo 'bg-green-200 text-green-600';
+                        } else {
+                            echo 'bg-pink-200 text-pink-600';
+                        }
+                    ?>">
+                        <?php echo htmlspecialchars($order['orderstatus']); ?>
+                    </span>
+                </td>
+                <td class="p-3 font-medium text-purple-600">$<?php echo number_format($order['totalprice'], 2); ?></td>
+                <td class="p-3">
+                    <div class="relative inline-block">
+                        <button class="text-gray-500 hover:text-gray-700 p-2" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div id="dropdown-<?php echo $order['id']; ?>" class="hidden absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                            <a href="view_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
+                                <i class="fas fa-eye text-blue-600 mr-2"></i> View
+                            </a>
+                            <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
+                                <i class="fas fa-edit text-green-600 mr-2"></i> Edit
+                            </a>
+                            <a href="message_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
+                                <i class="fas fa-envelope text-purple-600 mr-2"></i> Message
+                            </a>
+                            <a href="delete_order.php?id=<?php echo $order['id']; ?>"
+                                class="block px-3 py-2 hover:bg-gray-100 dropdown-item"
+                                onclick="return confirm('Are you sure you want to delete this order?');">
+                                <i class="fas fa-trash text-red-600 mr-2"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+                    </div>
+
+                    <?php if ($currentTab !== 'summary' && $totalPages > 1): ?>
+                        <nav class="mt-4">
+                            <ul class="flex justify-center space-x-2">
+                                <li class="<?php echo $currentPage <= 1 ? 'pointer-events-none opacity-50' : ''; ?>">
+                                    <a class="px-3 py-1.5 border border-[#2C4A6B] rounded text-base"
+                                        href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage - 1; ?>&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>">Previous</a>
                                 </li>
-                                <li class="page-item disabled"><span class="page-link">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span></li>
-                                <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage + 1; ?>&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>">Next</a>
+                                <li class="px-3 py-1.5 border border-[#2C4A6B] rounded text-base">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></li>
+                                <li class="<?php echo $currentPage >= $totalPages ? 'pointer-events-none opacity-50' : ''; ?>">
+                                    <a class="px-3 py-1.5 border border-[#2C4A6B] rounded text-base"
+                                        href="?tab=<?php echo $currentTab; ?>&page=<?php echo $currentPage + 1; ?>&start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>">Next</a>
                                 </li>
                             </ul>
                         </nav>
                     <?php endif; ?>
                 </div>
-                
-                <div class="tab-pane fade <?php echo $currentTab === 'summary' ? 'show active' : ''; ?>" id="summary" role="tabpanel">
-                    <div class="p-3">
-                        <h5 class="mb-3">Order Summary (<?php echo date('m-d-Y', strtotime($startDate)); ?> to <?php echo date('m-d-Y', strtotime($endDate)); ?>)</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="text-muted">Order Statistics</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                <div class="<?php echo $currentTab === 'summary' ? 'block' : 'hidden'; ?>" id="summary" role="tabpanel">
+                    <div class="p-4 border border-[#2C4A6B] rounded-lg">
+                        <h5 class="mb-4 font-semibold text-[#2C4A6B] text-lg">Order Summary (<?php echo date('m/d/Y', strtotime($startDate)); ?> to <?php echo date('m/d/Y', strtotime($endDate)); ?>)</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h6 class="text-gray-500 mb-3 text-sm">Order Statistics</h6>
+                                <ul class="divide-y border border-[#2C4A6B] rounded-lg mb-4 text-base">
+                                    <li class="flex justify-between items-center p-3">
                                         Total Orders
-                                        <span class="badge bg-primary rounded-pill"><?php echo $summary['total_orders']; ?></span>
+                                        <span class="bg-[#2C4A6B] text-white rounded-full px-3 py-1 text-sm"><?php echo $summary['total_orders']; ?></span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="flex justify-between items-center p-3">
                                         Delivered
-                                        <span class="badge status-delivered rounded-pill"><?php echo $summary['delivered']; ?></span>
+                                        <span class="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm"><?php echo $summary['delivered']; ?></span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="flex justify-between items-center p-3">
                                         Collected
-                                        <span class="badge status-collected rounded-pill"><?php echo $summary['collected']; ?></span>
+                                        <span class="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm"><?php echo $summary['collected']; ?></span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="flex justify-between items-center p-3">
                                         Cancelled
-                                        <span class="badge status-cancelled rounded-pill"><?php echo $summary['cancelled']; ?></span>
+                                        <span class="bg-pink-100 text-pink-800 rounded-full px-3 py-1 text-sm"><?php echo $summary['cancelled']; ?></span>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-md-6">
-                                <h6 class="text-muted">Financial Overview</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-gray-500 mb-3 text-sm">Financial Overview</h6>
+                                <ul class="divide-y border border-[#2C4A6B] rounded-lg mb-4 text-base">
+                                    <li class="flex justify-between items-center p-3">
                                         Total Revenue (Completed Orders)
-                                        <span class="fw-bold">$<?php echo number_format($summary['total_revenue'], 2); ?></span>
+                                        <span class="text-[#2C4A6B] font-bold">$<?php echo number_format($summary['total_revenue'], 2); ?></span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="flex justify-between items-center p-3">
                                         Average Order Value (Completed)
-                                        <span class="fw-bold">$<?php echo $summary['completed_count'] > 0 ? number_format($summary['total_revenue'] / $summary['completed_count'], 2) : '0.00'; ?></span>
+                                        <span class="text-[#2C4A6B] font-bold">$<?php echo $summary['completed_count'] > 0 ? number_format($summary['total_revenue'] / $summary['completed_count'], 2) : '0.00'; ?></span>
                                     </li>
                                 </ul>
-                                <h6 class="text-muted mt-3">Payment Methods</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h6 class="text-gray-500 mb-3 text-sm">Payment Methods</h6>
+                                <ul class="divide-y border border-[#2C4A6B] rounded-lg text-base">
+                                    <li class="flex justify-between items-center p-3">
                                         Cash Payments
-                                        <span class="badge bg-secondary rounded-pill"><?php echo $summary['cash_payments']; ?></span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-sm"><?php echo $summary['cash_payments']; ?></span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="flex justify-between items-center p-3">
                                         Paid (Online/Card)
-                                        <span class="badge bg-secondary rounded-pill"><?php echo $summary['paid_payments']; ?></span>
+                                        <span class="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-sm"><?php echo $summary['paid_payments']; ?></span>
                                     </li>
                                 </ul>
                             </div>
@@ -395,43 +343,26 @@ try {
     </div>
 
     <script>
-        // Dropdown toggle function
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
-            const allDropdowns = document.querySelectorAll('.dropdown-menu-custom');
-            
-            // Close all other dropdowns
+            const allDropdowns = document.querySelectorAll('[id^="dropdown-"]');
+
             allDropdowns.forEach(d => {
                 if (d.id !== id) {
-                    d.classList.remove('show');
+                    d.classList.add('hidden');
                 }
             });
-            
-            // Toggle current dropdown
-            dropdown.classList.toggle('show');
+
+            dropdown.classList.toggle('hidden');
         }
 
-        // Close dropdowns when clicking outside
         document.addEventListener('click', function(event) {
-            if (!event.target.matches('.action-btn') && !event.target.closest('.action-btn')) {
-                const dropdowns = document.querySelectorAll('.dropdown-menu-custom');
+            if (!event.target.matches('[onclick^="toggleDropdown"]') && !event.target.closest('[onclick^="toggleDropdown"]')) {
+                const dropdowns = document.querySelectorAll('[id^="dropdown-"]');
                 dropdowns.forEach(dropdown => {
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
+                    dropdown.classList.add('hidden');
                 });
             }
         });
-
-        // Tab switching (if using Bootstrap JS)
-        var tabElms = document.querySelectorAll('a[data-bs-toggle="tab"]');
-        tabElms.forEach(function(tabEl) {
-            tabEl.addEventListener('shown.bs.tab', function (event) {
-                event.target // newly activated tab
-                event.relatedTarget // previous active tab
-            })
-        });
     </script>
-
-
-<?php $conn = null; ?>
+    <?php $conn = null; ?>

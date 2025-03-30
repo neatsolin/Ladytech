@@ -41,16 +41,10 @@ try {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
     <title>Pending Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
 
-<body>
     <div class="p-6 bg-white rounded-lg shadow-md">
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
@@ -196,8 +190,4 @@ try {
             });
         });
     </script>
-</body>
-
-</html>
-
 <?php $conn = null; ?>
