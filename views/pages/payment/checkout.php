@@ -25,6 +25,140 @@ foreach ($cartItems as $item) {
 }
 ?>
 
+<style>
+
+  .h-custom  {
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(47,99,161,1) 100%);
+    
+  }
+
+  .infor{
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(98,193,218,1) 100%);
+    border-radius:5px;
+  }
+
+
+  /* crad product in checkout */
+  .car_d {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    
+
+  }
+
+  .Carr_d{
+    border: 1px solid green;
+    border-radius:5px;
+  }
+
+  .image {
+        width: 4rem;
+        height: 4rem;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Ensures the entire image fits inside without cropping */
+    }
+
+  .img-fluid {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-out;
+  }
+
+.img-fluid:hover {
+    transform: scale(1.1);
+}
+
+
+    .card-body{}
+
+    /* CARD PAYMETNT */
+    a .fa-cc-mastercard {
+      background: linear-gradient(90deg, #EB001B 50%, #FF5F00 50%); /* Red & Orange */
+    }
+
+    a .fa-cc-visa {
+        color: #142787; /* Visa Blue */
+    }
+
+    a .fa-cc-amex {
+        color: #0077A6; /* American Express Blue */
+    }
+
+    a .fa-cc-paypal {
+        background: linear-gradient(90deg, #003087 50%, #009CDE 50%); /* PayPal Blue Gradient */
+    }
+
+  .remove-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border-radius:50%;
+  }
+
+  .remove-item:hover {
+      background: red;
+      color: white;
+  }
+
+  .remove-item:hover i {
+      color: white;
+  }
+
+  .text-body {
+    background: green;
+    color: white !important;
+    padding: 4px 12px;
+    border-radius: 50px;
+    display: inline-block;
+    transition: transform 0.3s ease-out;
+  }
+
+  .text-body:hover {
+      transform: translateX(-5px);
+  }
+  .num-it {
+    background: pink;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 100px !important;
+    font-weight: bold;
+    font-size: 15px;
+    
+  }
+
+  #place-order-btn {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+      transition: background 0.3s ease;
+  }
+
+  #place-order-btn:hover {
+      background: green;
+  }
+
+
+
+</style>
+
 <section class="h-100 h-custom" style="background-color: #eee;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -34,13 +168,13 @@ foreach ($cartItems as $item) {
             <div class="row">
               <!-- Cart Items Section -->
               <div class="col-lg-7">
-                <h5 class="mb-3"><a href="/product" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                <h5 class="mb-3"><a href="/product" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>CONTINUE SHOPPING</a></h5>
                 <hr>
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                   <div>
-                    <p class="mb-1">Shopping Cart</p>
-                    <p class="mb-0">You have <?php echo count($cartItems); ?> items in your cart</p>
+                    <p class="mb-1">SHOPPING CART</p>
+                    <p class="mb-0">YOU HAVE  <b class="num-it"><?php echo count($cartItems); ?></b> PRODUCTS IN YOUR CART</p>
                   </div>
                 </div>
 
@@ -58,11 +192,13 @@ foreach ($cartItems as $item) {
                     $quantity = intval($item['quantity'] ?? 1);
                     $itemSubtotal = $price * $quantity;
                     ?>
+                    
+                    <!-- product checkout -->
                     <div class="card mb-3" data-product-id="<?php echo $productId; ?>">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between">
+                      <div class="card-body Carr_d">
+                        <div class="d-flex justify-content-between car_d">
                           <div class="d-flex flex-row align-items-center">
-                            <div>
+                            <div class="image">
                               <img src="<?php echo $imageURL; ?>" class="img-fluid rounded-3" alt="<?php echo $productName; ?>" style="width: 65px;">
                             </div>
                             <div class="ms-3">
@@ -89,11 +225,11 @@ foreach ($cartItems as $item) {
               <!-- Card Details Section -->
               <div class="col-lg-5">
                 <div class="card bg-primary text-white rounded-3">
-                  <div class="card-body">
+                  <div class="card-body infor">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                      <h5 class="mb-0">Card Details</h5>
+                      <h5 class="mb-0" style="color:white;">CARD DETAILS</h5>
                       <?php if ($user && isset($user['profile'])): ?>
-                        <img src="<?php echo htmlspecialchars($user['profile']); ?>" class="img-fluid rounded-3" style="width: 45px;" alt="<?php echo htmlspecialchars($user['username'] ?? 'User'); ?> Avatar">
+                        <img src="<?php echo htmlspecialchars($user['profile']); ?>" class="img-fluid rounded-3" style="width: 100px;" alt="<?php echo htmlspecialchars($user['username'] ?? 'User'); ?> Avatar">
                       <?php else: ?>
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" class="img-fluid rounded-3" style="width: 45px;" alt="Default Avatar">
                       <?php endif; ?>
@@ -111,10 +247,10 @@ foreach ($cartItems as $item) {
                       </div>
                     <?php else: ?>
                       <div class="mb-3">
-                        <h6 class="text-white">User Information</h6>
-                        <p class="small mb-0"><strong>Name:</strong> <?php echo htmlspecialchars($user['username'] ?? 'N/A'); ?></p>
-                        <p class="small mb-0"><strong>Email:</strong> <?php echo htmlspecialchars($user['email'] ?? 'N/A'); ?></p>
-                        <p class="small mb-0"><strong>Address:</strong> <?php echo htmlspecialchars($user['address'] ?? 'N/A'); ?></p>
+                        <h6 class="text-white">USER INFORMATION</h6>
+                        <p class="small mb-0"><strong>NAME:    </strong> <?php echo htmlspecialchars($user['username'] ?? 'N/A'); ?></p>
+                        <p class="small mb-0"><strong>EMAIL:   </strong> <?php echo htmlspecialchars($user['email'] ?? 'N/A'); ?></p>
+                        <p class="small mb-0"><strong>ADDRESS: </strong> <?php echo htmlspecialchars($user['address'] ?? 'N/A'); ?></p>
                       </div>
                     <?php endif; ?>
 
@@ -130,7 +266,7 @@ foreach ($cartItems as $item) {
                       <input type="hidden" id="total_price_input" name="total_price" value="<?php echo $subtotal; ?>">
                       <input type="hidden" id="currency_input" name="currency" value="USD">
 
-                      <p class="small mb-2">Card type</p>
+                      <p class="small mb-2">CARD TYPE</p>
                       <a href="#!" class="text-white"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
                       <a href="#!" class="text-white"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
                       <a href="#!" class="text-white"><i class="fab fa-cc-amex fa-2x me-2"></i></a>
