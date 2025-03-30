@@ -24,7 +24,7 @@ try {
     $totalOrders = $totalStmt->fetchColumn();
     $totalPages = ceil($totalOrders / $itemsPerPage);
 
-    // Fetch older orders for the current page (sorted by oldest first)
+    // Fetch older orders for the current page
     $stmt = $conn->prepare("
         SELECT o.*, u.username, u.profile AS user_profile, u.phone
         FROM orders o
@@ -47,33 +47,37 @@ try {
 ?>
 
 
-    <title>Older Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+   
     <style>
-        .sticky-header thead th {
+        /* Custom scrollbar */
+        .scrollable-table {
+            max-height: 60vh;
+            overflow-y: scroll;
+        }
+        
+        /* Make scrollbar always visible */
+        .scrollable-table::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 10px;
+        }
+/*         
+        .scrollable-table::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,.2);
+            border-radius: 10px;
+        }
+        
+        .scrollable-table::-webkit-scrollbar-track {
+            background-color: rgba(0,0,0,.05);
+            border-radius: 10px;
+        } */
+        
+        /* Sticky header */
+        .sticky-header thead tr th {
             position: sticky;
             top: 0;
             z-index: 10;
             background-color: #2C4A6B;
-        }
-        
-        .table-container {
-        max-height: 70vh;
-        overflow-y: auto;
-        scrollbar-width: none; /* Hides scrollbar in Firefox */
-        -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
-    }
-
-    /* Hides scrollbar in WebKit browsers (Chrome, Safari) */
-    .table-container::-webkit-scrollbar {
-        display: none;
-    }
-
-        
-        /* Ensure dropdowns appear above sticky header */
-        .relative {
-            z-index: 20;
         }
     </style>
 </head>
@@ -93,10 +97,10 @@ try {
                 </div>
             </div>
 
-            <!-- Orders Table with sticky header -->
-            <div class="overflow-x-auto table-container">
+            <!-- Orders Table -->
+            <div class="scrollable-table">
                 <table class="w-full sticky-header">
-                    <thead class="text-white">
+                    <thead class="bg-[#2C4A6B] text-white">
                         <tr>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">No</th>
                             <th class="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wider">Phone</th>
