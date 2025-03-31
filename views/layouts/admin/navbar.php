@@ -14,8 +14,8 @@
         <span style="margin-left: 20px; color: gray;">DAILY NEEDS</span>
       </a>
     </div>
-    <div class="navbar-content" style="background: pink; background: rgb(207,183,205);
-        background: radial-gradient(circle, rgba(207,183,205,1) 0%, rgba(255,255,255,1) 0%, rgba(245,174,205,1) 0%, rgba(211,192,198,1) 0%, rgba(182,207,192,1) 100%, rgba(156,174,216,1) 100%, rgba(61,18,61,1) 100%, rgba(174,193,209,1) 100%, rgba(115,65,212,1) 100%, rgba(98,217,218,1) 100%, rgba(85,87,120,1) 100%, rgba(243,215,251,1) 100%); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+    <!-- Nav move down inven tory -->
+    <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
           <a href="/admin" class="pc-link">
