@@ -543,5 +543,5 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
 
 // Initialize UI
 updateTotalPrice();
-updatePaymentMethod('Visa'); // Set Visa as default
+updatePaymentMethod('Visa');
 </script>
