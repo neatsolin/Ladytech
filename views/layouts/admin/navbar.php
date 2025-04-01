@@ -6,14 +6,15 @@
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar">
-  <div class="navbar-wrapper">
+  <div class="navbar-wrapper" style="">
     <div class="m-header">
       <a href="/admin" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%; display: inline-block;">
-        <span style="margin-left: 20px; color: gray;">Daily Needs</span>
+        <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%; display: inline-block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
+        <span style="margin-left: 20px; color: gray;">DAILY NEEDS</span>
       </a>
     </div>
+    <!-- Nav move down inven tory -->
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
@@ -190,13 +191,14 @@
 </nav>
     <!-- [ Sidebar Menu ] end --> 
      <!-- [ Header Topbar ] start -->
-    <header class="pc-header">
+    <header class="pc-header" style="background: pink; background: rgb(207,183,205);
+        background: radial-gradient(circle, rgba(207,183,205,1) 0%, rgba(255,255,255,1) 0%, rgba(245,174,205,1) 0%, rgba(211,192,198,1) 0%, rgba(182,207,192,1) 100%, rgba(156,174,216,1) 100%, rgba(61,18,61,1) 100%, rgba(174,193,209,1) 100%, rgba(115,65,212,1) 100%, rgba(98,217,218,1) 100%, rgba(85,87,120,1) 100%, rgba(243,215,251,1) 100%); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
         <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
             <div class="me-auto pc-mob-drp">
                 <ul class="list-unstyled">
                 <!-- ======= Menu collapse Icon ===== -->
                     <li class="pc-h-item pc-sidebar-collapse">
-                        <a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2"></i></a>
+                        <a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2" style="color:green;"></i></a>
                     </li>
                     <li class="pc-h-item pc-sidebar-popup">
                         <a href="#" class="pc-head-link ms-0" id="mobile-collapse"><i class="ti ti-menu-2"></i></a>
@@ -222,10 +224,10 @@
                         </div>
                     </li>
                     <li class="pc-h-item d-none d-md-inline-flex">
-                        <form class="header-search">
-                            <i data-feather="search" class="icon-search"></i>
-                            <input type="search" class="form-control" placeholder="Search here. . .">
-                        </form>
+                    <div class="animated-border">
+                        <input type="search" class="form-control" placeholder="Search here. . ." />
+                    </div>
+
                     </li>
                 </ul>
             </div>
@@ -372,7 +374,7 @@
                             aria-haspopup="false"
                             aria-expanded="false"
                         >
-                            <i class="ti ti-bell"></i>
+                            <i class="ti ti-bell" style="color:green;"></i>
                             <span class="badge bg-success pc-h-badge">3</span>
                         </a>
                         <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
@@ -448,7 +450,7 @@
                             aria-haspopup="false"
                             aria-expanded="false"
                         >
-                            <i class="ti ti-mail"></i>
+                            <i class="ti ti-mail" style="color:green;"></i>
                         </a>
                         <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -683,7 +685,50 @@
                 reader.readAsDataURL(event.target.files[0]);
             }
         </script>
+<style>
+    .animated-border {
+    position: relative;
+    display: inline-block;
+    padding: 5px; /* Space for animated border */
+    border-radius: 20px; /* Rounded corners */
+    }
 
+    .form-control {
+    border: none; /* Remove default border */
+    outline: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 20px; /* Match border */
+    background: #f0f0f0;
+    }
+
+    .animated-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px; /* Rounded edges */
+    background: linear-gradient(90deg, red, yellow, green, blue, purple);
+    background-size: 300% 300%; /* Ensures the animation spans across */
+    animation: moveGradient 4s infinite linear; /* Smoothly moves the gradient */
+    z-index: -1; /* Places behind the input */
+    }
+
+    @keyframes moveGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+    }
+
+</style>
     <!-- [ Main Content ] start -->
     <div class="pc-container">
         <div class="pc-content">
