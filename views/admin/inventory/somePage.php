@@ -95,7 +95,7 @@ endif;
 </div> -->
     <!-- <div class="text-white text-center"> -->
     <div id="imageCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
-        <div class="col-12 hero" style="background-image: url('https://www.nyip.edu/images/cms/photo-articles/hardware-store-photo-backgrounds.jpg'); height: 70vh; background-size: cover; background-position: center;">
+        <div class="col-12 hero" style="background-image: url('https://img.freepik.com/premium-photo/shopping-concept-supermarket-trolley-money-gifts-background_494741-29308.jpg?semt=ais_hybrid'); height: 70vh; background-size: cover; background-position: center;">
             <!-- <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;"> -->
             <!-- <img class="img_some" src="/views/assets/images/product.png" alt=""> -->
             <div class="carousel-inner">
