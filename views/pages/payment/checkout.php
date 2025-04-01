@@ -26,48 +26,42 @@ foreach ($cartItems as $item) {
 ?>
 
 <style>
-
-  .h-custom  {
+  .h-custom {
     background: rgb(238,174,202);
     background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(47,99,161,1) 100%);
-    
   }
 
-  .infor{
+  .infor {
     background: rgb(238,174,202);
     background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(98,193,218,1) 100%);
-    border-radius:5px;
+    border-radius: 5px;
   }
 
-
-  /* crad product in checkout */
   .car_d {
     height: 4rem;
     display: flex;
     align-items: center;
-    
-
   }
 
-  .Carr_d{
+  .Carr_d {
     border: 1px solid green;
-    border-radius:5px;
+    border-radius: 5px;
   }
 
   .image {
-        width: 4rem;
-        height: 4rem;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .image img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Ensures the entire image fits inside without cropping */
-    }
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
   .img-fluid {
     width: 100%;
@@ -75,29 +69,40 @@ foreach ($cartItems as $item) {
     transition: transform 0.3s ease-out;
   }
 
-.img-fluid:hover {
+  .img-fluid:hover {
     transform: scale(1.1);
-}
+  }
 
+  .card-body {}
 
-    .card-body{}
+  /* Payment Method Styling */
+  .payment-option {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-    /* CARD PAYMETNT */
-    a .fa-cc-mastercard {
-      background: linear-gradient(90deg, #EB001B 50%, #FF5F00 50%); /* Red & Orange */
-    }
+  .payment-option.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
 
-    a .fa-cc-visa {
-        color: #142787; /* Visa Blue */
-    }
+  a .fa-cc-mastercard {
+    background: linear-gradient(90deg, #EB001B 50%, #FF5F00 50%);
+  }
 
-    a .fa-cc-amex {
-        color: #0077A6; /* American Express Blue */
-    }
+  a .fa-cc-visa {
+    color: #142787;
+  }
 
-    a .fa-cc-paypal {
-        background: linear-gradient(90deg, #003087 50%, #009CDE 50%); /* PayPal Blue Gradient */
-    }
+  a .fa-cc-amex {
+    color: #0077A6;
+  }
+
+  a .fa-cc-paypal {
+    background: linear-gradient(90deg, #003087 50%, #009CDE 50%);
+  }
 
   .remove-item {
     display: inline-flex;
@@ -108,16 +113,16 @@ foreach ($cartItems as $item) {
     background: transparent;
     cursor: pointer;
     transition: background 0.3s ease;
-    border-radius:50%;
+    border-radius: 50%;
   }
 
   .remove-item:hover {
-      background: red;
-      color: white;
+    background: red;
+    color: white;
   }
 
   .remove-item:hover i {
-      color: white;
+    color: white;
   }
 
   .text-body {
@@ -130,8 +135,9 @@ foreach ($cartItems as $item) {
   }
 
   .text-body:hover {
-      transform: translateX(-5px);
+    transform: translateX(-5px);
   }
+
   .num-it {
     background: pink;
     color: white;
@@ -139,7 +145,6 @@ foreach ($cartItems as $item) {
     border-radius: 100px !important;
     font-weight: bold;
     font-size: 15px;
-    
   }
 
   #place-order-btn {
@@ -148,15 +153,12 @@ foreach ($cartItems as $item) {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-      transition: background 0.3s ease;
+    transition: background 0.3s ease;
   }
 
   #place-order-btn:hover {
-      background: green;
+    background: green;
   }
-
-
-
 </style>
 
 <section class="h-100 h-custom" style="background-color: #eee;">
@@ -174,7 +176,7 @@ foreach ($cartItems as $item) {
                 <div class="d-flex justify-content-between align-items-center mb-4">
                   <div>
                     <p class="mb-1">SHOPPING CART</p>
-                    <p class="mb-0">YOU HAVE  <b class="num-it"><?php echo count($cartItems); ?></b> PRODUCTS IN YOUR CART</p>
+                    <p class="mb-0">YOU HAVE <b class="num-it"><?php echo count($cartItems); ?></b> PRODUCTS IN YOUR CART</p>
                   </div>
                 </div>
 
@@ -192,8 +194,6 @@ foreach ($cartItems as $item) {
                     $quantity = intval($item['quantity'] ?? 1);
                     $itemSubtotal = $price * $quantity;
                     ?>
-                    
-                    <!-- product checkout -->
                     <div class="card mb-3" data-product-id="<?php echo $productId; ?>">
                       <div class="card-body Carr_d">
                         <div class="d-flex justify-content-between car_d">
@@ -265,14 +265,17 @@ foreach ($cartItems as $item) {
                       </div>
                       <input type="hidden" id="total_price_input" name="total_price" value="<?php echo $subtotal; ?>">
                       <input type="hidden" id="currency_input" name="currency" value="USD">
+                      <input type="hidden" id="payment_method_input" name="payment_method" value="Visa"> <!-- Default to Visa -->
 
                       <p class="small mb-2">CARD TYPE</p>
-                      <a href="#!" class="text-white"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                      <a href="#!" class="text-white"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
-                      <a href="#!" class="text-white"><i class="fab fa-cc-amex fa-2x me-2"></i></a>
-                      <a href="#!" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+                      <div class="payment-methods">
+                        <a href="#" class="payment-option text-white" data-method="Mastercard"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                        <a href="#" class="payment-option text-white selected" data-method="Visa"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
+                        <a href="#" class="payment-option text-white" data-method="Amex"><i class="fab fa-cc-amex fa-2x me-2"></i></a>
+                        <a href="#" class="payment-option text-white" data-method="Paypal"><i class="fab fa-cc-paypal fa-2x"></i></a>
+                      </div>
 
-                      <div class="mt-4">
+                      <div class="mt-4" id="card-details">
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                           <input type="text" id="typeName" name="card_holder_name" class="form-control form-control-lg" size="17" placeholder="Cardholder's Name" required />
                           <label class="form-label" for="typeName">Cardholder's Name</label>
@@ -297,42 +300,42 @@ foreach ($cartItems as $item) {
                             </div>
                           </div>
                         </div>
+                      </div>
 
-                        <div class="mb-3">
-                          <label for="order_status" class="form-label">Order Status</label>
-                          <select class="form-control" id="order_status" name="order_status" required>
-                            <option value="Pending">Pending</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Canceled">Canceled</option>
-                          </select>
-                        </div>
+                      <div class="mb-3">
+                        <label for="order_status" class="form-label">Order Status</label>
+                        <select class="form-control" id="order_status" name="order_status" required>
+                          <option value="Pending">Pending</option>
+                          <option value="Delivered">Delivered</option>
+                          <option value="Canceled">Canceled</option>
+                        </select>
+                      </div>
 
-                        <div class="mb-3">
-                          <label for="currency" class="form-label">Currency</label>
-                          <select class="form-control" id="currency" name="currency" onchange="updateTotalPrice()" required>
-                            <option value="USD">USD</option>
-                            <option value="KH Riel">KH Riel</option>
-                          </select>
-                        </div>
+                      <div class="mb-3">
+                        <label for="currency" class="form-label">Currency</label>
+                        <select class="form-control" id="currency" name="currency" onchange="updateTotalPrice()" required>
+                          <option value="USD">USD</option>
+                          <option value="KH Riel">KH Riel</option>
+                        </select>
+                      </div>
 
-                        <div class="mb-3">
-                          <label for="location_id" class="form-label">Shipping Location</label>
-                          <select class="form-control" id="location_id" name="location_id" required>
-                            <?php if (empty($locations)): ?>
-                              <option value="">No locations available</option>
-                              <?php 
-                              echo "<!-- Debug: Locations array is empty or not set. Check CartController and LocationModel. -->";
-                              echo "<!-- Locations: " . print_r($locations, true) . " -->";
-                              ?>
-                            <?php else: ?>
-                              <?php foreach ($locations as $location): ?>
-                                <option value="<?php echo htmlspecialchars($location['id']); ?>">
-                                  <?php echo htmlspecialchars($location['location_name']); ?>
-                                </option>
-                              <?php endforeach; ?>
-                            <?php endif; ?>
-                          </select>
-                        </div>
+                      <div class="mb-3">
+                        <label for="location_id" class="form-label">Shipping Location</label>
+                        <select class="form-control" id="location_id" name="location_id" required>
+                          <?php if (empty($locations)): ?>
+                            <option value="">No locations available</option>
+                            <?php 
+                            echo "<!-- Debug: Locations array is empty or not set. Check CartController and LocationModel. -->";
+                            echo "<!-- Locations: " . print_r($locations, true) . " -->";
+                            ?>
+                          <?php else: ?>
+                            <?php foreach ($locations as $location): ?>
+                              <option value="<?php echo htmlspecialchars($location['id']); ?>">
+                                <?php echo htmlspecialchars($location['location_name']); ?>
+                              </option>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                        </select>
                       </div>
 
                       <hr class="my-4">
@@ -341,17 +344,16 @@ foreach ($cartItems as $item) {
                         <p class="mb-2">Subtotal</p>
                         <p class="mb-2 subtotal">$<?php echo number_format($subtotal, 2); ?></p>
                       </div>
-
-                      <!-- <div class="d-flex justify-content-between">
+<!-- 
+                      <div class="d-flex justify-content-between">
                         <p class="mb-2">Shipping</p>
                         <p class="mb-2 shipping">$20.00</p>
                       </div>
 
                       <div class="d-flex justify-content-between mb-4">
-                        <p class="mb-2">Total(Incl. taxes)</p>
-                        <p class="mb-2 total">$echo number_format($subtotal + 20, 2); ?></p>
+                        <p class="mb-2">Total (Incl. taxes)</p>
+                        <p class="mb-2 total">$<?php echo number_format($subtotal + 20, 2); ?></p>
                       </div> -->
-
 
                       <div>
                         <button type="submit" class="btn btn-info w-100" id="place-order-btn">Place Order</button>
@@ -393,21 +395,16 @@ function updateTotalPrice() {
   const totalPriceWithShipping = currency === 'KH Riel' ? totalPriceWithShippingUSD * exchangeRate : totalPriceWithShippingUSD;
   const shippingDisplay = currency === 'KH Riel' ? `${(shippingUSD * exchangeRate).toLocaleString()} KH Riel` : `$${shippingUSD.toFixed(2)}`;
 
-  const formattedTotalPrice = currency === 'KH Riel' ? 
-    `${totalPrice.toLocaleString()} KH Riel` : 
-    `$${totalPrice.toFixed(2)}`;
-  const formattedTotalPriceWithShipping = currency === 'KH Riel' ? 
-    `${totalPriceWithShipping.toLocaleString()} KH Riel` : 
-    `$${totalPriceWithShippingUSD.toFixed(2)}`;
-
-  document.querySelector('.subtotal').textContent = formattedTotalPrice;
+  document.querySelector('.subtotal').textContent = currency === 'KH Riel' ? 
+    `${totalPrice.toLocaleString()} KH Riel` : `$${totalPrice.toFixed(2)}`;
   document.querySelector('.shipping').textContent = shippingDisplay;
-  document.querySelector('.total').textContent = formattedTotalPriceWithShipping;
+  document.querySelector('.total').textContent = currency === 'KH Riel' ? 
+    `${totalPriceWithShipping.toLocaleString()} KH Riel` : `$${totalPriceWithShipping.toFixed(2)}`;
 
   document.getElementById('total_price_input').value = totalPriceWithShippingUSD.toFixed(2);
   document.getElementById('currency_input').value = currency;
 
-  document.querySelector('.mb-0').textContent = `You have ${cartItems.length} items in your cart`;
+  document.querySelector('.mb-0').textContent = `YOU HAVE ${cartItems.length} PRODUCTS IN YOUR CART`;
 
   const placeOrderBtn = document.getElementById('place-order-btn');
   placeOrderBtn.disabled = cartItems.length === 0;
@@ -425,14 +422,10 @@ function removeFromCart(productId) {
   .then(data => {
     if (data.success) {
       const itemElement = document.querySelector(`.card.mb-3[data-product-id="${productId}"]`);
-      if (itemElement) {
-        itemElement.remove();
-      }
+      if (itemElement) itemElement.remove();
 
       const inputElement = document.querySelector(`.cart-item-inputs[data-product-id="${productId}"]`);
-      if (inputElement) {
-        inputElement.remove();
-      }
+      if (inputElement) inputElement.remove();
 
       updateTotalPrice();
 
@@ -457,6 +450,34 @@ function removeFromCart(productId) {
   });
 }
 
+// Handle payment method selection
+function updatePaymentMethod(method) {
+  const paymentMethodInput = document.getElementById('payment_method_input');
+  const cardDetails = document.getElementById('card-details');
+  const paymentOptions = document.querySelectorAll('.payment-option');
+
+  // Update the hidden input with the selected method
+  paymentMethodInput.value = method;
+
+  // Update UI to show selected method
+  paymentOptions.forEach(option => {
+    if (option.getAttribute('data-method') === method) {
+      option.classList.add('selected');
+    } else {
+      option.classList.remove('selected');
+    }
+  });
+
+  // Show/hide card details based on method
+  if (method === 'Paypal') {
+    cardDetails.style.display = 'none';
+    cardDetails.querySelectorAll('input').forEach(input => input.required = false);
+  } else {
+    cardDetails.style.display = 'block';
+    cardDetails.querySelectorAll('input').forEach(input => input.required = true);
+  }
+}
+
 document.querySelectorAll('.remove-item').forEach(button => {
   button.addEventListener('click', function(e) {
     e.preventDefault();
@@ -465,27 +486,40 @@ document.querySelectorAll('.remove-item').forEach(button => {
   });
 });
 
+document.querySelectorAll('.payment-option').forEach(option => {
+  option.addEventListener('click', function(e) {
+    e.preventDefault();
+    const method = this.getAttribute('data-method');
+    updatePaymentMethod(method);
+  });
+});
+
 // Handle form submission
 document.getElementById('checkout-form').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const cardNumber = document.getElementById('typeText').value;
-  const expiryDate = document.getElementById('typeExp').value;
-  const cvv = document.getElementById('typeCvv').value;
+  const paymentMethod = document.getElementById('payment_method_input').value;
 
-  if (!/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber)) {
-    alert('Please enter a valid card number (e.g., 1234 5678 9012 3457)');
-    return;
-  }
+  // Skip card validation for PayPal
+  if (paymentMethod !== 'Paypal') {
+    const cardNumber = document.getElementById('typeText').value;
+    const expiryDate = document.getElementById('typeExp').value;
+    const cvv = document.getElementById('typeCvv').value;
 
-  if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(expiryDate)) {
-    alert('Please enter a valid expiry date (e.g., MM/YYYY)');
-    return;
-  }
+    if (!/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber)) {
+      alert('Please enter a valid card number (e.g., 1234 5678 9012 3457)');
+      return;
+    }
 
-  if (!/^\d{3}$/.test(cvv)) {
-    alert('Please enter a valid CVV (3 digits)');
-    return;
+    if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(expiryDate)) {
+      alert('Please enter a valid expiry date (e.g., MM/YYYY)');
+      return;
+    }
+
+    if (!/^\d{3}$/.test(cvv)) {
+      alert('Please enter a valid CVV (3 digits)');
+      return;
+    }
   }
 
   const formData = new FormData(this);
@@ -507,5 +541,7 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
   });
 });
 
+// Initialize UI
 updateTotalPrice();
+updatePaymentMethod('Visa');
 </script>

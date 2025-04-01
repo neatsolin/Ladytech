@@ -37,23 +37,30 @@ class payController extends BasecustomerController {
         $payment_method = null;
         $payment_type = 'Unknown';
 
-        if ($order['payment_method_id']) {
-            $payment_method = $this->paymentModelF->getPaymentMethodById($order['payment_method_id']);
-            if ($payment_method) {
-                $payment_type = $this->guessPaymentType($payment_method['card_number']);
-            } else {
-                error_log("Payment method not found for payment_method_id: " . $order['payment_method_id']);
-            }
+        // Use session data for payment_type if available, otherwise fall back to guessing
+        if (isset($_SESSION['confirm_data']) && $_SESSION['confirm_data']['order_id'] == $order_id) {
+            $payment_type = $_SESSION['confirm_data']['payment_type'] ?? 'Unknown';
         } else {
-            error_log("No payment method associated with order_id: $order_id");
+            if ($order['payment_method_id']) {
+                $payment_method = $this->paymentModelF->getPaymentMethodById($order['payment_method_id']);
+                if ($payment_method) {
+                    $payment_type = $this->guessPaymentType($payment_method['card_number']);
+                } else {
+                    error_log("Payment method not found for payment_method_id: " . $order['payment_method_id']);
+                }
+            } else {
+                error_log("No payment method associated with order_id: $order_id");
+            }
         }
+
+        error_log("payController::index - Order ID: $order_id, Payment Type: $payment_type");
 
         $this->view('pages/payment/confirmPayment', [
             'order' => $order,
             'orderItems' => $orderDetails,
             'payment_method' => $payment_method,
             'currency' => $order['payments'],
-            'payment_type' => $payment_type // Add payment_type to the data passed to the view
+            'payment_type' => $payment_type
         ]);
     }
 
@@ -68,6 +75,7 @@ class payController extends BasecustomerController {
 
         $order_id = $_POST['order_id'] ?? null;
         $amount = floatval($_POST['amount'] ?? 0);
+        $payment_type = $_POST['payment_type'] ?? 'Unknown'; // Use payment_type from form
 
         if (!$order_id || $amount <= 0) {
             $this->redirect('/confirmpayment?order_id=' . $order_id . '&error=Invalid order or amount');
@@ -82,21 +90,14 @@ class payController extends BasecustomerController {
             }
 
             $order = $orderDetails[0];
-            $payment_method = null;
-            $payment_type = 'Unknown';
 
-            if ($order['payment_method_id']) {
-                $payment_method = $this->paymentModelF->getPaymentMethodById($order['payment_method_id']);
-                if ($payment_method) {
-                    $payment_type = $this->guessPaymentType($payment_method['card_number']);
-                } else {
-                    error_log("Payment method not found for payment_method_id: " . $order['payment_method_id']);
-                }
-            } else {
-                error_log("No payment method associated with order_id: $order_id");
-            }
+            error_log("payController::confirmPayment - Order ID: $order_id, Amount: $amount, Payment Type: $payment_type");
 
+            // Insert into transactions using the payment_type from the form
             $this->transactionModel->createTransaction($order_id, $payment_type, $amount);
+
+            // Clear session data to prevent reuse
+            unset($_SESSION['confirm_data']);
 
             $this->redirect('/orderSuccess?order_id=' . $order_id);
         } catch (Exception $e) {
@@ -134,6 +135,9 @@ class payController extends BasecustomerController {
     }
 
     private function guessPaymentType($card_number) {
+        if (empty($card_number)) {
+            return 'Unknown';
+        }
         $card_number = preg_replace('/\s+/', '', $card_number);
         if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $card_number)) {
             return 'Visa';
