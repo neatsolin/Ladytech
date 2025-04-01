@@ -129,7 +129,7 @@ class payController extends BasecustomerController {
 
     private function verifyUserLoggedIn() {
         if (!isset($_SESSION['user_id'])) {
-            $this->redirect('/login');
+            $this->redirect('/F_login');
         }
     }
 

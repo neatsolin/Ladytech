@@ -44,6 +44,19 @@
         );
         return $result;
     }
+    // Add stock entry to inventory
+    public function deleteStock($productId, $stockIn, $stockOut, $updateDate) {
+        $result = $this->db->query("INSERT INTO inventory (product_id, stockIn, stockOut, updatedate) 
+            VALUES (:product_id, :stockIn, :stockOut, :updatedate)", 
+            [
+                'product_id' => $productId, 
+                'stockIn' => $stockIn, 
+                'stockOut' => $stockOut, 
+                'updatedate' => $updateDate
+            ]
+        );
+        return $result;
+    }
 
 
 
@@ -68,7 +81,7 @@
         $result = $this->db->query("DELETE FROM products WHERE id = :id", ['id'=>$id]);
         return $result;
     }
-
+    
  }
 
 ?>

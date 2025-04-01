@@ -11,7 +11,6 @@
     require_once "Controllers/admin/inventory/LoginController.php";
     require_once "Controllers/admin/inventory/RegisterController.php";
     require_once "Controllers/admin/inventory/SomepageController.php";
-    require_once "Controllers/admin/inventory/PaymentController.php";
     require_once "Controllers/admin/inventory/DiscountController.php";
 
     //customer
@@ -129,16 +128,7 @@
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
-
-    // today
-    // Checkout
-    $route->get('/checkout', [PaymentController::class, 'checkout']);
-    $route->post('/checkout/process', [PaymentController::class, 'processCheckout']);
-    $route->get('/checkout/payment', [PaymentController::class, 'payment']);
     
-    // Payment Confirmation
-    $route->get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
-    $route->post('/confirm-payment', [PaymentController::class, 'confirmPayment']);
     
     // Cart
     // Add these to your existing routes
