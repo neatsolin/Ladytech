@@ -22,8 +22,9 @@ endif;
             color: blue !important;
             /* Change color to blue on hover */
         }
-        body{
-            background-color:rgb(179, 205, 231);
+
+        body {
+            background-color: rgb(219, 226, 233);
 
         }
 
@@ -67,14 +68,60 @@ endif;
             </div>
         </div>
     </nav>
-    <div class="text-white text-center">
-        <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;">
-            <img class="img_some" src="/views/assets/images/product.png" alt="">
+    <!-- <div class="container text-center mt-5">
+    <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+    <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;">
+
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/views/assets/images/product.png" alt="Ranger Scout" class="img_some d-block">
+            </div>
+            <div class="carousel-item">
+                <img src="/views/assets/images/product.png" alt="Ranger Scout" class="img_some d-block">
+            </div>
+            <div class="carousel-item">
+                <img src="your-image-url-here.jpg" alt="Ranger Scout" class="d-block w-100">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div> -->
+    <!-- <div class="text-white text-center"> -->
+    <div id="imageCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+        <div class="col-12 hero" style="background-image: url('https://www.nyip.edu/images/cms/photo-articles/hardware-store-photo-backgrounds.jpg'); height: 70vh; background-size: cover; background-position: center;">
+            <!-- <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;"> -->
+            <!-- <img class="img_some" src="/views/assets/images/product.png" alt=""> -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 
     <!-- Product Cards Section -->
-    <h2 class="mb-4 mt-5 text-center" style="color: rgb(181, 21, 230);">Our Category</h2>
+    <h2 class="mb-4 mt-5 text-center" style="color: rgb(80, 71, 83);">Our Category</h2>
     <div class="row px-3 py-4" id="productList">
         <!-- Product Card 1 -->
         <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
@@ -225,7 +272,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid">
                 </div>
-                <div class="card-body"style="background-color: #ff00ff; color: white;">
+                <div class="card-body" style="background-color: #ff00ff; color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">keepo purple</h6>
                         <i class="bi bi-heart" data-heart-id="7" onclick="toggleFavorite(7)"></i>
@@ -327,11 +374,13 @@ endif;
         max-height: 180px;
         object-fit: contain;
     }
+
     .card-text {
         font-size: 12px;
         color: #666;
         margin-bottom: 10px;
     }
+
     .rating .star.filled {
         color: rgb(255, 217, 0);
     }
@@ -348,6 +397,7 @@ endif;
         color: #333;
         margin-bottom: 10px;
     }
+
     @media (max-width: 767px) {
 
         .filter,
