@@ -5,48 +5,48 @@
 </div>
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
-<nav class="pc-sidebar">
-  <div class="navbar-wrapper" style="">
+<nav class="pc-sidebar"style="border-right: none !important; border-left: none !important;">
+  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)">
     <div class="m-header">
-      <a href="/admin" class="b-brand text-primary">
+      <a href="/admin" class="b-brand text-primary text-align:center;">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%; display: inline-block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;">
-        <span style="margin-left: 20px; color: gray;">DAILY NEEDS</span>
+        <img src="../assets/images/Daily.jpg" class="img-fluid logo-lg" alt="logo" style="width: 55px; height: 55px; border-radius: 50%;">
+        <span style="margin-left: 20px; color: white;">DAILY NEEDS</span>
       </a>
     </div>
     <!-- Nav move down inven tory -->
-    <div class="navbar-content">
+    <div class="navbar-content "style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)"style="border-right: none !important; border-left: none !important;">
       <ul class="pc-navbar">
         <li class="pc-item">
-          <a href="/admin" class="pc-link">
+          <a href="/admin" class="pc-link"style="color:white;">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
         </li>
 
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption"style="color:white;">
           <label>UI Components</label>
           <i class="ti ti-dashboard"></i>
         </li>
-        <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link">
+        <li class="pc-item pc-hasmenu ">
+            <a href="#!" class="pc-link" style="color:white;">
                     <span class="pc-micon"><i class="ti ti-stack"></i></span>
-                    <span class="pc-mtext">Product Management</span>
+                    <span class="pc-mtext ">Product Management</span>
                     <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
             </a>
             <ul class="pc-submenu" id="order-submenu" style="display: none;">
-                <li class="pc-item">
-                    <a class="pc-link" href="/products">
+                <li class="pc-item"style="color:white;">
+                    <a class="pc-link" href="/products"style="color:white;">
                         <i class="ti ti-package"></i> All Product
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/products/discount">
+                    <a class="pc-link" href="/products/discount"style="color:white;">
                         <i class="ti ti-discount"></i> Discount
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/products/pro-discount">
+                    <a class="pc-link" href="/products/pro-discount"style="color:white;">
                         <i class="ti ti-tag"></i> Product discount
                     </a>
                 </li>
@@ -54,24 +54,24 @@
 
         </li>
         <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link">
+          <a href="#!" class="pc-link"style="color:white;">
                 <span class="pc-micon"><i class="ti ti-stack"></i></span>
                 <span class="pc-mtext">Stock Management</span>
                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu" id="order-submenu" style="display: none;">
                 <li class="pc-item">
-                    <a class="pc-link" href="/stock">
+                    <a class="pc-link" href="/stock"style="color:white;">
                         <i class="bi bi-box-seam"></i> All Stocks
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/stock/in">
+                    <a class="pc-link" href="/stock/in"style="color:white;">
                         <i class="bi bi-box-arrow-in-down"></i> Stock In
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/stock/out">
+                    <a class="pc-link" href="/stock/out"style="color:white;">
                         <i class="bi bi-box-arrow-up"></i> Stock Out
                     </a>
                 </li>
@@ -79,100 +79,100 @@
 
         </li>
         <li class="pc-item">
-          <a href="/salesreport" class="pc-link">
+          <a href="/salesreport" class="pc-link"style="color:white;">
             <span class="pc-micon"><i class="ti ti-report"></i></span>
             <span class="pc-mtext">Sale report</span>
           </a>
         </li>
         <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link">
+          <a href="#!" class="pc-link"style="color:white;">
                 <span class="pc-micon"><i class="ti ti-user"></i></span>
                 <span class="pc-mtext">User Management</span>
                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
-          <ul class="pc-submenu" id="order-submenu" style="display: none;">
+          <ul class="pc-submenu" id="order-submenu" style="display: none;"style="color:white;">
                 <li class="pc-item">
-                    <a class="pc-link" href="/users">
+                    <a class="pc-link" href="/users"style="color:white;">
                         <i class="bi bi-people"></i> All Users
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/users/active">
-                        <i class="bi bi-person-check"  style="color: green;"></i> Active User
+                    <a class="pc-link" href="/users/active"style="color:white;">
+                        <i class="bi bi-person-check"  style="color: white;"></i> Active User
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/users/trash">
+                    <a class="pc-link" href="/users/trash"style="color:white;">
                         <i class="bi bi-trash"></i> Trash
                     </a>
                 </li>
           </ul>
         </li>
         <li class="pc-item pc-hasmenu">
-            <a href="#!" class="pc-link">
+            <a href="#!" class="pc-link"style="color:white;">
                 <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
                 <span class="pc-mtext">Order Management</span>
                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
             </a>
-            <ul class="pc-submenu" id="order-submenu" style="display: none;">
-                <li class="pc-item"><a class="pc-link" href="/All_order">All Orders</a></li>
-                <li class="pc-item"><a class="pc-link" href="/recent_order">Recent Orders</a></li>
-                <li class="pc-item"><a class="pc-link" href="/order_history">Order History</a></li>
-                <li class="pc-item"><a class="pc-link" href="/order_pending">Pending Orders</a></li>
-                <li class="pc-item"><a class="pc-link" href="/old_order">Older Orders</a></li>
+            <ul class="pc-submenu" id="order-submenu" style="display: none;"style="color:white;">
+                <li class="pc-item"><a class="pc-link"style="color:white;" href="/All_order">All Orders</a></li>
+                <li class="pc-item"><a class="pc-link"style="color:white;" href="/recent_order">Recent Orders</a></li>
+                <li class="pc-item"><a class="pc-link"style="color:white;" href="/order_history">Order History</a></li>
+                <li class="pc-item"><a class="pc-link"style="color:white;" href="/order_pending">Pending Orders</a></li>
+                <li class="pc-item"><a class="pc-link"style="color:white;" href="/old_order">Older Orders</a></li>
             </ul>
         </li>
 
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption"style="color:white;">
           <label>Pages</label>
           <i class="ti ti-news"></i>
         </li>
-        <li class="pc-item">
-          <a href="/admin-login" class="pc-link">
+        <li class="pc-item"style="color:white;">
+          <a href="/admin-login" class="pc-link"style="color:white;">
             <span class="pc-micon"><i class="ti ti-lock"></i></span>
             <span class="pc-mtext">Login</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="/register" class="pc-link">
+          <a href="/register" class="pc-link"style="color:white;">
             <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
             <span class="pc-mtext">Register</span>
           </a>
         </li>
 
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption"style="color:white;">
           <label>Other</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span class="pc-mtext">Menu
-              levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"style="color:white;"></i></span><span class="pc-mtext"style="color:white;">Menu
+              levels</span><span class="pc-arrow"><i data-feather="chevron-right"style="color:white;"></i></span></a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
+            <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 2.1</a></li>
             <li class="pc-item pc-hasmenu">
-              <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+              <a href="#!" class="pc-link"style="color:white;">Level 2.2<span class="pc-arrow"style="color:white;"><i data-feather="chevron-right"style="color:white;"></i></span></a>
               <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 3.1</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 3.2</a></li>
                 <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                  <a href="#!" class="pc-link"style="color:white;">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"style="color:white;"></i></span></a>
                   <ul class="pc-submenu">
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 4.1</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 4.2</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
-            <li class="pc-item pc-hasmenu">
-              <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+            <li class="pc-item pc-hasmenu"style="color:white;">
+              <a href="#!" class="pc-link"style="color:white;">Level 2.3<span class="pc-arrow"><i data-feather="chevron-right"style="color:white;"></i></span></a>
               <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 3.1</a></li>
+                <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 3.2</a></li>
                 <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                  <a href="#!" class="pc-link"style="color:white;">Level 3.3<span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
                   <ul class="pc-submenu">
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 4.1</a></li>
+                    <li class="pc-item"><a class="pc-link" href="#!"style="color:white;">Level 4.2</a></li>
                   </ul>
                 </li>
               </ul>
@@ -181,8 +181,8 @@
         </li>
         <li class="pc-item">
           <a href="/somepage" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-            <span class="pc-mtext">Sample page</span>
+            <span class="pc-micon"><i class="ti ti-brand-chrome"style="color:white;"></i></span>
+            <span class="pc-mtext"style="color:white;">Sample page</span>
           </a>
         </li>
       </ul>
@@ -191,14 +191,13 @@
 </nav>
     <!-- [ Sidebar Menu ] end --> 
      <!-- [ Header Topbar ] start -->
-    <header class="pc-header" style="background: pink; background: rgb(207,183,205);
-        background: radial-gradient(circle, rgba(207,183,205,1) 0%, rgba(255,255,255,1) 0%, rgba(245,174,205,1) 0%, rgba(211,192,198,1) 0%, rgba(182,207,192,1) 100%, rgba(156,174,216,1) 100%, rgba(61,18,61,1) 100%, rgba(174,193,209,1) 100%, rgba(115,65,212,1) 100%, rgba(98,217,218,1) 100%, rgba(85,87,120,1) 100%, rgba(243,215,251,1) 100%); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+    <header class="pc-header" style="background: linear-gradient(to right,rgb(132, 182, 210),rgb(95, 168, 251)"style="border-right: none !important; border-left: none !important;">
         <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
             <div class="me-auto pc-mob-drp">
                 <ul class="list-unstyled">
                 <!-- ======= Menu collapse Icon ===== -->
                     <li class="pc-h-item pc-sidebar-collapse">
-                        <a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2" style="color:green;"></i></a>
+                        <a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2" style="color:white;"></i></a>
                     </li>
                     <li class="pc-h-item pc-sidebar-popup">
                         <a href="#" class="pc-head-link ms-0" id="mobile-collapse"><i class="ti ti-menu-2"></i></a>
@@ -214,18 +213,18 @@
                         >
                             <i class="ti ti-search"></i>
                         </a>
-                        <div class="dropdown-menu pc-h-dropdown drp-search">
-                            <form class="px-3">
-                                <div class="form-group mb-0 d-flex align-items-center">
+                        <div class="dropdown-menu pc-h-dropdown drp-search ">
+                            <form class="px-3 ">
+                                <div class="form-group mb-0 d-flex align-items-center ">
                                     <i data-feather="search"></i>
-                                    <input type="search" class="form-control border-0 shadow-none" placeholder="Search here. . .">
+                                    <input type="search" class="form-control border:blue; shadow-none " placeholder="Search here. . ."style="border: none; outline: none; border-radius: 50px; box-shadow: none;">
                                 </div>
                             </form>
                         </div>
                     </li>
-                    <li class="pc-h-item d-none d-md-inline-flex">
+                    <li class="pc-h-item d-none d-md-inline-flex ">
                     <div class="animated-border">
-                        <input type="search" class="form-control" placeholder="Search here. . ." />
+                        <input type="search" class="form-control" placeholder="Search here. . ." style="border: none; outline: none; border-radius: 50px; box-shadow: none;"/>
                     </div>
 
                     </li>
@@ -374,7 +373,7 @@
                             aria-haspopup="false"
                             aria-expanded="false"
                         >
-                            <i class="ti ti-bell" style="color:green;"></i>
+                            <i class="ti ti-bell" style="color:white;"></i>
                             <span class="badge bg-success pc-h-badge">3</span>
                         </a>
                         <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
@@ -450,7 +449,7 @@
                             aria-haspopup="false"
                             aria-expanded="false"
                         >
-                            <i class="ti ti-mail" style="color:green;"></i>
+                            <i class="ti ti-mail" style="color:white;"></i>
                         </a>
                         <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -521,7 +520,7 @@
                             <i class="ti ti-settings"></i>
                         </a>
                     </li> -->
-                    <li class="dropdown pc-h-item header-user-profile">
+                    <li class="dropdown pc-h-item header-user-profile ">
                         <a
                             class="pc-head-link dropdown-toggle arrow-none me-0"
                             data-bs-toggle="dropdown"
@@ -532,7 +531,7 @@
                             aria-expanded="false"
                         ><?php if (isset($_SESSION['user_id'])):?>
                             <img src="<?= $_SESSION['user_profile']?>" alt="user-image" class="user-avtar" style="width: 35px; height: 35px; border-radius: 50%; border: 3px solid #fff; box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;">
-                            <span><?= $_SESSION['user_name']?></span>
+                            <span style="color:white;"><?= $_SESSION['user_name']?></span>
                         <?php endif;?>
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
@@ -543,7 +542,7 @@
                                             <img src="<?= $_SESSION['user_profile']?>" alt="user-image" class="user-avtar wid-35" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff;">
                                         <?php endif;?>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
+                                    <div class="flex-grow-1 ms-3 ">
                                         <?php if (isset($_SESSION['user_id'])):?>
                                             <h6 class="mb-1"><?=$_SESSION['user_name']?></h6>
                                             <span><?= $_SESSION['user_role']?></span>
@@ -686,47 +685,7 @@
             }
         </script>
 <style>
-    .animated-border {
-    position: relative;
-    display: inline-block;
-    padding: 5px; /* Space for animated border */
-    border-radius: 20px; /* Rounded corners */
-    }
-
-    .form-control {
-    border: none; /* Remove default border */
-    outline: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 20px; /* Match border */
-    background: #f0f0f0;
-    }
-
-    .animated-border::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 20px; /* Rounded edges */
-    background: linear-gradient(90deg, red, yellow, green, blue, purple);
-    background-size: 300% 300%; /* Ensures the animation spans across */
-    animation: moveGradient 4s infinite linear; /* Smoothly moves the gradient */
-    z-index: -1; /* Places behind the input */
-    }
-
-    @keyframes moveGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-    }
+  
 
 </style>
     <!-- [ Main Content ] start -->
