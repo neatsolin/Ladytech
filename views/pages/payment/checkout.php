@@ -76,11 +76,20 @@ foreach ($cartItems as $item) {
   .card-body {}
 
   /* Payment Method Styling */
+  .payment-methods {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Consistent spacing between icons */
+  }
+
   .payment-option {
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .payment-option.selected {
@@ -100,8 +109,32 @@ foreach ($cartItems as $item) {
     color: #0077A6;
   }
 
-  a .fa-cc-paypal {
-    background: linear-gradient(90deg, #003087 50%, #009CDE 50%);
+  /* Style for the custom QR code scan icon */
+  a .scan-qr-icon {
+    margin-top: 0px !important;
+    width: 32px; /* Match the size of fa-2x (approximately 32px) */
+    height: 32px;
+    border-radius: 5px;
+  }
+
+  /* Style for the QR code payment image */
+  #qr-code-payment {
+    display: none; /* Initially hidden */
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  #qr-code-payment img {
+    width: 200px; /* Adjust size as needed */
+    height: 200px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+  }
+
+  #qr-code-payment p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
   }
 
   .remove-item {
@@ -267,14 +300,17 @@ foreach ($cartItems as $item) {
                       <input type="hidden" id="currency_input" name="currency" value="USD">
                       <input type="hidden" id="payment_method_input" name="payment_method" value="Visa"> <!-- Default to Visa -->
 
-                      <p class="small mb-2">CARD TYPE</p>
+                      <p class="small mb-2">PAYMENT TYPE</p>
                       <div class="payment-methods">
-                        <a href="#" class="payment-option text-white" data-method="Mastercard"><i class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                        <a href="#" class="payment-option text-white selected" data-method="Visa"><i class="fab fa-cc-visa fa-2x me-2"></i></a>
-                        <a href="#" class="payment-option text-white" data-method="Amex"><i class="fab fa-cc-amex fa-2x me-2"></i></a>
-                        <a href="#" class="payment-option text-white" data-method="Paypal"><i class="fab fa-cc-paypal fa-2x"></i></a>
+                        <a href="#" class="payment-option text-white" data-method="Mastercard"><i class="fab fa-cc-mastercard fa-2x"></i></a>
+                        <a href="#" class="payment-option text-white selected" data-method="Visa"><i class="fab fa-cc-visa fa-2x"></i></a>
+                        <a href="#" class="payment-option text-white" data-method="Amex"><i class="fab fa-cc-amex fa-2x"></i></a>
+                        <a href="#" class="payment-option text-white" data-method="ScanQRCode">
+                          <img src="/assets/images/QR.jpg" class="scan-qr-icon" alt="Scan QR Code">
+                        </a>
                       </div>
 
+                      <!-- Card Details Form (for Visa, Mastercard, Amex) -->
                       <div class="mt-4" id="card-details">
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                           <input type="text" id="typeName" name="card_holder_name" class="form-control form-control-lg" size="17" placeholder="Cardholder's Name" required />
@@ -300,6 +336,12 @@ foreach ($cartItems as $item) {
                             </div>
                           </div>
                         </div>
+                      </div>
+
+                      <!-- QR Code Payment Section (for ScanQRCode) -->
+                      <div id="qr-code-payment">
+                        <img src="/assets/images/QRkh.jpg" alt="QR Code for Payment">
+                        <p>Scan this QR code to complete your payment.</p>
                       </div>
 
                       <div class="mb-3">
@@ -344,16 +386,6 @@ foreach ($cartItems as $item) {
                         <p class="mb-2">Subtotal</p>
                         <p class="mb-2 subtotal">$<?php echo number_format($subtotal, 2); ?></p>
                       </div>
-<!-- 
-                      <div class="d-flex justify-content-between">
-                        <p class="mb-2">Shipping</p>
-                        <p class="mb-2 shipping">$20.00</p>
-                      </div>
-
-                      <div class="d-flex justify-content-between mb-4">
-                        <p class="mb-2">Total (Incl. taxes)</p>
-                        <p class="mb-2 total">$<?php echo number_format($subtotal + 20, 2); ?></p>
-                      </div> -->
 
                       <div>
                         <button type="submit" class="btn btn-info w-100" id="place-order-btn">Place Order</button>
@@ -454,6 +486,7 @@ function removeFromCart(productId) {
 function updatePaymentMethod(method) {
   const paymentMethodInput = document.getElementById('payment_method_input');
   const cardDetails = document.getElementById('card-details');
+  const qrCodePayment = document.getElementById('qr-code-payment');
   const paymentOptions = document.querySelectorAll('.payment-option');
 
   // Update the hidden input with the selected method
@@ -468,13 +501,15 @@ function updatePaymentMethod(method) {
     }
   });
 
-  // Show/hide card details based on method
-  if (method === 'Paypal') {
+  // Show/hide card details and QR code based on method
+  if (method === 'ScanQRCode') {
     cardDetails.style.display = 'none';
     cardDetails.querySelectorAll('input').forEach(input => input.required = false);
+    qrCodePayment.style.display = 'block'; // Show QR code
   } else {
     cardDetails.style.display = 'block';
     cardDetails.querySelectorAll('input').forEach(input => input.required = true);
+    qrCodePayment.style.display = 'none'; // Hide QR code
   }
 }
 
@@ -500,8 +535,8 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
 
   const paymentMethod = document.getElementById('payment_method_input').value;
 
-  // Skip card validation for PayPal
-  if (paymentMethod !== 'Paypal') {
+  // Skip card validation for ScanQRCode
+  if (paymentMethod !== 'ScanQRCode') {
     const cardNumber = document.getElementById('typeText').value;
     const expiryDate = document.getElementById('typeExp').value;
     const cvv = document.getElementById('typeCvv').value;
