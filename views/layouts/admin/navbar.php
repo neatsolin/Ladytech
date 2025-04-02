@@ -6,7 +6,7 @@
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar"style="border-right: none !important; border-left: none !important;">
-  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)">
+  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(103, 120, 139),rgb(127, 171, 197)">
     <div class="m-header">
       <a href="/admin" class="b-brand text-primary text-align:center;">
         <!-- ========   Change your logo from here   ============ -->
@@ -15,7 +15,7 @@
       </a>
     </div>
     <!-- Nav move down inven tory -->
-    <div class="navbar-content "style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)"style="border-right: none !important; border-left: none !important;">
+    <div class="navbar-content "style="background: black "style="border-right: none !important; border-left: none !important;">
       <ul class="pc-navbar">
         <li class="pc-item">
           <a href="/admin" class="pc-link"style="color:white;">
