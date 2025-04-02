@@ -191,9 +191,7 @@
 </script>
 
     </div>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         
@@ -260,7 +258,7 @@
                         "stock" => "350 pcs",
                         "type" => "Dessert",
                         "status" => "Pending",
-                        "image" => "profiles/1741660533_avatar-4.jpg"
+                        "image" => "profiles/1742657515_OEUB.jpg"
                     ],
                     [
                         "name" => "Kiwi",
@@ -269,7 +267,7 @@
                         "stock" => "650 kg",
                         "type" => "Fruits",
                         "status" => "Active",
-                        "image" => "profiles/1741612553_avatar-5.jpg"
+                        "image" => "profiles/1742657515_OEUB.jpg"
                     ],
                     [
                         "name" => "Mango Magic",
@@ -278,7 +276,7 @@
                         "stock" => "1200 pcs",
                         "type" => "Ice Cream",
                         "status" => "Inactive",
-                        "image" => "profiles/1741660533_avatar-4.jpg"
+                        "image" => "profiles/1742657515_OEUB.jpg"
                     ]
                 ];
                 
@@ -387,9 +385,9 @@
         }
 
         var customerData = [
-            { name: "John Doe", purchased: 5, profile: "profiles/1741660533_avatar-4.jpg" },
-            { name: "Jane Smith", purchased: 8, profile: "profiles/1741612553_avatar-5.jpg" },
-            { name: "Mike Johnson", purchased: 3, profile: "profiles/1741660533_avatar-4.jpg" }
+            { name: "John Doe", purchased: 5, profile: "profiles/1742657515_OEUB.jpg" },
+            { name: "Jane Smith", purchased: 8, profile: "profiles/1742657515_OEUB.jpg" },
+            { name: "Mike Johnson", purchased: 3, profile: "profiles/1742657515_OEUB.jpg" }
         ];
 
         function loadCustomerTable() {
