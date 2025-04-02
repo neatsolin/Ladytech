@@ -340,7 +340,7 @@ foreach ($cartItems as $item) {
 
                       <!-- QR Code Payment Section (for ScanQRCode) -->
                       <div id="qr-code-payment">
-                        <img src="/assets/images/QR.jpg" alt="QR Code for Payment">
+                        <img src="/assets/images/QRkh.jpg" alt="QR Code for Payment">
                         <p>Scan this QR code to complete your payment.</p>
                       </div>
 
