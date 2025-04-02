@@ -95,7 +95,7 @@ endif;
 </div> -->
     <!-- <div class="text-white text-center"> -->
     <div id="imageCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
-        <div class="col-12 hero" style="background-image: url('https://img.freepik.com/premium-photo/shopping-concept-supermarket-trolley-money-gifts-background_494741-29308.jpg?semt=ais_hybrid'); height: 70vh; background-size: cover; background-position: center;">
+        <div class="col-12 hero" style="background-image: url('https://img.freepik.com/premium-photo/top-view-online-shopping-concept-with-credit-card-smart-phone-computer-isolated-office-yellow-table-background_315337-3591.jpg'); height: 70vh; background-size: cover; background-position: center;">
             <!-- <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;"> -->
             <!-- <img class="img_some" src="/views/assets/images/product.png" alt=""> -->
             <div class="carousel-inner">
@@ -129,7 +129,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Floral Serum" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff007f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Buldak hot</h6>
                         <i class="bi bi-heart" data-heart-id="1" onclick="toggleFavorite(1)"></i>
@@ -153,7 +153,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff990f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Good Noodle</h6>
                         <i class="bi bi-heart" data-heart-id="2" onclick="toggleFavorite(2)"></i>
@@ -177,7 +177,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid">
                 </div>
-                <div class="card-body " style="background-color: #ff00ff; color: white;">
+                <div class="card-body " style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Mama Pork pack</h6>
                         <i class="bi bi-heart" data-heart-id="3" onclick="toggleFavorite(3)"></i>
@@ -201,7 +201,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff990f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Comfort Blue</h6>
                         <i class="bi bi-heart" data-heart-id="4" onclick="toggleFavorite(4)"></i>
@@ -225,7 +225,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff00f9; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Fineline Liquid Detergent</h6>
                         <i class="bi bi-heart" data-heart-id="5" onclick="toggleFavorite(5)"></i>
@@ -249,7 +249,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff007f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Pao Pink Detergent</h6>
                     </div>
@@ -272,7 +272,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff00ff; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">keepo purple</h6>
                         <i class="bi bi-heart" data-heart-id="7" onclick="toggleFavorite(7)"></i>
@@ -296,7 +296,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Serum 8" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff007f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">Keepo Green</h6>
                         <i class="bi bi-heart" data-heart-id="8" onclick="toggleFavorite(8)"></i>
@@ -320,7 +320,7 @@ endif;
                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
                     <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Serum 9" class="img-fluid">
                 </div>
-                <div class="card-body" style="background-color: #ff990f; color: white;">
+                <div class="card-body" style=" color: white;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="card-title">ACNES</h6>
                         <i class="bi bi-heart" data-heart-id="9" onclick="toggleFavorite(9)"></i>
