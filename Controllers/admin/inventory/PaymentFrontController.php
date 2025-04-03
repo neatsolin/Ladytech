@@ -2,13 +2,15 @@
 require_once "Models/OrderModel.php";
 require_once "Models/PaymentModelF.php";
 require_once "Models/TransactionModel.php";
-require_once "Models/ProductModel.php"; // Add this to use ProductModel
+require_once "Models/ProductModel.php";
+require_once "Models/StockModel.php"; // Add this new dependency
 
 class payController extends BasecustomerController {
     private $orderModel;
     private $paymentModelF;
     private $transactionModel;
-    private $productModel; // Add ProductModel
+    private $productModel;
+    private $stockModel; // Add StockModel property
 
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
@@ -17,10 +19,11 @@ class payController extends BasecustomerController {
         $this->orderModel = new OrderModel();
         $this->paymentModelF = new PaymentModelF();
         $this->transactionModel = new TransactionModel();
-        $this->productModel = new ProductModel(); // Initialize ProductModel
+        $this->productModel = new ProductModel();
+        $this->stockModel = new StockModel(); // Initialize StockModel
     }
 
-    // Confirm payment page
+    // Confirm payment page (unchanged)
     public function index() {
         $this->verifyUserLoggedIn();
         $order_id = $_GET['order_id'] ?? null;
@@ -36,11 +39,10 @@ class payController extends BasecustomerController {
             return;
         }
 
-        $order = $orderDetails[0]; // First row contains the order details
+        $order = $orderDetails[0];
         $payment_method = null;
         $payment_type = 'Unknown';
 
-        // Use session data for payment_type if available, otherwise fall back to guessing
         if (isset($_SESSION['confirm_data']) && $_SESSION['confirm_data']['order_id'] == $order_id) {
             $payment_type = $_SESSION['confirm_data']['payment_type'] ?? 'Unknown';
         } else {
@@ -67,7 +69,7 @@ class payController extends BasecustomerController {
         ]);
     }
 
-    // Confirm payment submission
+    // Confirm payment submission (add new logic without changing old)
     public function confirmPayment() {
         $this->verifyUserLoggedIn();
 
@@ -78,7 +80,7 @@ class payController extends BasecustomerController {
 
         $order_id = $_POST['order_id'] ?? null;
         $amount = floatval($_POST['amount'] ?? 0);
-        $payment_type = $_POST['payment_type'] ?? 'Unknown'; // Use payment_type from form
+        $payment_type = $_POST['payment_type'] ?? 'Unknown';
 
         if (!$order_id || $amount <= 0) {
             $this->redirect('/confirmpayment?order_id=' . $order_id . '&error=Invalid order or amount');
@@ -96,14 +98,11 @@ class payController extends BasecustomerController {
 
             error_log("payController::confirmPayment - Order ID: $order_id, Amount: $amount, Payment Type: $payment_type");
 
-
-
-            // Update product stock for each order item
+            // Existing stock update logic (unchanged)
             foreach ($orderDetails as $item) {
                 $product_id = $item['product_id'];
                 $quantity_ordered = intval($item['quantity']);
 
-                // Fetch current product details
                 $product = $this->productModel->getProductById($product_id);
                 if (!$product) {
                     throw new Exception("Product not found: product_id=$product_id");
@@ -114,43 +113,38 @@ class payController extends BasecustomerController {
                     throw new Exception("Insufficient stock for product_id=$product_id. Available: $current_stock, Ordered: $quantity_ordered");
                 }
 
-                // Calculate new stock
                 $new_stock = $current_stock - $quantity_ordered;
 
-                // Update the product stock in the products table
                 $this->productModel->updateProduct(
                     $product['productname'],
                     $product['descriptions'],
                     $product['categories'],
                     $product['price'],
-                    $new_stock, // Updated stock quantity
+                    $new_stock,
                     $product['imageURL'],
                     $product_id
                 );
 
                 error_log("Stock updated for product_id=$product_id: $current_stock - $quantity_ordered = $new_stock");
+
+                // NEW: Increment stockOut in inventory table
+                $this->stockModel->incrementStockOut($product_id, $quantity_ordered);
             }
 
-            // Insert into transactions
+            // Existing transaction logic (unchanged)
             $this->transactionModel->createTransaction($order_id, $payment_type, $amount);
 
-            
-
-            // Clear session data to prevent reuse
+            // Clear session data (unchanged)
             unset($_SESSION['confirm_data']);
 
             $this->redirect('/orderSuccess?order_id=' . $order_id);
         } catch (Exception $e) {
-            // Roll back the transaction on error
-            if (isset($db) && $db->inTransaction()) {
-                $db->rollBack();
-            }
             error_log("Error confirming payment or updating stock: " . $e->getMessage());
             $this->redirect('/confirmpayment?order_id=' . $order_id . '&error=Error confirming payment or updating stock: ' . $e->getMessage());
         }
     }
 
-    // Order success page
+    // Order success page (unchanged)
     public function OrderSuccess() {
         $this->verifyUserLoggedIn();
         $order_id = $_GET['order_id'] ?? null;
