@@ -2,11 +2,13 @@
 require_once "Models/OrderModel.php";
 require_once "Models/PaymentModelF.php";
 require_once "Models/TransactionModel.php";
+require_once "Models/ProductModel.php"; // Add this to use ProductModel
 
 class payController extends BasecustomerController {
     private $orderModel;
     private $paymentModelF;
     private $transactionModel;
+    private $productModel; // Add ProductModel
 
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
@@ -15,6 +17,7 @@ class payController extends BasecustomerController {
         $this->orderModel = new OrderModel();
         $this->paymentModelF = new PaymentModelF();
         $this->transactionModel = new TransactionModel();
+        $this->productModel = new ProductModel(); // Initialize ProductModel
     }
 
     // Confirm payment page
@@ -93,16 +96,57 @@ class payController extends BasecustomerController {
 
             error_log("payController::confirmPayment - Order ID: $order_id, Amount: $amount, Payment Type: $payment_type");
 
-            // Insert into transactions using the payment_type from the form
+
+
+            // Update product stock for each order item
+            foreach ($orderDetails as $item) {
+                $product_id = $item['product_id'];
+                $quantity_ordered = intval($item['quantity']);
+
+                // Fetch current product details
+                $product = $this->productModel->getProductById($product_id);
+                if (!$product) {
+                    throw new Exception("Product not found: product_id=$product_id");
+                }
+
+                $current_stock = intval($product['stockquantity']);
+                if ($current_stock < $quantity_ordered) {
+                    throw new Exception("Insufficient stock for product_id=$product_id. Available: $current_stock, Ordered: $quantity_ordered");
+                }
+
+                // Calculate new stock
+                $new_stock = $current_stock - $quantity_ordered;
+
+                // Update the product stock in the products table
+                $this->productModel->updateProduct(
+                    $product['productname'],
+                    $product['descriptions'],
+                    $product['categories'],
+                    $product['price'],
+                    $new_stock, // Updated stock quantity
+                    $product['imageURL'],
+                    $product_id
+                );
+
+                error_log("Stock updated for product_id=$product_id: $current_stock - $quantity_ordered = $new_stock");
+            }
+
+            // Insert into transactions
             $this->transactionModel->createTransaction($order_id, $payment_type, $amount);
+
+            
 
             // Clear session data to prevent reuse
             unset($_SESSION['confirm_data']);
 
             $this->redirect('/orderSuccess?order_id=' . $order_id);
         } catch (Exception $e) {
-            error_log("Error confirming payment: " . $e->getMessage());
-            $this->redirect('/confirmpayment?order_id=' . $order_id . '&error=Error confirming payment: ' . $e->getMessage());
+            // Roll back the transaction on error
+            if (isset($db) && $db->inTransaction()) {
+                $db->rollBack();
+            }
+            error_log("Error confirming payment or updating stock: " . $e->getMessage());
+            $this->redirect('/confirmpayment?order_id=' . $order_id . '&error=Error confirming payment or updating stock: ' . $e->getMessage());
         }
     }
 
