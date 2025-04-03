@@ -1,19 +1,30 @@
 <?php
-    class StockController extends BaseadminController{
-        public function stock(){
-            $this->view('admin/inventory/stock');
-        }
-        public function stockIn(){
-            $this->view('admin/inventory/stocks/stockIn');
-        }
-        public function stockOut(){
-            $this->view('admin/inventory/stocks/stockOut');
-        }
-       
+require_once 'Models/StockModel.php';
+
+class StockController extends BaseadminController {
+    private $stockModel;
+
+    public function __construct() {
+        $this->stockModel = new StockModel();
     }
-   
-    
-    
 
+    public function stock() {
+        $this->view('admin/inventory/stock');
+    }
 
+    public function stockIn() {
+        $data = [
+            'stockHistory' => $this->stockModel->getStockHistory('in')
+        ];
+        $this->view('admin/inventory/stocks/stockIn', $data);
+    }
+
+    public function stockOut() {
+        $data = [
+            'stockHistory' => $this->stockModel->getStockHistory('out'),
+            'stockLevels' => $this->stockModel->getStockLevels()
+        ];
+        $this->view('admin/inventory/stocks/stockOut', $data);
+    }
+}
 ?>
