@@ -68,47 +68,88 @@ endif;
             </div>
         </div>
     </nav>
-    <!-- <div class="container text-center mt-5">
-    <div id="imageCarousel" class="carousel slide" data-ride="carousel">
-    <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;">
 
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/views/assets/images/product.png" alt="Ranger Scout" class="img_some d-block">
-            </div>
-            <div class="carousel-item">
-                <img src="/views/assets/images/product.png" alt="Ranger Scout" class="img_some d-block">
-            </div>
-            <div class="carousel-item">
-                <img src="your-image-url-here.jpg" alt="Ranger Scout" class="d-block w-100">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div> -->
     <!-- <div class="text-white text-center"> -->
     <div id="imageCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
-        <div class="col-12 hero" style="background-image: url('https://img.freepik.com/premium-photo/top-view-online-shopping-concept-with-credit-card-smart-phone-computer-isolated-office-yellow-table-background_315337-3591.jpg'); height: 70vh; background-size: cover; background-position: center;">
+        <div class="col-12 hero" style="background-image: url('https://media.istockphoto.com/id/1185556635/vector/up-arrows-on-dark-blue-abstract-background-illustration.jpg?s=612x612&w=0&k=20&c=VGkZZsNSeawSW9q5-5h-xH6ic5qkXkFw5eBSfKjRV_Y='); height: 70vh; background-size: cover; background-position: center;">
             <!-- <div class="jumbotron-overlay" style="background-color: rgb(141, 172, 230); height: 100%; display: flex; align-items: center; justify-content: center;"> -->
             <!-- <img class="img_some" src="/views/assets/images/product.png" alt=""> -->
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div style="text-align: center;">
+                        <img src="https://assets.vogue.com/photos/62f6a40746ad3eb633efe1aa/3:4/w_748%2Cc_limit/slide_12.jpg"
+                            alt="Hydrating Moisturizer"
+                            style="max-width: 300px;">
+                        <div  style="color: White;">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div style="text-align: center;">
+                        <img src="https://assets.unileversolutions.com/v1/104900175.jpg"
+                            alt="Vitamin C Serum"
+                            style="max-width: 400px;">
+                        <div style="color: White;">Brighten your complexion with our powerful Vitamin C serum.</div>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="/views/assets/images/product.png" alt="" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div style="text-align: center;">
+                        <img src="https://down-my.img.susercontent.com/file/my-11134207-7r98o-ll243lh6bn3z4d"
+                            alt="Sunscreen SPF 50"
+                            style="max-width: 400px;">
+                        <div style="color: White;">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="text-align: center;">
+                        <img src="https://images-cdn.ubuy.co.in/645ebfeaec6ec921c03cc12e-dove-hair-and-skin-care-regimen-pack.jpg"
+                            alt="Hydrating Moisturizer"
+                            style="max-width: 400px;">
+                        <div style="color: White;">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="text-align: center;">
+                        <img src="https://assets.unileversolutions.com/v1/104900175.jpg"
+                            alt="Vitamin C Serum"
+                            style="max-width: 400px;">
+                        <div style="color: White;">Brighten your complexion with our powerful Vitamin C serum.</div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div style="text-align: center;">
+                        <img src="https://down-my.img.susercontent.com/file/my-11134207-7r98o-ll243lh6bn3z4d"
+                            alt="Sunscreen SPF 50"
+                            style="max-width: 400px;">
+                        <div style="color: White;">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+                    </div>
                 </div>
             </div>
+            <!-- <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://assets.vogue.com/photos/62f6a40746ad3eb633efe1aa/3:4/w_748%2Cc_limit/slide_12.jpg" alt="Hydrating Moisturizer" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://assets.unileversolutions.com/v1/104900175.jpg" alt="Vitamin C Serum" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Brighten your complexion with our powerful Vitamin C serum.</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://down-my.img.susercontent.com/file/my-11134207-7r98o-ll243lh6bn3z4d" alt="Sunscreen SPF 50" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://images-cdn.ubuy.co.in/645ebfeaec6ec921c03cc12e-dove-hair-and-skin-care-regimen-pack.jpg" alt="Hydrating Moisturizer" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://assets.unileversolutions.com/v1/104900175.jpg" alt="Vitamin C Serum" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Brighten your complexion with our powerful Vitamin C serum.</div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://down-my.img.susercontent.com/file/my-11134207-7r98o-ll243lh6bn3z4d" alt="Sunscreen SPF 50" class="img_some d-block mx-auto" style="max-width: 500px;">
+                    <div class="text-center info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+                </div>
+            </div> -->
             <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
