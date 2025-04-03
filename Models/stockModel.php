@@ -6,11 +6,12 @@ class StockModel {
         $this->db = new Database("localhost", "dailyneed_db", "root", "");
     }
 
-    // Fetch stock history (both stockIn and stockOut)
+    // Fetch stock history (both stockIn and stockOut) with product image (unchanged)
     public function getStockHistory($type = null) {
         $query = "
             SELECT 
                 p.productname AS product,
+                p.imageURL AS product_image,
                 i.stockIn AS quantity_in,
                 i.stockOut AS quantity_out,
                 CASE 
@@ -35,11 +36,12 @@ class StockModel {
         return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Fetch current stock levels from products table
+    // Fetch current stock levels from products table with product image
     public function getStockLevels() {
         $query = "
             SELECT 
                 p.productname AS product,
+                p.imageURL AS product_image,  -- NEW: Fetch product image
                 p.stockquantity AS remaining_quantity
             FROM products p
             WHERE p.stockquantity >= 0
@@ -48,7 +50,7 @@ class StockModel {
         return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // NEW: Update stockOut in inventory table
+    // Update stockOut in inventory table (unchanged)
     public function incrementStockOut($product_id, $quantity) {
         try {
             $query = "
