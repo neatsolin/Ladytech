@@ -168,7 +168,7 @@ class CartController extends BasecustomerController {
         }
 
         $cart_items = $_POST['cart_items'] ?? [];
-        $total_price = floatval($_POST['total_price'] ?? 0);
+        $total_price = floatval($_POST['total_price'] ?? 0); // This includes shipping from checkout.php
         $currency = $_POST['currency'] ?? 'USD';
         $location_id = intval($_POST['location_id'] ?? 0);
         $order_status = $_POST['order_status'] ?? 'Pending';
@@ -188,6 +188,20 @@ class CartController extends BasecustomerController {
             $this->jsonResponse(false, 'Missing payment details for card payment');
         }
 
+        // Calculate subtotal from cart_items (excluding shipping)
+        $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon'] : null;
+        $subtotal = 0;
+        foreach ($cart_items as $item) {
+            $product_id = $item['product_id'];
+            $quantity = intval($item['quantity']);
+            $product = $this->productModel->getProductById($product_id);
+            if ($product) {
+                $price = floatval($product['price']);
+                $discounted_price = $this->getDiscountedPrice($price, $applied_coupon);
+                $subtotal += $discounted_price * $quantity;
+            }
+        }
+
         try {
             $payment_method_id = null;
             $payment_method_details = null;
@@ -205,7 +219,8 @@ class CartController extends BasecustomerController {
                 $payment_method_details = null;
             }
 
-            $order_id = $this->orderModel->createOrder($user_id, $payment_method_id, $location_id, $total_price, $order_status, $currency);
+            // Use subtotal instead of total_price for the order
+            $order_id = $this->orderModel->createOrder($user_id, $payment_method_id, $location_id, $subtotal, $order_status, $currency);
 
             foreach ($cart_items as $item) {
                 $product_id = $item['product_id'];
@@ -226,6 +241,16 @@ class CartController extends BasecustomerController {
         } catch (Exception $e) {
             error_log("Error processing checkout: " . $e->getMessage());
             $this->jsonResponse(false, 'Error processing order: ' . $e->getMessage());
+        }
+    }
+
+    // Add getDiscountedPrice method to calculate discounts consistently
+    private function getDiscountedPrice($price, $coupon) {
+        if (!$coupon) return $price;
+        if ($coupon['discount_type'] === 'percentage') {
+            return $price * (1 - $coupon['discount_value'] / 100);
+        } else {
+            return max(0, $price - $coupon['discount_value']);
         }
     }
 
@@ -266,5 +291,45 @@ class CartController extends BasecustomerController {
             error_log("Exception while updating cart: " . $e->getMessage());
             $this->jsonResponse(false, 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function applyCoupon() {
+        $this->verifyUserLoggedIn();
+        $coupon_code = $_POST['coupon_code'] ?? '';
+        $user_id = $_SESSION['user_id'];
+    
+        if (empty($coupon_code)) {
+            unset($_SESSION['applied_coupon']);
+            echo json_encode(['success' => true, 'message' => 'Coupon cleared']);
+            exit();
+        }
+    
+        $coupon = $this->productModel->validateCoupon($coupon_code, $user_id);
+        if ($coupon) {
+            $expiry_date = $this->productModel->getCouponExpiry($coupon['id']);
+            if ($expiry_date && strtotime($expiry_date) < time()) {
+                unset($_SESSION['applied_coupon']);
+                echo json_encode(['success' => false, 'message' => 'Coupon has expired']);
+                exit();
+            }
+    
+            $_SESSION['applied_coupon'] = [
+                'code' => $coupon_code,
+                'discount_type' => $coupon['discount_type'],
+                'discount_value' => $coupon['discount_value'],
+                'expiry_date' => $expiry_date
+            ];
+            $this->productModel->incrementCouponUsage($coupon['id'], $user_id);
+    
+            echo json_encode([
+                'success' => true,
+                'discount_type' => $coupon['discount_type'],
+                'discount_value' => $coupon['discount_value']
+            ]);
+        } else {
+            unset($_SESSION['applied_coupon']);
+            echo json_encode(['success' => false, 'message' => 'Invalid or unauthorized coupon code']);
+        }
+        exit();
     }
 }

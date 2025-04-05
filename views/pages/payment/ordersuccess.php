@@ -6,39 +6,58 @@ if (isset($_SESSION['user_id'])) :
     $order = $data['order'] ?? null;
     $orderItems = $data['orderItems'] ?? [];
     $error = $data['error'] ?? null;
+
+    // Function to calculate discounted price (same as in checkout.php)
+    if (!function_exists('getDiscountedPrice')) {
+        function getDiscountedPrice($price, $coupon) {
+            if (!$coupon) return $price;
+            if ($coupon['discount_type'] === 'percentage') {
+                return $price * (1 - $coupon['discount_value'] / 100);
+            } else {
+                return max(0, $price - $coupon['discount_value']);
+            }
+        }
+    }
+
+    // Get applied coupon from session
+    $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon'] : null;
+
+    // Recalculate subtotal from order items (excluding shipping)
+    $subtotal = 0;
+    foreach ($orderItems as $item) {
+        $price = floatval($item['price'] ?? 0);
+        $quantity = intval($item['quantity'] ?? 1);
+        $discounted_price = getDiscountedPrice($price, $applied_coupon);
+        $subtotal += $discounted_price * $quantity;
+    }
 ?>
 
 <style>
-    .card{
+    .card {
         margin: 0 auto;
         background: rgb(238,174,202);
         background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(207,183,205,1) 0%, rgba(209,209,209,1) 0%, rgba(182,207,192,1) 100%, rgba(156,174,216,1) 100%, rgba(61,18,61,1) 100%, rgba(174,193,209,1) 100%, rgba(115,65,212,1) 100%, rgba(98,217,218,1) 100%, rgba(85,87,120,1) 100%, rgba(243,215,251,1) 100%);
-        
     }
     .img-item {
         display: flex;
-        align-items: center; /* Keep items aligned vertically */
-        gap: 15px; /* Adjust spacing between image and text */
+        align-items: center;
+        gap: 15px;
     }
-
     .product-image {
         width: 100px !important;
         height: 100px !important; 
         object-fit: contain;  
         border-radius: 8px; 
     }
-
     .img-item div {
         display: flex;
         flex-direction: column; 
         width: 100%; 
     }
-
     .img-item h6, 
     .img-item p {
         min-width: 120px; 
     }
-
     .product-image:hover {
         transform: scale(1.1);
     }
@@ -46,7 +65,6 @@ if (isset($_SESSION['user_id'])) :
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         max-width: 100px;
     }
-
     .img-item {
         align: center;
         width: 90%;
@@ -56,35 +74,26 @@ if (isset($_SESSION['user_id'])) :
         transition: border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
         border-radius: 25px;
     }
-
     .img-item:hover {
         border-color: red rgba(50, 170, 220, 0.6) yellow;
-        transform: scale(1.05); /* Slightly enlarges the image on hover */
+        transform: scale(1.05);
     }
-
-
     .product-image:hover {
         transform: scale(1.2);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-
     html, body {
-            height: 100%;
-            /* margin: 0;
-            padding: 0; */
-            overflow-x: hidden;
-            overflow-y: auto;  
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;  
     }
-
-    body{
+    body {
         height: 100%;
         background: rgb(207,183,205);
         background: radial-gradient(circle, rgba(207,183,205,1) 0%, rgba(255,255,255,1) 0%, rgba(245,174,205,1) 0%, rgba(182,207,192,1) 100%, rgba(156,174,216,1) 100%, rgba(61,18,61,1) 100%, rgba(174,193,209,1) 100%, rgba(115,65,212,1) 100%, rgba(98,217,218,1) 100%, rgba(85,87,120,1) 100%, rgba(243,215,251,1) 100%);
     }
-
-    
-
 </style>
+
 <div class="container my-5">
     <h2 class="mb-4">ORDER CONFIRMATION</h2>
     <?php if ($error): ?>
@@ -103,7 +112,7 @@ if (isset($_SESSION['user_id'])) :
                 <p>Order Status:<strong> <?php echo htmlspecialchars($order['orderstatus']); ?></strong></p>
                 <p>Shipping Location:<strong> <?php echo htmlspecialchars($order['location_name']); ?></strong></p>
                 <p>Total:<strong> 
-                    <?php echo $order['payments'] === 'KH Riel' ? number_format($order['totalprice'] * 4000) . ' KH Riel' : '$' . number_format($order['totalprice'], 2); ?></strong>
+                    <?php echo $order['payments'] === 'KH Riel' ? number_format($subtotal * 4000) . ' KH Riel' : '$' . number_format($subtotal, 2); ?></strong>
                 </p>
                 <hr>
                 <h6>Order Items</h6>
