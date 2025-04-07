@@ -108,17 +108,17 @@ try {
                                                 class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50">
                                                 <i class="fas fa-eye mr-3 text-lg"></i> View Details
                                             </a>
+                                            <a href="message_order.php?id=<?php echo $order['id']; ?>"
+                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50">
+                                                <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                            </a>
                                             <a href="track_order.php?id=<?php echo $order['id']; ?>"
                                                 class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50">
                                                 <i class="fas fa-pen mr-3 text-lg"></i> Edit
                                             </a>
                                             <a href="detail_order.php?id=<?php echo $order['id']; ?>"
                                                 class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50">
-                                                <i class="fas fa-trash mr-3 text-lg"></i> Delete
-                                            </a>
-                                            <a href="message_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50">
-                                                <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                                <i class="fas fa-times-circle mr-3 text-lg"></i>  cancel
                                             </a>
                                         </div>
                             </tr>

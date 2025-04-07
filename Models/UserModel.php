@@ -47,17 +47,18 @@ class UserModel {
     }
 
     // Delete user and all dependencies
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         // step 1: delete
-       $user = $this->getUserById($id);
-       if (!$user){
-           return false;
-       }
-       // step 2: delete
-       $this->db->query("INSERT INTO trash_user (username, email, phone, password, profile, role) VALUES (:username, :email, :phone, :password, :profile, :role)", [
-        'username' => $user['username'],
-        'email' => $user['email'],
-        'phone' => $user['phone'],
+        $user = $this->getUserById($id);
+        if (!$user) {
+            return false;
+        }
+        // step 2: delete
+        $this->db->query("INSERT INTO trash_user (username, email, phone, password, profile, role) VALUES (:username, :email, :phone, :password, :profile, :role)", [
+            'username' => $user['username'],
+            'email' => $user['email'],
+            'phone' => $user['phone'],
         'password' => $user['password'],
         'profile' => $user['profile'],
         'role' => $user['role']
@@ -78,7 +79,7 @@ class UserModel {
         return $result;
     } 
 
-    // Fetch all users from trash_user
+
     // Fetch all users from trash_user
     public function getTrashUsers() {
         $result = $this->db->query("SELECT * FROM trash_user");

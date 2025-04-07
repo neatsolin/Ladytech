@@ -38,7 +38,7 @@ try {
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
     $orders = [];
     $totalPages = 1;
@@ -47,40 +47,31 @@ try {
 ?>
 
 
-    <script src="https://cdn.tailwindcss.com"></script>
-   
-    <style>
-        /* Custom scrollbar */
-        .scrollable-table {
-            max-height: 60vh;
-            overflow-y: scroll;
-        }
-        
-        /* Make scrollbar always visible */
-        .scrollable-table::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 10px;
-        }
-/*         
-        .scrollable-table::-webkit-scrollbar-thumb {
-            background-color: rgba(0,0,0,.2);
-            border-radius: 10px;
-        }
-        
-        .scrollable-table::-webkit-scrollbar-track {
-            background-color: rgba(0,0,0,.05);
-            border-radius: 10px;
-        } */
-        
-        /* Sticky header */
-        .sticky-header thead tr th {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: #2C4A6B;
-        }
-    </style>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    /* Custom scrollbar */
+    .scrollable-table {
+        max-height: 60vh;
+        overflow-y: scroll;
+    }
+
+    /* Make scrollbar always visible */
+    .scrollable-table::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 10px;
+    }
+
+    /* Sticky header */
+    .sticky-header thead tr th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #2C4A6B;
+    }
+</style>
 </head>
+
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
@@ -89,9 +80,9 @@ try {
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Older Orders</h2>
                     <div class="relative">
-                        <input type="text" id="search" 
-                               placeholder="Search orders..." 
-                               class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        <input type="text" id="search"
+                            placeholder="Search orders..."
+                            class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
                 </div>
@@ -125,26 +116,25 @@ try {
                                     <td class="py-4 px-6 text-gray-800 font-medium"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6">
                                         <div class="flex items-center">
-                                            <img src="<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>" 
-                                                 class="w-10 h-10 rounded-full mr-3 border-2 border-purple-300" alt="Profile">
+                                            <img src="<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>"
+                                                class="w-10 h-10 rounded-full mr-3 border-2 border-purple-300" alt="Profile">
                                             <span class="text-gray-800 font-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?></span>
                                         </div>
                                     </td>
                                     <td class="py-4 px-6 text-green-600"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6 text-gray-700"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td class="py-4 px-6">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php 
-                                            echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : 
-                                                 ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 
-                                                 'bg-red-200 text-red-800'); 
-                                        ?>">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
+                                                                                                                            echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' :
+                                                                                                                                    'bg-red-200 text-red-800');
+                                                                                                                            ?>">
                                             <?php echo htmlspecialchars($order['orderstatus']); ?>
                                         </span>
                                     </td>
                                     <td class="py-4 px-6 text-purple-600 font-semibold">$<?php echo number_format($order['totalprice'], 2); ?></td>
                                     <td class="py-4 px-6 relative">
-                                        <button class="text-gray-600 hover:text-teal-600 transition text-xl p-2 rounded-full hover:bg-gray-100" 
-                                                onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                                        <button class="text-gray-600 hover:text-teal-600 transition text-xl p-2 rounded-full hover:bg-gray-100"
+                                            onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <div id="dropdown-<?php echo $order['id']; ?>"
@@ -153,17 +143,17 @@ try {
                                                 class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50">
                                                 <i class="fas fa-eye mr-3 text-lg"></i> View Details
                                             </a>
+                                            <a href="message_order.php?id=<?php echo $order['id']; ?>"
+                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50">
+                                                <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                            </a>
                                             <a href="track_order.php?id=<?php echo $order['id']; ?>"
                                                 class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50">
                                                 <i class="fas fa-pen mr-3 text-lg"></i> Edit
                                             </a>
                                             <a href="detail_order.php?id=<?php echo $order['id']; ?>"
                                                 class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50">
-                                                <i class="fas fa-trash mr-3 text-lg"></i> Delete
-                                            </a>
-                                            <a href="message_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50">
-                                                <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                                <i class="fas fa-times-circle mr-3 text-lg"></i> Cancel
                                             </a>
                                         </div>
                                     </td>
@@ -177,13 +167,13 @@ try {
 
             <!-- Pagination -->
             <div class="p-6 bg-gray-50 flex justify-between items-center">
-                <a href="?page=<?php echo $currentPage > 1 ? $currentPage - 1 : 1; ?>" 
-                   class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''; ?>">
+                <a href="?page=<?php echo $currentPage > 1 ? $currentPage - 1 : 1; ?>"
+                    class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''; ?>">
                     Previous
                 </a>
                 <span class="text-gray-700 font-medium">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
-                <a href="?page=<?php echo $currentPage < $totalPages ? $currentPage + 1 : $totalPages; ?>" 
-                   class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : ''; ?>">
+                <a href="?page=<?php echo $currentPage < $totalPages ? $currentPage + 1 : $totalPages; ?>"
+                    class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : ''; ?>">
                     Next
                 </a>
             </div>
@@ -192,7 +182,7 @@ try {
 
     <!-- JavaScript -->
     <script>
-        document.getElementById("search").addEventListener("input", function () {
+        document.getElementById("search").addEventListener("input", function() {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll("#older-orders tr");
             rows.forEach(row => {
@@ -215,7 +205,7 @@ try {
             dropdown.classList.toggle("hidden");
         }
 
-        document.addEventListener("click", function (event) {
+        document.addEventListener("click", function(event) {
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
                 if (!dropdown.contains(event.target) && !event.target.closest("button")) {
@@ -225,4 +215,4 @@ try {
         });
     </script>
 
-<?php $conn = null; ?>
+    <?php $conn = null; ?>

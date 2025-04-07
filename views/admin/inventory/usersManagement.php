@@ -65,7 +65,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
 
 
-    <!-- Include SweetAlert Library -->
+ 
     <!-- Include SweetAlert Library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

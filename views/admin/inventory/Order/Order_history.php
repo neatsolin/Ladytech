@@ -249,16 +249,16 @@ try {
                             <a href="view_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
                                 <i class="fas fa-eye text-blue-600 mr-2"></i> View
                             </a>
-                            <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
-                                <i class="fas fa-edit text-green-600 mr-2"></i> Edit
-                            </a>
                             <a href="message_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
                                 <i class="fas fa-envelope text-purple-600 mr-2"></i> Message
+                            </a>
+                            <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
+                                <i class="fas fa-edit text-green-600 mr-2"></i> Edit
                             </a>
                             <a href="delete_order.php?id=<?php echo $order['id']; ?>"
                                 class="block px-3 py-2 hover:bg-gray-100 dropdown-item"
                                 onclick="return confirm('Are you sure you want to delete this order?');">
-                                <i class="fas fa-trash text-red-600 mr-2"></i> Delete
+                                <i class="fas fa-times-circle mr-3 text-lg"></i>  cancel
                             </a>
                         </div>
                     </div>
