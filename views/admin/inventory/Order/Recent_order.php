@@ -9,6 +9,36 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // Handle delete request
+    if (isset($_POST['delete_order'])) {
+        $orderId = (int)$_POST['order_id'];
+        $deleteStmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
+        $deleteStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+        $deleteStmt->execute();
+        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
+        exit;
+    }
+
+    // Handle edit request
+    if (isset($_POST['edit_order'])) {
+        $orderId = (int)$_POST['order_id'];
+        $status = $_POST['order_status'];
+        $updateStmt = $conn->prepare("UPDATE orders SET orderstatus = :status WHERE id = :id");
+        $updateStmt->bindValue(':status', $status);
+        $updateStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+        $updateStmt->execute();
+        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
+        exit;
+    }
+
+    // Handle message request (for simplicity, we'll just echo it; in practice, you'd store or send it)
+    if (isset($_POST['send_message'])) {
+        $orderId = (int)$_POST['order_id'];
+        $message = htmlspecialchars($_POST['message']);
+        // Here you could implement actual messaging logic (e.g., save to DB or send email)
+        echo "<script>alert('Message for Order #$orderId: $message');</script>";
+    }
+
     // Pagination settings
     $itemsPerPage = 10;
     $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -46,40 +76,66 @@ try {
 }
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .table-container::-webkit-scrollbar {
+            width: 40px;
+            height: 8px;
+        }
 
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    /* Custom scrollbar styling */
-    .table-container::-webkit-scrollbar {
-        width: 40px;
-        height: 8px;
-    }
+        .sticky-header thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #2C4A6B;
+        }
 
-    /* Sticky header */
-    .sticky-header thead th {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background-color: #2C4A6B;
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            border: none;
+            outline: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    }
+        .relative {
+            z-index: 20;
+        }
 
-    /* Table container */
-    .table-container {
-        max-height: 60vh;
-        overflow-y: auto;
-        border: none;
-        outline: none;
-        padding: 0;
-        margin: 0;
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
 
-    /* Ensure dropdowns appear above header */
-    .relative {
-        z-index: 20;
-    }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
 
-</style>
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
@@ -90,9 +146,7 @@ try {
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Recent Orders (Today)</h2>
                     <div class="relative">
-                        <input type="text" id="search"
-                            placeholder="Search orders..."
-                            class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        <input type="text" id="search" placeholder="Search orders..." class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
                 </div>
@@ -135,9 +189,9 @@ try {
                                     <td class="py-4 px-6 text-gray-700"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td class="py-4 px-6">
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
-                                                                                                                            echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' :
-                                                                                                                                'bg-red-200 text-red-800');
-                                                                                                                            ?>">
+                                            echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : 
+                                            ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800');
+                                        ?>">
                                             <?php echo htmlspecialchars($order['orderstatus']); ?>
                                         </span>
                                     </td>
@@ -149,22 +203,25 @@ try {
                                         </button>
                                         <div id="dropdown-<?php echo $order['id']; ?>"
                                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
-                                            <a href="view_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50">
+                                            <button onclick="showDetails('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?>', 
+                                                '<?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?>', '<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>', 
+                                                '<?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?>', '<?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?>', 
+                                                '<?php echo htmlspecialchars($order['orderstatus']); ?>', '<?php echo number_format($order['totalprice'], 2); ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50 w-full text-left">
                                                 <i class="fas fa-eye mr-3 text-lg"></i> View Details
-                                            </a>
-                                            <a href="track_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50">
+                                            </button>
+                                            <button onclick="showEdit('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['orderstatus']); ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50 w-full text-left">
                                                 <i class="fas fa-pen mr-3 text-lg"></i> Edit
-                                            </a>
-                                            <a href="detail_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50">
+                                            </button>
+                                            <button onclick="showDelete('<?php echo $order['id']; ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 w-full text-left">
                                                 <i class="fas fa-trash mr-3 text-lg"></i> Delete
-                                            </a>
-                                            <a href="message_order.php?id=<?php echo $order['id']; ?>"
-                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50">
+                                            </button>
+                                            <button onclick="showMessage('<?php echo $order['id']; ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50 w-full text-left">
                                                 <i class="fas fa-envelope mr-3 text-lg"></i> Message
-                                            </a>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -190,6 +247,17 @@ try {
         </div>
     </div>
 
+    <!-- Modal for Order Details -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">×</span>
+            <h2 class="text-2xl font-bold mb-4" id="modalTitle">Order Details</h2>
+            <div id="modalBody" class="space-y-4">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
         document.getElementById("search").addEventListener("input", function() {
@@ -202,15 +270,12 @@ try {
         });
 
         function toggleDropdown(id) {
-            // Close all dropdowns first
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
                 if (dropdown.id !== id) {
                     dropdown.classList.add("hidden");
                 }
             });
-
-            // Toggle the clicked dropdown
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
         }
@@ -223,6 +288,126 @@ try {
                 }
             });
         });
+
+        function showDetails(id, username, phone, profile, payment, date, status, total) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Order Details";
+            modalBody.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img src="${profile}" class="w-12 h-12 rounded-full mr-4 border-2 border-purple-300" alt="Profile">
+                    <div>
+                        <p class="text-gray-800 font-semibold">${username}</p>
+                        <p class="text-gray-600">${phone}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-600">Order ID:</p>
+                        <p class="font-medium">${id}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Date:</p>
+                        <p class="font-medium">${date}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Payment:</p>
+                        <p class="font-medium text-green-600">${payment}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Status:</p>
+                        <p class="font-medium ${status === 'Delivered' ? 'text-green-600' : status === 'Pending' ? 'text-yellow-600' : 'text-red-600'}">${status}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Total:</p>
+                        <p class="font-medium text-purple-600">$${total}</p>
+                    </div>
+                </div>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showEdit(id, currentStatus) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Edit Order";
+            modalBody.innerHTML = `
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Order Status</label>
+                        <select name="order_status" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300">
+                            <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${currentStatus === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="edit_order" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                        Save Changes
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showDelete(id) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Delete Order";
+            modalBody.innerHTML = `
+                <p class="text-gray-700 mb-4">Are you sure you want to delete Order #${id}?</p>
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <button type="submit" name="delete_order" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        Yes, Delete
+                    </button>
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition ml-2">
+                        Cancel
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showMessage(id) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Send Message";
+            modalBody.innerHTML = `
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Message</label>
+                        <textarea name="message" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300" rows="4" placeholder="Type your message here..."></textarea>
+                    </div>
+                    <button type="submit" name="send_message" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition">
+                        Send Message
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("orderModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("orderModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 
 <?php $conn = null; ?>
+</body>
+</html>

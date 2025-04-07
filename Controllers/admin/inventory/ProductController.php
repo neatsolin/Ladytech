@@ -122,5 +122,24 @@ class ProductController extends BaseadminController {
         }
         $this->view('admin/inventory/products/view', ['product' => $product]);
     }
+
+    public function addDiscount() {
+        $this->view('admin/inventory/products/add_discount');
+    }
+
+    public function storeDiscount() {
+        $code = htmlspecialchars($_POST['code']);
+        $discount_type = htmlspecialchars($_POST['discount_type']);
+        $discount_value = floatval($_POST['discount_value']);
+        $max_usage = !empty($_POST['max_usage']) ? intval($_POST['max_usage']) : null;
+        $expiry_date = !empty($_POST['expiry_date']) ? $_POST['expiry_date'] : null;
+
+        $success = $this->products->addDiscountCode($code, $discount_type, $discount_value, $max_usage, $expiry_date);
+        if ($success) {
+            $this->view('admin/inventory/products/add_discount', ['success' => "Discount code '$code' created successfully!"]);
+        } else {
+            $this->view('admin/inventory/products/add_discount', ['error' => "Discount code '$code' already exists. Please use a different code."]);
+        }
+    }
 }
 ?>

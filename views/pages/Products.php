@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Database connection
 $host = 'localhost';
 $dbname = 'dailyneed_db';
 $username = 'root'; 
@@ -20,11 +19,35 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Fetch products from the database
 $stmt = $pdo->query("SELECT * FROM products");
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+$applied_coupon = null;
+if (isset($_SESSION['applied_coupon']) && !empty($_SESSION['applied_coupon']['code'])) {
+    $stmt = $pdo->prepare(
+        "SELECT discount_type, discount_value, expiry_date 
+         FROM promo_codes 
+         WHERE code = :code"
+    );
+    $stmt->execute(['code' => $_SESSION['applied_coupon']['code']]);
+    $coupon = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($coupon && (!$coupon['expiry_date'] || strtotime($coupon['expiry_date']) >= time())) {
+        $applied_coupon = $coupon;
+    } else {
+        unset($_SESSION['applied_coupon']);
+    }
+}
+
+function getDiscountedPrice($price, $coupon) {
+    if (!$coupon) return $price;
+    if ($coupon['discount_type'] === 'percentage') {
+        return $price * (1 - $coupon['discount_value'] / 100);
+    } else {
+        return max(0, $price - $coupon['discount_value']);
+    }
+}
+?>
 
     <style>
         body {
@@ -143,6 +166,15 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: #333;
             margin-bottom: 10px;
         }
+        .price-discounted {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .price-original {
+            text-decoration: line-through;
+            color: #6c757d;
+            margin-right: 5px;
+        }
         .btn-purple, .btn-green {
             border-radius: 15px;
             font-size: 12px;
@@ -203,9 +235,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div class="shop container-fluid">
     <div class="row">
-        <!-- Sidebar for Filters -->
         <div class="col-md-3">
-            <!-- Filter by Price -->
             <div class="filter">
                 <h3>Filter by Price</h3>
                 <input type="range" id="priceRange" min="1" max="100" step="1" value="100" class="form-range">
@@ -275,11 +305,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </ul>
             </div>
         </div>
-        <!-- Product Cards Section -->
         <div class="col-md-9">
             <div class="row px-3 py-4" id="productList">
                 <?php if (!empty($products) && is_array($products)): ?>
-                    <?php foreach ($products as $product): ?>
+                    <?php foreach ($products as $product): 
+                        $original_price = floatval($product['price']);
+                        $discounted_price = getDiscountedPrice($original_price, $applied_coupon);
+                    ?>
                         <div class="col-md-4 col-sm-6 mb-4" data-product-id="<?= htmlspecialchars($product['id']) ?>">
                             <div class="card text-start shadow-sm d-flex flex-column" style="border-radius: 12px; overflow: hidden; height: 100%;">
                                 <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; border-top-left-radius: 12px; border-top-right-radius: 12px; position: relative;">
@@ -300,7 +332,16 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <span class="rating-value" data-rating-id="<?= htmlspecialchars($product['id']) ?>">(0)</span>
                                     </div>
                                     <p class="card-text"><?= htmlspecialchars($product['descriptions']) ?></p>
-                                    <div class="price mt-auto">Price: $<?= htmlspecialchars($product['price']) ?></div>
+                                    <div class="price mt-auto">
+                                        <?php
+                                        if ($applied_coupon && $discounted_price < $original_price) {
+                                            echo 'Price: <span class="price-original">$' . number_format($original_price, 2) . '</span>';
+                                            echo '<span class="price-discounted">$' . number_format($discounted_price, 2) . '</span>';
+                                        } else {
+                                            echo 'Price: $' . number_format($original_price, 2);
+                                        }
+                                        ?>
+                                    </div>
                                     <div class="d-flex justify-content-between mt-2">
                                         <button class="btn btn-purple text-white" onclick="addToCart(<?= htmlspecialchars($product['id']) ?>)"><i class="bi bi-cart"></i> Add to Cart</button>
                                         <button class="btn btn-green text-white"><i class="bi bi-check-circle"></i> Buy Now</button>
@@ -319,16 +360,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-
 <script>
-// Toggle heart icon on click
 function toggleFavorite(productId) {
     const heart = document.querySelector(`[data-heart-id="${productId}"]`);
     heart.classList.toggle('bi-heart');
     heart.classList.toggle('bi-heart-fill');
 }
 
-// Set rating for a product
 function setRating(productId, rating) {
     const stars = document.querySelectorAll(`[data-product-id="${productId}"] .star`);
     const ratingValue = document.querySelector(`[data-rating-id="${productId}"]`);
@@ -342,7 +380,6 @@ function setRating(productId, rating) {
     ratingValue.textContent = `(${rating})`;
 }
 
-// Placeholder functions for Add to Cart and View Details
 function addToCart(productId) {
     alert(`Added product ${productId} to cart!`);
 }
@@ -351,7 +388,6 @@ function viewDetails(productId) {
     alert(`Viewing details for product ${productId}`);
 }
 
-// Price Range Filter
 document.getElementById('priceRange').addEventListener('input', function() {
     const priceValue = this.value;
     document.getElementById('priceValue').textContent = `$1 - $${priceValue}`;
@@ -359,12 +395,12 @@ document.getElementById('priceRange').addEventListener('input', function() {
 
     cards.forEach(card => {
         const priceText = card.querySelector('.price').textContent;
-        const price = parseFloat(priceText.replace('Price: $', ''));
+        const priceMatch = priceText.match(/\$([\d.]+)/g);
+        const price = parseFloat(priceMatch[priceMatch.length - 1].replace('$', ''));
         card.style.display = price <= priceValue ? '' : 'none';
     });
 });
 
-// Real-time Search Functionality
 document.getElementById('search').addEventListener('input', function() {
     const searchValue = this.value.toLowerCase().trim();
     const searchWords = searchValue.split(/\s+/).filter(word => word.length > 0);
