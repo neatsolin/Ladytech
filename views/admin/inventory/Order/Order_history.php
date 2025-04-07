@@ -74,65 +74,117 @@ try {
 }
 ?>
 
-<script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<style>
-    .table-container {
-        max-height: 55vh;
-        /* Adjusted to medium size */
-        overflow-y: auto;
+    <style>
+        .table-container {
+            max-height: 55vh;
+            overflow-y: auto;
+        }
 
-    }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #2C4A6B;
+        }
 
+        .table-container::-webkit-scrollbar {
+            display: none;
+        }
 
-    .sticky-header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background-color: #2C4A6B;
-    }
+        .table-md-text th,
+        .table-md-text td {
+            padding: 0.75rem 1rem;
+            font-size: 0.9375rem;
+        }
 
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.8125rem;
+        }
 
-    .table-container::-webkit-scrollbar {
-        display: none;
-    }
+        .dropdown-item {
+            font-size: 0.875rem;
+        }
 
-    .table-container::-webkit-scrollbar {
-        display: none;
-    }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+        }
 
-    /* Medium-sized table elements */
-    .table-md-text th,
-    .table-md-text td {
-        padding: 0.75rem 1rem;
-        font-size: 0.9375rem;
-    }
+        .tab-content {
+            margin-top: 1rem;
+        }
 
-    .status-badge {
-        padding: 0.375rem 0.75rem;
-        font-size: 0.8125rem;/
-    }
+        .table-row:hover {
+            background-color: #f8fafc;
+        }
 
-    .dropdown-item {
-        font-size: 0.875rem;
-    }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
 
-    .user-avatar {
-        width: 36px;
-        /* Medium avatar */
-        height: 36px;
-    }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Improved spacing */
-    .tab-content {
-        margin-top: 1rem;
-    }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
 
-    /* Better contrast for readability */
-    .table-row:hover {
-        background-color: #f8fafc;
-    }
-</style>
+        .modal-content img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-pending {
+            color: #D97706; /* Amber color for Pending */
+        }
+
+        .status-delivered {
+            color: #16A34A; /* Green for Delivered */
+        }
+
+        .status-collected {
+            color: #16A34A; /* Green for Collected */
+        }
+
+        .status-cancelled {
+            color: #DC2626; /* Red for Cancelled */
+        }
+    </style>
+</head>
 
 <body class="bg-gray-100">
     <div class="container mx-auto my-6 px-4">
@@ -192,81 +244,89 @@ try {
             <div class="tab-content" id="orderTabsContent">
                 <div class="<?php echo $currentTab === 'all' ? 'block' : 'hidden'; ?>" id="all" role="tabpanel">
                     <div class="table-container">
-                    <table class="w-full border-collapse">
-    <thead>
-        <tr class="bg-[#2C4A6B] text-white sticky-header">
-            <th class="p-3 text-left">NO</th>
-            <th class="p-3 text-left">Name</th>
-            <th class="p-3 text-left">Payment</th>
-            <th class="p-3 text-left">Date & Time</th>
-            <th class="p-3 text-left">Type</th>
-            <th class="p-3 text-left">Status</th>
-            <th class="p-3 text-left">Total</th>
-            <th class="p-3 text-left">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $counter = ($currentPage - 1) * $itemsPerPage + 1;
-        foreach ($orders as $order): ?>
-            <tr class="hover:bg-gray-50 transition-colors border-b border-gray-200">
-                <td class="p-3 font-medium text-blue-500"><?php echo $counter++; ?></td>
-                <td class="p-3">
-                    <div class="flex items-center">
-                        <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>"
-                            class="rounded-full mr-3 user-avatar"
-                            alt="avatar">
-                        <span class="font-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?></span>
-                    </div>
-                </td>
-                <td class="p-3 text-green-600 font-medium"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
-                <td class="p-3"><?php echo htmlspecialchars(date('M j, Y H:i', strtotime($order['orderdate']))); ?></td>
-                <td class="p-3"><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
-                <td class="p-3">
-                    <span class="status-badge rounded-full font-medium <?php
-                        if ($order['orderstatus'] === 'Pending') {
-                            echo 'bg-yellow-200 text-yellow-600';
-                        } elseif ($order['orderstatus'] === 'Delivered') {
-                            echo 'bg-green-200 text-green-600';
-                        } elseif ($order['orderstatus'] === 'Cancelled') {
-                            echo 'bg-pink-200 text-pink-600';
-                        } elseif ($order['orderstatus'] === 'Collected') {
-                            echo 'bg-green-200 text-green-600';
-                        } else {
-                            echo 'bg-pink-200 text-pink-600';
-                        }
-                    ?>">
-                        <?php echo htmlspecialchars($order['orderstatus']); ?>
-                    </span>
-                </td>
-                <td class="p-3 font-medium text-purple-600">$<?php echo number_format($order['totalprice'], 2); ?></td>
-                <td class="p-3">
-                    <div class="relative inline-block">
-                        <button class="text-gray-500 hover:text-gray-700 p-2" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div id="dropdown-<?php echo $order['id']; ?>" class="hidden absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-                            <a href="view_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
-                                <i class="fas fa-eye text-blue-600 mr-2"></i> View
-                            </a>
-                            <a href="message_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
-                                <i class="fas fa-envelope text-purple-600 mr-2"></i> Message
-                            </a>
-                            <a href="edit_order.php?id=<?php echo $order['id']; ?>" class="block px-3 py-2 hover:bg-gray-100 dropdown-item">
-                                <i class="fas fa-edit text-green-600 mr-2"></i> Edit
-                            </a>
-                            <a href="delete_order.php?id=<?php echo $order['id']; ?>"
-                                class="block px-3 py-2 hover:bg-gray-100 dropdown-item"
-                                onclick="return confirm('Are you sure you want to delete this order?');">
-                                <i class="fas fa-times-circle mr-3 text-lg"></i>  cancel
-                            </a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-[#2C4A6B] text-white sticky-header">
+                                    <th class="p-3 text-left">NO</th>
+                                    <th class="p-3 text-left">Name</th>
+                                    <th class="p-3 text-left">Payment</th>
+                                    <th class="p-3 text-left">Date & Time</th>
+                                    <th class="p-3 text-left">Type</th>
+                                    <th class="p-3 text-left">Status</th>
+                                    <th class="p-3 text-left">Total</th>
+                                    <th class="p-3 text-left">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $counter = ($currentPage - 1) * $itemsPerPage + 1;
+                                foreach ($orders as $order): ?>
+                                    <tr class="hover:bg-gray-50 transition-colors border-b border-gray-200" data-order-id="<?php echo $order['id']; ?>">
+                                        <td class="p-3 font-medium text-blue-500"><?php echo $counter++; ?></td>
+                                        <td class="p-3">
+                                            <div class="flex items-center">
+                                                <img src="<?php echo htmlspecialchars($order['user_profile'] ?: 'https://via.placeholder.com/40'); ?>"
+                                                    class="rounded-full mr-3 user-avatar"
+                                                    alt="avatar">
+                                                <span class="font-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?></span>
+                                            </div>
+                                        </td>
+                                        <td class="p-3 text-green-600 font-medium"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
+                                        <td class="p-3"><?php echo htmlspecialchars(date('M j, Y H:i', strtotime($order['orderdate']))); ?></td>
+                                        <td class="p-3"><?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?></td>
+                                        <td class="p-3">
+                                            <span class="status-cell status-badge rounded-full font-medium <?php
+                                                if ($order['orderstatus'] === 'Pending') {
+                                                    echo 'bg-yellow-200 text-yellow-600';
+                                                } elseif ($order['orderstatus'] === 'Delivered') {
+                                                    echo 'bg-green-200 text-green-600';
+                                                } elseif ($order['orderstatus'] === 'Cancelled') {
+                                                    echo 'bg-pink-200 text-pink-600';
+                                                } elseif ($order['orderstatus'] === 'Collected') {
+                                                    echo 'bg-green-200 text-green-600';
+                                                } else {
+                                                    echo 'bg-pink-200 text-pink-600';
+                                                }
+                                            ?>">
+                                                <?php echo htmlspecialchars($order['orderstatus']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="p-3 font-medium text-purple-600">$<?php echo number_format($order['totalprice'], 2); ?></td>
+                                        <td class="p-3">
+                                            <div class="relative inline-block">
+                                                <button class="text-gray-500 hover:text-gray-700 p-2" onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <div id="dropdown-<?php echo $order['id']; ?>" class="hidden absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                                                    <button onclick="showDetails('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?>', 
+                                                        '<?php echo htmlspecialchars($order['user_profile'] ?? 'https://via.placeholder.com/40'); ?>', 
+                                                        '<?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?>', 
+                                                        '<?php echo htmlspecialchars(date('M j, Y H:i', strtotime($order['orderdate']))); ?>', 
+                                                        '<?php echo htmlspecialchars($order['ordertype'] ?? 'N/A'); ?>', 
+                                                        '<?php echo htmlspecialchars($order['orderstatus']); ?>', 
+                                                        '<?php echo number_format($order['totalprice'], 2); ?>')"
+                                                        class="block px-3 py-2 hover:bg-gray-100 dropdown-item w-full text-left">
+                                                        <i class="fas fa-eye text-blue-600 mr-2"></i> View
+                                                    </button>
+                                                    <button onclick="showEdit('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['orderstatus']); ?>')"
+                                                        class="block px-3 py-2 hover:bg-gray-100 dropdown-item w-full text-left">
+                                                        <i class="fas fa-edit text-green-600 mr-2"></i> Edit
+                                                    </button>
+                                                    <button onclick="showMessage('<?php echo $order['id']; ?>')"
+                                                        class="block px-3 py-2 hover:bg-gray-100 dropdown-item w-full text-left">
+                                                        <i class="fas fa-envelope text-purple-600 mr-2"></i> Message
+                                                    </button>
+                                                    <button onclick="deleteOrder('<?php echo $order['id']; ?>')"
+                                                        class="block px-3 py-2 hover:bg-gray-100 dropdown-item w-full text-left">
+                                                        <i class="fas fa-trash text-red-600 mr-2"></i> Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
 
                     <?php if ($currentTab !== 'summary' && $totalPages > 1): ?>
@@ -342,6 +402,83 @@ try {
         </div>
     </div>
 
+    <!-- Modal Container for View Details -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">×</span>
+            <h2 class="text-xl font-bold mb-4">Order Details</h2>
+            <div class="flex items-center mb-4">
+                <img id="modalProfile" src="" alt="Profile">
+                <div>
+                    <p id="modalUsername" class="font-semibold"></p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <div>
+                    <p class="text-gray-600 text-sm">Order ID:</p>
+                    <p id="modalOrderId" class="font-medium"></p>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Date:</p>
+                    <p id="modalOrderDate" class="font-medium"></p>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Payment:</p>
+                    <p id="modalPayment" class="font-medium text-green-600"></p>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Type:</p>
+                    <p id="modalOrderType" class="font-medium"></p>
+                </div>
+                <div>
+                    <p class="text-gray-600 text-sm">Status:</p>
+                    <p id="modalStatus" class="font-medium"></p>
+                </div>
+            </div>
+            <div>
+                <p class="text-gray-600 text-sm">Total:</p>
+                <p id="modalTotal" class="font-semibold text-lg text-purple-600"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Container for Edit Order -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">×</span>
+            <h2 class="text-xl font-bold mb-4">Edit Order</h2>
+            <form id="editOrderForm">
+                <input type="hidden" id="editOrderId" name="orderId">
+                <div class="mb-4">
+                    <label for="editOrderStatus" class="block text-gray-600 text-sm mb-2">Order Status</label>
+                    <select id="editOrderStatus" name="orderStatus" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        <option value="Pending">Pending</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Collected">Collected</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Container for Send Message -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">×</span>
+            <h2 class="text-xl font-bold mb-4">Send Message</h2>
+            <form id="sendMessageForm">
+                <input type="hidden" id="messageOrderId" name="orderId">
+                <div class="mb-4">
+                    <label for="messageContent" class="block text-gray-600 text-sm mb-2">Message</label>
+                    <textarea id="messageContent" name="messageContent" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-teal-300" rows="4" placeholder="Type your message here..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition">Send Message</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);
@@ -364,5 +501,196 @@ try {
                 });
             }
         });
+
+        // Function to show the order details in a modal
+        function showDetails(id, username, profile, payments, orderdate, ordertype, orderstatus, totalprice) {
+            const modal = document.getElementById("orderModal");
+            const modalProfile = document.getElementById("modalProfile");
+            const modalUsername = document.getElementById("modalUsername");
+            const modalOrderId = document.getElementById("modalOrderId");
+            const modalOrderDate = document.getElementById("modalOrderDate");
+            const modalPayment = document.getElementById("modalPayment");
+            const modalOrderType = document.getElementById("modalOrderType");
+            const modalStatus = document.getElementById("modalStatus");
+            const modalTotal = document.getElementById("modalTotal");
+
+            modalProfile.src = profile;
+            modalUsername.textContent = username;
+            modalOrderId.textContent = id;
+            modalOrderDate.textContent = orderdate;
+            modalPayment.textContent = payments;
+            modalOrderType.textContent = ordertype;
+            modalStatus.textContent = orderstatus;
+            modalTotal.textContent = `$ ${totalprice}`;
+
+            modalStatus.classList.remove("status-pending", "status-delivered", "status-collected", "status-cancelled");
+            if (orderstatus.toLowerCase() === "pending") {
+                modalStatus.classList.add("status-pending");
+            } else if (orderstatus.toLowerCase() === "delivered") {
+                modalStatus.classList.add("status-delivered");
+            } else if (orderstatus.toLowerCase() === "collected") {
+                modalStatus.classList.add("status-collected");
+            } else if (orderstatus.toLowerCase() === "cancelled") {
+                modalStatus.classList.add("status-cancelled");
+            }
+
+            modal.style.display = "flex";
+
+            const closeBtn = document.querySelector("#orderModal .modal-close");
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+
+        // Function to show the edit order modal
+        function showEdit(id, orderstatus) {
+            const modal = document.getElementById("editModal");
+            const orderIdInput = document.getElementById("editOrderId");
+            const statusSelect = document.getElementById("editOrderStatus");
+
+            orderIdInput.value = id;
+            statusSelect.value = orderstatus;
+
+            modal.style.display = "flex";
+
+            const closeBtn = document.querySelector("#editModal .modal-close");
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+
+        // Handle form submission for editing order status
+        document.getElementById("editOrderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const orderId = document.getElementById("editOrderId").value;
+            const newStatus = document.getElementById("editOrderStatus").value;
+
+            fetch("update_order_status.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `orderId=${orderId}&orderStatus=${newStatus}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Order status updated successfully!");
+                    const statusCell = document.querySelector(`tr[data-order-id="${orderId}"] .status-cell`);
+                    if (statusCell) {
+                        statusCell.textContent = newStatus;
+                        statusCell.className = "status-cell status-badge rounded-full font-medium " + 
+                            (newStatus === "Pending" ? "bg-yellow-200 text-yellow-600" : 
+                            (newStatus === "Delivered" || newStatus === "Collected" ? "bg-green-200 text-green-600" : "bg-pink-200 text-pink-600"));
+                    }
+                    document.getElementById("editModal").style.display = "none";
+                    location.reload();
+                } else {
+                    alert("Failed to update order status: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while updating the order status.");
+            });
+        });
+
+        // Function to show the send message modal
+        function showMessage(id) {
+            const modal = document.getElementById("messageModal");
+            const orderIdInput = document.getElementById("messageOrderId");
+
+            orderIdInput.value = id;
+
+            modal.style.display = "flex";
+
+            const closeBtn = document.querySelector("#messageModal .modal-close");
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+
+        // Handle form submission for sending a message
+        document.getElementById("sendMessageForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const orderId = document.getElementById("messageOrderId").value;
+            const messageContent = document.getElementById("messageContent").value;
+
+            if (!messageContent.trim()) {
+                alert("Please enter a message.");
+                return;
+            }
+
+            fetch("send_message.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `orderId=${orderId}&messageContent=${encodeURIComponent(messageContent)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Message sent successfully!");
+                    document.getElementById("messageModal").style.display = "none";
+                    document.getElementById("messageContent").value = "";
+                } else {
+                    alert("Failed to send message: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while sending the message.");
+            });
+        });
+
+        // Function to handle order deletion
+        function deleteOrder(id) {
+            if (confirm('Are you sure you want to delete this order?')) {
+                fetch("delete_order.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `orderId=${id}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Order deleted successfully!");
+                        location.reload();
+                    } else {
+                        alert("Failed to delete order: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while deleting the order.");
+                });
+            }
+        }
     </script>
-    <?php $conn = null; ?>
+
+<?php $conn = null; ?>
+</body>
+</html>

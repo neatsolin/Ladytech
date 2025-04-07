@@ -1,8 +1,4 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Database connection
 $servername = "localhost";
 $username = "root";
@@ -13,19 +9,34 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Handle cancel action
-    if (isset($_GET['action']) && $_GET['action'] == 'cancel' && isset($_GET['id'])) {
-        $orderId = $_GET['id'];
-        $stmt = $conn->prepare("UPDATE orders SET orderstatus = 'Cancelled' WHERE id = :id");
-        $stmt->bindParam(':id', $orderId);
-        $stmt->execute();
-        
-        // Return JSON response for AJAX
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true]);
-            exit();
-        }
+    // Handle delete request
+    if (isset($_POST['delete_order'])) {
+        $orderId = (int)$_POST['order_id'];
+        $deleteStmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
+        $deleteStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+        $deleteStmt->execute();
+        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
+        exit;
+    }
+
+    // Handle edit request
+    if (isset($_POST['edit_order'])) {
+        $orderId = (int)$_POST['order_id'];
+        $status = $_POST['order_status'];
+        $updateStmt = $conn->prepare("UPDATE orders SET orderstatus = :status WHERE id = :id");
+        $updateStmt->bindValue(':status', $status);
+        $updateStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+        $updateStmt->execute();
+        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
+        exit;
+    }
+
+    // Handle message request (for simplicity, we'll just echo it; in practice, you'd store or send it)
+    if (isset($_POST['send_message'])) {
+        $orderId = (int)$_POST['order_id'];
+        $message = htmlspecialchars($_POST['message']);
+        // Here you could implement actual messaging logic (e.g., save to DB or send email)
+        echo "<script>alert('Message for Order #$orderId: $message');</script>";
     }
 
     // Pagination settings
@@ -63,61 +74,70 @@ try {
     $totalPages = 1;
     $currentPage = 1;
 }
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .table-container {
-            max-height: 60vh;
-            overflow-y: auto;
+        .table-container::-webkit-scrollbar {
+            width: 40px;
+            height: 8px;
         }
+
         .sticky-header thead th {
             position: sticky;
             top: 0;
+            z-index: 10;
             background-color: #2C4A6B;
         }
-        .status-pending {
-            background-color: #fef9c3;
-            color: #b45309;
+
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            border: none;
+            outline: none;
+            padding: 0;
+            margin: 0;
         }
-        .status-delivered {
-            background-color: #dcfce7;
-            color: #166534;
+
+        .relative {
+            z-index: 20;
         }
-        .status-cancelled {
-            background-color: #f3f4f6;
-            color: #6b7280;
-        }
-        .dropdown-menu {
+
+        .modal {
             display: none;
-            position: absolute;
-            right: 0;
+            position: fixed;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
             background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 4px;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
         }
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        .flash-red {
-            animation: redFlash 0.5s ease-in-out;
-        }
-        @keyframes redFlash {
-            0%, 100% { background-color: inherit; }
-            50% { background-color: #fee2e2; }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
@@ -126,10 +146,8 @@ try {
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Recent Orders (Today)</h2>
                     <div class="relative">
-                        <input type="text" id="search"
-                            placeholder="Search orders..."
-                            class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
-                        <i class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">search</i>
+                        <input type="text" id="search" placeholder="Search orders..." class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
                 </div>
             </div>
@@ -157,55 +175,53 @@ try {
                         <?php else: ?>
                             <?php $rowNumber = ($currentPage - 1) * $itemsPerPage + 1; ?>
                             <?php foreach ($orders as $index => $order): ?>
-                                <tr id="order-row-<?= $order['id'] ?>" class="<?= $index % 2 === 0 ? 'bg-gray-50' : 'bg-white' ?> hover:bg-teal-50 transition">
-                                    <td class="py-4 px-6 text-blue-600 font-medium"><?= $rowNumber ?></td>
-                                    <td class="py-4 px-6 text-gray-800 font-medium"><?= htmlspecialchars($order['phone'] ?? 'N/A') ?></td>
+                                <tr class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition">
+                                    <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber; ?></td>
+                                    <td class="py-4 px-6 text-gray-800 font-medium"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6">
                                         <div class="flex items-center">
-                                            <img src="<?= htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40') ?>"
+                                            <img src="<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>"
                                                 class="w-10 h-10 rounded-full mr-3 border-2 border-purple-300" alt="Profile">
-                                            <span class="text-gray-800 font-medium"><?= htmlspecialchars($order['username'] ?? 'Unknown Customer') ?></span>
+                                            <span class="text-gray-800 font-medium"><?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?></span>
                                         </div>
                                     </td>
-                                    <td class="py-4 px-6 text-green-600"><?= htmlspecialchars($order['payments'] ?? 'N/A') ?></td>
-                                    <td class="py-4 px-6 text-gray-700"><?= htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))) ?></td>
+                                    <td class="py-4 px-6 text-green-600"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
+                                    <td class="py-4 px-6 text-gray-700"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td class="py-4 px-6">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
-                                            <?= $order['orderstatus'] === 'Delivered' ? 'status-delivered' : 
-                                               ($order['orderstatus'] === 'Pending' ? 'status-pending' : 'status-cancelled') ?>">
-                                            <?= htmlspecialchars($order['orderstatus']) ?>
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
+                                            echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : 
+                                            ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800');
+                                        ?>">
+                                            <?php echo htmlspecialchars($order['orderstatus']); ?>
                                         </span>
                                     </td>
-                                    <td class="py-4 px-6 text-purple-600 font-semibold">$<?= number_format($order['totalprice'], 2) ?></td>
-                                    <td class="py-4 px-6 relative text-center">
-                                        <div class="dropdown inline-block">
-                                            <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                                                <i class="material-icons">more_vert</i>
+                                    <td class="py-4 px-6 text-purple-600 font-semibold">$<?php echo number_format($order['totalprice'], 2); ?></td>
+                                    <td class="py-4 px-6 relative">
+                                        <button class="text-gray-600 hover:text-teal-600 transition text-xl p-2 rounded-full hover:bg-gray-100"
+                                            onclick="toggleDropdown('dropdown-<?php echo $order['id']; ?>')">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div id="dropdown-<?php echo $order['id']; ?>"
+                                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
+                                            <button onclick="showDetails('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?>', 
+                                                '<?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?>', '<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>', 
+                                                '<?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?>', '<?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?>', 
+                                                '<?php echo htmlspecialchars($order['orderstatus']); ?>', '<?php echo number_format($order['totalprice'], 2); ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50 w-full text-left">
+                                                <i class="fas fa-eye mr-3 text-lg"></i> View Details
                                             </button>
-                                            <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white z-50">
-                                                <a href="view_order.php?id=<?= $order['id'] ?>" 
-                                                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                                    <i class="material-icons align-middle text-blue-500">visibility</i>
-                                                    <span class="ml-2">View Details</span>
-                                                </a>
-                                                <a href="message_order.php?id=<?= $order['id'] ?>" 
-                                                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                                    <i class="material-icons align-middle text-green-500">email</i>
-                                                    <span class="ml-2">Message</span>
-                                                </a>
-                                                <?php if ($order['orderstatus'] !== 'Cancelled'): ?>
-                                                    <a href="track_order.php?id=<?= $order['id'] ?>" 
-                                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                                        <i class="material-icons align-middle text-yellow-500">edit</i>
-                                                        <span class="ml-2">Edit</span>
-                                                    </a>
-                                                    <a href="#" class="cancel-order block px-4 py-2 text-red-700 hover:bg-red-50" 
-                                                       data-id="<?= $order['id'] ?>">
-                                                        <i class="material-icons align-middle">cancel</i>
-                                                        <span class="ml-2">Cancel</span>
-                                                    </a>
-                                                <?php endif; ?>
-                                            </div>
+                                            <button onclick="showEdit('<?php echo $order['id']; ?>', '<?php echo htmlspecialchars($order['orderstatus']); ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50 w-full text-left">
+                                                <i class="fas fa-pen mr-3 text-lg"></i> Edit
+                                            </button>
+                                            <button onclick="showDelete('<?php echo $order['id']; ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 w-full text-left">
+                                                <i class="fas fa-trash mr-3 text-lg"></i> Delete
+                                            </button>
+                                            <button onclick="showMessage('<?php echo $order['id']; ?>')"
+                                                class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50 w-full text-left">
+                                                <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -218,118 +234,180 @@ try {
 
             <!-- Pagination -->
             <div class="p-6 bg-gray-50 flex justify-between items-center">
-                <a href="?page=<?= $currentPage > 1 ? $currentPage - 1 : 1 ?>" 
-                   class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?= $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : '' ?>">
+                <a href="?page=<?php echo $currentPage > 1 ? $currentPage - 1 : 1; ?>"
+                    class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''; ?>">
                     Previous
                 </a>
-                <span class="text-gray-700 font-medium">
-                    Page <?= $currentPage ?> of <?= $totalPages ?>
-                </span>
-                <a href="?page=<?= $currentPage < $totalPages ? $currentPage + 1 : $totalPages ?>" 
-                   class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?= $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : '' ?>">
+                <span class="text-gray-700 font-medium">Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
+                <a href="?page=<?php echo $currentPage < $totalPages ? $currentPage + 1 : $totalPages; ?>"
+                    class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition <?php echo $currentPage >= $totalPages ? 'opacity-50 cursor-not-allowed' : ''; ?>">
                     Next
                 </a>
             </div>
         </div>
     </div>
 
-   <?php
-// In your controller:
-if (isset($_GET['action']) && $_GET['action'] === 'cancel' && isset($_GET['id'])) {
-    try {
-        $orderModel = new OrderModel();
-        $success = $orderModel->cancelOrder($_GET['id']);
-        
-        if ($success) {
-            // Return JSON response for AJAX
-            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                header('Content-Type: application/json');
-                echo json_encode(['success' => true]);
-                exit();
-            }
-            
-            // Redirect for non-AJAX requests
-            header("Location: /orders?cancel_success=1");
-            exit();
-        }
-    } catch (Exception $e) {
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-            exit();
-        }
-        
-        $_SESSION['error'] = $e->getMessage();
-        header("Location: /orders");
-        exit();
-    }
-}
-?>
+    <!-- Modal for Order Details -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">×</span>
+            <h2 class="text-2xl font-bold mb-4" id="modalTitle">Order Details</h2>
+            <div id="modalBody" class="space-y-4">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
 
-<!-- In your view (HTML/JS part): -->
-<script>
-document.querySelectorAll('.cancel-order').forEach(button => {
-    button.addEventListener('click', function(e) {
-        e.preventDefault();
-        const orderId = this.getAttribute('data-id');
-        const row = document.getElementById(`order-row-${orderId}`);
-        
-        // Highlight row
-        row.classList.add('bg-red-50');
-        
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "This order will be cancelled and moved to cancelled orders!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, cancel it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`/orders?action=cancel&id=${orderId}`, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Fade out and remove row
-                        row.style.transition = 'opacity 0.5s';
-                        row.style.opacity = '0';
-                        setTimeout(() => row.remove(), 500);
-                        
-                        Swal.fire(
-                            'Cancelled!',
-                            'The order has been cancelled.',
-                            'success'
-                        );
-                    } else {
-                        Swal.fire(
-                            'Error!',
-                            data.message || 'Failed to cancel order',
-                            'error'
-                        );
-                        row.classList.remove('bg-red-50');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire(
-                        'Error!',
-                        'Failed to cancel order',
-                        'error'
-                    );
-                    row.classList.remove('bg-red-50');
-                });
-            } else {
-                row.classList.remove('bg-red-50');
-            }
+    <!-- JavaScript -->
+    <script>
+        document.getElementById("search").addEventListener("input", function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#order-list tr");
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
         });
-    });
-});
-</script>
+
+        function toggleDropdown(id) {
+            const dropdowns = document.querySelectorAll("[id^='dropdown-']");
+            dropdowns.forEach(dropdown => {
+                if (dropdown.id !== id) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle("hidden");
+        }
+
+        document.addEventListener("click", function(event) {
+            const dropdowns = document.querySelectorAll("[id^='dropdown-']");
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target) && !event.target.closest("button")) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+        });
+
+        function showDetails(id, username, phone, profile, payment, date, status, total) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Order Details";
+            modalBody.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img src="${profile}" class="w-12 h-12 rounded-full mr-4 border-2 border-purple-300" alt="Profile">
+                    <div>
+                        <p class="text-gray-800 font-semibold">${username}</p>
+                        <p class="text-gray-600">${phone}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-600">Order ID:</p>
+                        <p class="font-medium">${id}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Date:</p>
+                        <p class="font-medium">${date}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Payment:</p>
+                        <p class="font-medium text-green-600">${payment}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Status:</p>
+                        <p class="font-medium ${status === 'Delivered' ? 'text-green-600' : status === 'Pending' ? 'text-yellow-600' : 'text-red-600'}">${status}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Total:</p>
+                        <p class="font-medium text-purple-600">$${total}</p>
+                    </div>
+                </div>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showEdit(id, currentStatus) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Edit Order";
+            modalBody.innerHTML = `
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Order Status</label>
+                        <select name="order_status" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300">
+                            <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${currentStatus === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="edit_order" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                        Save Changes
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showDelete(id) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Delete Order";
+            modalBody.innerHTML = `
+                <p class="text-gray-700 mb-4">Are you sure you want to delete Order #${id}?</p>
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <button type="submit" name="delete_order" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        Yes, Delete
+                    </button>
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition ml-2">
+                        Cancel
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function showMessage(id) {
+            const modal = document.getElementById("orderModal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+            
+            modalTitle.textContent = "Send Message";
+            modalBody.innerHTML = `
+                <form method="POST">
+                    <input type="hidden" name="order_id" value="${id}">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-2">Message</label>
+                        <textarea name="message" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300" rows="4" placeholder="Type your message here..."></textarea>
+                    </div>
+                    <button type="submit" name="send_message" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition">
+                        Send Message
+                    </button>
+                </form>
+            `;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("orderModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("orderModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 <?php $conn = null; ?>
-
+</body>
+</html>
