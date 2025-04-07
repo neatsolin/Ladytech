@@ -61,13 +61,6 @@
     $route->get('/users/restore/{id}', [UserController::class, 'restoreUser']);  
     $route->delete('/users/permanent-delete/{id}', [UserController::class, 'permanentlyDeleteUser']); 
 
-<<<<<<< HEAD
-
-    
-
-
-=======
->>>>>>> ecf88aeceb490546ba5e6620dbfdb93078a54e76
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
     $route->get('/All_order', [OrderController::class, 'order_all']);
