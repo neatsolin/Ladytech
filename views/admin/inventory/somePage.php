@@ -555,13 +555,16 @@ endif;
         </div>
     </div>
 
-    
+
 
     <script>
         function showDescription(title, description) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-description').innerText = description;
             $('#description-modal').modal('show');
+            document.querySelector('.close').addEventListener('click', function() {
+    $('#description-modal').modal('hide');
+});
         }
     </script>
 
