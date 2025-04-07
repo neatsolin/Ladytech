@@ -366,19 +366,20 @@ function renderOrderTable($orders, $tabPrefix) {
                                     class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50 transition-colors duration-200">
                                     <i class="fas fa-eye mr-3 text-lg"></i> View
                                 </a>
-                                <a href="edit_order.php?id=<?= $order['id'] ?>"
-                                    class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50 transition-colors duration-200">
-                                    <i class="fas fa-edit mr-3 text-lg"></i> Edit
-                                </a>
                                 <a href="message_order.php?id=<?= $order['id'] ?>"
                                     class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50 transition-colors duration-200">
                                     <i class="fas fa-envelope mr-3 text-lg"></i> Message
                                 </a>
+                                <a href="edit_order.php?id=<?= $order['id'] ?>"
+                                    class="flex items-center px-4 py-3 text-sm text-green-600 hover:bg-green-50 transition-colors duration-200">
+                                    <i class="fas fa-edit mr-3 text-lg"></i> Edit
+                                </a>
                                 <a href="delete_order.php?id=<?= $order['id'] ?>"
                                     class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
                                     onclick="return confirm('Are you sure you want to delete this order?');">
-                                    <i class="fas fa-trash mr-3 text-lg"></i> Delete
+                                    <i class="fas fa-times-circle  mr-3 text-lg"></i> cancel
                                 </a>
+                                
                             </div>
                         </td>
                     </tr>

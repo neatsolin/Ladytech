@@ -69,6 +69,8 @@
     $route->delete('/users/permanent-delete/{id}', [UserController::class, 'permanentlyDeleteUser']); 
 
 
+    
+
 
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
