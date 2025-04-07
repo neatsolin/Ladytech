@@ -5,6 +5,40 @@ $username = "root";
 $password = "";
 $dbname = "dailyneed_db";
 
+// Handle AJAX requests
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Handle delete request
+        if (isset($_POST['action']) && $_POST['action'] === 'delete_order') {
+            $orderId = (int)$_POST['order_id'];
+            $deleteStmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
+            $deleteStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+            $deleteStmt->execute();
+            echo json_encode(['success' => true, 'message' => 'Order deleted successfully']);
+            exit;
+        }
+
+        // Handle edit request
+        if (isset($_POST['action']) && $_POST['action'] === 'edit_order') {
+            $orderId = (int)$_POST['order_id'];
+            $status = $_POST['order_status'];
+            $updateStmt = $conn->prepare("UPDATE orders SET orderstatus = :status WHERE id = :id");
+            $updateStmt->bindValue(':status', $status);
+            $updateStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+            $updateStmt->execute();
+            echo json_encode(['success' => true, 'message' => 'Order updated successfully', 'new_status' => $status]);
+            exit;
+        }
+
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Database Error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -168,8 +202,8 @@ try {
                         <?php else: ?>
                             <?php $rowNumber = ($currentPage - 1) * $itemsPerPage + 1; ?>
                             <?php foreach ($orders as $index => $order): ?>
-                                <tr class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition" data-order-id="<?php echo $order['id']; ?>">
-                                    <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber; ?></td>
+                                <tr id="order-row-<?php echo $order['id']; ?>" class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition" data-order-id="<?php echo $order['id']; ?>">
+                                    <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber++; ?></td>
                                     <td class="py-4 px-6 text-gray-800 font-medium"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6">
                                         <div class="flex items-center">
@@ -181,7 +215,7 @@ try {
                                     <td class="py-4 px-6 text-green-600"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6 text-gray-700"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td class="py-4 px-6">
-                                        <span class="status-cell inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php 
+                                        <span id="status-<?php echo $order['id']; ?>" class="status-cell inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php 
                                             echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : 
                                                  ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 
                                                  'bg-red-200 text-red-800'); 
@@ -219,7 +253,6 @@ try {
                                         </div>
                                     </td>
                                 </tr>
-                                <?php $rowNumber++; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tbody>
@@ -244,7 +277,7 @@ try {
     <!-- Modal Container for View Details -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">×</span>
+            <span class="modal-close" onclick="closeModal('orderModal')">×</span>
             <h2 class="text-xl font-bold mb-4">Order Details</h2>
             <div class="flex items-center mb-4">
                 <img id="modalProfile" src="" alt="Profile">
@@ -281,27 +314,24 @@ try {
     <!-- Modal Container for Edit Order -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">×</span>
+            <span class="modal-close" onclick="closeModal('editModal')">×</span>
             <h2 class="text-xl font-bold mb-4">Edit Order</h2>
-            <form id="editOrderForm">
-                <input type="hidden" id="editOrderId" name="orderId">
-                <div class="mb-4">
-                    <label for="editOrderStatus" class="block text-gray-600 text-sm mb-2">Order Status</label>
-                    <select id="editOrderStatus" name="orderStatus" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-teal-300">
-                        <option value="Pending">Pending</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
-                    </select>
-                </div>
-                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save Changes</button>
-            </form>
+            <div class="mb-4">
+                <label for="editOrderStatus" class="block text-gray-600 text-sm mb-2">Order Status</label>
+                <select id="editOrderStatus" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                    <option value="Pending">Pending</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+            <button onclick="updateOrder()" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save Changes</button>
         </div>
     </div>
 
     <!-- Modal Container for Send Message -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">×</span>
+            <span class="modal-close" onclick="closeModal('messageModal')">×</span>
             <h2 class="text-xl font-bold mb-4">Send Message</h2>
             <form id="sendMessageForm">
                 <input type="hidden" id="messageOrderId" name="orderId">
@@ -314,8 +344,23 @@ try {
         </div>
     </div>
 
+    <!-- Modal Container for Delete Confirmation -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('deleteModal')">×</span>
+            <h2 class="text-xl font-bold mb-4">Delete Order</h2>
+            <p class="text-gray-700 mb-4" id="deleteMessage"></p>
+            <div>
+                <button onclick="deleteOrder()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Yes, Delete</button>
+                <button onclick="closeModal('deleteModal')" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition ml-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
+        let currentOrderId = null;
+
         document.getElementById("search").addEventListener("input", function () {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll("#older-orders tr");
@@ -326,15 +371,12 @@ try {
         });
 
         function toggleDropdown(id) {
-            // Close all dropdowns first
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
                 if (dropdown.id !== id) {
                     dropdown.classList.add("hidden");
                 }
             });
-
-            // Toggle the clicked dropdown
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
         }
@@ -348,135 +390,130 @@ try {
             });
         });
 
-        // Function to show the order details in a modal
         function showDetails(id, username, phone, profile, payments, orderdate, orderstatus, totalprice) {
             const modal = document.getElementById("orderModal");
-            const modalProfile = document.getElementById("modalProfile");
-            const modalUsername = document.getElementById("modalUsername");
-            const modalPhone = document.getElementById("modalPhone");
-            const modalOrderId = document.getElementById("modalOrderId");
-            const modalOrderDate = document.getElementById("modalOrderDate");
-            const modalPayment = document.getElementById("modalPayment");
+            document.getElementById("modalProfile").src = profile;
+            document.getElementById("modalUsername").textContent = username;
+            document.getElementById("modalPhone").textContent = phone;
+            document.getElementById("modalOrderId").textContent = id;
+            document.getElementById("modalOrderDate").textContent = orderdate;
+            document.getElementById("modalPayment").textContent = payments;
+            document.getElementById("modalStatus").textContent = orderstatus;
+            document.getElementById("modalTotal").textContent = `$ ${totalprice}`;
+
             const modalStatus = document.getElementById("modalStatus");
-            const modalTotal = document.getElementById("modalTotal");
-
-            modalProfile.src = profile;
-            modalUsername.textContent = username;
-            modalPhone.textContent = phone;
-            modalOrderId.textContent = id;
-            modalOrderDate.textContent = orderdate;
-            modalPayment.textContent = payments;
-            modalStatus.textContent = orderstatus;
-            modalTotal.textContent = `$ ${totalprice}`;
-
             modalStatus.classList.remove("status-pending", "status-delivered", "status-cancelled");
-            if (orderstatus.toLowerCase() === "pending") {
-                modalStatus.classList.add("status-pending");
-            } else if (orderstatus.toLowerCase() === "delivered") {
-                modalStatus.classList.add("status-delivered");
-            } else if (orderstatus.toLowerCase() === "cancelled") {
-                modalStatus.classList.add("status-cancelled");
-            }
+            if (orderstatus.toLowerCase() === "pending") modalStatus.classList.add("status-pending");
+            else if (orderstatus.toLowerCase() === "delivered") modalStatus.classList.add("status-delivered");
+            else if (orderstatus.toLowerCase() === "cancelled") modalStatus.classList.add("status-cancelled");
 
             modal.style.display = "flex";
-
-            const closeBtn = document.querySelector("#orderModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
         }
 
-        // Function to show the edit order modal
         function showEdit(id, orderstatus) {
+            currentOrderId = id;
             const modal = document.getElementById("editModal");
-            const orderIdInput = document.getElementById("editOrderId");
             const statusSelect = document.getElementById("editOrderStatus");
-
-            orderIdInput.value = id;
             statusSelect.value = orderstatus;
-
             modal.style.display = "flex";
-
-            const closeBtn = document.querySelector("#editModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
         }
 
-        // Handle form submission for editing order status
-        document.getElementById("editOrderForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+        function updateOrder() {
+            const status = document.getElementById("editOrderStatus").value;
+            const formData = new FormData();
+            formData.append('action', 'edit_order');
+            formData.append('order_id', currentOrderId);
+            formData.append('order_status', status);
 
-            const orderId = document.getElementById("editOrderId").value;
-            const newStatus = document.getElementById("editOrderStatus").value;
-
-            fetch("update_order_status.php", {
-                method: "POST",
+            fetch('', {
+                method: 'POST',
+                body: formData,
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: `orderId=${orderId}&orderStatus=${newStatus}`
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
-                    alert("Order status updated successfully!");
-                    const statusCell = document.querySelector(`#older-orders tr[data-order-id="${orderId}"] .status-cell`);
-                    if (statusCell) {
-                        statusCell.textContent = newStatus;
-                        statusCell.className = "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium " + 
-                            (newStatus === "Delivered" ? "bg-green-200 text-green-800" : 
-                            (newStatus === "Pending" ? "bg-yellow-200 text-yellow-800" : "bg-red-200 text-red-800"));
-                    }
-                    document.getElementById("editModal").style.display = "none";
-                    location.reload();
+                    const statusCell = document.getElementById(`status-${currentOrderId}`);
+                    statusCell.textContent = data.new_status;
+                    statusCell.className = `status-cell inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        data.new_status === 'Delivered' ? 'bg-green-200 text-green-800' :
+                        data.new_status === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800'
+                    }`;
+                    alert(data.message);
+                    closeModal('editModal');
                 } else {
-                    alert("Failed to update order status: " + data.message);
+                    alert(data.message);
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred while updating the order status.");
+                console.error('Fetch Error:', error);
+                alert('An unexpected error occurred. Please try again.');
             });
-        });
-
-        // Function to show the send message modal
-        function showMessage(id) {
-            const modal = document.getElementById("messageModal");
-            const orderIdInput = document.getElementById("messageOrderId");
-
-            orderIdInput.value = id;
-
-            modal.style.display = "flex";
-
-            const closeBtn = document.querySelector("#messageModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
         }
 
-        // Handle form submission for sending a message
+        function showDelete(id) {
+            currentOrderId = id;
+            const modal = document.getElementById("deleteModal");
+            document.getElementById("deleteMessage").textContent = `Are you sure you want to delete Order ID: ${id}?`;
+            modal.style.display = "flex";
+        }
+
+        function deleteOrder() {
+            const formData = new FormData();
+            formData.append('action', 'delete_order');
+            formData.append('order_id', currentOrderId);
+
+            fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`order-row-${currentOrderId}`).remove();
+                    alert(data.message);
+                    closeModal('deleteModal');
+                    checkEmptyTable();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert('An unexpected error occurred while deleting the order. Please try again.');
+            });
+        }
+
+        function checkEmptyTable() {
+            const tbody = document.getElementById('older-orders');
+            if (tbody.children.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="py-6 px-6 text-center text-gray-600 text-lg">No older orders available.</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function showMessage(id) {
+            const modal = document.getElementById("messageModal");
+            document.getElementById("messageOrderId").value = id;
+            modal.style.display = "flex";
+        }
+
         document.getElementById("sendMessageForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
             const orderId = document.getElementById("messageOrderId").value;
             const messageContent = document.getElementById("messageContent").value;
 
@@ -485,34 +522,24 @@ try {
                 return;
             }
 
-            fetch("send_message.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: `orderId=${orderId}&messageContent=${encodeURIComponent(messageContent)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Message sent successfully!");
-                    document.getElementById("messageModal").style.display = "none";
-                    document.getElementById("messageContent").value = ""; // Clear the textarea
-                } else {
-                    alert("Failed to send message: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred while sending the message.");
-            });
+            // Placeholder for message sending logic
+            alert(`Message for Order #${orderId}: ${messageContent}`);
+            closeModal('messageModal');
+            document.getElementById("messageContent").value = "";
         });
 
-        function showDelete(id) {
-            if (confirm(`Are you sure you want to delete Order ID: ${id}?`)) {
-                alert(`Delete Order ID: ${id}`);
-                // Add your delete logic here
-            }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modals = ['orderModal', 'editModal', 'messageModal', 'deleteModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
         }
     </script>
 
