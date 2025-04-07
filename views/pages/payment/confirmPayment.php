@@ -9,6 +9,30 @@ if (isset($_SESSION['user_id'])) :
     $payment_method = $data['payment_method'] ?? null;
     $payment_type = $data['payment_type'] ?? 'Unknown';
     $error = $data['error'] ?? null;
+
+    // Function to calculate discounted price (same as in checkout.php)
+    if (!function_exists('getDiscountedPrice')) {
+        function getDiscountedPrice($price, $coupon) {
+            if (!$coupon) return $price;
+            if ($coupon['discount_type'] === 'percentage') {
+                return $price * (1 - $coupon['discount_value'] / 100);
+            } else {
+                return max(0, $price - $coupon['discount_value']);
+            }
+        }
+    }
+
+    // Get applied coupon from session
+    $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon'] : null;
+
+    // Recalculate subtotal from order items (excluding shipping)
+    $subtotal = 0;
+    foreach ($orderItems as $item) {
+        $price = floatval($item['price'] ?? 0);
+        $quantity = intval($item['quantity'] ?? 1);
+        $discounted_price = getDiscountedPrice($price, $applied_coupon);
+        $subtotal += $discounted_price * $quantity;
+    }
 ?>
 
 <style>
@@ -128,7 +152,7 @@ if (isset($_SESSION['user_id'])) :
                         <p>SHIPPING LOCATION:<strong> <?php echo htmlspecialchars($order['location_name']); ?></strong></p>
                         <p>ORDER STATUS:<strong> <?php echo htmlspecialchars($order['orderstatus']); ?></strong></p>
                         <p class="">TOTAL:<strong> 
-                            <?php echo $currency === 'KH Riel' ? number_format($order['totalprice'] * 4000) . ' KH Riel' : '$' . number_format($order['totalprice'], 2); ?></strong>
+                            <?php echo $currency === 'KH Riel' ? number_format($subtotal * 4000) . ' KH Riel' : '$' . number_format($subtotal, 2); ?></strong>
                         </p>
                     <?php else: ?>
                         <div class="alert alert-warning" role="alert">
@@ -171,7 +195,7 @@ if (isset($_SESSION['user_id'])) :
                     <?php endif; ?>
                     <form action="/confirm-payment" method="POST">
                         <input type="hidden" name="order_id" value="<?php echo htmlspecialchars($order['id'] ?? ''); ?>">
-                        <input type="hidden" name="amount" value="<?php echo htmlspecialchars($order['totalprice'] ?? ''); ?>">
+                        <input type="hidden" name="amount" value="<?php echo htmlspecialchars($subtotal); ?>">
                         <input type="hidden" name="payment_type" value="<?php echo htmlspecialchars($effective_payment_type); ?>">
                         <button type="submit" class="btn btn-success w-100">Confirm Payment</button>
                     </form>

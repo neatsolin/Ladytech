@@ -3,18 +3,30 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Ensure cartItems is set, default to empty array if not
 $cartItems = isset($data['cartItems']) ? $data['cartItems'] : [];
 $error = isset($data['error']) ? $data['error'] : null;
 
-// Calculate subtotal and total
+// Check for applied coupon
+$applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon'] : null;
+
+function getDiscountedPrice($price, $coupon) {
+    if (!$coupon) return $price;
+    if ($coupon['discount_type'] === 'percentage') {
+        return $price * (1 - $coupon['discount_value'] / 100);
+    } else {
+        return max(0, $price - $coupon['discount_value']);
+    }
+}
+
+// Calculate subtotal and total with discount
 $subtotal = 0;
 foreach ($cartItems as $item) {
     $price = floatval($item['price'] ?? 0);
     $quantity = intval($item['quantity'] ?? 1);
-    $subtotal += $price * $quantity;
+    $discounted_price = getDiscountedPrice($price, $applied_coupon);
+    $subtotal += $discounted_price * $quantity;
 }
-$total = $subtotal; // Add logic for taxes, discounts, etc., if needed
+$total = $subtotal; // Add taxes or other fees if needed
 ?>
 
 <div class="container my-5 p-4 bg-white shadow-lg rounded">
@@ -51,8 +63,10 @@ $total = $subtotal; // Add logic for taxes, discounts, etc., if needed
                         $imageURL = htmlspecialchars($item['imageURL'] ?? 'https://via.placeholder.com/50');
                         $price = floatval($item['price'] ?? 0);
                         $quantity = intval($item['quantity'] ?? 1);
-                        $stockQuantity = intval($item['stockquantity'] ?? 0); // Get stock quantity
-                        $itemSubtotal = $price * $quantity;
+                        $stockQuantity = intval($item['stockquantity'] ?? 0);
+                        $discounted_price = getDiscountedPrice($price, $applied_coupon);
+                        $itemSubtotal = $discounted_price * $quantity;
+                        $outOfStockWarning = $quantity > $stockQuantity ? ' <span class="text-danger">(Only ' . $stockQuantity . ' in stock)</span>' : '';
                         ?>
                         <tr data-product-id="<?php echo $productId; ?>" data-stock="<?php echo $stockQuantity; ?>">
                             <td class="text-center">
@@ -62,9 +76,18 @@ $total = $subtotal; // Add logic for taxes, discounts, etc., if needed
                                 <img src="<?php echo $imageURL; ?>" alt="<?php echo $productName; ?>" class="me-2" style="width: 50px; height: 50px;">
                                 <a href="#" class="text-success text-decoration-none"><?php echo $productName; ?></a>
                             </td>
-                            <td>$<?php echo number_format($price, 2); ?></td>
                             <td>
-                                <input type="number" class="form-control w-50 quantity-input" value="<?php echo $quantity; ?>" min="1" onchange="updateQuantity(<?php echo $productId; ?>, this.value, this)">
+                                <?php
+                                if ($applied_coupon && $discounted_price < $price) {
+                                    echo "<del>$" . number_format($price, 2) . "</del> $" . number_format($discounted_price, 2);
+                                } else {
+                                    echo "$" . number_format($price, 2);
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control w-50 quantity-input" value="<?php echo $quantity; ?>" min="1" max="<?php echo $stockQuantity; ?>" onchange="updateQuantity(<?php echo $productId; ?>, this.value, this)">
+                                <?php echo $outOfStockWarning; ?>
                             </td>
                             <td class="item-subtotal">$<?php echo number_format($itemSubtotal, 2); ?></td>
                         </tr>
@@ -78,9 +101,19 @@ $total = $subtotal; // Add logic for taxes, discounts, etc., if needed
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Coupon code">
-                <button class="btn btn-success" type="button">Apply Coupon</button>
+                <input type="text" class="form-control" placeholder="Coupon code" id="couponCode" <?php echo $applied_coupon ? 'disabled' : ''; ?>>
+                <button class="btn btn-success" type="button" onclick="applyCoupon()" <?php echo $applied_coupon ? 'disabled' : ''; ?>>Apply Coupon</button>
+                <?php if ($applied_coupon): ?>
+                    <button class="btn btn-outline-danger ms-2" type="button" onclick="clearCoupon()">Clear</button>
+                <?php endif; ?>
             </div>
+            <?php if ($applied_coupon): ?>
+                <div class="mt-2">
+                    <small class="text-success">Applied Coupon: <?php echo htmlspecialchars($applied_coupon['code']); ?> 
+                        (<?php echo $applied_coupon['discount_type'] === 'percentage' ? $applied_coupon['discount_value'] . '%' : '$' . $applied_coupon['discount_value']; ?> off)
+                    </small>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="col-md-6 text-md-end mt-3 mt-md-0">
             <button class="btn btn-outline-success" type="button" onclick="updateCart()">Update Cart</button>
@@ -111,7 +144,6 @@ $total = $subtotal; // Add logic for taxes, discounts, etc., if needed
 </div>
 
 <script>
-// Remove item from cart
 async function removeFromCart(productId) {
     if (!productId) {
         alert('Invalid product ID');
@@ -134,7 +166,7 @@ async function removeFromCart(productId) {
         const result = await response.json();
         if (result.success) {
             alert('Item removed from cart');
-            window.location.reload(); // Reload the page to reflect changes
+            window.location.reload();
         } else {
             alert(result.message || 'Failed to remove item from cart');
         }
@@ -144,17 +176,22 @@ async function removeFromCart(productId) {
     }
 }
 
-// Update quantity and subtotal dynamically
 async function updateQuantity(productId, quantity, inputElement) {
     if (!productId || quantity < 1) {
         alert('Invalid product ID or quantity');
-        inputElement.value = inputElement.defaultValue; // Revert to original quantity
+        inputElement.value = inputElement.defaultValue;
         return;
     }
 
     const row = document.querySelector(`tr[data-product-id="${productId}"]`);
     const stockQuantity = parseInt(row.dataset.stock) || 0;
     const originalQuantity = parseInt(inputElement.defaultValue) || 1;
+
+    if (quantity > stockQuantity) {
+        alert(`Only ${stockQuantity} items available in stock`);
+        inputElement.value = stockQuantity;
+        quantity = stockQuantity;
+    }
 
     try {
         console.log('Sending update request:', { productId, quantity });
@@ -166,17 +203,12 @@ async function updateQuantity(productId, quantity, inputElement) {
             body: `product_id=${encodeURIComponent(productId)}&quantity=${encodeURIComponent(quantity)}`
         });
 
-        console.log('Response status:', response.status);
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Response error text:', errorText);
             throw new Error('Network response was not ok: ' + response.status);
         }
 
         const result = await response.json();
-        console.log('Response JSON:', result);
         if (result.success) {
-            // Fetch updated cart items from the server
             const cartResponse = await fetch('/cart/items');
             if (!cartResponse.ok) {
                 throw new Error('Failed to fetch updated cart items');
@@ -187,54 +219,127 @@ async function updateQuantity(productId, quantity, inputElement) {
             }
 
             const cartItems = cartResult.data;
-
-            // Update the quantity input for the specific item
             if (row) {
                 const quantityInput = row.querySelector('.quantity-input');
                 quantityInput.value = quantity;
-                quantityInput.defaultValue = quantity; // Update the default value to the new quantity
+                quantityInput.defaultValue = quantity;
 
-                // Update the item subtotal in the table
-                const priceText = row.querySelector('td:nth-child(3)').textContent; // Price column
-                const price = parseFloat(priceText.replace('$', '')) || 0;
+                const priceText = row.querySelector('td:nth-child(3)').textContent;
+                const price = parseFloat(priceText.includes('<del>') ? priceText.match(/\$([\d.]+)/g)[1] : priceText.replace('$', '')) || 0;
                 const itemSubtotal = price * quantity;
                 const itemSubtotalCell = row.querySelector('.item-subtotal');
                 itemSubtotalCell.textContent = `$${itemSubtotal.toFixed(2)}`;
             }
 
-            // Recalculate and update the overall subtotal and total
-            let newSubtotal = 0;
-            cartItems.forEach(item => {
-                const price = parseFloat(item.price) || 0;
-                const qty = parseInt(item.quantity) || 1;
-                newSubtotal += price * qty;
-            });
-
-            const subtotalElement = document.querySelector('.subtotal');
-            const totalElement = document.querySelector('.total');
-            subtotalElement.innerHTML = `<hr>$${newSubtotal.toFixed(2)} <hr>`;
-            totalElement.innerHTML = `<hr>$${newSubtotal.toFixed(2)} <hr>`; // Update total (add taxes/discounts if needed)
+            updateTotals(cartItems);
         } else {
-            // Only show the alert if the message is "Not enough stock available"
             if (result.message === 'Not enough stock available') {
                 alert('Not enough stock available');
-                inputElement.value = stockQuantity; // Revert to the stock quantity
-                inputElement.defaultValue = stockQuantity; // Update the default value
+                inputElement.value = stockQuantity;
+                inputElement.defaultValue = stockQuantity;
             } else {
-                // For other errors, revert the quantity silently
                 inputElement.value = originalQuantity;
             }
         }
     } catch (error) {
         console.error('Error updating quantity:', error);
-        // Revert the quantity on error
         inputElement.value = originalQuantity;
     }
 }
 
-// Update cart (optional, since we're updating dynamically)
+async function applyCoupon() {
+    const couponInput = document.getElementById('couponCode');
+    const couponCode = couponInput.value.trim();
+
+    if (!couponCode) {
+        alert('Please enter a coupon code');
+        return;
+    }
+
+    try {
+        const response = await fetch('/cart/apply-coupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `coupon_code=${encodeURIComponent(couponCode)}`
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Coupon response:', result);
+
+        if (result.success) {
+            const discountQuantity = result.discount_type === 'percentage' 
+                ? `${result.discount_value}%` 
+                : `$${result.discount_value}`;
+            alert(`Congratulations, you got ${discountQuantity} discount now!`);
+            window.location.reload(); // Reload to reflect applied coupon
+        } else {
+            alert(result.message || 'Invalid coupon code');
+        }
+    } catch (error) {
+        console.error('Error applying coupon:', error);
+        alert('An error occurred while applying the coupon. Please try again.');
+    }
+}
+
+async function clearCoupon() {
+    try {
+        const response = await fetch('/cart/apply-coupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `coupon_code=` // Sending empty coupon code to clear it
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        if (result.success || result.message === 'Invalid or unauthorized coupon code') {
+            alert('Coupon cleared');
+            window.location.reload();
+        } else {
+            alert('Failed to clear coupon');
+        }
+    } catch (error) {
+        console.error('Error clearing coupon:', error);
+        alert('An error occurred while clearing the coupon. Please try again.');
+    }
+}
+
 function updateCart() {
     alert('Cart updated');
     window.location.reload();
+}
+
+function updateTotals(cartItems) {
+    let newSubtotal = 0;
+    cartItems.forEach(item => {
+        const price = parseFloat(item.price) || 0;
+        const qty = parseInt(item.quantity) || 1;
+        const discountedPrice = <?php echo $applied_coupon ? "getDiscountedPrice(price, " . json_encode($applied_coupon) . ")" : 'price'; ?>;
+        newSubtotal += discountedPrice * qty;
+    });
+
+    const subtotalElement = document.querySelector('.subtotal');
+    const totalElement = document.querySelector('.total');
+    subtotalElement.innerHTML = `<hr>$${newSubtotal.toFixed(2)} <hr>`;
+    totalElement.innerHTML = `<hr>$${newSubtotal.toFixed(2)} <hr>`;
+}
+
+function getDiscountedPrice(price, coupon) {
+    if (!coupon) return price;
+    if (coupon.discount_type === 'percentage') {
+        return price * (1 - coupon.discount_value / 100);
+    } else {
+        return Math.max(0, price - coupon.discount_value);
+    }
 }
 </script>
