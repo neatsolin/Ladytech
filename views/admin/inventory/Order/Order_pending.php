@@ -487,7 +487,6 @@ try {
             }
         }
     </script>
-
 <?php $conn = null; ?>
 </body>
 </html>
