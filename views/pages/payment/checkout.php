@@ -12,16 +12,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency'])) {
     $_SESSION['currency'] = $_POST['currency'];
 }
 
+if (!function_exists('getDiscountedPrice')) {
+  function getDiscountedPrice($price, $coupon) {
+      if (!$coupon) return $price;
+      if ($coupon['discount_type'] === 'percentage') {
+          return $price * (1 - $coupon['discount_value'] / 100);
+      } else {
+          return max(0, $price - $coupon['discount_value']);
+      }
+  }
+}
+
 $cartItems = isset($data['cartItems']) ? $data['cartItems'] : [];
 $user = isset($data['user']) ? $data['user'] : null;
 $locations = isset($data['locations']) ? $data['locations'] : [];
 $error = isset($data['error']) ? $data['error'] : null;
 
+// Get applied coupon from session
+$applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon'] : null;
+
+// Calculate subtotal with discount
 $subtotal = 0;
 foreach ($cartItems as $item) {
     $price = floatval($item['price'] ?? 0);
     $quantity = intval($item['quantity'] ?? 1);
-    $subtotal += $price * $quantity;
+    $discounted_price = getDiscountedPrice($price, $applied_coupon);
+    $subtotal += $discounted_price * $quantity;
 }
 ?>
 
@@ -75,11 +91,10 @@ foreach ($cartItems as $item) {
 
   .card-body {}
 
-  /* Payment Method Styling */
   .payment-methods {
     display: flex;
     align-items: center;
-    gap: 10px; /* Consistent spacing between icons */
+    gap: 10px;
   }
 
   .payment-option {
@@ -109,23 +124,21 @@ foreach ($cartItems as $item) {
     color: #0077A6;
   }
 
-  /* Style for the custom QR code scan icon */
   a .scan-qr-icon {
     margin-top: 0px !important;
-    width: 32px; /* Match the size of fa-2x (approximately 32px) */
+    width: 32px;
     height: 32px;
     border-radius: 5px;
   }
 
-  /* Style for the QR code payment image */
   #qr-code-payment {
-    display: none; /* Initially hidden */
+    display: none;
     text-align: center;
     margin-top: 20px;
   }
 
   #qr-code-payment img {
-    width: 200px; /* Adjust size as needed */
+    width: 200px;
     height: 200px;
     border: 2px solid #fff;
     border-radius: 10px;
@@ -172,12 +185,12 @@ foreach ($cartItems as $item) {
   }
 
   .num-it {
-    background: pink;
-    color: white;
-    padding: 5px 10px;
+    background: pink !important;
+    color: white !important;
+    padding: 5px 10px !important;	
     border-radius: 100px !important;
-    font-weight: bold;
-    font-size: 15px;
+    font-weight: bold !important;
+    font-size: 15px !important;
   }
 
   #place-order-btn {
@@ -191,6 +204,17 @@ foreach ($cartItems as $item) {
 
   #place-order-btn:hover {
     background: green;
+  }
+
+  .original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 5px;
+  }
+
+  .discounted-price {
+    color: #28a745;
+    font-weight: bold;
   }
 </style>
 
@@ -209,7 +233,7 @@ foreach ($cartItems as $item) {
                 <div class="d-flex justify-content-between align-items-center mb-4">
                   <div>
                     <p class="mb-1">SHOPPING CART</p>
-                    <p class="mb-0">YOU HAVE <b class="num-it"><?php echo count($cartItems); ?></b> PRODUCTS IN YOUR CART</p>
+                    <p>YOU HAVE <b class="num-it"><?php echo count($cartItems); ?></b> PRODUCTS IN YOUR CART</p>
                   </div>
                 </div>
 
@@ -225,7 +249,8 @@ foreach ($cartItems as $item) {
                     $imageURL = htmlspecialchars($item['imageURL'] ?? 'https://via.placeholder.com/65');
                     $price = floatval($item['price'] ?? 0);
                     $quantity = intval($item['quantity'] ?? 1);
-                    $itemSubtotal = $price * $quantity;
+                    $discounted_price = getDiscountedPrice($price, $applied_coupon);
+                    $itemSubtotal = $discounted_price * $quantity;
                     ?>
                     <div class="card mb-3" data-product-id="<?php echo $productId; ?>">
                       <div class="card-body Carr_d">
@@ -244,7 +269,16 @@ foreach ($cartItems as $item) {
                               <h5 class="fw-normal mb-0"><?php echo $quantity; ?></h5>
                             </div>
                             <div style="width: 80px;">
-                              <h5 class="mb-0 product-price" data-price-usd="<?php echo $itemSubtotal; ?>">$<?php echo number_format($itemSubtotal, 2); ?></h5>
+                              <h5 class="mb-0 product-price" data-price-usd="<?php echo $price; ?>" data-discounted-price-usd="<?php echo $discounted_price; ?>">
+                                <?php
+                                if ($applied_coupon && $discounted_price < $price) {
+                                  echo "<span class='original-price'>$" . number_format($price * $quantity, 2) . "</span> ";
+                                  echo "<span class='discounted-price'>$" . number_format($itemSubtotal, 2) . "</span>";
+                                } else {
+                                  echo "$" . number_format($itemSubtotal, 2);
+                                }
+                                ?>
+                              </h5>
                             </div>
                             <a href="#" class="remove-item" data-product-id="<?php echo $productId; ?>" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
                           </div>
@@ -287,18 +321,29 @@ foreach ($cartItems as $item) {
                       </div>
                     <?php endif; ?>
 
+                    <?php if ($applied_coupon): ?>
+                      <div class="mb-3">
+                        <p class="small mb-0 text-white">
+                          <strong>Applied Coupon:</strong> <?php echo htmlspecialchars($applied_coupon['code']); ?> 
+                          (<?php echo $applied_coupon['discount_type'] === 'percentage' ? $applied_coupon['discount_value'] . '%' : '$' . $applied_coupon['discount_value']; ?> off)
+                        </p>
+                      </div>
+                    <?php endif; ?>
+
                     <form action="/checkout/process" method="POST" id="checkout-form">
                       <div id="cart-items-inputs">
                         <?php foreach ($cartItems as $item): ?>
                           <div class="cart-item-inputs" data-product-id="<?php echo htmlspecialchars($item['product_id']); ?>">
                             <input type="hidden" name="cart_items[<?php echo htmlspecialchars($item['product_id']); ?>][product_id]" value="<?php echo htmlspecialchars($item['product_id']); ?>">
                             <input type="hidden" name="cart_items[<?php echo htmlspecialchars($item['product_id']); ?>][quantity]" value="<?php echo htmlspecialchars($item['quantity']); ?>">
+                            <input type="hidden" name="cart_items[<?php echo htmlspecialchars($item['product_id']); ?>][price]" value="<?php echo htmlspecialchars($item['price']); ?>">
+                            <input type="hidden" name="cart_items[<?php echo htmlspecialchars($item['product_id']); ?>][discounted_price]" value="<?php echo getDiscountedPrice(floatval($item['price']), $applied_coupon); ?>">
                           </div>
                         <?php endforeach; ?>
                       </div>
                       <input type="hidden" id="total_price_input" name="total_price" value="<?php echo $subtotal; ?>">
                       <input type="hidden" id="currency_input" name="currency" value="USD">
-                      <input type="hidden" id="payment_method_input" name="payment_method" value="Visa"> <!-- Default to Visa -->
+                      <input type="hidden" id="payment_method_input" name="payment_method" value="Visa">
 
                       <p class="small mb-2">PAYMENT TYPE</p>
                       <div class="payment-methods">
@@ -310,7 +355,6 @@ foreach ($cartItems as $item) {
                         </a>
                       </div>
 
-                      <!-- Card Details Form (for Visa, Mastercard, Amex) -->
                       <div class="mt-4" id="card-details">
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                           <input type="text" id="typeName" name="card_holder_name" class="form-control form-control-lg" size="17" placeholder="Cardholder's Name" required />
@@ -338,7 +382,6 @@ foreach ($cartItems as $item) {
                         </div>
                       </div>
 
-                      <!-- QR Code Payment Section (for ScanQRCode) -->
                       <div id="qr-code-payment">
                         <img src="/assets/images/QRkh.jpg" alt="QR Code for Payment">
                         <p>Scan this QR code to complete your payment.</p>
@@ -366,10 +409,6 @@ foreach ($cartItems as $item) {
                         <select class="form-control" id="location_id" name="location_id" required>
                           <?php if (empty($locations)): ?>
                             <option value="">No locations available</option>
-                            <?php 
-                            echo "<!-- Debug: Locations array is empty or not set. Check CartController and LocationModel. -->";
-                            echo "<!-- Locations: " . print_r($locations, true) . " -->";
-                            ?>
                           <?php else: ?>
                             <?php foreach ($locations as $location): ?>
                               <option value="<?php echo htmlspecialchars($location['id']); ?>">
@@ -404,6 +443,16 @@ foreach ($cartItems as $item) {
 
 <script>
 const exchangeRate = 4000;
+const appliedCoupon = <?php echo json_encode($applied_coupon); ?>;
+
+function getDiscountedPrice(price, coupon) {
+  if (!coupon) return price;
+  if (coupon.discount_type === 'percentage') {
+    return price * (1 - coupon.discount_value / 100);
+  } else {
+    return Math.max(0, price - coupon.discount_value);
+  }
+}
 
 function updateTotalPrice() {
   const currency = document.getElementById('currency').value;
@@ -411,12 +460,19 @@ function updateTotalPrice() {
 
   const cartItems = document.querySelectorAll('.card.mb-3[data-product-id]');
   cartItems.forEach(item => {
-    const itemSubtotalUSD = parseFloat(item.querySelector('.product-price').dataset.priceUsd) || 0;
+    const priceUSD = parseFloat(item.querySelector('.product-price').dataset.priceUsd) || 0;
+    const discountedPriceUSD = parseFloat(item.querySelector('.product-price').dataset.discountedPriceUsd) || priceUSD;
+    const quantity = parseInt(item.querySelector('.fw-normal').textContent) || 1;
+    const itemSubtotalUSD = discountedPriceUSD * quantity;
     const productPriceElement = item.querySelector('.product-price');
-    const formattedItemSubtotal = currency === 'KH Riel' ? 
-      `${(itemSubtotalUSD * exchangeRate).toLocaleString()} KH Riel` : 
-      `$${itemSubtotalUSD.toFixed(2)}`;
-    productPriceElement.textContent = formattedItemSubtotal;
+
+    const formattedItemSubtotal = currency === 'KH Riel' 
+      ? `${(itemSubtotalUSD * exchangeRate).toLocaleString()} KH Riel` 
+      : (appliedCoupon && discountedPriceUSD < priceUSD 
+          ? `<span class="original-price">$${ (priceUSD * quantity).toFixed(2)}</span> <span class="discounted-price">$${itemSubtotalUSD.toFixed(2)}</span>` 
+          : `$${itemSubtotalUSD.toFixed(2)}`);
+
+    productPriceElement.innerHTML = formattedItemSubtotal;
     totalPriceUSD += itemSubtotalUSD;
   });
 
@@ -427,11 +483,9 @@ function updateTotalPrice() {
   const totalPriceWithShipping = currency === 'KH Riel' ? totalPriceWithShippingUSD * exchangeRate : totalPriceWithShippingUSD;
   const shippingDisplay = currency === 'KH Riel' ? `${(shippingUSD * exchangeRate).toLocaleString()} KH Riel` : `$${shippingUSD.toFixed(2)}`;
 
-  document.querySelector('.subtotal').textContent = currency === 'KH Riel' ? 
-    `${totalPrice.toLocaleString()} KH Riel` : `$${totalPrice.toFixed(2)}`;
-  document.querySelector('.shipping').textContent = shippingDisplay;
-  document.querySelector('.total').textContent = currency === 'KH Riel' ? 
-    `${totalPriceWithShipping.toLocaleString()} KH Riel` : `$${totalPriceWithShipping.toFixed(2)}`;
+  document.querySelector('.subtotal').textContent = currency === 'KH Riel' 
+    ? `${totalPrice.toLocaleString()} KH Riel` 
+    : `$${totalPrice.toFixed(2)}`;
 
   document.getElementById('total_price_input').value = totalPriceWithShippingUSD.toFixed(2);
   document.getElementById('currency_input').value = currency;
@@ -445,9 +499,7 @@ function updateTotalPrice() {
 function removeFromCart(productId) {
   fetch('/cart/remove', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ product_id: productId }),
   })
   .then(response => response.json())
@@ -482,34 +534,26 @@ function removeFromCart(productId) {
   });
 }
 
-// Handle payment method selection
 function updatePaymentMethod(method) {
   const paymentMethodInput = document.getElementById('payment_method_input');
   const cardDetails = document.getElementById('card-details');
   const qrCodePayment = document.getElementById('qr-code-payment');
   const paymentOptions = document.querySelectorAll('.payment-option');
 
-  // Update the hidden input with the selected method
   paymentMethodInput.value = method;
 
-  // Update UI to show selected method
   paymentOptions.forEach(option => {
-    if (option.getAttribute('data-method') === method) {
-      option.classList.add('selected');
-    } else {
-      option.classList.remove('selected');
-    }
+    option.classList.toggle('selected', option.getAttribute('data-method') === method);
   });
 
-  // Show/hide card details and QR code based on method
   if (method === 'ScanQRCode') {
     cardDetails.style.display = 'none';
     cardDetails.querySelectorAll('input').forEach(input => input.required = false);
-    qrCodePayment.style.display = 'block'; // Show QR code
+    qrCodePayment.style.display = 'block';
   } else {
     cardDetails.style.display = 'block';
     cardDetails.querySelectorAll('input').forEach(input => input.required = true);
-    qrCodePayment.style.display = 'none'; // Hide QR code
+    qrCodePayment.style.display = 'none';
   }
 }
 
@@ -529,13 +573,11 @@ document.querySelectorAll('.payment-option').forEach(option => {
   });
 });
 
-// Handle form submission
 document.getElementById('checkout-form').addEventListener('submit', function(e) {
   e.preventDefault();
 
   const paymentMethod = document.getElementById('payment_method_input').value;
 
-  // Skip card validation for ScanQRCode
   if (paymentMethod !== 'ScanQRCode') {
     const cardNumber = document.getElementById('typeText').value;
     const expiryDate = document.getElementById('typeExp').value;

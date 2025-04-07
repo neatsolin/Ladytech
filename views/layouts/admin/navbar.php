@@ -90,13 +90,8 @@ try {
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a class="pc-link" href="/products/discount"style="color:white;">
-                        <i class="ti ti-discount"></i> Discount
-                    </a>
-                </li>
-                <li class="pc-item">
-                    <a class="pc-link" href="/products/pro-discount"style="color:white;">
-                        <i class="ti ti-tag"></i> Product discount
+                    <a class="pc-link" href="/products/add-discount"style="color:white;">
+                        <i class="ti ti-discount"></i> Add Discount
                     </a>
                 </li>
             </ul>
