@@ -126,12 +126,12 @@ endif;
             transition: background 0.3s ease;
         }
 
-        .image-content-right img {
+        /* .image-content-right img {
             width: 100%;
             height: auto;
             border-radius: 10px 70px 10px 70px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+        } */
 
         /* Info Section */
         .info-section {
@@ -392,228 +392,327 @@ endif;
     </style>
     </head>
 
-    <body>
-        <!-- Cards of Products -->
-        <div class="cards">
-            <div class="card">
-                <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Hydrating Moisturizer">
-                <div class="info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+
+    <!-- Cards of Products -->
+    <div class="cards">
+        <div class="card">
+            <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Hydrating Moisturizer">
+            <div class="info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Vitamin C Serum">
+            <div class="info">Brighten your complexion with our powerful Vitamin C serum.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Sunscreen SPF 50">
+            <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Hydrating Moisturizer">
+            <div class="info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Vitamin C Serum">
+            <div class="info">Brighten your complexion with our powerful Vitamin C serum.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Sunscreen SPF 50">
+            <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Sunscreen SPF 50">
+            <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+        </div>
+        <div class="card">
+            <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Sunscreen SPF 50">
+            <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+        </div>
+        <div class="card">
+            <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Sunscreen SPF 50">
+            <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+        </div>
+    </div>
+
+    <!-- Left Paragraph Right Image -->
+    <div class="container">
+        <div class="content-section">
+            <div class="text-content">
+                <h2>Why Choose Glow Skincare?</h2>
+                <p>At Glow Skincare, we believe that everyone deserves to feel confident in their skin. Our products are crafted with the finest natural ingredients, scientifically proven to nourish and rejuvenate your skin.</p>
+                <a href="#" class="cta-button">Discover Our Story</a>
             </div>
-            <div class="card">
-                <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Vitamin C Serum">
-                <div class="info">Brighten your complexion with our powerful Vitamin C serum.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Sunscreen SPF 50">
-                <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Hydrating Moisturizer">
-                <div class="info">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Vitamin C Serum">
-                <div class="info">Brighten your complexion with our powerful Vitamin C serum.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Sunscreen SPF 50">
-                <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Sunscreen SPF 50">
-                <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
-            </div>
-            <div class="card">
-                <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Sunscreen SPF 50">
-                <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
-            </div>
-            <div class="card">
-                <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Sunscreen SPF 50">
-                <div class="info">Protect your skin from harmful UV rays with our lightweight sunscreen.</div>
+            <div class="image-content-right">
+                <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Glow Skincare Products" style="width: 400px; height: 400px;">
             </div>
         </div>
+    </div>
 
-        <!-- Left Paragraph Right Image -->
+
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Snacks (7)/Buldak hot.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Keepo Green', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Snacks (7)/Good Noodle.png" class="card-img-top" alt="Vitamin C Serum">
+                    <div class="card-body">
+                        <p class="card-text">Brighten your complexion with our powerful Vitamin C serum.</p>
+                        <button class="learn-more" onclick="showDescription('Mama Pork Pack', 'Brighten your complexion with our powerful Vitamin C serum.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Tissue (6)/keepo purple.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="views/assets/images/Tissue (6)/Keepo Green.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" class="card-img-top" alt="Hydrating Moisturizer">
+                    <div class="card-body">
+                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
+                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="description-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-description"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        function showDescription(title, description) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-description').innerText = description;
+            $('#description-modal').modal('show');
+        }
+    </script>
+
+    <!-- Information Section -->
+    <div class="info-section">
         <div class="container">
-            <div class="content-section">
-                <div class="text-content">
-                    <h2>Why Choose Glow Skincare?</h2>
-                    <p>At Glow Skincare, we believe that everyone deserves to feel confident in their skin. Our products are crafted with the finest natural ingredients, scientifically proven to nourish and rejuvenate your skin.</p>
-                    <a href="#" class="cta-button">Discover Our Story</a>
-                </div>
-                <div class="image-content-right">
-                    <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Glow Skincare Products" style="width: 400px; height: 400px;">
-                </div>
-            </div>
+            <h2>About Our Products</h2>
+            <p>At DAILY NEEDS, we are committed to providing you with products that are not only effective, but also safe and sustainable.</p>
+            <a href="#" class="cta-button">Learn More About Us</a>
         </div>
+    </div>
 
-        <!-- Product Cards -->
-        <div class="product-container">
-            <div class="product-card1">
-                <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Hydrating Moisturizer">
-                <p>Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                <button class="learn-more">Learn More</button>
-            </div>
-            <div class="product-card1">
-                <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Vitamin C Serum">
-                <p>Brighten your complexion with our powerful Vitamin C serum.</p>
-                <button class="learn-more">Learn More</button>
-            </div>
-            <div class="product-card1">
-                <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Hydrating Moisturizer">
-                <p>Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                <button class="learn-more">Learn More</button>
-            </div>
-        </div>
-
-        <!-- Information Section -->
-        <div class="info-section">
-            <div class="container">
-                <h2>About Our Products</h2>
-                <p>At DAILY NEEDS, we are committed to providing you with products that are not only effective, but also safe and sustainable.</p>
-                <a href="#" class="cta-button">Learn More About Us</a>
-            </div>
-        </div>
-
-        <script>
-            // Simple script for the discount section
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
-                    const productName = this.closest('.discount-card').querySelector('h3').textContent;
-                    alert(`Added ${productName} to your cart!`);
-                });
+    <script>
+        // Simple script for the discount section
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.closest('.discount-card').querySelector('h3').textContent;
+                alert(`Added ${productName} to your cart!`);
             });
-        </script>
+        });
+    </script>
 
-        <script>
-            // Select the container with class 'cards'
-            const container = document.querySelector('.cards');
+    <script>
+        // Select the container with class 'cards'
+        const container = document.querySelector('.cards');
 
-            // Hide the scroll bar to keep the UI clean
-            container.style.overflowX = 'hidden';
+        // Hide the scroll bar to keep the UI clean
+        container.style.overflowX = 'hidden';
 
-            // Get the width of the original set of cards
-            const originalScrollWidth = container.scrollWidth;
+        // Get the width of the original set of cards
+        const originalScrollWidth = container.scrollWidth;
 
-            // Clone all existing cards and append them for seamless looping
-            const cards = Array.from(container.querySelectorAll('.card'));
-            cards.forEach(card => {
-                const clone = card.cloneNode(true);
-                container.appendChild(clone);
-            });
+        // Clone all existing cards and append them for seamless looping
+        const cards = Array.from(container.querySelectorAll('.card'));
+        cards.forEach(card => {
+            const clone = card.cloneNode(true);
+            container.appendChild(clone);
+        });
 
-            // Set the initial scroll position
-            container.scrollLeft = originalScrollWidth;
+        // Set the initial scroll position
+        container.scrollLeft = originalScrollWidth;
 
-            // Define the speed of the animation (pixels per second)
-            const speed = 100;
-            let lastTime = performance.now();
+        // Define the speed of the animation (pixels per second)
+        const speed = 100;
+        let lastTime = performance.now();
 
-            // Animation function for continuous movement
-            function animate(currentTime) {
-                const deltaTime = (currentTime - lastTime) / 1000;
-                container.scrollLeft -= speed * deltaTime;
-                if (container.scrollLeft <= 0) {
-                    container.scrollLeft += originalScrollWidth;
-                }
-                lastTime = currentTime;
-                requestAnimationFrame(animate);
+        // Animation function for continuous movement
+        function animate(currentTime) {
+            const deltaTime = (currentTime - lastTime) / 1000;
+            container.scrollLeft -= speed * deltaTime;
+            if (container.scrollLeft <= 0) {
+                container.scrollLeft += originalScrollWidth;
             }
-
-            // Start the animation
+            lastTime = currentTime;
             requestAnimationFrame(animate);
+        }
 
-            // Ensure images have no animations
-            const images = document.querySelectorAll('.card img');
-            images.forEach(img => {
-                img.style.animation = 'none';
-            });
-        </script>
+        // Start the animation
+        requestAnimationFrame(animate);
 
-        <!-- Inline CSS -->
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                overflow-x: hidden;
+        // Ensure images have no animations
+        const images = document.querySelectorAll('.card img');
+        images.forEach(img => {
+            img.style.animation = 'none';
+        });
+    </script>
+
+    <!-- Inline CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <!-- JavaScript -->
+    <script src="Views/E-commerce-user/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="Views/E-commerce-user/assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartPanel = document.querySelector('.cart-panel');
+            const closeCart = document.querySelector('.close-cart');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartItemsContainer = document.querySelector('.cart-items');
+            const cartItemCount = document.querySelector('#cart-item-count');
+            const subtotalAmount = document.querySelector('#subtotal-amount');
+            const imageZoomModal = document.querySelector('.image-zoom-modal');
+            const zoomedImage = document.querySelector('#zoomed-image');
+            const backBtn = document.querySelector('.back-btn');
+            const zoomButtons = document.querySelectorAll('.image-zoom');
+            let cartItems = [];
+
+            // Load cart from localStorage on page load
+            try {
+                cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            } catch (e) {
+                console.error("Error parsing cart from localStorage:", e);
+                cartItems = [];
             }
-        </style>
 
-        <!-- JavaScript -->
-        <!-- JavaScript -->
-        <script src="Views/E-commerce-user/assets/js/jquery-3.3.1.min.js"></script>
-        <script src="Views/E-commerce-user/assets/js/main.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const cartPanel = document.querySelector('.cart-panel');
-                const closeCart = document.querySelector('.close-cart');
-                const addToCartButtons = document.querySelectorAll('.add-to-cart');
-                const cartItemsContainer = document.querySelector('.cart-items');
-                const cartItemCount = document.querySelector('#cart-item-count');
-                const subtotalAmount = document.querySelector('#subtotal-amount');
-                const imageZoomModal = document.querySelector('.image-zoom-modal');
-                const zoomedImage = document.querySelector('#zoomed-image');
-                const backBtn = document.querySelector('.back-btn');
-                const zoomButtons = document.querySelectorAll('.image-zoom');
-                let cartItems = [];
+            // Render cart items on page load
+            cartItems.forEach(item => addCartItem(item));
+            updateCartSummary();
 
-                // Load cart from localStorage on page load
-                try {
-                    cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-                } catch (e) {
-                    console.error("Error parsing cart from localStorage:", e);
-                    cartItems = [];
-                }
+            // Cart Functionality
+            function toggleCart() {
+                cartPanel.classList.toggle('active');
+            }
 
-                // Render cart items on page load
-                cartItems.forEach(item => addCartItem(item));
-                updateCartSummary();
+            closeCart.addEventListener('click', toggleCart);
 
-                // Cart Functionality
-                function toggleCart() {
-                    cartPanel.classList.toggle('active');
-                }
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productName = this.getAttribute('data-product-name');
+                    const productPrice = parseFloat(this.getAttribute('data-product-price'));
+                    const productImage = this.getAttribute('data-product-image');
 
-                closeCart.addEventListener('click', toggleCart);
+                    const existingItem = cartItems.find(item => item.name === productName);
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                        updateCartItem(existingItem);
+                    } else {
+                        const newItem = {
+                            name: productName,
+                            price: productPrice,
+                            image: productImage,
+                            quantity: 1
+                        };
+                        cartItems.push(newItem);
+                        addCartItem(newItem);
+                    }
 
-                addToCartButtons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const productName = this.getAttribute('data-product-name');
-                        const productPrice = parseFloat(this.getAttribute('data-product-price'));
-                        const productImage = this.getAttribute('data-product-image');
+                    // Save to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cartItems));
+                    console.log("Cart after adding item:", cartItems);
 
-                        const existingItem = cartItems.find(item => item.name === productName);
-                        if (existingItem) {
-                            existingItem.quantity += 1;
-                            updateCartItem(existingItem);
-                        } else {
-                            const newItem = {
-                                name: productName,
-                                price: productPrice,
-                                image: productImage,
-                                quantity: 1
-                            };
-                            cartItems.push(newItem);
-                            addCartItem(newItem);
-                        }
-
-                        // Save to localStorage
-                        localStorage.setItem('cart', JSON.stringify(cartItems));
-                        console.log("Cart after adding item:", cartItems);
-
-                        if (!cartPanel.classList.contains('active')) {
-                            toggleCart();
-                        }
-                        updateCartSummary();
-                    });
+                    if (!cartPanel.classList.contains('active')) {
+                        toggleCart();
+                    }
+                    updateCartSummary();
                 });
+            });
 
-                function addCartItem(item) {
-                    const cartItem = document.createElement('div');
-                    cartItem.classList.add('cart-item');
-                    cartItem.innerHTML = `
+            function addCartItem(item) {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
             <div class="cart-item-details">
                 <div class="cart-item-name">${item.name}</div>
@@ -627,317 +726,89 @@ endif;
             <div class="cart-item-total">$${(item.price * item.quantity).toFixed(2)}</div>
             <div class="delete-btn"><i class="fa fa-trash"></i></div>
         `;
-                    cartItemsContainer.appendChild(cartItem);
+                cartItemsContainer.appendChild(cartItem);
 
-                    attachItemListeners(cartItem, item);
-                }
+                attachItemListeners(cartItem, item);
+            }
 
-                function updateCartItem(item) {
-                    const cartItem = Array.from(cartItemsContainer.querySelectorAll('.cart-item')).find(
-                        el => el.querySelector('.cart-item-name').textContent === item.name
-                    );
-                    const input = cartItem.querySelector('.quantity-input');
-                    input.value = item.quantity;
-                    cartItem.querySelector('.cart-item-total').textContent = `$${(item.price * item.quantity).toFixed(2)}`;
+            function updateCartItem(item) {
+                const cartItem = Array.from(cartItemsContainer.querySelectorAll('.cart-item')).find(
+                    el => el.querySelector('.cart-item-name').textContent === item.name
+                );
+                const input = cartItem.querySelector('.quantity-input');
+                input.value = item.quantity;
+                cartItem.querySelector('.cart-item-total').textContent = `$${(item.price * item.quantity).toFixed(2)}`;
+                updateCartSummary();
+                // Save to localStorage
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+            }
+
+            function attachItemListeners(cartItem, item) {
+                const decreaseBtn = cartItem.querySelector('.decrease-btn');
+                const increaseBtn = cartItem.querySelector('.increase-btn');
+                const quantityInput = cartItem.querySelector('.quantity-input');
+                const deleteBtn = cartItem.querySelector('.delete-btn');
+
+                decreaseBtn.addEventListener('click', () => {
+                    if (item.quantity > 1) {
+                        item.quantity--;
+                        updateCartItem(item);
+                    }
+                });
+
+                increaseBtn.addEventListener('click', () => {
+                    item.quantity++;
+                    updateCartItem(item);
+                });
+
+                quantityInput.addEventListener('change', () => {
+                    let value = parseInt(quantityInput.value);
+                    if (value < 1 || isNaN(value)) value = 1;
+                    item.quantity = value;
+                    updateCartItem(item);
+                });
+
+                deleteBtn.addEventListener('click', () => {
+                    cartItem.remove();
+                    cartItems = cartItems.filter(i => i.name !== item.name);
                     updateCartSummary();
                     // Save to localStorage
                     localStorage.setItem('cart', JSON.stringify(cartItems));
-                }
-
-                function attachItemListeners(cartItem, item) {
-                    const decreaseBtn = cartItem.querySelector('.decrease-btn');
-                    const increaseBtn = cartItem.querySelector('.increase-btn');
-                    const quantityInput = cartItem.querySelector('.quantity-input');
-                    const deleteBtn = cartItem.querySelector('.delete-btn');
-
-                    decreaseBtn.addEventListener('click', () => {
-                        if (item.quantity > 1) {
-                            item.quantity--;
-                            updateCartItem(item);
-                        }
-                    });
-
-                    increaseBtn.addEventListener('click', () => {
-                        item.quantity++;
-                        updateCartItem(item);
-                    });
-
-                    quantityInput.addEventListener('change', () => {
-                        let value = parseInt(quantityInput.value);
-                        if (value < 1 || isNaN(value)) value = 1;
-                        item.quantity = value;
-                        updateCartItem(item);
-                    });
-
-                    deleteBtn.addEventListener('click', () => {
-                        cartItem.remove();
-                        cartItems = cartItems.filter(i => i.name !== item.name);
-                        updateCartSummary();
-                        // Save to localStorage
-                        localStorage.setItem('cart', JSON.stringify(cartItems));
-                    });
-                }
-
-                function updateCartSummary() {
-                    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-                    cartItemCount.textContent = `${totalItems} items`;
-                    subtotalAmount.textContent = `$${subtotal.toFixed(2)}`;
-                }
-
-                // Image Zoom Functionality
-                zoomButtons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const imageUrl = this.getAttribute('data-image');
-                        zoomedImage.src = imageUrl;
-                        imageZoomModal.classList.add('active');
-                        document.body.style.overflow = 'hidden'; // Prevent scrolling
-                    });
                 });
+            }
 
-                backBtn.addEventListener('click', function() {
-                    imageZoomModal.classList.remove('active');
-                    document.body.style.overflow = 'auto'; // Restore scrolling
-                });
+            function updateCartSummary() {
+                const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                cartItemCount.textContent = `${totalItems} items`;
+                subtotalAmount.textContent = `$${subtotal.toFixed(2)}`;
+            }
 
-                // Close modal when clicking outside the image
-                imageZoomModal.addEventListener('click', function(e) {
-                    if (e.target === imageZoomModal) {
-                        imageZoomModal.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                    }
+            // Image Zoom Functionality
+            zoomButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const imageUrl = this.getAttribute('data-image');
+                    zoomedImage.src = imageUrl;
+                    imageZoomModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
                 });
             });
-        </script>
 
+            backBtn.addEventListener('click', function() {
+                imageZoomModal.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            });
 
-
-    </body>
-
-    </html>
-
-    <!-- Product Cards Section -->
-    <h2 class="mb-4 mt-5 text-center" style="color: rgb(80, 71, 83);">Our Category</h2>
-    <div class="row px-3 py-4" id="productList">
-        <!-- Product Card 1 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="1">
-            <div class="card text-start" style="border-radius: 12px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Snacks (7)/Buldak hot.png" alt="Floral Serum" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Buldak hot</h6>
-                        <i class="bi bi-heart" data-heart-id="1" onclick="toggleFavorite(1)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(1, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(1, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(1, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(1, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(1, 5)">★</span>
-                        <span class="rating-value" data-rating-id="1">(0)</span>
-                    </div>
-                    <p class="card-text">Moisturize your skin with this serum.</p>
-                    <div class="price ">Price: $50.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- card 2 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="2">
-            <div class="card text-start" style="border-radius: 12px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Snacks (7)/Good Noodle.png" alt="Serum 2" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Good Noodle</h6>
-                        <i class="bi bi-heart" data-heart-id="2" onclick="toggleFavorite(2)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(2, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(2, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(2, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(2, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(2, 5)">★</span>
-                        <span class="rating-value" data-rating-id="2">(0)</span>
-                    </div>
-                    <p class="card-text">Revitalize your skin with this amazing serum.</p>
-                    <div class="price ">Price: $40.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- card 3 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="3">
-            <div class="card text-start" style="border-radius: 12px; overflow: hidden; ">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" alt="Serum 3" class="img-fluid">
-                </div>
-                <div class="card-body " style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Mama Pork pack</h6>
-                        <i class="bi bi-heart" data-heart-id="3" onclick="toggleFavorite(3)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(3, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(3, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(3, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(3, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(3, 5)">★</span>
-                        <span class="rating-value" data-rating-id="3">(0)</span>
-                    </div>
-                    <p class="card-text">Nourish your skin with this amazing product.</p>
-                    <div class="price ">Price: $45.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 4 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="4">
-            <div class="card text-star" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" alt="Serum 4" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Comfort Blue</h6>
-                        <i class="bi bi-heart" data-heart-id="4" onclick="toggleFavorite(4)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(4, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(4, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(4, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(4, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(4, 5)">★</span>
-                        <span class="rating-value" data-rating-id="4">(0)</span>
-                    </div>
-                    <p class="card-text">Replenish your skin with this amazing serum.</p>
-                    <div class="price ">Price: $60.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 5 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="5">
-            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Clothing(7)/Fineline Liquid Detergent.png" alt="Serum 5" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Fineline Liquid Detergent</h6>
-                        <i class="bi bi-heart" data-heart-id="5" onclick="toggleFavorite(5)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(5, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(5, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(5, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(5, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(5, 5)">★</span>
-                        <span class="rating-value" data-rating-id="5">(0)</span>
-                    </div>
-                    <p class="card-text">Moisturize your skin with this floral serum.</p>
-                    <div class="price ">Price: $55.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 6 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="6">
-            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" alt="Serum 7" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Pao Pink Detergent</h6>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(6, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(6, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(6, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(6, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(6, 5)">★</span>
-                        <span class="rating-value" data-rating-id="6">(0)</span>
-                    </div>
-                    <p class="card-text">A refreshing serum for daily use.</p>
-                    <div class="price">Price: $42.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 7 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="7">
-            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Tissue (6)/keepo purple.png" alt="Serum 7" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">keepo purple</h6>
-                        <i class="bi bi-heart" data-heart-id="7" onclick="toggleFavorite(7)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(7, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(7, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(7, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(7, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(7, 5)">★</span>
-                        <span class="rating-value" data-rating-id="7">(0)</span>
-                    </div>
-                    <p class="card-text">Hydrate and nourish with this serum.</p>
-                    <div class="price">Price: $48.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 8 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="8">
-            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="views/assets/images/Tissue (6)/Keepo Green.png" alt="Serum 8" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">Keepo Green</h6>
-                        <i class="bi bi-heart" data-heart-id="8" onclick="toggleFavorite(8)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(8, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(8, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(8, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(8, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(8, 5)">★</span>
-                        <span class="rating-value" data-rating-id="8">(0)</span>
-                    </div>
-                    <p class="card-text">A lightweight serum for all skin types.</p>
-                    <div class="price">Price: $52.99</div>
-                </div>
-            </div>
-        </div>
-        <!-- Product Card 9 -->
-        <div class="col-md-4 col-sm-6 mb-4" data-product-id="9">
-            <div class="card text-start" style="border-radius: 10px; overflow: hidden;">
-                <div class="bg-light d-flex justify-content-center align-items-center" style="height: 180px; position: relative;">
-                    <img src="/views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Serum 9" class="img-fluid">
-                </div>
-                <div class="card-body" style=" color: white;">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="card-title">ACNES</h6>
-                        <i class="bi bi-heart" data-heart-id="9" onclick="toggleFavorite(9)"></i>
-                    </div>
-                    <div class="rating mb-2">
-                        <span class="star" data-star="1" onclick="setRating(9, 1)">★</span>
-                        <span class="star" data-star="2" onclick="setRating(9, 2)">★</span>
-                        <span class="star" data-star="3" onclick="setRating(9, 3)">★</span>
-                        <span class="star" data-star="4" onclick="setRating(9, 4)">★</span>
-                        <span class="star" data-star="5" onclick="setRating(9, 5)">★</span>
-                        <span class="rating-value" data-rating-id="9">(0)</span>
-                    </div>
-                    <p class="card-text">Glow up with this floral serum.</p>
-                    <div class="price">Price: $49.99</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+            // Close modal when clicking outside the image
+            imageZoomModal.addEventListener('click', function(e) {
+                if (e.target === imageZoomModal) {
+                    imageZoomModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
