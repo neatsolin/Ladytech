@@ -25,15 +25,11 @@
     require_once "Controllers/admin/inventory/CartController.php";
     require_once "Controllers/admin/inventory/PaymentFrontController.php";
 
-
-
     $route = new Router();
     //home admin
     $route->get('/admin', [HomeController::class, 'index']);
     $route->get('/somepage', [HomeController::class, 'somepage']);
 
-    //dashboard
-    
     //products management
     $route->get('/products', [ProductController::class, 'products']);
     $route->get('/add-product', [ProductController::class, 'addproduct']);
@@ -42,12 +38,10 @@
     $route->post('/products/update/{id}', [ProductController::class, 'update']);
     $route->delete('/products/delete/{id}', [ProductController::class, 'delete']);
     $route->get("/add-stock", [ProductController::class, 'addstock']);
-    $route->get('/products/discount', [ProductController::class, 'discount']);
-    $route->get('/products/pro-discount', [ProductController::class, 'pro_discount']);
     $route->get('/products/view/{id}', [ProductController::class, 'show']);
-
-
-
+    //Discount 
+    $route->get('/products/add-discount', [ProductController::class, 'addDiscount']);
+    $route->post('/products/store-discount', [ProductController::class, 'storeDiscount']);
 
     //stock management
     $route->get('/stock', [StockController::class, 'stock']);
@@ -58,7 +52,6 @@
     $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
 
     //user management
-
     $route->get('/users', [UserController::class, 'users']);
     $route->get('/users/edit/{id}', [UserController::class, 'editUser']);
     $route->put('/users/update/{id}', [UserController::class, 'updateUser']); 
@@ -68,10 +61,13 @@
     $route->get('/users/restore/{id}', [UserController::class, 'restoreUser']);  
     $route->delete('/users/permanent-delete/{id}', [UserController::class, 'permanentlyDeleteUser']); 
 
+<<<<<<< HEAD
 
     
 
 
+=======
+>>>>>>> ecf88aeceb490546ba5e6620dbfdb93078a54e76
     //order management
     $route->get('/orders', [OrderController::class, 'orders']);
     $route->get('/All_order', [OrderController::class, 'order_all']);
@@ -81,22 +77,16 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
 
     //login management
-    // Unified login management (for both users and admins)
     $route->get('/admin-login', [LoginController::class, 'login_admin']);
     $route->post('/authenticate', [LoginController::class, 'authenticate']);
     $route->get('/logout', [LoginController::class, 'logout']);
-
-
 
     //register management
     $route->get('/register', [RegisterController::class, 'register']);
     $route->post('/register/store', [RegisterController::class, 'store']);
 
-
     //somepage management
     $route->get('/somepage', [SomepageController::class, 'somepage']);
-
-
 
     //customer
     //home
@@ -114,7 +104,6 @@
     $route->get('/snacks', [products::class, 'snacks']);
     $route->get('/tissue', [products::class, 'tissue']);
     
-
     //product detail
     $route->get('/product_detail', [DetailController::class, 'index']);
 
@@ -124,16 +113,13 @@
     //contact
     $route->get('/contact', [ContactController::class, 'index']);
 
-
     //Login
     $route->get('/F_login', [LoginController::class, 'login']);
 
     //Register
     $route->get('/F_register', [FrontRegisterController::class, 'index']);
     
-    
     // Cart
-    // Add these to your existing routes
     $route->get('/cart/items', [CartController::class, 'getItems']);
     $route->post('/cart/add', [CartController::class, 'add']);
     $route->post('/cart/remove', [CartController::class, 'remove']);
@@ -145,9 +131,10 @@
     $route->post('/confirm-payment', [payController::class, 'confirmPayment']);
     $route->get('/orderSuccess', [payController::class, 'OrderSuccess']);
     $route->post('/checkout/process', [CartController::class, 'process']);
+    $route->post('/cart/apply-coupon', [CartController::class, 'applyCoupon']);
+
     // Order Success
     $route->get('/order-success', [PaymentController::class, 'orderSuccess']);
    
-
     $route->route();
 ?>
