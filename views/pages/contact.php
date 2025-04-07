@@ -1,4 +1,8 @@
-
+<style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 <body class="bg-light">
 
 <!-- Hero Section -->
@@ -6,8 +10,8 @@
   <div class="container py-5">
     <div class="row justify-content-center py-4">
       <div class="col-lg-10 text-center" style="color: #2c3e50;"> 
-        <h1 class="display-4 fw-bold mb-4">Get In Touch With Us</h1>
-        <p class="lead fs-5 mb-4 mx-auto" style="max-width: 700px;">
+        <h1 class="display-4 fw-bold mb-3">Get In Touch With Us</h1>
+        <p class="lead fs-9 mb-4 mx-auto" style="max-width: 700px;">
           We're here to help and answer any questions you might have. Let's start a conversation today!
         </p>
         <div class="d-flex flex-wrap gap-3 justify-content-center">
@@ -90,7 +94,7 @@
 <!-- Contact Cards -->
 <div class="text-center mt-5">
   <h2 class="mb-4 text-primary">Our Contact Channels</h2>
-  <p class="text-muted mb-5">Choose your preferred way to reach us</p>
+  
 </div>
 <div class="row g-4">
   <div class="col-md-4">
@@ -145,17 +149,12 @@
     </div>
   </div>
 </div>
- 
-
-
-<!-- Map Section -->
 <!-- Map Section -->
 <div class="mt-5">
   <h2 class="text-primary text-center mb-4">Find Us on the Map</h2>
-  <p class="text-center text-muted mb-4">Come visit our office location</p>
   <div class="row justify-content-center">
-    <div class="col-12"> <!-- Full width -->
-      <div class="ratio rounded-3 overflow-hidden shadow-sm" style="--bs-aspect-ratio: 40%;"> <!-- Wider aspect ratio (40% height) -->
+    <div class="col-12">
+      <div class="ratio rounded-3 overflow-hidden shadow-sm" style="--bs-aspect-ratio: 40%;"> 
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d177.90098256678544!2d104.8839998305882!3d11.551413456930975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109517421cddbed%3A0xe41287992a21179a!2sPiphup%20Sokhapheap%20Pharmacy!5e1!3m2!1sen!2skh!4v1742386469702!5m2!1sen!2skh" 
                 style="border: none;"
                 allowfullscreen 
