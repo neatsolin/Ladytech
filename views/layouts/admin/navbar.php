@@ -1,3 +1,52 @@
+<?php
+// Database connection (remains unchanged)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "dailyneed_db";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $todayStart = date('Y-m-d H:i:s', strtotime('-24 hours'));
+
+    $totalStmt = $conn->prepare("SELECT COUNT(*) FROM orders WHERE orderdate >= :todayStart");
+    $totalStmt->bindValue(':todayStart', $todayStart);
+    $totalStmt->execute();
+    $totalOrders = $totalStmt->fetchColumn();
+
+    $stmt = $conn->prepare("
+        SELECT o.*, u.username, u.profile AS user_profile, u.phone
+        FROM orders o
+        LEFT JOIN users u ON o.user_id = u.id
+        WHERE o.orderdate >= :todayStart
+        ORDER BY o.orderdate ASC
+    ");
+    $stmt->bindValue(':todayStart', $todayStart);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    $orders = [];
+    $totalOrders = 0;
+}
+?>
+<style>
+    .user-link {
+        cursor: pointer;
+        color: #007bff;
+         text-decoration: none;
+    }
+                
+    .user-link:hover {
+        text-decoration: underline;
+    }
+    
+    .popover {
+         max-width: 300px;
+    }
+ </style>              
 <div class="loader-bg">
   <div class="loader-track">
     <div class="loader-fill"></div>
@@ -6,7 +55,7 @@
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar"style="border-right: none !important; border-left: none !important;">
-  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)">
+  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(103, 120, 139),rgb(127, 171, 197)">
     <div class="m-header">
       <a href="/admin" class="b-brand text-primary text-align:center;">
         <!-- ========   Change your logo from here   ============ -->
@@ -15,7 +64,7 @@
       </a>
     </div>
     <!-- Nav move down inven tory -->
-    <div class="navbar-content "style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)"style="border-right: none !important; border-left: none !important;">
+    <div class="navbar-content "style="background: black "style="border-right: none !important; border-left: none !important;">
       <ul class="pc-navbar">
         <li class="pc-item">
           <a href="/admin" class="pc-link"style="color:white;">
@@ -359,157 +408,94 @@
                             </a>
                         </div>
                     </li> -->
-                    <li class="dropdown pc-h-item">
-                        <a
-                            class="pc-head-link dropdown-toggle arrow-none me-0"
-                            data-bs-toggle="dropdown"
-                            href="#"
-                            role="button"
-                            aria-haspopup="false"
-                            aria-expanded="false"
-                        >
-                            <i class="ti ti-bell" style="color:white;"></i>
-                            <span class="badge bg-success pc-h-badge">3</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
-                            <div class="dropdown-header d-flex align-items-center justify-content-between">
-                                <h5 class="m-0">Notification</h5>
-                                <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-circle-check text-success"></i></a>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 215px)">
-                                <div class="list-group list-group-flush w-100">
-                                    <a class="list-group-item list-group-item-action">
+            <!-- Notification Dropdown -->
+            <li class="dropdown pc-h-item">
+                <a
+                    class="pc-head-link dropdown-toggle arrow-none me-0"
+                    data-bs-toggle="dropdown"
+                    href="/recent_order"
+                    role="button"
+                    aria-haspopup="false"
+                    aria-expanded="false"
+                >
+                    <i class="ti ti-bell" style="color:white;"></i>
+                    <span class="badge bg-success pc-h-badge"><?php echo $totalOrders; ?></span>
+                </a>
+                <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
+                    <div class="dropdown-header d-flex align-items-center justify-content-between">
+                    <h3 class="m-0">Notifications (Recent Orders)</h3>
+                        <a href="/recent_order" class="pc-head-link bg-transparent"><i class="ti ti-circle-check text-success"></i></a>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 215px)">
+                        <div class="list-group list-group-flush w-100">
+                            <?php if (empty($orders)): ?>
+                                <a class="list-group-item list-group-item-action">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1 ms-1">
+                                            <p class="text-body mb-1">No recent orders in the last 24 hours.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            <?php else: ?>
+                                <?php foreach ($orders as $order): ?>
+                                    <a class="list-group-item list-group-item-action" href="/recent_order?id=<?php echo $order['id']; ?>">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0">
-                                                <div class="user-avtar bg-light-success"><i class="ti ti-gift"></i></div>
+                                                <div class="user-avtar bg-light-success">
+                                                    <i class="ti ti-shopping-cart"></i>
+                                                </div>
                                             </div>
                                             <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">3:00 AM</span>
-                                                <p class="text-body mb-1">It's <b>Cristina danny's</b> birthday today.</p>
-                                                <span class="text-muted">2 min ago</span>
+                                                <span class="float-end text-muted"><?php echo date('H:i', strtotime($order['orderdate'])); ?></span>
+                                                <p class="text-body mb-1">
+                                                    New order from 
+                                                    <b 
+                                                        class="user-link"
+                                                        data-bs-toggle="popover"
+                                                        data-bs-trigger="hover focus"
+                                                        data-bs-placement="bottom"
+                                                        data-bs-html="true"
+                                                        data-bs-content="
+                                                            <div>
+                                                                <strong>Username:</strong> <?php echo htmlspecialchars($order['username'] ?? 'Unknown'); ?><br>
+                                                                <strong>Phone:</strong> <?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?><br>
+                                                                <strong>User ID:</strong> <?php echo htmlspecialchars($order['user_id'] ?? 'N/A'); ?>
+                                                            </div>"
+                                                    >
+                                                        <?php echo htmlspecialchars($order['username'] ?? 'Unknown Customer'); ?>
+                                                    </b>
+                                                    - $<?php echo number_format($order['totalprice'], 2); ?>
+                                                </p>
+                                                <span class="text-muted"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></span>
                                             </div>
                                         </div>
                                     </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <div class="user-avtar bg-light-primary"><i class="ti ti-message-circle"></i></div>
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">6:00 PM</span>
-                                                <p class="text-body mb-1"><b>Aida Burg</b> commented your post.</p>
-                                                <span class="text-muted">5 August</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <div class="user-avtar bg-light-danger"><i class="ti ti-settings"></i></div>
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">2:45 PM</span>
-                                                <p class="text-body mb-1">Your Profile is Complete &nbsp;<b>60%</b></p>
-                                                <span class="text-muted">7 hours ago</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <div class="user-avtar bg-light-primary"><i class="ti ti-headset"></i></div>
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">9:10 PM</span>
-                                                <p class="text-body mb-1"><b>Cristina Danny </b> invited to join <b> Meeting.</b></p>
-                                                <span class="text-muted">Daily scrum meeting time</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="text-center py-2">
-                                <a href="#!" class="link-primary">View all</a>
-                            </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
-                    </li>
-                    <li class="dropdown pc-h-item">
-                        <a
-                            class="pc-head-link dropdown-toggle arrow-none me-0"
-                            data-bs-toggle="dropdown"
-                            href="#"
-                            role="button"
-                            aria-haspopup="false"
-                            aria-expanded="false"
-                        >
-                            <i class="ti ti-mail" style="color:white;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
-                            <div class="dropdown-header d-flex align-items-center justify-content-between">
-                                <h5 class="m-0">Message</h5>
-                                <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-x text-danger"></i></a>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 215px)">
-                                <div class="list-group list-group-flush w-100">
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">3:00 AM</span>
-                                                <p class="text-body mb-1">It's <b>Cristina danny's</b> birthday today.</p>
-                                                <span class="text-muted">2 min ago</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar">
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">6:00 PM</span>
-                                                <p class="text-body mb-1"><b>Aida Burg</b> commented your post.</p>
-                                                <span class="text-muted">5 August</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="../assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar">
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">2:45 PM</span>
-                                                <p class="text-body mb-1"><b>There was a failure to your setup.</b></p>
-                                                <span class="text-muted">7 hours ago</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item list-group-item-action">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0">
-                                                <img src="../assets/images/user/avatar-4.jpg" alt="user-image" class="user-avtar">
-                                            </div>
-                                            <div class="flex-grow-1 ms-1">
-                                                <span class="float-end text-muted">9:10 PM</span>
-                                                <p class="text-body mb-1"><b>Cristina Danny </b> invited to join <b> Meeting.</b></p>
-                                                <span class="text-muted">Daily scrum meeting time</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="text-center py-2">
-                                <a href="#!" class="link-primary">View all</a>
-                            </div>
-                        </div>
-                    </li>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="text-center py-2">
+                        <a href="/recent_order" class="link-primary">View all</a>
+                    </div>
+                </div>
+            </li>
+
+            <?php $conn = null; ?>
+
+            <!-- Add this script at the bottom of your page -->
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Initialize Bootstrap Popovers
+                var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+                var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                    return new bootstrap.Popover(popoverTriggerEl);
+                });
+            });
+            </script>
+
+<!-- Add some basic CSS -->
                     <!-- <li class="dropdown pc-h-item">
                         <a class="pc-head-link me-0" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_pc_layout">
                             <i class="ti ti-settings"></i>
