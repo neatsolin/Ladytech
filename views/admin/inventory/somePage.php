@@ -456,7 +456,7 @@ endif;
                     <img src="/views/assets/images/Snacks (7)/Buldak hot.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Keepo Green', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Buldak hot', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@ endif;
                     <img src="/views/assets/images/Snacks (7)/Good Noodle.png" class="card-img-top" alt="Vitamin C Serum">
                     <div class="card-body">
                         <p class="card-text">Brighten your complexion with our powerful Vitamin C serum.</p>
-                        <button class="learn-more" onclick="showDescription('Mama Pork Pack', 'Brighten your complexion with our powerful Vitamin C serum.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Good Noodle', 'Brighten your complexion with our powerful Vitamin C serum.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -474,7 +474,7 @@ endif;
                     <img src="/views/assets/images/Snacks (7)/Mama Pork pack.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Mama Pork pack', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -483,7 +483,7 @@ endif;
                     <img src="/views/assets/images/Clothing(7)/Comfort Blue.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Comfort Blue', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -501,7 +501,7 @@ endif;
                     <img src="/views/assets/images/Clothing(7)/Pao Pink Detergent.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Pao Pink Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -510,7 +510,7 @@ endif;
                     <img src="/views/assets/images/Tissue (6)/keepo purple.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('keepo purple', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -519,7 +519,7 @@ endif;
                     <img src="views/assets/images/Tissue (6)/Keepo Green.png" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="learn-more" onclick="showDescription('Keepo Green', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
