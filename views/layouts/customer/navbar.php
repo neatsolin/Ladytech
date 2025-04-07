@@ -144,16 +144,77 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     font-size: 1.1rem;
-    font-weight: bold;
+    fontව
+
+.nav.drp-tabs.nav-fill .nav-item {
+    margin: 0 10px;
+}
+
+.nav.drp-tabs.nav-fill .nav-link {
+    color: #6c757d;
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav.drp-tabs.nav-fill .nav-link.active {
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+}
+
+.nav.drp-tabs.nav-fill .nav-link:hover {
+    color: #0d6efd;
+}
+
+.dropdown-user-profile {
+    min-width: 300px;
+}
+
+.tab-content-layout {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+}
+
+.tab-content-layout .tab-pane {
+    flex: 1;
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+.tab-content-layout .tab-pane.active.show {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#drp-tab-1 {
+    order: 1;
+}
+
+#drp-tab-2 {
+    order: 2;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem 1rem;
     color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
-.subtotal-label {
-    text-transform: uppercase;
+.dropdown-item:hover {
+    background-color: #f8f9fa;
 }
 
-.subtotal-amount {
-    color: #000;
+.dropdown-item i {
+    font-size: 1.2rem;
 }
 </style>
 
@@ -251,7 +312,7 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
                                         </li>
                                     </ul>
                                     <div class="tab-content-layout">
-                                        <div class="tab-pane fade active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
+                                        <div class="tab-pane fade active show" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
                                             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
                                                 <a href="/admin" class="dropdown-item"><i class="ti ti-dashboard"></i><span>Admin Dashboard</span></a>
                                             <?php endif; ?>
@@ -423,8 +484,8 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
 
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-/* Your existing JavaScript remains unchanged */
 document.addEventListener('DOMContentLoaded', function () {
     let currentLang = "en";
     const langToggle = document.getElementById("langToggle");
@@ -445,12 +506,16 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function (e) {
             e.preventDefault();
             tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabPanes.forEach(pane => pane.classList.remove('active'));
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+                pane.classList.remove('show');
+            });
+            this.classList.add('active');
             const targetPaneId = this.getAttribute('data-bs-target');
             const targetPane = document.querySelector(targetPaneId);
             if (targetPane) {
-                this.classList.add('active');
                 targetPane.classList.add('active');
+                targetPane.classList.add('show');
             }
         });
     });
