@@ -12,17 +12,16 @@
         </h6>
         <p class="text-white-50 lh-lg mb-4">We create digital experiences that inspire and transform businesses for the modern world.</p>
       <!-- App Badges Section -->
-<div class="d-flex align-items-center gap-2 mt-3">
+      <div class="d-flex align-items-center justify-content-center mt-3" style="gap: 0px;">
   <a href="#" class="app-badge d-inline-block">
-    <img src="profiles/play store.png" alt="Google Play" class="img-fluid" style="height: 60px;">
+    <img src="profiles/play store.png" alt="Google Play" class="img-fluid" style="height: 110px; width: auto;">
   </a>
   <a href="#" class="app-badge d-inline-block">
-    <img src="profiles/app.png" alt="App Store" class="img-fluid" style="height: 60px;">
+    <img src="profiles/app.png" alt="App Store" class="img-fluid" style="height: 110px; width: auto;">
   </a>
 </div>
 
       </div>
-
       <!-- Products -->
       <div class="col-lg-2 col-md-6">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Products
