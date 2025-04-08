@@ -68,6 +68,8 @@
     $route->get('/order_history', [OrderController::class, 'order_history']);
     $route->get('/order_pending', [OrderController::class, 'order_pending']);
     $route->get('/old_order', [OrderController::class, 'old_order']);
+    $route->post('/delete_order', [OrderController::class, 'deleteOrder']);
+    $route->post('/update_order_status', [OrderController::class, 'updateOrderStatus']);
 
     //login management
     $route->get('/admin-login', [LoginController::class, 'login_admin']);
