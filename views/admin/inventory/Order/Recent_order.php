@@ -5,31 +5,44 @@ $username = "root";
 $password = "";
 $dbname = "dailyneed_db";
 
+// Handle AJAX requests
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Handle delete request
+        if (isset($_POST['action']) && $_POST['action'] === 'delete_order') {
+            $orderId = (int)$_POST['order_id'];
+            $deleteStmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
+            $deleteStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+            $deleteStmt->execute();
+            echo json_encode(['success' => true, 'message' => 'Order deleted successfully']);
+            exit;
+        }
+
+        // Handle edit request
+        if (isset($_POST['action']) && $_POST['action'] === 'edit_order') {
+            $orderId = (int)$_POST['order_id'];
+            $status = $_POST['order_status'];
+            $updateStmt = $conn->prepare("UPDATE orders SET orderstatus = :status WHERE id = :id");
+            $updateStmt->bindValue(':status', $status);
+            $updateStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
+            $updateStmt->execute();
+            echo json_encode(['success' => true, 'message' => 'Order updated successfully', 'new_status' => $status]);
+            exit;
+        }
+
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
+// Normal page load (non-AJAX)
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Handle delete request
-    if (isset($_POST['delete_order'])) {
-        $orderId = (int)$_POST['order_id'];
-        $deleteStmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
-        $deleteStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
-        $deleteStmt->execute();
-        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
-        exit;
-    }
-
-    // Handle edit request
-    if (isset($_POST['edit_order'])) {
-        $orderId = (int)$_POST['order_id'];
-        $status = $_POST['order_status'];
-        $updateStmt = $conn->prepare("UPDATE orders SET orderstatus = :status WHERE id = :id");
-        $updateStmt->bindValue(':status', $status);
-        $updateStmt->bindValue(':id', $orderId, PDO::PARAM_INT);
-        $updateStmt->execute();
-        header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . (isset($_GET['page']) ? $_GET['page'] : 1));
-        exit;
-    }
 
     // Handle message request (for simplicity, we'll just echo it; in practice, you'd store or send it)
     if (isset($_POST['send_message'])) {
@@ -135,6 +148,17 @@ try {
             font-size: 24px;
             cursor: pointer;
         }
+
+        /* Add this to your <style> section */
+        .dots-hidden .fas.fa-ellipsis-v {
+            visibility: hidden !important;
+        }
+
+        .dropdown-active {
+            display: block !important; /* Ensure the dropdown is visible */
+            z-index: 30; /* Higher z-index to ensure it appears above the button */
+            background-color: white; /* Ensure the background is solid */
+        }
     </style>
 </head>
 
@@ -175,7 +199,7 @@ try {
                         <?php else: ?>
                             <?php $rowNumber = ($currentPage - 1) * $itemsPerPage + 1; ?>
                             <?php foreach ($orders as $index => $order): ?>
-                                <tr class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition">
+                                <tr id="order-row-<?php echo $order['id']; ?>" class="<?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?> hover:bg-teal-50 transition">
                                     <td class="py-4 px-6 text-blue-600 font-medium"><?php echo $rowNumber; ?></td>
                                     <td class="py-4 px-6 text-gray-800 font-medium"><?php echo htmlspecialchars($order['phone'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6">
@@ -188,7 +212,7 @@ try {
                                     <td class="py-4 px-6 text-green-600"><?php echo htmlspecialchars($order['payments'] ?? 'N/A'); ?></td>
                                     <td class="py-4 px-6 text-gray-700"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                                     <td class="py-4 px-6">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
+                                        <span id="status-<?php echo $order['id']; ?>" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <?php
                                             echo $order['orderstatus'] === 'Delivered' ? 'bg-green-200 text-green-800' : 
                                             ($order['orderstatus'] === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800');
                                         ?>">
@@ -272,9 +296,7 @@ try {
         function toggleDropdown(id) {
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
-                if (dropdown.id !== id) {
-                    dropdown.classList.add("hidden");
-                }
+                if (dropdown.id !== id) dropdown.classList.add("hidden");
             });
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
@@ -336,22 +358,57 @@ try {
             
             modalTitle.textContent = "Edit Order";
             modalBody.innerHTML = `
-                <form method="POST">
-                    <input type="hidden" name="order_id" value="${id}">
+                <div>
                     <div class="mb-4">
                         <label class="block text-gray-700 font-medium mb-2">Order Status</label>
-                        <select name="order_status" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        <select id="order_status_${id}" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-300">
                             <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
                             <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
-                            <option value="Cancelled" ${currentStatus === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                            <option value="Canceled" ${currentStatus === 'Canceled' ? 'selected' : ''}>Cancelled</option>
                         </select>
                     </div>
-                    <button type="submit" name="edit_order" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                    <button onclick="updateOrder(${id})" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
                         Save Changes
                     </button>
-                </form>
+                </div>
             `;
             modal.style.display = "block";
+        }
+
+        function updateOrder(orderId) {
+            const status = document.getElementById(`order_status_${orderId}`).value;
+            const formData = new FormData();
+            formData.append('action', 'edit_order');
+            formData.append('order_id', orderId);
+            formData.append('order_status', status);
+
+            fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the status in the table
+                    const statusCell = document.getElementById(`status-${orderId}`);
+                    statusCell.textContent = data.new_status;
+                    statusCell.className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        data.new_status === 'Delivered' ? 'bg-green-200 text-green-800' :
+                        data.new_status === 'Pending' ? 'bg-yellow-200 text-yellow-800' : 'bg-red-200 text-red-800'
+                    }`;
+                    alert(data.message);
+                    closeModal();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the order.');
+            });
         }
 
         function showDelete(id) {
@@ -362,17 +419,56 @@ try {
             modalTitle.textContent = "Delete Order";
             modalBody.innerHTML = `
                 <p class="text-gray-700 mb-4">Are you sure you want to delete Order #${id}?</p>
-                <form method="POST">
-                    <input type="hidden" name="order_id" value="${id}">
-                    <button type="submit" name="delete_order" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                <div>
+                    <button onclick="deleteOrder(${id})" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
                         Yes, Delete
                     </button>
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition ml-2">
+                    <button onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition ml-2">
                         Cancel
                     </button>
-                </form>
+                </div>
             `;
             modal.style.display = "block";
+        }
+
+        function deleteOrder(orderId) {
+            const formData = new FormData();
+            formData.append('action', 'delete_order');
+            formData.append('order_id', orderId);
+
+            fetch('', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the row from the table
+                    const row = document.getElementById(`order-row-${orderId}`);
+                    row.remove();
+                    alert(data.message);
+                    closeModal();
+
+                    // Check if the table is empty
+                    const tbody = document.getElementById('order-list');
+                    if (tbody.children.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="8" class="py-6 px-6 text-center text-gray-600 text-lg">No orders from today.</td>
+                            </tr>
+                        `;
+                    }
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the order.');
+            });
         }
 
         function showMessage(id) {

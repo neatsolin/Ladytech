@@ -61,4 +61,83 @@ class OrderModel {
             throw $e;
         }
     }
+
+    public function getAllOrders() {
+        try {
+            $result = $this->db->query(
+                "SELECT o.*, 
+                        (SELECT p.productname 
+                         FROM products p 
+                         JOIN orderitems oi ON p.id = oi.product_id 
+                         WHERE oi.order_id = o.id 
+                         LIMIT 1) AS product_name, 
+                        u.username, 
+                        u.profile AS user_profile 
+                 FROM orders o 
+                 LEFT JOIN users u ON o.user_id = u.id 
+                 ORDER BY o.orderdate ASC"
+            );
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            error_log("Error fetching all orders: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function deleteOrder($order_id) {
+        try {
+
+            // Delete related transactions
+            $this->db->query(
+                "DELETE FROM transactions WHERE order_id = :order_id",
+                ['order_id' => $order_id]
+            );
+
+            // Delete the order (orderitems will be deleted automatically due to ON DELETE CASCADE)
+            $this->db->query(
+                "DELETE FROM orders WHERE id = :order_id",
+                ['order_id' => $order_id]
+            );
+
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            error_log("Error deleting order: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    // Update order status
+    public function updateOrderStatus($order_id, $new_status) {
+        try {
+            // Check if the order exists
+            $orderExists = $this->db->query(
+                "SELECT id FROM orders WHERE id = :order_id",
+                ['order_id' => $order_id]
+            )->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$orderExists) {
+                throw new Exception("Order with ID $order_id does not exist.");
+            }
+    
+            // Update the order status
+            $this->db->query(
+                "UPDATE orders SET orderstatus = :orderstatus WHERE id = :order_id",
+                [
+                    'orderstatus' => $new_status,
+                    'order_id' => $order_id
+                ]
+            );
+    
+            return true;
+        } catch (Exception $e) {
+            error_log("Error updating order status: " . $e->getMessage());
+            throw $e;
+        }
+
+    }
+
+    // get the recent order
+    
+    
 }

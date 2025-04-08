@@ -1,56 +1,11 @@
 <?php
-// Database connection and processing remains the same
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dailyneed_db";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Fetch all orders ordered by purchase time (earliest first)
-    $stmt = $conn->prepare("
-        SELECT o.*, 
-               (SELECT p.productname 
-                FROM products p 
-                JOIN orderitems oi ON p.id = oi.product_id 
-                WHERE oi.order_id = o.id 
-                LIMIT 1) AS product_name, 
-               u.username, 
-               u.profile AS user_profile 
-        FROM orders o 
-        LEFT JOIN users u ON o.user_id = u.id
-        ORDER BY o.orderdate ASC
-    ");
-    $stmt->execute();
-    $allOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Filter orders by status for different tabs
-    $draftOrders = array_filter($allOrders, function($order) {
-        return $order['orderstatus'] === 'Draft';
-    });
-    
-    $orderedOrders = array_filter($allOrders, function($order) {
-        return $order['orderstatus'] === 'Pending' || $order['orderstatus'] === 'Ordered';
-    });
-    
-    $partialOrders = array_filter($allOrders, function($order) {
-        return $order['orderstatus'] === 'Partial';
-    });
-    
-    $receivedOrders = array_filter($allOrders, function($order) {
-        return $order['orderstatus'] === 'Received';
-    });
-    
-    $closedOrders = array_filter($allOrders, function($order) {
-        return $order['orderstatus'] === 'Closed' || $order['orderstatus'] === 'Delivered' || $order['orderstatus'] === 'Canceled';
-    });
-    
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    $allOrders = $draftOrders = $orderedOrders = $partialOrders = $receivedOrders = $closedOrders = [];
-}
+// Data is passed from the controller
+$allOrders = $data['allOrders'] ?? [];
+$draftOrders = $data['draftOrders'] ?? [];
+$orderedOrders = $data['orderedOrders'] ?? [];
+$partialOrders = $data['partialOrders'] ?? [];
+$receivedOrders = $data['receivedOrders'] ?? [];
+$closedOrders = $data['closedOrders'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -150,44 +105,21 @@ try {
             margin-right: 10px;
         }
 
-        .status-draft {
-            color: #6B7280; /* Gray for Draft */
-        }
-
-        .status-pending {
-            color: #D97706; /* Amber for Pending */
-        }
-
-        .status-ordered {
-            color: #2563EB; /* Blue for Ordered */
-        }
-
-        .status-partial {
-            color: #2563EB; /* Blue for Partial */
-        }
-
-        .status-received {
-            color: #EC4899; /* Pink for Received */
-        }
-
-        .status-delivered {
-            color: #16A34A; /* Green for Delivered */
-        }
-
-        .status-closed {
-            color: #6B7280; /* Gray for Closed */
-        }
-
-        .status-canceled {
-            color: #DC2626; /* Red for Canceled */
-        }
+        .status-draft { color: #6B7280; }
+        .status-pending { color: #D97706; }
+        .status-ordered { color: #2563EB; }
+        .status-partial { color: #2563EB; }
+        .status-received { color: #EC4899; }
+        .status-delivered { color: #16A34A; }
+        .status-closed { color: #6B7280; }
+        .status-canceled { color: #DC2626; }
     </style>
 </head>
 
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
-            <!-- Header and Tabs remain the same -->
+            <!-- Header -->
             <div class="p-6 bg-[#2C4A6B] text-white border-b border-gray-200 shadow-sm">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-4">
@@ -208,36 +140,12 @@ try {
             <!-- Tabs -->
             <div class="p-4 bg-[#2C4A6B] border-b border-gray-200 shadow-sm">
                 <ul class="flex space-x-2 max-w-full justify-center">
-                    <li>
-                        <button class="tab-btn active px-5 py-2 bg-white text-teal-600 border-t-2 border-teal-500 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-md hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="all">
-                            All
-                        </button>
-                    </li>
-                    <li>
-                        <button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="draft">
-                            Draft
-                        </button>
-                    </li>
-                    <li>
-                        <button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="ordered">
-                            Ordered
-                        </button>
-                    </li>
-                    <li>
-                        <button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="partial">
-                            Partial
-                        </button>
-                    </li>
-                    <li>
-                        <button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="received">
-                            Received
-                        </button>
-                    </li>
-                    <li>
-                        <button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="closed">
-                            Closed
-                        </button>
-                    </li>
+                    <li><button class="tab-btn active px-5 py-2 bg-white text-teal-600 border-t-2 border-teal-500 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-md hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="all">All</button></li>
+                    <li><button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="draft">Draft</button></li>
+                    <li><button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="ordered">Ordered</button></li>
+                    <li><button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="partial">Partial</button></li>
+                    <li><button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="received">Received</button></li>
+                    <li><button class="tab-btn px-5 py-2 bg-white text-gray-600 font-semibold text-sm uppercase tracking-wide rounded-t-md shadow-sm hover:bg-teal-100 hover:text-teal-700 transition-all duration-300" data-tab="closed">Closed</button></li>
                 </ul>
             </div>
 
@@ -260,7 +168,6 @@ try {
 
             <!-- Tab Content -->
             <div class="p-4">
-                <!-- All Tab -->
                 <div id="all" class="tab-content">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -268,8 +175,6 @@ try {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Draft Tab -->
                 <div id="draft" class="tab-content hidden">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -277,8 +182,6 @@ try {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Ordered Tab -->
                 <div id="ordered" class="tab-content hidden">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -286,8 +189,6 @@ try {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Partial Tab -->
                 <div id="partial" class="tab-content hidden">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -295,8 +196,6 @@ try {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Received Tab -->
                 <div id="received" class="tab-content hidden">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -304,8 +203,6 @@ try {
                         </div>
                     </div>
                 </div>
-                
-                <!-- Closed Tab -->
                 <div id="closed" class="tab-content hidden">
                     <div class="table-wrapper">
                         <div class="table-scroll">
@@ -317,7 +214,7 @@ try {
         </div>
     </div>
 
-    <!-- Modal Container for View Details -->
+    <!-- Modals -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">×</span>
@@ -329,55 +226,28 @@ try {
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-2 mb-4">
-                <div>
-                    <p class="text-gray-600 text-sm">Order No.:</p>
-                    <p id="modalOrderNo" class="font-medium"></p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Product Name:</p>
-                    <p id="modalProductName" class="font-medium"></p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Destination:</p>
-                    <p id="modalDestination" class="font-medium"></p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Status:</p>
-                    <p id="modalStatus" class="font-medium"></p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Purchase Time:</p>
-                    <p id="modalPurchaseTime" class="font-medium"></p>
-                </div>
-                <div>
-                    <p class="text-gray-600 text-sm">Expected Arrival:</p>
-                    <p id="modalExpectedArrival" class="font-medium"></p>
-                </div>
+                <div><p class="text-gray-600 text-sm">Order No.:</p><p id="modalOrderNo" class="font-medium"></p></div>
+                <div><p class="text-gray-600 text-sm">Product Name:</p><p id="modalProductName" class="font-medium"></p></div>
+                <div><p class="text-gray-600 text-sm">Destination:</p><p id="modalDestination" class="font-medium"></p></div>
+                <div><p class="text-gray-600 text-sm">Status:</p><p id="modalStatus" class="font-medium"></p></div>
+                <div><p class="text-gray-600 text-sm">Purchase Time:</p><p id="modalPurchaseTime" class="font-medium"></p></div>
+                <div><p class="text-gray-600 text-sm">Expected Arrival:</p><p id="modalExpectedArrival" class="font-medium"></p></div>
             </div>
-            <div>
-                <p class="text-gray-600 text-sm">Total:</p>
-                <p id="modalTotal" class="font-semibold text-lg text-purple-600"></p>
-            </div>
+            <div><p class="text-gray-600 text-sm">Total:</p><p id="modalTotal" class="font-semibold text-lg text-purple-600"></p></div>
         </div>
     </div>
 
-    <!-- Modal Container for Edit Order -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">×</span>
             <h2 class="text-xl font-bold mb-4">Edit Order</h2>
-            <form id="editOrderForm">
+            <form id="editOrderForm" action="/update_order_status" method="POST">
                 <input type="hidden" id="editOrderId" name="orderId">
                 <div class="mb-4">
                     <label for="editOrderStatus" class="block text-gray-600 text-sm mb-2">Order Status</label>
                     <select id="editOrderStatus" name="orderStatus" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-teal-300">
-                        <option value="Draft">Draft</option>
                         <option value="Pending">Pending</option>
-                        <option value="Ordered">Ordered</option>
-                        <option value="Partial">Partial</option>
-                        <option value="Received">Received</option>
                         <option value="Delivered">Delivered</option>
-                        <option value="Closed">Closed</option>
                         <option value="Canceled">Canceled</option>
                     </select>
                 </div>
@@ -386,7 +256,6 @@ try {
         </div>
     </div>
 
-    <!-- Modal Container for Send Message -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">×</span>
@@ -403,7 +272,6 @@ try {
     </div>
 
     <script>
-        // Tab Switching
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -421,7 +289,6 @@ try {
             });
         });
 
-        // Search Functionality
         document.getElementById("search").addEventListener("input", function() {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll(".tab-content:not(.hidden) tbody tr");
@@ -431,13 +298,10 @@ try {
             });
         });
 
-        // Dropdown Toggle
         function toggleDropdown(id) {
             const dropdowns = document.querySelectorAll("[id^='dropdown-']");
             dropdowns.forEach(dropdown => {
-                if (dropdown.id !== id) {
-                    dropdown.classList.add("hidden");
-                }
+                if (dropdown.id !== id) dropdown.classList.add("hidden");
             });
             const dropdown = document.getElementById(id);
             dropdown.classList.toggle("hidden");
@@ -452,7 +316,6 @@ try {
             });
         });
 
-        // Function to show the order details in a modal
         function showDetails(orderNo, productName, username, profile, destination, status, purchaseTime, expectedArrival, total) {
             const modal = document.getElementById("orderModal");
             const modalProfile = document.getElementById("modalProfile");
@@ -476,39 +339,22 @@ try {
             modalTotal.textContent = `$ ${total}`;
 
             modalStatus.classList.remove("status-draft", "status-pending", "status-ordered", "status-partial", "status-received", "status-delivered", "status-closed", "status-canceled");
-            if (status.toLowerCase() === "draft") {
-                modalStatus.classList.add("status-draft");
-            } else if (status.toLowerCase() === "pending") {
-                modalStatus.classList.add("status-pending");
-            } else if (status.toLowerCase() === "ordered") {
-                modalStatus.classList.add("status-ordered");
-            } else if (status.toLowerCase() === "partial") {
-                modalStatus.classList.add("status-partial");
-            } else if (status.toLowerCase() === "received") {
-                modalStatus.classList.add("status-received");
-            } else if (status.toLowerCase() === "delivered") {
-                modalStatus.classList.add("status-delivered");
-            } else if (status.toLowerCase() === "closed") {
-                modalStatus.classList.add("status-closed");
-            } else if (status.toLowerCase() === "canceled") {
-                modalStatus.classList.add("status-canceled");
-            }
+            if (status.toLowerCase() === "draft") modalStatus.classList.add("status-draft");
+            else if (status.toLowerCase() === "pending") modalStatus.classList.add("status-pending");
+            else if (status.toLowerCase() === "ordered") modalStatus.classList.add("status-ordered");
+            else if (status.toLowerCase() === "partial") modalStatus.classList.add("status-partial");
+            else if (status.toLowerCase() === "received") modalStatus.classList.add("status-received");
+            else if (status.toLowerCase() === "delivered") modalStatus.classList.add("status-delivered");
+            else if (status.toLowerCase() === "closed") modalStatus.classList.add("status-closed");
+            else if (status.toLowerCase() === "canceled") modalStatus.classList.add("status-canceled");
 
             modal.style.display = "flex";
 
             const closeBtn = document.querySelector("#orderModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
+            closeBtn.onclick = function() { modal.style.display = "none"; };
+            window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; };
         }
 
-        // Function to show the edit order modal
         function showEdit(id, orderstatus) {
             const modal = document.getElementById("editModal");
             const orderIdInput = document.getElementById("editOrderId");
@@ -520,29 +366,18 @@ try {
             modal.style.display = "flex";
 
             const closeBtn = document.querySelector("#editModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
+            closeBtn.onclick = function() { modal.style.display = "none"; };
+            window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; };
         }
 
-        // Handle form submission for editing order status
         document.getElementById("editOrderForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
             const orderId = document.getElementById("editOrderId").value;
             const newStatus = document.getElementById("editOrderStatus").value;
 
-            fetch("update_order_status.php", {
+            fetch("/update_order_status", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `orderId=${orderId}&orderStatus=${newStatus}`
             })
             .then(response => response.json())
@@ -561,31 +396,20 @@ try {
             });
         });
 
-        // Function to show the send message modal
         function showMessage(id) {
             const modal = document.getElementById("messageModal");
             const orderIdInput = document.getElementById("messageOrderId");
 
             orderIdInput.value = id;
-
             modal.style.display = "flex";
 
             const closeBtn = document.querySelector("#messageModal .modal-close");
-            closeBtn.onclick = function() {
-                modal.style.display = "none";
-            };
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            };
+            closeBtn.onclick = function() { modal.style.display = "none"; };
+            window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; };
         }
 
-        // Handle form submission for sending a message
         document.getElementById("sendMessageForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
             const orderId = document.getElementById("messageOrderId").value;
             const messageContent = document.getElementById("messageContent").value;
 
@@ -594,11 +418,9 @@ try {
                 return;
             }
 
-            fetch("send_message.php", {
+            fetch("/send_message", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `orderId=${orderId}&messageContent=${encodeURIComponent(messageContent)}`
             })
             .then(response => response.json())
@@ -617,20 +439,27 @@ try {
             });
         });
 
-        // Function to handle order deletion
+
+        // Delete order function
         function deleteOrder(id) {
             if (confirm('Are you sure you want to delete this order?')) {
-                fetch("delete_order.php", {
+                fetch("/delete_order", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: `orderId=${id}`
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.text().then(text => {
+                        console.log("Raw response:", text);
+                        return JSON.parse(text);
+                    });
+                })
                 .then(data => {
                     if (data.success) {
-                        alert("Order deleted successfully!");
+                        // alert("Order deleted successfully!");
                         location.reload();
                     } else {
                         alert("Failed to delete order: " + data.message);
@@ -638,10 +467,35 @@ try {
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    alert("An error occurred while deleting the order.");
+                    alert("An error occurred while deleting the order: " + error.message);
                 });
             }
         }
+
+        // update order status
+        document.getElementById("editOrderForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const orderId = document.getElementById("editOrderId").value;
+        const newStatus = document.getElementById("editOrderStatus").value;
+
+        fetch("/update_order_status", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `orderId=${orderId}&orderStatus=${newStatus}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // alert("Order status updated successfully!");
+            } else {
+                alert("Failed to update order status: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while updating the order status.");
+        });
+    });
     </script>
 </body>
 </html>
@@ -690,8 +544,7 @@ function renderOrderTable($orders, $tabPrefix) {
                         <td class="py-3 px-2 w-32 whitespace-nowrap text-sm text-gray-700 truncate"><?php echo htmlspecialchars($order['product_name'] ?? 'Unknown Product'); ?></td>
                         <td class="py-3 px-2 w-36 whitespace-nowrap">
                             <div class="flex items-center">
-                                <img src="<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>"
-                                    class="w-8 h-8 rounded-full mr-2 border-2 border-purple-300" alt="Profile">
+                                <img src="<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>" class="w-8 h-8 rounded-full mr-2 border-2 border-purple-300" alt="Profile">
                                 <span class="text-sm text-gray-800 font-medium truncate"><?php echo htmlspecialchars($order['username'] ?? 'Unknown User'); ?></span>
                             </div>
                         </td>
@@ -707,21 +560,11 @@ function renderOrderTable($orders, $tabPrefix) {
                         <td class="py-3 px-2 w-32 whitespace-nowrap text-sm text-gray-700 truncate"><?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?></td>
                         <td class="py-3 px-2 w-28 whitespace-nowrap text-sm text-gray-700 truncate"><?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?></td>
                         <td class="py-3 px-2 w-16 whitespace-nowrap relative">
-                            <button class="text-gray-600 hover:text-teal-600 transition text-2xl p-2 rounded-full hover:bg-gray-100"
-                                onclick="toggleDropdown('dropdown-<?= $tabPrefix ?>-<?= $order['id'] ?>')">
+                            <button class="text-gray-600 hover:text-teal-600 transition text-2xl p-2 rounded-full hover:bg-gray-100" onclick="toggleDropdown('dropdown-<?= $tabPrefix ?>-<?= $order['id'] ?>')">
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
-                            <div id="dropdown-<?= $tabPrefix ?>-<?= $order['id'] ?>"
-                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
-                                <button onclick="showDetails('<?php echo $index + 1; ?>', 
-                                    '<?php echo htmlspecialchars($order['product_name'] ?? 'Unknown Product'); ?>', 
-                                    '<?php echo htmlspecialchars($order['username'] ?? 'Unknown User'); ?>', 
-                                    '<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>', 
-                                    'Loc <?php echo htmlspecialchars($order['location_id'] ?? 'N/A'); ?>', 
-                                    '<?php echo htmlspecialchars($order['orderstatus']); ?>', 
-                                    '<?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?>', 
-                                    '<?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?>', 
-                                    '<?php echo number_format($order['totalprice'], 2); ?>')"
+                            <div id="dropdown-<?= $tabPrefix ?>-<?= $order['id'] ?>" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
+                                <button onclick="showDetails('<?php echo $index + 1; ?>', '<?php echo htmlspecialchars($order['product_name'] ?? 'Unknown Product'); ?>', '<?php echo htmlspecialchars($order['username'] ?? 'Unknown User'); ?>', '<?php echo htmlspecialchars($order['user_profile'] ?? 'https://i.pravatar.cc/40'); ?>', 'Loc <?php echo htmlspecialchars($order['location_id'] ?? 'N/A'); ?>', '<?php echo htmlspecialchars($order['orderstatus']); ?>', '<?php echo htmlspecialchars(date('M d, Y H:i', strtotime($order['orderdate']))); ?>', '<?php echo htmlspecialchars(date('M d, Y', strtotime($order['orderdate']))); ?>', '<?php echo number_format($order['totalprice'], 2); ?>')"
                                     class="flex items-center px-4 py-3 text-sm text-blue-600 hover:bg-blue-50 transition-colors duration-200 w-full text-left">
                                     <i class="fas fa-eye mr-3 text-lg"></i> View
                                 </button>
@@ -747,6 +590,4 @@ function renderOrderTable($orders, $tabPrefix) {
     <?php
     return ob_get_clean();
 }
-
-$conn = null;
 ?>
