@@ -51,11 +51,11 @@ body {
 }
 /* Hero Section Styling */
 .hero-section {
-    background-color: #a3cefc;
+    background-color: #e3f0ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 50vh;
     text-align: left;
     padding: 50px 0;
     position: relative;
@@ -184,7 +184,7 @@ background-color: #02172c;
 
 
 .hygiene-section {
-    background-color: #9dcafb;
+    background-color: #e3f0ff;
     padding: 60px 0;
 }
 .card {
@@ -667,3 +667,4 @@ background-color: #02172c;
 .checkout-btn:hover {
     background: darkorange;
 }
+
