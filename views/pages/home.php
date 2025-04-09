@@ -1,7 +1,8 @@
    <style>
-    body{
-      font-family: 'Poppins', sans-serif;
-    }
+     body {
+       font-family: 'Poppins', sans-serif;
+     }
+
      .hygiene-section .card {
        height: 95%;
        display: flex;
@@ -146,7 +147,7 @@
              <h4>Best Quality Products</h4>
              <h1>ACNES </h1>
              <p>
-             ACNES provides high-quality skincare solutions specially formulated to fight acne, reduce inflammation, and restore your skin's natural glow. Trusted by millions, our products are dermatologically tested and safe for everyday use.</p>
+               ACNES provides high-quality skincare solutions specially formulated to fight acne, reduce inflammation, and restore your skin's natural glow. Trusted by millions, our products are dermatologically tested and safe for everyday use.</p>
              <a href="/product" class="shop-btn"><i class="bi bi-cart"></i> Shop Now</a>
            </div>
          </div>
@@ -539,8 +540,8 @@
            <div class="stars">★★★★★</div>
 
            <p>Experience exceptional cleaning power that removes tough stains while protecting your fabrics
-Choose from our biodegradable formulas designed for eco-conscious households
-Enjoy premium quality results at prices that fit every budget</p>
+             Choose from our biodegradable formulas designed for eco-conscious households
+             Enjoy premium quality results at prices that fit every budget</p>
            <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
            <h6>Mila Kunis</h6>
          </div>
@@ -555,8 +556,8 @@ Enjoy premium quality results at prices that fit every budget</p>
          <div class="testimonial-card">
            <div class="stars">★★★★★</div>
            <p> Unmatched stain removal that preserves fabric quality
- Environmentally responsible biodegradable options
-Premium performance at budget-friendly prices you can paragrap</p>
+             Environmentally responsible biodegradable options
+             Premium performance at budget-friendly prices you can paragrap</p>
            <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
            <h6>Mila Kunis</h6>
          </div>
