@@ -55,7 +55,7 @@ try {
 <!-- [ Pre-loader ] End -->
  <!-- [ Sidebar Menu ] start -->
 <nav class="pc-sidebar"style="border-right: none !important; border-left: none !important;">
-  <div class="navbar-wrapper" style="background: linear-gradient(to right,rgb(95, 168, 251),rgb(132, 182, 210)">
+  <div class="navbar-wrapper" style="background:#1C2526">
     <div class="m-header">
       <a href="/admin" class="b-brand text-primary text-align:center;">
         <!-- ========   Change your logo from here   ============ -->
@@ -64,7 +64,7 @@ try {
       </a>
     </div>
     <!-- Nav move down inven tory -->
-    <div class="navbar-content "style="background: linear-gradient(to right,rgb(132, 182, 210),rgb(95, 168, 251) "style="border-right: none !important; border-left: none !important;">
+    <div class="navbar-content "style="background:#1C2526">
       <ul class="pc-navbar">
         <li class="pc-item">
           <a href="/admin" class="pc-link"style="color:white;">
@@ -235,7 +235,7 @@ try {
 </nav>
     <!-- [ Sidebar Menu ] end --> 
      <!-- [ Header Topbar ] start -->
-    <header class="pc-header" style="background: linear-gradient(to right,rgb(132, 182, 210),rgb(95, 168, 251)"style="border-right: none !important; border-left: none !important;">
+    <header class="pc-header" style="background: #1C2526">
         <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
             <div class="me-auto pc-mob-drp">
                 <ul class="list-unstyled">
