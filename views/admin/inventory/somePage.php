@@ -167,7 +167,7 @@ endif;
             padding: 20px;
         }
 
-        .learn-more {
+        .SEE-MORE {
             background-color: #ff6666;
             color: white;
             border: none;
@@ -332,7 +332,7 @@ endif;
             /* Buttons */
             .cta-button,
             .info-section .cta-button,
-            .learn-more {
+            .SEE-MORE {
                 padding: 10px 15px;
                 font-size: 0.9rem;
             }
@@ -447,7 +447,7 @@ endif;
         </div>
     </div>
 
-
+<!-- card image for All Category -->
 
     <div class="container mt-5">
         <h2 class="Category text-center">All Category</h2>
@@ -456,8 +456,8 @@ endif;
                 <div class="card">
                     <img src="https://pfst.cf2.poecdn.net/base/image/0c03438664055ab8478d172526548fec29a8d2048473684bc2b84c9e73d41fad?w=107&h=270&pmaid=339868683" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
-                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <p class="card-text">Known for its fresh floral scent, which can help keep clothes smelling pleasant.</p>
+                        <button class="SEE-MORE" onclick="showDescription('Clothing', 'Designed to be effective in smaller quantities, providing maximum softness and fragrance which can help keep clothes smelling pleasant Helps to soften fabrics, making them more comfortable to wear Reduces static cling in laundry.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -465,8 +465,8 @@ endif;
                 <div class="card">
                     <img src="https://pfst.cf2.poecdn.net/base/image/7a032e929fc97918618a90456fd51ab2d5b92394c71d102a80ec90bdb40d6558?w=203&h=203&pmaid=339863415" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
-                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <p class="card-text">Typically offers a satisfying texture, often with chewy noodles.</p>
+                        <button class="SEE-MORE" onclick="showDescription('Snacks', 'Often available in various flavors, including spicy and savory. options Quick and easy to prepare, making it a popular choice for meals or snacks, Usually includes a seasoning packet, which enhances the flavor profile.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -474,8 +474,8 @@ endif;
                 <div class="card">
                     <img src="https://pfst.cf2.poecdn.net/base/image/1e7ffbb8aaae97d7c2f7bf90826e43e2e8da2bd1ee82638dccfc58c672de5f24?w=200&h=299&pmaid=339861196" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
-                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <p class="card-text">Providing a gentle touch for sensitive skin typically has good absorbent properties.</p>
+                        <button class="SEE-MORE" onclick="showDescription('Tissue', 'Designed for comfort, providing a gentle touch for sensitive skin, durable and strong, suitable for various uses, including personal hygiene and household cleaning available in convenient packs for easy storage and use.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -483,8 +483,8 @@ endif;
                 <div class="card">
                     <img src="https://pfst.cf2.poecdn.net/base/image/148e15f672e9092e5a381cfede88d0ced996f663eab8adbc3ed3a7ff808d9e39?w=88&h=214&pmaid=339815535" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
-                        <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <p class="card-text">It's a great dairy-free alternative for those who are lactose intolerant or follow a vegan diet.</p>
+                        <button class="SEE-MORE" onclick="showDescription('Beverages', 'A nutritious, protein-rich product containing essential amino acids and fortified with vitamins B12 and D. It supports overall health and can be enjoyed on its own, in smoothies, or as a dairy substitute in cooking and baking.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -493,7 +493,7 @@ endif;
                     <img src="https://pfst.cf2.poecdn.net/base/image/089ff25ff2c6046fb05e5e36d6aa9a753896e05b0e347f27b4e4a8aa1898ad50?w=138&h=166&pmaid=339829140" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="SEE-MORE" onclick="showDescription('Cooking ingredientts', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -502,7 +502,7 @@ endif;
                     <img src="https://pfst.cf2.poecdn.net/base/image/7a365c10dcac757ca56800cd0bd516146c5c7485a0af83b706c28b948f96dd19?w=78&h=276&pmaid=339832885" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="SEE-MORE" onclick="showDescription('Drinking Water', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -511,7 +511,7 @@ endif;
                     <img src="https://pfst.cf2.poecdn.net/base/image/03622d3855a4f17f8447eeffa758651f4312ac2bdd684ef6514fa63045519c57?w=217&h=187&pmaid=339844985" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="SEE-MORE" onclick="showDescription('Feminine Hygiene', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -520,7 +520,7 @@ endif;
                     <img src="https://pfst.cf2.poecdn.net/base/image/74ea91ca3c672cee823978bbd4960d29243fa2229f93855bf9a707bbd17c8686?w=154&h=154&pmaid=339846928" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="SEE-MORE" onclick="showDescription('House Hold Hygiene', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -529,7 +529,7 @@ endif;
                     <img src="https://pfst.cf2.poecdn.net/base/image/614918d19ba25a4c73343dbf9478b5c131483322c0e05f4ff01fcd1ac326d308?w=69&h=236&pmaid=339849784" class="card-img-top" alt="Hydrating Moisturizer">
                     <div class="card-body">
                         <p class="card-text">Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.</p>
-                        <button class="learn-more" onclick="showDescription('Fineline Liquid Detergent', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
+                        <button class="SEE-MORE" onclick="showDescription('Oral Health', 'Deeply nourish your skin with our hydrating moisturizer. Perfect for all skin types.')">Learn More</button>
                     </div>
                 </div>
             </div>
@@ -553,8 +553,6 @@ endif;
                     </div>
                 </div>
             </div>
-
-
 
             <script>
                 function showDescription(title, description) {
