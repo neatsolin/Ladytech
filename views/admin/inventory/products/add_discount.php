@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 $error = isset($data['error']) ? $data['error'] : null;
 $success = isset($data['success']) ? $data['success'] : null;
 ?>
-
 <title>Add Discount Code</title>
 <div class="container mt-3">
     <div class="row justify-content-center">
