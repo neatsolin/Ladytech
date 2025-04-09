@@ -604,12 +604,12 @@ if (isset($_SESSION['user_id'])) :
                                     </div>
                                     <!-- Action Buttons -->
                                     <div class="card-actions">
-                                        <form method="GET" action="/edit/<?php echo $product['id']; ?>">
+                                        <form method="GET" action="/products/edit/<?php echo $product['id']; ?>">
                                             <button type="submit" class="edit-btn">
                                                 <i class="bi bi-pencil"></i> Edit
                                             </button>
                                         </form>
-                                        <form method="POST" action="/delete/<?php echo $product['id']; ?>">
+                                        <form method="POST" action="/products/delete/<?php echo $product['id']; ?>">
                                             <button type="submit" class="delete-btn">
                                                 <a href=""></a><i class="bi bi-trash"></i> Delete
                                             </button>

@@ -1,11 +1,50 @@
+<?php
+// Database connection to dailyneed_db
+$host = 'localhost';
+$dbname = 'dailyneed_db';
+$username = 'root'; // Replace with your MySQL username
+$password = ''; // Replace with your MySQL password
 
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Fetch top users based on the number of orders
+$topUsersStmt = $pdo->query("
+    SELECT u.id, u.username, u.profile, COUNT(o.id) as order_count
+    FROM users u
+    LEFT JOIN orders o ON u.id = o.user_id
+    GROUP BY u.id, u.username, u.profile
+    ORDER BY order_count DESC
+    LIMIT 5
+");
+$topUsers = $topUsersStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Convert the top users data into the format expected by your customerData array
+$customerData = [];
+foreach ($topUsers as $user) {
+    $customerData[] = [
+        'name' => $user['username'],
+        'purchased' => $user['order_count'],
+        'profile' => $user['profile']
+    ];
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Report</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <h1>Sales Report</h1>
     <style>
-        h1{
-            color:gray;
+        h1 {
+            color: gray;
             margin-bottom: 40px;
         }
         .container {
@@ -41,8 +80,8 @@
             width: 100% !important;
             height: 100% !important;
         }
-        h3{
-            font-size:30px;
+        h3 {
+            font-size: 30px;
             margin-top: 10px;
         }
         table {
@@ -56,7 +95,6 @@
             text-align: left;
         }
         th {
-            /* background-color: #007bff; */
             color: black;
         }
         .profile-img {
@@ -67,36 +105,8 @@
         .action-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 5px;
         }
-        .action-buttons .material-icons {
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .edit-btn {
-            color: #007bff;
-        }
-        .delete-btn {
-            color: #dc3545;
-        }
-        .sales-table{
-            margin-top: 50px;
-        }
-        .chart-container {
-            height: 450px; /* Increased chart height */
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds depth */
-            padding: 20px;
-            margin-bottom: 20px; /* Adds space below the chart */
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 5px; /* Reduced space between icons */
-        }
-
         .action-buttons .material-icons {
             width: 20px;
             font-size: 18px;
@@ -105,20 +115,27 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-        /* .action-buttons .edit-btn:hover {
-            background: rgba(0, 123, 255, 0.1);
-        } */
-
-        .action-buttons .delete-btn {
+        .edit-btn {
+            color: #007bff;
+        }
+        .delete-btn {
             color: #dc3545;
         }
-
-        /* .action-buttons .delete-btn:hover {
-            background: rgba(220, 53, 69, 0.1);
-        } */
-
-
+        .sales-table {
+            margin-top: 50px;
+        }
+        .chart-container {
+            height: 450px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
     </style>
+</head>
+<body>
+    <h1>Sales Report</h1>
     <div class="container">
         <div class="left-section">
             <div class="btn-container">
@@ -131,26 +148,24 @@
             </div>
         </div>
         <div class="right-section">
-    <div class="customer-table">
-        <h3>Customer List</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Profile</th>
-                    <th>Name</th>
-                    <th>Purchased Products</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="customerTableBody"></tbody>
-        </table>
+            <div class="customer-table">
+                <h3>Customer List</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Name</th>
+                            <th>Purchased Products</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTableBody"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <style>
-        
         .status-badge {
             padding: 5px 10px;
             border-radius: 15px;
@@ -186,12 +201,22 @@
         }
     </style>
 
-<h2 class="mt-4">Product Table</h2>
+    <h2 class="mt-4">Product Table</h2>
     <div class="container-table mt-5">
-
-        <!-- Product Table -->
         <table class="table table-hover">
-            <tbody>
+            <thead class="table-light">
+                <tr>
+                    <th>Profile</th>
+                    <th>Product Name</th>
+                    <th>Product ID</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
                 <?php
                 $products = [
                     [
@@ -222,269 +247,239 @@
                         "image" => "profiles/1742657515_OEUB.jpg"
                     ]
                 ];
-                
                 ?>
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Profile</th>
-                            <th>Product Name</th>
-                            <th>Product ID</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productTableBody">
-                        <?php foreach ($products as $index => $product): ?>
-                            <tr data-index="<?= $index ?>">
-                                <td><img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-img" width="50"></td>
-                                <td><?= $product["name"] ?></td>
-                                <td><?= $product["id"] ?></td>
-                                <td><?= $product["price"] ?></td>
-                                <td><?= $product["stock"] ?></td>
-                                <td><?= $product["type"] ?></td>
-                                <td><span class="status-badge status-<?= strtolower(str_replace(' ', '-', $product["status"])) ?>"><?= $product["status"] ?></span></td>
-                                <td>
-                                <div class="action-menu">
-                        <i class="fas fa-ellipsis-v toggle-menu" data-index="<?= $index ?>"></i>
-                        <div class="action-menu-content" id="menu-<?= $index ?>">
-                            <a href="#" class="edit-product" data-index="<?= $index ?>"><i class="fas fa-edit"></i> Edit</a>
-                            <a href="#" class="delete-product" data-index="<?= $index ?>"><i class="fas fa-trash"></i> Delete</a>
-                        </div>
-                    </div>
-
-                    <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        // Handle action menu toggle
-                        document.addEventListener("click", function (event) {
-                            if (event.target.classList.contains("toggle-menu")) {
-                                let index = event.target.getAttribute("data-index");
-                                let menu = document.getElementById("menu-" + index);
-
-                                // Close all other open menus
-                                document.querySelectorAll(".action-menu-content").forEach(m => m.style.display = "none");
-
-                                // Toggle the clicked menu
-                                menu.style.display = menu.style.display === "block" ? "none" : "block";
-                                event.stopPropagation(); // Prevent closing when clicking inside
-                            } else {
-                                // Close all menus when clicking outside
-                                document.querySelectorAll(".action-menu-content").forEach(menu => menu.style.display = "none");
-                            }
-                        });
-
-                        // Handle edit and delete
-                        document.addEventListener("click", function (event) {
-                            let target = event.target.closest(".edit-product, .delete-product");
-                            if (!target) return;
-
-                            let index = target.getAttribute("data-index");
-
-                            if (target.classList.contains("edit-product")) {
-                                editProduct(index);
-                            } else if (target.classList.contains("delete-product")) {
-                                deleteProduct(index);
-                            }
-                        });
-
-                        // Edit function (prompts for input)
-                        function editProduct(index) {
-                            let row = document.querySelector(`tr[data-index='${index}']`);
-                            let name = row.cells[1].innerText;
-                            let price = row.cells[3].innerText;
-                            let stock = row.cells[4].innerText;
-                            let type = row.cells[5].innerText;
-                            let status = row.cells[6].innerText;
-                            let image = row.cells[0].querySelector("img").src;
-
-                            let newName = prompt("Edit Product Name:", name) || name;
-                            let newPrice = prompt("Edit Price:", price) || price;
-                            let newStock = prompt("Edit Stock:", stock) || stock;
-                            let newType = prompt("Edit Type:", type) || type;
-                            let newStatus = prompt("Edit Status:", status) || status;
-                            let newImage = prompt("Edit Image URL:", image) || image;
-
-                            // Update table row
-                            row.cells[1].innerText = newName;
-                            row.cells[3].innerText = newPrice;
-                            row.cells[4].innerText = newStock;
-                            row.cells[5].innerText = newType;
-                            row.cells[6].innerText = newStatus;
-                            row.cells[0].querySelector("img").src = newImage;
-
-                            // Send update request to server via AJAX
-                            updateProductInDatabase(index, newName, newPrice, newStock, newType, newStatus, newImage);
-                        }
-
-                        // Delete function
-                        function deleteProduct(index) {
-                            if (confirm("Are you sure you want to delete this product?")) {
-                                // Send delete request to server via AJAX
-                                deleteProductFromDatabase(index);
-
-                                // Remove the table row from the DOM
-                                document.querySelector(`tr[data-index='${index}']`).remove();
-                            }
-                        }
-
-                        // AJAX request to update product in database
-                        function updateProductInDatabase(index, name, price, stock, type, status, image) {
-                            const xhr = new XMLHttpRequest();
-                            xhr.open("POST", "updateProduct.php", true); // Replace with the actual PHP file handling the update
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.onreadystatechange = function () {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    alert("Product updated successfully!");
-                                }
-                            };
-
-                            xhr.send(`index=${index}&name=${name}&price=${price}&stock=${stock}&type=${type}&status=${status}&image=${image}`);
-                        }
-
-                        // AJAX request to delete product from database
-                        function deleteProductFromDatabase(index) {
-                            const xhr = new XMLHttpRequest();
-                            xhr.open("POST", "deleteProduct.php", true); // Replace with the actual PHP file handling the delete
-                            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                            xhr.onreadystatechange = function () {
-                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                    alert("Product deleted successfully!");
-                                }
-                            };
-
-                            xhr.send(`index=${index}`);
-                        }
-                    });
-                    </script>
-
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>                
+                <?php foreach ($products as $index => $product): ?>
+                    <tr data-index="<?= $index ?>">
+                        <td><img src="<?= $product["image"] ?>" alt="<?= $product["name"] ?>" class="product-img" width="50"></td>
+                        <td><?= $product["name"] ?></td>
+                        <td><?= $product["id"] ?></td>
+                        <td><?= $product["price"] ?></td>
+                        <td><?= $product["stock"] ?></td>
+                        <td><?= $product["type"] ?></td>
+                        <td><span class="status-badge status-<?= strtolower(str_replace(' ', '-', $product["status"])) ?>"><?= $product["status"] ?></span></td>
+                        <td>
+                            <div class="action-menu">
+                                <i class="fas fa-ellipsis-v toggle-menu" data-index="<?= $index ?>"></i>
+                                <div class="action-menu-content" id="menu-<?= $index ?>">
+                                    <a href="#" class="edit-product" data-index="<?= $index ?>"><i class="fas fa-edit"></i> Edit</a>
+                                    <a href="#" class="delete-product" data-index="<?= $index ?>"><i class="fas fa-trash"></i> Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
-    </div>                                
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-var chartData = {
-    monthly: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
-        data: {
-            "Oral Health": [200, 220, 250, 230, 280, 300, 310, 330, 350, 370, 390, 400],
-            "Feminine Hygiene": [180, 200, 210, 190, 230, 250, 270, 290, 310, 330, 350, 370],
-            "Household Hygiene": [150, 180, 200, 190, 210, 230, 250, 270, 290, 310, 330, 350],
-            "Tissue": [100, 120, 140, 130, 150, 170, 190, 210, 230, 250, 270, 290],
-            "Drinking Water": [220, 240, 260, 250, 280, 300, 320, 340, 360, 380, 400, 420],
-            "Beverages": [180, 190, 210, 220, 240, 260, 280, 300, 320, 340, 360, 380],
-            "Clothing": [130, 150, 170, 160, 180, 200, 220, 240, 260, 280, 300, 320],
-            "Cooking Ingredients": [250, 270, 290, 280, 300, 320, 340, 360, 380, 400, 420, 440],
-            "Snacks": [300, 320, 340, 330, 350, 370, 390, 410, 430, 450, 470, 490]
-        }
-    },  // <-- Added missing comma
+        document.addEventListener("DOMContentLoaded", function () {
+            // Handle action menu toggle
+            document.addEventListener("click", function (event) {
+                if (event.target.classList.contains("toggle-menu")) {
+                    let index = event.target.getAttribute("data-index");
+                    let menu = document.getElementById("menu-" + index);
 
-    weekly: {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
-        data: {
-            "Oral Health": [50, 55, 60, 58],
-            "Feminine Hygiene": [45, 50, 55, 53],
-            "Household Hygiene": [40, 42, 44, 46],
-            "Tissue": [20, 25, 30, 28],
-            "Drinking Water": [55, 60, 65, 63],
-            "Beverages": [48, 52, 56, 54],
-            "Clothing": [33, 36, 39, 37],
-            "Cooking Ingredients": [60, 64, 68, 66],
-            "Snacks": [75, 80, 85, 83]
-        }
-    },  // <-- Added missing comma
-    yearly: {
-        labels: ["2021", "2022", "2023", "2024"],
-        categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
-        data: {
-            "Oral Health": [2400, 2600, 2800, 2900],
-            "Feminine Hygiene": [2200, 2400, 2600, 2700],
-            "Household Hygiene": [1800, 2000, 2200, 2300],
-            "Tissue": [1200, 1400, 1600, 1700],
-            "Drinking Water": [2600, 2800, 3000, 3100],
-            "Beverages": [2200, 2400, 2600, 2700],
-            "Clothing": [1600, 1800, 2000, 2100],
-            "Cooking Ingredients": [3000, 3200, 3400, 3500],
-            "Snacks": [3600, 3800, 4000, 4100]
-        }
-    }
-};
+                    // Close all other open menus
+                    document.querySelectorAll(".action-menu-content").forEach(m => m.style.display = "none");
 
-function loadChart(type = "monthly") {
-    var ctx = document.getElementById("myBarChart").getContext("2d");
-    var datasets = chartData[type].categories.map((category, index) => ({
-        label: category,
-        data: chartData[type].data[category],
-        backgroundColor: getColor(index),
-        borderColor: "rgba(0, 0, 0, 0.2)",
-        borderWidth: 1
-    }));
- 
-    window.myBarChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: chartData[type].labels,
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { stacked: true, grid: { display: false } },
-                y: { stacked: true, grid: { color: "#ddd" } }
+                    // Toggle the clicked menu
+                    menu.style.display = menu.style.display === "block" ? "none" : "block";
+                    event.stopPropagation();
+                } else {
+                    // Close all menus when clicking outside
+                    document.querySelectorAll(".action-menu-content").forEach(menu => menu.style.display = "none");
+                }
+            });
+
+            // Handle edit and delete
+            document.addEventListener("click", function (event) {
+                let target = event.target.closest(".edit-product, .delete-product");
+                if (!target) return;
+
+                let index = target.getAttribute("data-index");
+
+                if (target.classList.contains("edit-product")) {
+                    editProduct(index);
+                } else if (target.classList.contains("delete-product")) {
+                    deleteProduct(index);
+                }
+            });
+
+            function editProduct(index) {
+                let row = document.querySelector(`tr[data-index='${index}']`);
+                let name = row.cells[1].innerText;
+                let price = row.cells[3].innerText;
+                let stock = row.cells[4].innerText;
+                let type = row.cells[5].innerText;
+                let status = row.cells[6].innerText;
+                let image = row.cells[0].querySelector("img").src;
+
+                let newName = prompt("Edit Product Name:", name) || name;
+                let newPrice = prompt("Edit Price:", price) || price;
+                let newStock = prompt("Edit Stock:", stock) || stock;
+                let newType = prompt("Edit Type:", type) || type;
+                let newStatus = prompt("Edit Status:", status) || status;
+                let newImage = prompt("Edit Image URL:", image) || image;
+
+                row.cells[1].innerText = newName;
+                row.cells[3].innerText = newPrice;
+                row.cells[4].innerText = newStock;
+                row.cells[5].innerText = newType;
+                row.cells[6].innerText = newStatus;
+                row.cells[0].querySelector("img").src = newImage;
+
+                updateProductInDatabase(index, newName, newPrice, newStock, newType, newStatus, newImage);
             }
+
+            function deleteProduct(index) {
+                if (confirm("Are you sure you want to delete this product?")) {
+                    deleteProductFromDatabase(index);
+                    document.querySelector(`tr[data-index='${index}']`).remove();
+                }
+            }
+
+            function updateProductInDatabase(index, name, price, stock, type, status, image) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "updateProduct.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert("Product updated successfully!");
+                    }
+                };
+                xhr.send(`index=${index}&name=${name}&price=${price}&stock=${stock}&type=${type}&status=${status}&image=${image}`);
+            }
+
+            function deleteProductFromDatabase(index) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "deleteProduct.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert("Product deleted successfully!");
+                    }
+                };
+                xhr.send(`index=${index}`);
+            }
+        });
+
+        var chartData = {
+            monthly: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
+                data: {
+                    "Oral Health": [200, 220, 250, 230, 280, 300, 310, 330, 350, 370, 390, 400],
+                    "Feminine Hygiene": [180, 200, 210, 190, 230, 250, 270, 290, 310, 330, 350, 370],
+                    "Household Hygiene": [150, 180, 200, 190, 210, 230, 250, 270, 290, 310, 330, 350],
+                    "Tissue": [100, 120, 140, 130, 150, 170, 190, 210, 230, 250, 270, 290],
+                    "Drinking Water": [220, 240, 260, 250, 280, 300, 320, 340, 360, 380, 400, 420],
+                    "Beverages": [180, 190, 210, 220, 240, 260, 280, 300, 320, 340, 360, 380],
+                    "Clothing": [130, 150, 170, 160, 180, 200, 220, 240, 260, 280, 300, 320],
+                    "Cooking Ingredients": [250, 270, 290, 280, 300, 320, 340, 360, 380, 400, 420, 440],
+                    "Snacks": [300, 320, 340, 330, 350, 370, 390, 410, 430, 450, 470, 490]
+                }
+            },
+            weekly: {
+                labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+                categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
+                data: {
+                    "Oral Health": [50, 55, 60, 58],
+                    "Feminine Hygiene": [45, 50, 55, 53],
+                    "Household Hygiene": [40, 42, 44, 46],
+                    "Tissue": [20, 25, 30, 28],
+                    "Drinking Water": [55, 60, 65, 63],
+                    "Beverages": [48, 52, 56, 54],
+                    "Clothing": [33, 36, 39, 37],
+                    "Cooking Ingredients": [60, 64, 68, 66],
+                    "Snacks": [75, 80, 85, 83]
+                }
+            },
+            yearly: {
+                labels: ["2021", "2022", "2023", "2024"],
+                categories: ["Oral Health", "Feminine Hygiene", "Household Hygiene", "Tissue", "Drinking Water", "Beverages", "Clothing", "Cooking Ingredients", "Snacks"],
+                data: {
+                    "Oral Health": [2400, 2600, 2800, 2900],
+                    "Feminine Hygiene": [2200, 2400, 2600, 2700],
+                    "Household Hygiene": [1800, 2000, 2200, 2300],
+                    "Tissue": [1200, 1400, 1600, 1700],
+                    "Drinking Water": [2600, 2800, 3000, 3100],
+                    "Beverages": [2200, 2400, 2600, 2700],
+                    "Clothing": [1600, 1800, 2000, 2100],
+                    "Cooking Ingredients": [3000, 3200, 3400, 3500],
+                    "Snacks": [3600, 3800, 4000, 4100]
+                }
+            }
+        };
+
+        function loadChart(type = "monthly") {
+            var ctx = document.getElementById("myBarChart").getContext("2d");
+            var datasets = chartData[type].categories.map((category, index) => ({
+                label: category,
+                data: chartData[type].data[category],
+                backgroundColor: getColor(index),
+                borderColor: "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1
+            }));
+
+            window.myBarChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: chartData[type].labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, grid: { color: "#ddd" } }
+                    }
+                }
+            });
         }
-    });
-}
-// Predefined colors
-function getColor(index) {
-    const colors = [
-        "rgba(187, 222, 251, 0.8)",  // Light Blue 1
-        "rgba(144, 202, 249, 0.8)",  // Light Blue 2
-        "rgba(214, 100, 246, 0.8)",  // Light Blue 3
-        "rgba(245, 197, 66, 0.8)",   // Blue 1
-        "rgba(33, 243, 233, 0.8)",   // Blue 2
-        "rgba(206, 229, 30, 0.8)",   // Darker Blue
-        "rgba(79, 160, 241, 0.8)",   // Deep Blue
-        "rgba(21, 192, 115, 0.8)",   // Strong Blue
-        "rgba(161, 13, 119, 0.8)"     // Deepest Blue
-    ];
-    return colors[index % colors.length]; // Loops colors if more categories exist
-}
-// Update chart function
-function updateChart(type) {
-    if (!window.myBarChart) return;
 
-    window.myBarChart.data.labels = chartData[type].labels;
-    window.myBarChart.data.datasets = chartData[type].categories.map((category, index) => ({
-        label: category,
-        data: chartData[type].data[category],
-        backgroundColor: getColor(index),
-        borderColor: "rgba(0, 0, 0, 0.2)",
-        borderWidth: 1
-    }));
+        function getColor(index) {
+            const colors = [
+                "rgba(187, 222, 251, 0.8)",
+                "rgba(144, 202, 249, 0.8)",
+                "rgba(214, 100, 246, 0.8)",
+                "rgba(245, 197, 66, 0.8)",
+                "rgba(33, 243, 233, 0.8)",
+                "rgba(206, 229, 30, 0.8)",
+                "rgba(79, 160, 241, 0.8)",
+                "rgba(21, 192, 115, 0.8)",
+                "rgba(161, 13, 119, 0.8)"
+            ];
+            return colors[index % colors.length];
+        }
 
-    window.myBarChart.update();
-}
-        var customerData = [
-            { name: "John Doe", purchased: 5, profile: "profiles/1742657515_OEUB.jpg" },
-            { name: "Jane Smith", purchased: 8, profile: "profiles/1742657515_OEUB.jpg" },
-            { name: "Mike Johnson", purchased: 3, profile: "profiles/1742657515_OEUB.jpg" }
-        ];
+        function updateChart(type) {
+            if (!window.myBarChart) return;
+
+            window.myBarChart.data.labels = chartData[type].labels;
+            window.myBarChart.data.datasets = chartData[type].categories.map((category, index) => ({
+                label: category,
+                data: chartData[type].data[category],
+                backgroundColor: getColor(index),
+                borderColor: "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1
+            }));
+
+            window.myBarChart.update();
+        }
+
+        // Use the PHP-generated customerData
+        var customerData = <?php echo json_encode($customerData); ?>;
 
         function loadCustomerTable() {
             var tableBody = document.getElementById("customerTableBody");
-            tableBody.innerHTML = ""; // Clear table before reloading
+            tableBody.innerHTML = "";
             customerData.forEach((customer, index) => {
                 var row = tableBody.insertRow();
-                row.setAttribute("data-index", index); // Store index for easy reference
+                row.setAttribute("data-index", index);
                 row.insertCell(0).innerHTML = `<img src="${customer.profile}" alt="Profile" class="profile-img">`;
                 row.insertCell(1).innerText = customer.name;
                 row.insertCell(2).innerText = customer.purchased;
@@ -496,53 +491,44 @@ function updateChart(type) {
                 `;
             });
         }
-        // Event delegation for edit and delete buttons
+
         document.addEventListener("click", function (event) {
             let target = event.target;
 
-            // Edit button clicked
             if (target.classList.contains("edit-btn")) {
                 let index = target.getAttribute("data-index");
                 editCustomer(index);
             }
 
-            // Delete button clicked
             if (target.classList.contains("delete-btn")) {
                 let index = target.getAttribute("data-index");
                 deleteCustomer(index);
             }
         });
 
-        // Edit function
         function editCustomer(index) {
             let customer = customerData[index];
             let newName = prompt("Edit Name:", customer.name);
             let newPurchased = prompt("Edit Purchases:", customer.purchased);
 
-
-
-
             if (newName !== null && newPurchased !== null) {
                 customerData[index].name = newName.trim();
                 customerData[index].purchased = parseInt(newPurchased.trim()) || customer.purchased;
-                loadCustomerTable(); // Refresh table
+                loadCustomerTable();
             }
         }
 
-        // Delete function
         function deleteCustomer(index) {
             if (confirm("Are you sure you want to delete this customer?")) {
-                customerData.splice(index, 1); // Remove from array
-                loadCustomerTable(); // Refresh table
+                customerData.splice(index, 1);
+                loadCustomerTable();
             }
         }
-
-        // Load table initially
-        loadCustomerTable();
-
 
         window.onload = function() {
             loadChart();
             loadCustomerTable();
         };
     </script>
+</body>
+</html>
