@@ -10,7 +10,6 @@ class OrderController extends BaseadminController {
         $this->view('admin/inventory/order');
     }
 
-    // recent orders
     public function recent_order() {
         $this->view('admin/inventory/Order/Recent_order');
     }
@@ -29,6 +28,12 @@ class OrderController extends BaseadminController {
 
     public function order_all() {
         try {
+            // Cancel expired pending orders before fetching the list
+            $canceledCount = $this->orderModel->cancelExpiredPendingOrders();
+            if ($canceledCount > 0) {
+                error_log("Automatically canceled $canceledCount expired pending orders.");
+            }
+
             $allOrders = $this->orderModel->getAllOrders();
 
             $draftOrders = array_filter($allOrders, function($order) {
@@ -71,20 +76,16 @@ class OrderController extends BaseadminController {
     }
 
     public function deleteOrder() {
-        // Set the content type to JSON
         header('Content-Type: application/json; charset=UTF-8');
-
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Invalid request method']);
             exit;
         }
-
         $orderId = $_POST['orderId'] ?? null;
         if (!$orderId) {
             echo json_encode(['success' => false, 'message' => 'No order ID provided']);
             exit;
         }
-
         try {
             $this->orderModel->deleteOrder($orderId);
             echo json_encode(['success' => true, 'message' => 'Order deleted successfully']);
@@ -95,34 +96,23 @@ class OrderController extends BaseadminController {
         exit;
     }
 
-    // Update order status
     public function updateOrderStatus() {
-        // Set the content type to JSON
         header('Content-Type: application/json; charset=UTF-8');
-    
-        // Check if the request method is POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Invalid request method']);
             exit;
         }
-    
-        // Get the order ID and new status from the POST data
         $orderId = $_POST['orderId'] ?? null;
         $newStatus = $_POST['orderStatus'] ?? null;
-    
-        // Validate inputs
         if (!$orderId || !is_numeric($orderId) || $orderId <= 0) {
             echo json_encode(['success' => false, 'message' => 'Invalid order ID']);
             exit;
         }
-    
         if (!$newStatus || !in_array($newStatus, ['Pending', 'Delivered', 'Canceled'])) {
             echo json_encode(['success' => false, 'message' => 'Invalid order status']);
             exit;
         }
-    
         try {
-            // Update the order status using the model
             $this->orderModel->updateOrderStatus($orderId, $newStatus);
             echo json_encode(['success' => true, 'message' => 'Order status updated successfully']);
         } catch (Exception $e) {
@@ -131,6 +121,43 @@ class OrderController extends BaseadminController {
         }
         exit;
     }
-    
-    
+
+    public function cancelOrder() {
+        header('Content-Type: application/json; charset=UTF-8');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+            exit;
+        }
+        $orderId = $_POST['orderId'] ?? null;
+        if (!$orderId || !is_numeric($orderId) || $orderId <= 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid order ID']);
+            exit;
+        }
+        try {
+            $this->orderModel->cancelOrder($orderId);
+            echo json_encode(['success' => true, 'message' => 'Order canceled successfully']);
+        } catch (Exception $e) {
+            error_log("Error in cancelOrder: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Failed to cancel order: ' . $e->getMessage()]);
+        }
+        exit;
+    }
+
+    // Optional: Keep this method if you want to trigger it manually via /cancel_expired_orders
+    public function cancelExpiredOrders() {
+        try {
+            $canceledCount = $this->orderModel->cancelExpiredPendingOrders();
+            if ($canceledCount > 0) {
+                error_log("Automatically canceled $canceledCount expired pending orders.");
+                echo "Successfully canceled $canceledCount expired pending orders.";
+            } else {
+                echo "No expired pending orders found.";
+            }
+        } catch (Exception $e) {
+            error_log("Error in cancelExpiredOrders: " . $e->getMessage());
+            echo "Failed to cancel expired orders: " . $e->getMessage();
+        }
+        exit;
+    }
 }
+?>

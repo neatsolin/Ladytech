@@ -86,7 +86,6 @@ class OrderModel {
 
     public function deleteOrder($order_id) {
         try {
-
             // Delete related transactions
             $this->db->query(
                 "DELETE FROM transactions WHERE order_id = :order_id",
@@ -107,7 +106,6 @@ class OrderModel {
         }
     }
 
-    // Update order status
     public function updateOrderStatus($order_id, $new_status) {
         try {
             // Check if the order exists
@@ -134,10 +132,71 @@ class OrderModel {
             error_log("Error updating order status: " . $e->getMessage());
             throw $e;
         }
-
     }
 
-    // get the recent order
-    
-    
+    public function cancelOrder($order_id) {
+        try {
+            // Check if the order exists and is in a cancellable state (Pending)
+            $order = $this->db->query(
+                "SELECT orderstatus FROM orders WHERE id = :order_id",
+                ['order_id' => $order_id]
+            )->fetch(PDO::FETCH_ASSOC);
+
+            if (!$order) {
+                throw new Exception("Order with ID $order_id does not exist.");
+            }
+
+            if ($order['orderstatus'] !== 'Pending') {
+                throw new Exception("Order cannot be canceled: Current status is {$order['orderstatus']}. Only Pending orders can be canceled.");
+            }
+
+            // Call the stored procedure to cancel the order and update inventory
+            $this->db->query(
+                "CALL CancelOrder(:order_id)",
+                ['order_id' => $order_id]
+            );
+
+            // Log a notification for the user
+            $this->db->query(
+                "INSERT INTO notifications (user_id, message, notedate) 
+                 SELECT user_id, CONCAT('Your order #', :order_id, ' has been canceled due to expiration.'), NOW() 
+                 FROM orders WHERE id = :order_id",
+                ['order_id' => $order_id]
+            );
+
+            return true;
+        } catch (Exception $e) {
+            error_log("Error canceling order: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function cancelExpiredPendingOrders() {
+        try {
+            // Select all Pending orders older than 48 hours
+            $result = $this->db->query(
+                "SELECT id 
+                 FROM orders 
+                 WHERE orderstatus = 'Pending' 
+                 AND orderdate <= DATE_SUB(NOW(), INTERVAL 48 HOUR)"
+            );
+            $expiredOrders = $result->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($expiredOrders)) {
+                return 0; // No orders to cancel
+            }
+
+            $canceledCount = 0;
+            foreach ($expiredOrders as $order) {
+                $this->cancelOrder($order['id']); // Use the existing cancelOrder method
+                $canceledCount++;
+            }
+
+            return $canceledCount; // Return the number of orders canceled
+        } catch (Exception $e) {
+            error_log("Error canceling expired pending orders: " . $e->getMessage());
+            throw $e;
+        }
+    }
 }
+?>
