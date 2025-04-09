@@ -70,6 +70,8 @@
     $route->get('/old_order', [OrderController::class, 'old_order']);
     $route->post('/delete_order', [OrderController::class, 'deleteOrder']);
     $route->post('/update_order_status', [OrderController::class, 'updateOrderStatus']);
+    $route->post('/cancel_order', [OrderController::class, 'cancelOrder']);
+    $route->get('/cancel_expired_orders', [OrderController::class, 'cancelExpiredOrders']);
 
     //login management
     $route->get('/admin-login', [LoginController::class, 'login_admin']);
