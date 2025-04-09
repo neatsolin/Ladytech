@@ -103,7 +103,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
         /* Style for the category filter dropdown in the table header */
         .category-filter-header {
-            background-color: #212529; /* Dark background to match the table header */
+            background-color: #212529;
             color: white;
             border: none;
             padding: 5px;
@@ -122,12 +122,85 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: white;
             color: black;
         }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .search-small {
+                max-width: 100%;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-group {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .btn-group .btn {
+                width: 50%;
+            }
+            
+            #notification-bell {
+                align-self: flex-end;
+                margin-top: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .table td, .table th {
+                padding: 6px;
+                font-size: 14px;
+            }
+            
+            .product-image, .product-image-fallback {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .dropdown-menu {
+                position: absolute !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .table td, .table th {
+                padding: 4px;
+                font-size: 13px;
+            }
+            
+            .product-image, .product-image-fallback {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .bell-icon {
+                font-size: 20px;
+            }
+            
+            .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
     </style>
 
 <div class="container my-4">
     <!-- Top Bar with Buttons and Bell -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <div class="d-flex flex-wrap gap-2">
             <a href="/add-product" class="btn btn-primary">+ Add New Product</a>
             <button id="export-excel" class="btn btn-secondary">Export to Excel</button>
         </div>
@@ -142,91 +215,93 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 
     <!-- Product Table -->
-    <table class="table table-bordered table-striped table-hover" id="product-table">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Product Image</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">
-                    <?php
-                    // Calculate category counts dynamically
-                    $categoryCounts = [];
-                    foreach ($products as $product) {
-                        $category = $product['categories'];
-                        if (!isset($categoryCounts[$category])) {
-                            $categoryCounts[$category] = 0;
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="product-table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">
+                        <?php
+                        // Calculate category counts dynamically
+                        $categoryCounts = [];
+                        foreach ($products as $product) {
+                            $category = $product['categories'];
+                            if (!isset($categoryCounts[$category])) {
+                                $categoryCounts[$category] = 0;
+                            }
+                            $categoryCounts[$category]++;
                         }
-                        $categoryCounts[$category]++;
-                    }
 
-                    // Define the list of categories to display (removing duplicates)
-                    $categories = array_unique(array_column($products, 'categories'));
-                    sort($categories); // Sort categories alphabetically
-                    ?>
-                    <select id="category-filter" class="category-filter-header">
-                        <option value="">All Categories</option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?= htmlspecialchars($category) ?>">
-                                <?= htmlspecialchars($category) ?> (<?= $categoryCounts[$category] ?? 0 ?>)
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </th>
-                <th scope="col">Price</th>
-                <th scope="col">Stock Quantity</th>
-                <th scope="col">Description</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            // Define stock thresholds
-            $lowStockThreshold = 10;
-            $highStockThreshold = 100;
-
-            foreach ($products as $product): 
-                $stock = $product['stockquantity'];
-                $isLowStock = $stock <= $lowStockThreshold;
-            ?>
-                <tr class="<?= $isLowStock ? 'table-danger' : '' ?>" 
-                    data-product-name="<?= htmlspecialchars($product['productname']) ?>" 
-                    data-category="<?= htmlspecialchars($product['categories']) ?>">
-                    <td class="text-center">
-                        <?php if (!empty($product['imageURL']) && file_exists($product['imageURL'])): ?>
-                            <img src="<?= htmlspecialchars($product['imageURL']) ?>" alt="<?= htmlspecialchars($product['productname']) ?>" class="product-image">
-                        <?php else: ?>
-                            <div class="product-image-fallback">No Image</div>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($product['productname']) ?></td>
-                    <td><?= htmlspecialchars($product['categories']) ?></td>
-                    <td><?= htmlspecialchars($product['price']) ?>$</td>
-                    <td>
-                        <span class="stock-quantity"><?= htmlspecialchars($product['stockquantity']) ?></span>
-                        <?php if ($isLowStock): ?>
-                            <i class="bi bi-exclamation-triangle text-danger ms-2 icon-ring" title="Low Stock Alert"></i>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($product['descriptions']) ?></td>
-                    <td class="text-center">
-                    <div class="dropdown">
-                        <button class="btn border-0" type="button" id="dropdownMenuButton<?= $product['id'] ?>" data-bs-toggle="dropdown" data-bs-popper="static" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $product['id'] ?>">
-                            <li><a class="dropdown-item" href="/products/view/<?= urlencode($product['id']) ?>">
-                                <i class="bi bi-eye"></i> View Details</a></li>
-                            <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
-                                <i class="bi bi-pencil"></i> Edit</a></li>
-                            <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
-                                <i class="bi bi-trash"></i> Delete</a></li>
-                        </ul>
-                    </div>
-                </td>
+                        // Define the list of categories to display (removing duplicates)
+                        $categories = array_unique(array_column($products, 'categories'));
+                        sort($categories); // Sort categories alphabetically
+                        ?>
+                        <select id="category-filter" class="category-filter-header">
+                            <option value="">All Categories</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= htmlspecialchars($category) ?>">
+                                    <?= htmlspecialchars($category) ?> (<?= $categoryCounts[$category] ?? 0 ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col" class="d-none d-md-table-cell">Description</th>
+                    <th scope="col">Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php 
+                // Define stock thresholds
+                $lowStockThreshold = 10;
+                $highStockThreshold = 100;
+
+                foreach ($products as $product): 
+                    $stock = $product['stockquantity'];
+                    $isLowStock = $stock <= $lowStockThreshold;
+                ?>
+                    <tr class="<?= $isLowStock ? 'table-danger' : '' ?>" 
+                        data-product-name="<?= htmlspecialchars($product['productname']) ?>" 
+                        data-category="<?= htmlspecialchars($product['categories']) ?>">
+                        <td class="text-center">
+                            <?php if (!empty($product['imageURL']) && file_exists($product['imageURL'])): ?>
+                                <img src="<?= htmlspecialchars($product['imageURL']) ?>" alt="<?= htmlspecialchars($product['productname']) ?>" class="product-image">
+                            <?php else: ?>
+                                <div class="product-image-fallback">No Image</div>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= htmlspecialchars($product['productname']) ?></td>
+                        <td><?= htmlspecialchars($product['categories']) ?></td>
+                        <td><?= htmlspecialchars($product['price']) ?>$</td>
+                        <td>
+                            <span class="stock-quantity"><?= htmlspecialchars($product['stockquantity']) ?></span>
+                            <?php if ($isLowStock): ?>
+                                <i class="bi bi-exclamation-triangle text-danger ms-2 icon-ring" title="Low Stock Alert"></i>
+                            <?php endif; ?>
+                        </td>
+                        <td class="d-none d-md-table-cell"><?= htmlspecialchars($product['descriptions']) ?></td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn border-0 p-1" type="button" id="dropdownMenuButton<?= $product['id'] ?>" data-bs-toggle="dropdown" data-bs-popper="static" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<?= $product['id'] ?>">
+                                    <li><a class="dropdown-item" href="/products/view/<?= urlencode($product['id']) ?>">
+                                        <i class="bi bi-eye"></i> View</a></li>
+                                    <li><a class="dropdown-item" href="/products/edit/<?= urlencode($product['id']) ?>">
+                                        <i class="bi bi-pencil"></i> Edit</a></li>
+                                    <li><a class="dropdown-item text-danger" href="/products/delete/<?= urlencode($product['id']) ?>">
+                                        <i class="bi bi-trash"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal for Low Stock Details -->

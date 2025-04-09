@@ -19,91 +19,21 @@ $closedOrders = $data['closedOrders'] ?? [];
 
     <style>
         /* Sticky table header styles */
-        .table-wrapper {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .table-scroll {
-            overflow-y: auto;
-            max-height: 600px;
-        }
-        
-        .table-scroll::-webkit-scrollbar {
-            background: transparent;
-        }
-        
-        .table-custom {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        
-        .table-custom thead th {
-            position: sticky;
-            top: 0;
-            background-color: #2C4A6B;
-            color: white;
-            z-index: 10;
-        }
-        
-        .table-custom tbody tr {
-            transition: background-color 0.2s;
-        }
-        .table-custom tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .table-custom td {
-            padding: 12px;
-            vertical-align: middle;
-            border-top: 1px solid #e9ecef;
-        }
-        .status-badge {
-            padding: 0.4em 0.8em;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .table-wrapper { position: relative; overflow: hidden; }
+        .table-scroll { overflow-y: auto; max-height: 600px; }
+        .table-scroll::-webkit-scrollbar { background: transparent; }
+        .table-custom { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .table-custom thead th { position: sticky; top: 0; background-color: #2C4A6B; color: white; z-index: 10; }
+        .table-custom tbody tr { transition: background-color 0.2s; }
+        .table-custom tbody tr:hover { background-color: #f8f9fa; }
+        .table-custom td { padding: 12px; vertical-align: middle; border-top: 1px solid #e9ecef; }
+        .status-badge { padding: 0.4em 0.8em; border-radius: 12px; font-size: 0.9rem; font-weight: 500; }
 
         /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #333;
-        }
-
-        .modal-content img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; }
+        .modal-content { background-color: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        .modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer; color: #333; }
+        .modal-content img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; }
 
         .status-draft { color: #6B7280; }
         .status-pending { color: #D97706; }
@@ -439,8 +369,6 @@ $closedOrders = $data['closedOrders'] ?? [];
             });
         });
 
-
-        // Delete order function
         function deleteOrder(id) {
             if (confirm('Are you sure you want to delete this order?')) {
                 fetch("/delete_order", {
@@ -452,14 +380,11 @@ $closedOrders = $data['closedOrders'] ?? [];
                     if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
                     }
-                    return response.text().then(text => {
-                        console.log("Raw response:", text);
-                        return JSON.parse(text);
-                    });
+                    return response.json();
                 })
                 .then(data => {
                     if (data.success) {
-                        // alert("Order deleted successfully!");
+                        alert("Order deleted successfully!");
                         location.reload();
                     } else {
                         alert("Failed to delete order: " + data.message);
@@ -472,30 +397,38 @@ $closedOrders = $data['closedOrders'] ?? [];
             }
         }
 
-        // update order status
-        document.getElementById("editOrderForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const orderId = document.getElementById("editOrderId").value;
-        const newStatus = document.getElementById("editOrderStatus").value;
-
-        fetch("/update_order_status", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `orderId=${orderId}&orderStatus=${newStatus}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // alert("Order status updated successfully!");
-            } else {
-                alert("Failed to update order status: " + data.message);
+        function cancelOrder(id) {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                fetch("/cancel_order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `orderId=${id}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert("Order canceled successfully!");
+                        location.reload();
+                    } else {
+                        alert("Failed to cancel order: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while canceling the order: " + error.message);
+                });
             }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while updating the order status.");
+        }
+
+        // Log when the page loads to confirm auto-cancellation ran
+        window.addEventListener('load', function() {
+            console.log("Page loaded, expired pending orders have been checked and canceled if applicable.");
         });
-    });
     </script>
 </body>
 </html>
@@ -575,6 +508,10 @@ function renderOrderTable($orders, $tabPrefix) {
                                 <button onclick="showMessage('<?php echo $order['id']; ?>')"
                                     class="flex items-center px-4 py-3 text-sm text-purple-600 hover:bg-purple-50 transition-colors duration-200 w-full text-left">
                                     <i class="fas fa-envelope mr-3 text-lg"></i> Message
+                                </button>
+                                <button onclick="cancelOrder('<?php echo $order['id']; ?>')"
+                                    class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 w-full text-left">
+                                    <i class="fas fa-ban mr-3 text-lg"></i> Cancel
                                 </button>
                                 <button onclick="deleteOrder('<?php echo $order['id']; ?>')"
                                     class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 w-full text-left">
