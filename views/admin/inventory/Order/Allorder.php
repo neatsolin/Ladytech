@@ -92,7 +92,7 @@ $closedOrders = $data['closedOrders'] ?? [];
                     <button class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"><i class="fas fa-chevron-left"></i></button>
                     <span class="text-gray-600">1/1</span>
                     <button class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"><i class="fas fa-chevron-right"></i></button>
-                    <button class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"><i class="fas fa-ellipsis-v"></i></button>
+                    <!-- <button class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"><i class="fas fa-ellipsis-v"></i></button> -->
                 </div>
             </div>
 

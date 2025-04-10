@@ -1,7 +1,5 @@
    <style>
-     body {
-       font-family: 'Poppins', sans-serif;
-     }
+  
 
      .hygiene-section .card {
        height: 95%;
