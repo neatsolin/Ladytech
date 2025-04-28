@@ -47,7 +47,7 @@ foreach ($topUsers as $user) {
             color: gray;
             margin-bottom: 40px;
         }
-        .container {
+        .container-report {
             display: flex;
             gap: 20px;
         }
@@ -132,11 +132,44 @@ foreach ($topUsers as $user) {
             padding: 20px;
             margin-bottom: 20px;
         }
+        @media (max-width: 768px) {
+        .container-report {
+            flex-direction: column;
+        }
+        
+        .btn-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-container button {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .chart-container {
+            height: 300px;
+        }
+    }
+
+    /* Extra small screens */
+    @media (max-width: 480px) {
+        h1, h2, h3 {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        th, td {
+            font-size: 14px;
+            padding: 8px;
+        }
+    }
+
     </style>
 </head>
 <body>
     <h1>Sales Report</h1>
-    <div class="container">
+    <div class="container-report">
         <div class="left-section">
             <div class="btn-container">
                 <button onclick="updateChart('monthly')">Monthly</button>

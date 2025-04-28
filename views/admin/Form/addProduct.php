@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container-addproduct mt-5">
         <h2 class="mb-4">Add New Product</h2>
         
         <form action="/products/store" method="POST" enctype="multipart/form-data">
@@ -54,3 +54,65 @@
             <a href="/products" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
+    <style>
+        .container-addproduct  {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 50px auto;
+    }
+
+    h2 {
+        font-weight: 700;
+        color:rgb(29, 54, 243);
+        text-align: center;
+    }
+
+    label.form-label {
+        font-weight: 500;
+        color: #555555;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solidrgb(88, 156, 224);
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 5px rgba(6, 61, 144, 0.3);
+    }
+
+    button.btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 500;
+    }
+
+    button.btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+
+    .btn-secondary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        margin-left: 10px;
+        font-weight: 500;
+    }
+
+    .mb-3 {
+        margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) {
+       form{
+        padding: 20px;
+       }
+    }
+
+    </style>
