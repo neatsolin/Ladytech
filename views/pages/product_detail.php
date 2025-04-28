@@ -40,9 +40,6 @@
         </div>
     </div>
 </div>
-
-
-
 <style>
 /* Compact Layout */
 .product-container {
@@ -85,7 +82,8 @@
 /* Responsive */
 @media (max-width: 768px) {
     .product-container {
-        padding: 5px;
+        padding: 30px;
+
     }
     .product-image {
         max-height: 250px;

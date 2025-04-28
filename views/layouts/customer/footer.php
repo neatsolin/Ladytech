@@ -1,30 +1,27 @@
 
-
-
 <footer class="text-white pt-5" style="font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #1e2a4a 0%, #121c36 100%); border-top: 1px solid rgba(74, 144, 226, 0.2);">
   <div class="container py-4">
     <div class="row g-4">
 
       <!-- Company Info -->
-      <div class="col-lg-3 col-md-6">
+      <div class="col-lg-3 col-md-6 col-12">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Influenca
           <span class="d-block position-absolute" style="height: 3px; width: 40px; background: linear-gradient(90deg, #4ad1e6, #2a8be8); bottom: 0; left: 0;"></span>
         </h6>
         <p class="text-white-50 lh-lg mb-4">We create digital experiences that inspire and transform businesses for the modern world.</p>
-      <!-- App Badges Section -->
-      <div class="d-flex align-items-center justify-content-center mt-3" style="gap: 0px;">
-  <a href="#" class="app-badge d-inline-block">
-    <img src="profiles/play store.png" alt="Google Play" class="img-fluid" style="height: 110px; width: auto;">
-  </a>
-  <a href="#" class="app-badge d-inline-block">
-    <img src="profiles/app.png" alt="App Store" class="img-fluid" style="height: 110px; width: auto;">
-  </a>
-</div>
-
+        <!-- App Badges Section -->
+        <div class="d-flex align-items-center justify-content-start justify-content-md-center mt-3" style="gap: 0px;">
+          <a href="#" class="app-badge d-inline-block">
+            <img src="profiles/play store.png" alt="Google Play" class="img-fluid" style="height: 90px; width: auto; max-width: 100%;">
+          </a>
+          <a href="#" class="app-badge d-inline-block">
+            <img src="profiles/app.png" alt="App Store" class="img-fluid" style="height: 90px; width: auto; max-width: 100%;">
+          </a>
+        </div>
       </div>
 
       <!-- Products -->
-      <div class="col-lg-2 col-md-6">
+      <div class="col-lg-2 col-md-6 col-6">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Products
           <span class="d-block position-absolute" style="height: 3px; width: 40px; background: linear-gradient(90deg, #4ad1e6, #2a8be8); bottom: 0; left: 0;"></span>
         </h6>
@@ -38,7 +35,7 @@
       </div>
 
       <!-- Resources -->
-      <div class="col-lg-2 col-md-6">
+      <div class="col-lg-2 col-md-6 col-6">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Resources
           <span class="d-block position-absolute" style="height: 3px; width: 40px; background: linear-gradient(90deg, #4ad1e6, #2a8be8); bottom: 0; left: 0;"></span>
         </h6>
@@ -51,7 +48,7 @@
       </div>
 
       <!-- Contact -->
-      <div class="col-lg-3 col-md-6">
+      <div class="col-lg-3 col-md-6 col-12 mt-md-0 mt-3">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Contact Us
           <span class="d-block position-absolute" style="height: 3px; width: 40px; background: linear-gradient(90deg, #4ad1e6, #2a8be8); bottom: 0; left: 0;"></span>
         </h6>
@@ -63,8 +60,9 @@
         </ul>
       </div>
 
-      <!-- Newsletter -->
-      <div class="col-lg-2 col-md-6">
+
+<!-- Newsletter -->
+      <div class="col-lg-2 col-md-6 col-12 mt-md-0 mt-3">
         <h6 class="text-white fw-semibold pb-2 mb-3 position-relative">Newsletter
           <span class="d-block position-absolute" style="height: 3px; width: 40px; background: linear-gradient(90deg, #4ad1e6, #2a8be8); bottom: 0; left: 0;"></span>
         </h6>
@@ -87,11 +85,11 @@
     <hr class="border-secondary my-4">
 
     <div class="row align-items-center">
-      <div class="col-md-6 text-center text-md-start">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
         <p class="text-white-50 small mb-0">© 2023 Influenca. All rights reserved.</p>
       </div>
       <div class="col-md-6 text-center text-md-end">
-        <div class="d-flex justify-content-center justify-content-md-end gap-3">
+        <div class="d-flex justify-content-center justify-content-md-end gap-3 flex-wrap">
           <a href="/privacy" class="text-white-50 small">Privacy Policy</a>
           <a href="/terms" class="text-white-50 small">Terms</a>
           <a href="/cookies" class="text-white-50 small">Cookies</a>
@@ -103,3 +101,29 @@
 
 <!-- Required Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dphymj3dLDA7EFz0UReyS5FrH4VyYk8R5asFzYQuCF3R3XVboUydD7C7yKj81M8TAl5gIdY8cMLWuzxR4eU4PQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  @media (max-width: 768px) {
+    footer .col-md-6 {
+      margin-bottom: 1.5rem;
+    }
+    footer .app-badge img {
+      height: 80px !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    footer .col-6 {
+      width: 50%;
+    }
+    footer .app-badge img {
+      height: 70px !important;
+    }
+    footer .input-group {
+      width: 100%;
+    }
+    footer .d-flex.gap-2 {
+      justify-content: center;
+    }
+  }
+</style>

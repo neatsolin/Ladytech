@@ -51,7 +51,7 @@ function getDiscountedPrice($price, $coupon) {
 
     <style>
         body {
-            background-color: #f5e6f5;
+            background-color: #f5f5f5;
             min-height: 100vh;
             font-family: Arial, sans-serif;
             margin-top: 50px;

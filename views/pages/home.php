@@ -128,31 +128,66 @@
      .bi-heart:hover {
        color: #ff0000;
      }
+
+     
+    @media (max-width: 480px) {
+    .deal-section {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px; 
+      padding: 15px; 
+    }
+    .testimonial-card {
+      padding: 12px; 
+    }
+    
+    .stars {
+      font-size: 1rem; 
+    }
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+    }
+    .testimonial-card,
+    .deal-card {
+      flex: 0 1 100%;
+      max-width: 350px; /* Reduced from 400px */
+    }
+    
+    .deal-card {
+      order: -1;
+      margin-bottom: 5px; /* Reduced from 10px */
+    }
+  }
+
    </style>
-   <section class="hero-section">
-     <div class="container">
-       <div class="row align-items-center">
-         <!-- Large Product Image -->
-         <div class="col-md-6 text-center p-0">
-           <img src="views/assets/images/Feminine Hygiene (10)/ACNES.png"
-             alt="Ranger Scout Low Smoke Coil"
-             class="img-fluid w-100"
-             style="max-height: 400px; object-fit: contain;">
-         </div>
-         <!-- Product Info -->
-         <div class="col-md-6">
-           <div class="hero-content">
-             <h4>Best Quality Products</h4>
-             <h1>ACNES </h1>
-             <p>
-               ACNES provides high-quality skincare solutions specially formulated to fight acne, reduce inflammation, and restore your skin's natural glow. Trusted by millions, our products are dermatologically tested and safe for everyday use.</p>
-             <a href="/product" class="shop-btn"><i class="bi bi-cart"></i> Shop Now</a>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="background-pattern"></div>
-   </section>
+  <section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <!-- Large Product Image -->
+      <div class="col-lg-5 col-md-6 text-center p-0">
+        <img src="views/assets/images/Feminine Hygiene (10)/ACNES.png"
+          alt="Ranger Scout Low Smoke Coil"
+          class="img-fluid"
+          style="max-height: 400px; object-fit: contain;">
+      </div>
+      <!-- Product Info -->
+      <div class="col-lg-5 col-md-6">
+        <div class="hero-content text-center text-md-start">
+          <h4>Best Quality Products</h4>
+          <h1>ACNES</h1>
+          <p>
+            ACNES provides high-quality skincare solutions specially formulated to fight acne, reduce inflammation, and restore your skin's natural glow. Trusted by millions, our products are dermatologically tested and safe for everyday use.
+          </p>
+          <div class="d-flex justify-content-center justify-content-md-start">
+            <a href="/product" class="shop-btn"><i class="bi bi-cart"></i> Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="background-pattern"></div>
+</section>
    <section class="benefits-section">
      <div class="container">
        <div class="row g-3">
@@ -533,33 +568,30 @@
          </div>
        </div>
        <div class="deal-section">
-         <!-- Testimonial Card 1 -->
-         <div class="testimonial-card">
-           <div class="stars">★★★★★</div>
+  <!-- Testimonial Card 1 -->
+  <div class="testimonial-card">
+    <div class="stars">★★★★★</div>
+    <p> Experience exceptional cleaning power that removes tough stains while protecting your fabrics. 
+    Choose from our biodegradable formulas designed for eco-conscious households.</p>
+    <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
+    <h6>Mila Kunis</h6>
+  </div>
 
-           <p>Experience exceptional cleaning power that removes tough stains while protecting your fabrics
-             Choose from our biodegradable formulas designed for eco-conscious households
-             Enjoy premium quality results at prices that fit every budget</p>
-           <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
-           <h6>Mila Kunis</h6>
-         </div>
+  <!-- Deal Card (Centered) -->
+  <div class="deal-card">
+    <img src="views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Deal Image" class="deal-image">
+  </div>
 
-         <!-- Deal of The Day -->
-         <div class="deal-card">
-           <img src="views/assets/images/Feminine Hygiene (10)/ACNES.png" alt="Deal Image">
-           <!-- <div class="deal-text text-light">Deal Of The Day <br> 15% Off On All Vegetables!</div> -->
-         </div>
-
-         <!-- Testimonial Card 2 -->
-         <div class="testimonial-card">
-           <div class="stars">★★★★★</div>
-           <p> Unmatched stain removal that preserves fabric quality
-             Environmentally responsible biodegradable options
-             Premium performance at budget-friendly prices you can paragrap</p>
-           <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
-           <h6>Mila Kunis</h6>
-         </div>
-       </div>
+  <!-- Testimonial Card 2 -->
+  <div class="testimonial-card">
+    <div class="stars">★★★★★</div>
+    <p>  Unmatched stain removal that preserves fabric quality. 
+            Environmentally responsible biodegradable options. 
+            Premium performance at budget-friendly prices..</p>
+    <img src="https://i.imgur.com/8Km9tLL.png" alt="User" class="user-avatar">
+    <h6>Mila Kunis</h6>
+  </div>
+</div>
        <!-- Rating Script -->
        <script>
          function setRating(cardId, rating) {
