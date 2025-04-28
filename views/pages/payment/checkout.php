@@ -388,15 +388,6 @@ foreach ($cartItems as $item) {
                       </div>
 
                       <div class="mb-3">
-                        <label for="order_status" class="form-label">Order Status</label>
-                        <select class="form-control" id="order_status" name="order_status" required>
-                          <option value="Pending">Pending</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Canceled">Canceled</option>
-                        </select>
-                      </div>
-
-                      <div class="mb-3">
                         <label for="currency" class="form-label">Currency</label>
                         <select class="form-control" id="currency" name="currency" onchange="updateTotalPrice()" required>
                           <option value="USD">USD</option>

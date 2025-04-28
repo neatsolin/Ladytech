@@ -211,7 +211,7 @@
       </div>
 
       <!-- Redesigned Role Selection -->
-      <div class="input-field">
+      <div class="input-field" style="display:none;">
         <select id="role" name="role" required>
           <option value="" disabled selected hidden></option>
           <option value="users" selected>User</option>
