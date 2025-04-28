@@ -245,16 +245,20 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
                 <?php endif; ?>
             </ul>
             <div class="d-flex align-items-center gap-4">
-                <a class="nav-link lang text-nowrap" data-en="About" data-km="អំពី" href="/about">ABOUT</a>
-                <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/contact">CONTACT</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a class="nav-link lang text-nowrap" data-en="About" data-km="អំពី" href="/about">ABOUT</a>
+                    <a class="nav-link lang text-nowrap" data-en="Contact" data-km="ទំនាក់ទំនង" href="/contact">CONTACT</a>
+                <?php endif; ?>
                 <?php if (!isset($_SESSION['user_id'])): ?>
                     <a class="nav-link lang text-nowrap" data-en="Login" data-km="ចូល" href="/F_login">LOGIN</a>
                 <?php endif; ?>
                 <div class="cart-container">
-                    <div class="icon-cart" onclick="toggleCart()">
-                        <i class="bi bi-cart"></i>
-                        <span id="cart-count">0</span>
-                    </div>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <div class="icon-cart" onclick="toggleCart()">
+                            <i class="bi bi-cart"></i>
+                            <span id="cart-count">0</span>
+                        </div>
+                    <?php endif; ?>
                     <div class="cart-dropdown" id="cartDropdown">
                         <div>
                             <h4>CART</h4>
@@ -316,7 +320,7 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
                                             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
                                                 <a href="/admin" class="dropdown-item"><i class="ti ti-dashboard"></i><span>Admin Dashboard</span></a>
                                             <?php endif; ?>
-                                            <a href="/users/edit/<?php echo htmlspecialchars($_SESSION['user_id']); ?>" class="dropdown-item"><i class="ti ti-edit-circle"></i><span>Edit Profile</span></a>
+                                            <a href="#!" class="dropdown-item"><i class="ti ti-edit-circle"></i><span>Edit Profile</span></a>
                                             <a href="#!" class="dropdown-item"><i class="ti ti-user"></i><span>View Profile</span></a>
                                             <a href="#!" class="dropdown-item"><i class="ti ti-clipboard-list"></i><span>Social Profile</span></a>
                                             <a href="#!" class="dropdown-item"><i class="ti ti-wallet"></i><span>Billing</span></a>
@@ -326,8 +330,10 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
                                             <a href="#!" class="dropdown-item"><i class="ti ti-help"></i><span>Support</span></a>
                                             <a href="#!" class="dropdown-item"><i class="ti ti-user"></i><span>Account Settings</span></a>
                                             <a href="#!" class="dropdown-item"><i class="ti ti-lock"></i><span>Privacy Center</span></a>
-                                            <a href="#!" class="dropdown-item"><i class="ti ti-messages"></i><span>Feedback</span></a>
-                                            <a href="/order_h" class="dropdown-item"><i class="ti ti-list"></i><span>History</span></a>
+                                            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'users'): ?>
+                                                <a href="#!" class="dropdown-item"><i class="ti ti-messages"></i><span>Feedback</span></a>
+                                                <a href="/order_h" class="dropdown-item"><i class="ti ti-list"></i><span>History</span></a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 <?php else: ?>
