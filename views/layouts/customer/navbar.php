@@ -144,7 +144,9 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     font-size: 1.1rem;
-    fontව
+    font-weight: bold;
+    color: #333;
+}
 
 .nav.drp-tabs.nav-fill .nav-item {
     margin: 0 10px;
@@ -159,12 +161,12 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
 }
 
 .nav.drp-tabs.nav-fill .nav-link.active {
-    color: #0d6efd;
-    border-bottom: 2px solid #0d6efd;
+    color: teal;
+    border-bottom: 2px solid teal;
 }
 
 .nav.drp-tabs.nav-fill .nav-link:hover {
-    color: #0d6efd;
+    color: teal;
 }
 
 .dropdown-user-profile {
@@ -216,12 +218,34 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
 .dropdown-item i {
     font-size: 1.2rem;
 }
+
+/* Make navbar fixed at the top with white background */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+}
+
+/* Change text color to black for contrast with white background */
+.navbar .navbar-nav .nav-link,
+.navbar .navbar-brand,
+.navbar #langToggle {
+    color: #000000 !important;
+}
+
+/* Change hover color to teal for navbar links */
+.navbar .navbar-nav .nav-link:hover {
+    color: teal !important;
+}
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top px-4">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="/">
-            <img src="/views/assets/images/logo.png" alt="Logo">
+            <img src="/views/assets/images/image1.png" alt="Logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -230,14 +254,14 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item me-3">
-                    <a class="nav-link active lang" data-en="Shops" data-km="ហាង" href="/">SHOP</a>
+                    <a class="nav-link active lang" data-en="Shops" data-km="ហាង" href="/">Home</a>
                 </li>
                 <li class="nav-item me-3">
                     <a class="nav-link lang" data-en="Product" data-km="ប្រភេទ" href="/product">PRODUCTS</a>
                 </li>
-                <li class="nav-item me-3">
-                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail">PRODUCT DETAIL</a>
-                </li>
+                <!-- <li class="nav-item me-3">
+                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail"></a>
+                </li> -->
                 <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] === 'admin'): ?>
                     <li class="nav-item me-3">
                         <a class="nav-link lang" data-en="Dashboard" data-km="ផ្ទាំងគ្រប់គ្រង" href="/admin">DASHBOARD</a>
@@ -373,12 +397,12 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
     }
 
     .nav.drp-tabs.nav-fill .nav-link.active {
-        color: #0d6efd; /* Blue color for active tab */
-        border-bottom: 2px solid #0d6efd; /* Underline effect for active tab */
+        color: teal; /* Teal color for active tab */
+        border-bottom: 2px solid teal; /* Underline effect for active tab */
     }
 
     .nav.drp-tabs.nav-fill .nav-link:hover {
-        color: #0d6efd; /* Blue color on hover */
+        color: teal; /* Teal color on hover */
     }
 
     /* Ensure the dropdown menu has enough width to accommodate the tabs */
@@ -488,6 +512,40 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
         color: #000;
     }
 
+
+   /* Make navbar fixed at the top with white background */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+}
+
+/* Change text color to black for contrast with white background */
+.navbar .navbar-nav .nav-link,
+.navbar .navbar-brand,
+.navbar #langToggle,
+.navbar .d-flex .nav-link {
+    color: #000000 !important;
+}
+
+/* Change hover color to teal for all navbar text, including the button */
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-brand:hover,
+.navbar #langToggle:hover,
+.navbar .d-flex .nav-link:hover,
+.navbar #langToggle.btn:hover {
+    color: teal !important;
+}
+
+/* Ensure Bootstrap button hover doesn't interfere */
+.navbar #langToggle.btn-outline-primary:hover {
+    color: teal !important;
+    background-color: transparent;
+    border-color: teal;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dailyneed_db";
+$dbname = "ladytech_db"; // Ensure this matches your actual database name
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -35,7 +35,7 @@ try {
 <style>
     .user-link {
         cursor: pointer;
-        color: #007bff;
+        color: teal;
          text-decoration: none;
     }
                 

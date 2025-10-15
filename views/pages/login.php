@@ -155,7 +155,7 @@
   <section class="loginn">
 
     <div class="imagesid">
-      <img src="/assets/images/Daily.jpg" alt="image for daily"> <!-- Image for user login -->
+      <img src="views/assets/images/image1.png" alt="image for daily"> <!-- Image for user login -->
     </div>
   
     <div class="wrapper">

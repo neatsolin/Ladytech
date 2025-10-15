@@ -18,7 +18,6 @@
     <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,10 +81,9 @@
       transition: 0.3s;
     }
 
-    .input-field input,
-    .input-field select {
+    .input-field input {
       width: 100%;
-      padding: 10px 40px 10px 10px; /* Adjust padding for icon */
+      padding: 10px 40px 10px 10px;
       background: transparent;
       border: none;
       outline: none;
@@ -93,26 +91,10 @@
       color: #fff;
     }
 
-    /* Style for select element */
-    .input-field select {
-      -webkit-appearance: none; /* Remove default arrow in Chrome/Safari */
-      -moz-appearance: none; /* Remove default arrow in Firefox */
-      appearance: none; /* Remove default arrow */
-      cursor: pointer;
-    }
-
-    .input-field select:focus~label,
-    .input-field select:valid~label,
     .input-field input:focus~label,
     .input-field input:valid~label {
       top: 5px;
       font-size: 13px;
-    }
-
-    /* Style for select options */
-    .input-field select option {
-      background: #333; /* Dark background for dropdown options */
-      color: #fff;
     }
 
     .input-field i {
@@ -178,6 +160,34 @@
     .register a {
       color: blue;
     }
+
+    .role-selection {
+      display: flex;
+      justify-content: space-between;
+      margin: 18px 0;
+    }
+
+    .role-button {
+      width: 48%;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 16px;
+    }
+
+    .role-button.selected {
+      background: #fff;
+      color: #000;
+      border: 2px solid #fff;
+    }
+
+    .role-button:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -210,15 +220,11 @@
         <i class="fas fa-lock"></i>
       </div>
 
-      <!-- Redesigned Role Selection -->
-      <div class="input-field" style="display:none;">
-        <select id="role" name="role" required>
-          <option value="" disabled selected hidden></option>
-          <option value="users" selected>User</option>
-          <option value="admin">Admin</option>
-        </select>
-        <label>Role</label>
-        <i class="fas fa-users"></i>
+      <!-- Role Selection Buttons -->
+      <div class="role-selection">
+        <button type="button" class="role-button selected" onclick="selectRole('users')">User</button>
+        <button type="button" class="role-button" onclick="selectRole('admin')">Admin</button>
+        <input type="hidden" id="role" name="role" value="users">
       </div>
 
       <div class="profile-upload">
@@ -251,6 +257,19 @@
         };
         reader.readAsDataURL(file);
       }
+    }
+
+    function selectRole(role) {
+      const buttons = document.querySelectorAll('.role-button');
+      const roleInput = document.getElementById('role');
+      roleInput.value = role;
+
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+        if (button.textContent.toLowerCase() === role) {
+          button.classList.add('selected');
+        }
+      });
     }
   </script>
 

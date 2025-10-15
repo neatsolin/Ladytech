@@ -75,7 +75,7 @@ if (isset($_SESSION['user_id'])) : ?>
     error_reporting(E_ALL);
 
     try {
-      $db = new PDO("mysql:host=localhost;dbname=dailyneed_db", "root", "");
+      $db = new PDO("mysql:host=localhost;dbname=ladytech_db", "root", "");
       $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
       // Fetch current total orders
@@ -134,7 +134,7 @@ if (isset($_SESSION['user_id'])) : ?>
     error_reporting(E_ALL);
 
     try {
-      $db = new PDO("mysql:host=localhost;dbname=dailyneed_db", "root", "");
+      $db = new PDO("mysql:host=localhost;dbname=ladytech_db", "root", "");
       $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
       // Fetch current total sales (sum of totalprice for all orders)

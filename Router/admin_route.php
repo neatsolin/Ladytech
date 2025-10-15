@@ -103,7 +103,7 @@
     $route->get('/tissue', [products::class, 'tissue']);
     
     //product detail
-    $route->get('/product_detail', [DetailController::class, 'index']);
+    // $route->get('/product_detail', [DetailController::class, 'index']);
 
     //about
     $route->get('/about', [AboutController::class, 'index']);
