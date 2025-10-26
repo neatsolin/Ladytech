@@ -50,7 +50,7 @@
     $route->get('/stock/out', [StockController::class, 'stockOut']);
 
     //sales report
-    $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
+    // $route->get('/salesreport', [SalesreportController::class, 'salesreport']);
 
     //user management
     $route->get('/users', [UserController::class, 'users']);
@@ -103,7 +103,7 @@
     $route->get('/tissue', [products::class, 'tissue']);
     
     //product detail
-    // $route->get('/product_detail', [DetailController::class, 'index']);
+    $route->get('/product_detail', [DetailController::class, 'index']);
 
     //about
     $route->get('/about', [AboutController::class, 'index']);

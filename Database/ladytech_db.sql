@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2025 at 05:25 AM
+-- Generation Time: Oct 19, 2025 at 06:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dailyneed_db`
+-- Database: `ladytech_db`
 --
 
 -- --------------------------------------------------------
@@ -124,10 +124,10 @@ CREATE TABLE `reviews` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shoppingcards`
+-- Table structure for table `shoppingcarts`
 --
 
-CREATE TABLE `shoppingcards` (
+CREATE TABLE `shoppingcarts` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
@@ -146,9 +146,17 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `last_login` datetime DEFAULT NULL,
   `profile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `role` enum('users','admin') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `phone`, `password`, `last_login`, `profile`, `role`) VALUES
+(1, 'solin', 'neatsolin98@gmail.com', '0123 44 55 66', '$2y$10$1d1tWubulWtDR3Q5Gtn7JeAa8lJvS8qRVxVWie4inQ6GUv4VCdsOK', '2025-10-19 11:05:14', 'profiles/1760846423_Screenshot 2025-06-08 174938.png', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -204,9 +212,9 @@ ALTER TABLE `reviews`
   ADD KEY `product_id` (`product_id`);
 
 --
--- Indexes for table `shoppingcards`
+-- Indexes for table `shoppingcarts`
 --
-ALTER TABLE `shoppingcards`
+ALTER TABLE `shoppingcarts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `product_id` (`product_id`);
@@ -264,16 +272,16 @@ ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shoppingcards`
+-- AUTO_INCREMENT for table `shoppingcarts`
 --
-ALTER TABLE `shoppingcards`
+ALTER TABLE `shoppingcarts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -310,13 +318,6 @@ ALTER TABLE `orders`
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `shoppingcards`
---
-ALTER TABLE `shoppingcards`
-  ADD CONSTRAINT `shoppingcards_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `shoppingcards_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -259,9 +259,9 @@ $applied_coupon = isset($_SESSION['applied_coupon']) ? $_SESSION['applied_coupon
                 <li class="nav-item me-3">
                     <a class="nav-link lang" data-en="Product" data-km="ប្រភេទ" href="/product">PRODUCTS</a>
                 </li>
-                <!-- <li class="nav-item me-3">
-                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail"></a>
-                </li> -->
+                <li class="nav-item me-3">
+                    <a class="nav-link lang" data-en="Product Detail" data-km="លំអិតផលិតផល" href="/product_detail">Product_detail</a>
+                </li>
                 <?php if (isset($_SESSION['user_id']) && $_SESSION['user_role'] === 'admin'): ?>
                     <li class="nav-item me-3">
                         <a class="nav-link lang" data-en="Dashboard" data-km="ផ្ទាំងគ្រប់គ្រង" href="/admin">DASHBOARD</a>

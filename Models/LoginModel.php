@@ -4,7 +4,7 @@ class LoginModel {
 
     // Constructor to connect to the database
     public function __construct() {
-        $this->db = new Database("localhost", "dailyneed_db", "root", "");
+        $this->db = new Database("localhost", "ladytech_db", "root", "");
     }
 
     // Fetch user by email for authentication

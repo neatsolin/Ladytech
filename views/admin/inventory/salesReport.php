@@ -1,7 +1,7 @@
 <?php
-// Database connection to dailyneed_db
+// Database connection to 
 $host = 'localhost';
-$dbname = 'dailyneed_db';
+$dbname = 'laydytech_db'; // Replace with your database name
 $username = 'root'; // Replace with your MySQL username
 $password = ''; // Replace with your MySQL password
 

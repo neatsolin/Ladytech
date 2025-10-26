@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $host = 'localhost';
-$dbname = 'dailyneed_db';
+$dbname = 'ladytech_db';
 $username = 'root'; 
 $password = ''; 
 
